@@ -522,7 +522,9 @@ function trunkPartCell(it,edge){
   const key=p.sym==="none"?"hexAdapter":p.sym;
   const wSym=(key==="tank")?76:Math.max(p.w*S,30);
   const ko=!!edge; // take-off cell: connector leaves at the anchor, text stacks above it
-  const h=Math.max(wSym+16,ko?94:46,(m&&key==="reg")?72:0); // port-mounted gauge extends along-run
+  // ceil keeps every cell height (and thus every anchor y) integral, so the
+  // connector/band centerline equality is exact — no float drift
+  const h=Math.ceil(Math.max(wSym+16,ko?94:46,(m&&key==="reg")?72:0));
   const leftStub=!!(it.branch&&!edge);
   return {h,anchorRef:edge?edge.ref:null,anchorOff:h/2,
     textW:Math.max(measure(tag,10),...(notes.length?notes.map(n=>measure(n,9)):[0])),
