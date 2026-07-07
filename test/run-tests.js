@@ -10,37 +10,93 @@ function check(name, cond, detail) {
   else { fail++; console.log("  ✗", name, detail ? "— " + detail : ""); }
 }
 
-console.log("LAYOUT GRID INVARIANTS");
+// Parse every <text> in the svg, resolving <g> translate offsets and tagging
+// each box with its nearest band/strip/tcell ancestor. Texts inside rotated
+// groups are flagged separately (symbols must stay text-free, so there should
+// never be any).
+function textBoxes(svg) {
+  const boxes = []; const stack = [{ x: 0, y: 0, band: false, cellY: null, rot: false }];
+  const re = /<g\b[^>]*>|<\/g>|<text [^>]*>[^<]*<\/text>/g; let m;
+  while ((m = re.exec(svg))) {
+    const tok = m[0];
+    if (tok === "</g>") { stack.pop(); continue; }
+    if (tok.startsWith("<g")) {
+      const fr = { ...stack[stack.length - 1] };
+      if (/rotate\(/.test(tok)) fr.rot = true;
+      else {
+        const t = tok.match(/transform="translate\((-?[\d.]+) (-?[\d.]+)\)"/);
+        if (t) { fr.x += +t[1]; fr.y += +t[2]; }
+      }
+      const cls = tok.match(/class="(\w+)"/);
+      if (cls && (cls[1] === "band" || cls[1] === "strip")) { fr.band = true; fr.cellY = null; }
+      if (cls && cls[1] === "tcell") { const d = tok.match(/data-y="(-?[\d.]+)"/); fr.cellY = d ? +d[1] : null; fr.band = false; }
+      stack.push(fr); continue;
+    }
+    const a = tok.match(/<text x="(-?[\d.]+)" y="(-?[\d.]+)" font-size="([\d.]+)" text-anchor="(\w+)"[^>]*>([^<]*)<\/text>/);
+    const top = stack[stack.length - 1];
+    if (!a) { boxes.push({ malformed: tok }); continue; }
+    const fsz = +a[3], wpx = a[5].length * fsz * 0.62;
+    const x0 = a[4] === "start" ? +a[1] : +a[1] - wpx / 2;
+    boxes.push({
+      rot: top.rot, band: top.band, cellY: top.cellY, localY: +a[2], s: a[5],
+      x0: top.x + x0, x1: top.x + x0 + wpx, y0: top.y + +a[2] - 0.8 * fsz, y1: top.y + +a[2] + 0.25 * fsz
+    });
+  }
+  return boxes;
+}
+function collisions(boxes) {
+  const bad = [];
+  for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) {
+    const p = boxes[i], q = boxes[j];
+    if (p.malformed || q.malformed) continue;
+    if (p.x0 < q.x1 - 1 && q.x0 < p.x1 - 1 && p.y0 < q.y1 - 1 && q.y0 < p.y1 - 1) bad.push(p.s + " | " + q.s);
+  }
+  return bad;
+}
+
+console.log("LAYOUT INVARIANTS");
 {
   const { store, app } = loadApp();
-  const strips = store["strips"].children;
-  check("all strips render", strips.length === app.SYSTEM.lines.length);
-  check("uniform strip heights", strips.every((c) => c.innerHTML.includes(`height="${app.STRIP_H}"`)));
+  const hosts = store["strips"].children;
+  check("one combined svg", hosts.length === 1 && /<svg /.test(hosts[0].innerHTML));
+  const svg = hosts[0].innerHTML;
+  const trunkIds = app.TREE.trunk.filter(e => e.title).map(e => e.title.id);
+  check("every line rendered (as trunk segment or band)", app.SYSTEM.lines.every(L =>
+    trunkIds.includes(L.id) || svg.includes(`data-band="${L.id}"`)));
+  check("default system: trunk carries supply, no orphans", trunkIds.length >= 1 && app.TREE.orphans.length === 0);
 
-  const rows = new Set([app.ROW.balloon + 3.5, app.ROW.jTop, app.ROW.jBot, app.ROW.tag, app.ROW.n1, app.ROW.n2, app.CL + 3.5]);
-  let offGrid = 0, overlaps = 0;
-  const overlapDetail = [];
-  strips.forEach((c) => {
-    const texts = [...c.innerHTML.matchAll(/<text x="([\d.]+)" y="([\d.]+)" font-size="([\d.]+)"[^>]*>([^<]*)<\/text>/g)]
-      .map((m) => ({ x: +m[1], y: +m[2], fs: +m[3], s: m[4] }));
-    texts.forEach((t) => { if (![...rows].some((r) => Math.abs(r - t.y) < 0.01)) offGrid++; });
-    const byRow = {};
-    texts.forEach((t) => (byRow[t.y] = byRow[t.y] || []).push(t));
-    Object.values(byRow).forEach((list) => {
-      list.sort((a, b) => a.x - b.x);
-      for (let i = 1; i < list.length; i++) {
-        const p = list[i - 1], q = list[i];
-        if (q.x - (q.s.length * q.fs * 0.62) / 2 < p.x + (p.s.length * p.fs * 0.62) / 2 - 1) {
-          overlaps++; overlapDetail.push(p.s + " | " + q.s);
-        }
-      }
-    });
+  const boxes = textBoxes(svg);
+  check("all <text> elements parseable", !boxes.some(b => b.malformed), (boxes.find(b => b.malformed) || {}).malformed);
+  check("no text inside rotated symbol groups", !boxes.some(b => b.rot));
+
+  const bandRows = new Set([app.ROW.balloon + 3.5, app.ROW.jTop, app.ROW.jBot, app.ROW.tag, app.ROW.n1, app.ROW.n2, app.CL + 3.5, 8]);
+  const trunkOffs = new Set(Object.values(app.TROW));
+  let offGrid = 0, homeless = 0; const offDetail = [];
+  boxes.forEach(b => {
+    if (b.malformed) return;
+    if (b.band) { if (![...bandRows].some(r => Math.abs(r - b.localY) < 0.01)) { offGrid++; offDetail.push(b.s + "@band:" + b.localY); } }
+    else if (b.cellY !== null) { const o = b.localY - b.cellY; if (![...trunkOffs].some(r => Math.abs(r - o) < 0.01)) { offGrid++; offDetail.push(b.s + "@trunk:" + o); } }
+    else { homeless++; offDetail.push("homeless:" + b.s); }
   });
-  check("every text baseline on a grid row", offGrid === 0, offGrid + " off-grid");
-  check("no horizontal label overlaps", overlaps === 0, overlapDetail.join("; "));
-  const all = strips.map((c) => c.innerHTML).join("");
-  check("no undefined/NaN in strip SVG", !/undefined|NaN/.test(all));
-  check("emergency shut-offs annotated", (all.match(/EMERGENCY FUEL SHUT-OFF/g) || []).length >= 3);
+  check("every text baseline on a band row or trunk mini-grid row", offGrid === 0, offDetail.slice(0, 4).join("; "));
+  check("every text inside a band/strip/tcell group", homeless === 0, offDetail.slice(0, 4).join("; "));
+
+  const bad = collisions(boxes);
+  check("zero text collisions anywhere on the sheet", bad.length === 0, bad.slice(0, 4).join("; "));
+
+  // connectors: every derived edge draws exactly one connector whose y equals
+  // the destination band's centerline (real branching, not matching letters)
+  app.TREE.edges.forEach(e => {
+    const conns = [...svg.matchAll(new RegExp(`data-conn="${e.ref}" data-cly="(-?[\\d.]+)"`, "g"))];
+    const band = svg.match(new RegExp(`data-band="${e.to.id}" data-cl="(-?[\\d.]+)"`));
+    check(`ref ${e.ref} (${e.kind}): one connector, aligned to ${e.to.id} centerline`,
+      conns.length === 1 && !!band && conns[0][1] === band[1],
+      `${conns.length} conns, cly=${conns[0] && conns[0][1]}, cl=${band && band[1]}`);
+  });
+  check("all refs resolve in default data — no pentagons drawn", !/h16 l8 10 l-8 10 h-16/.test(svg));
+  check("symbols are text-free (rotatable)", Object.keys(app.SYM).every(k => !/<text/.test(app.SYM[k](0, { w: 3, h: 3 }, {}))));
+  check("no undefined/NaN in svg", !/undefined|NaN/.test(svg));
+  check("emergency shut-offs annotated", (svg.match(/EMERGENCY FUEL SHUT-OFF/g) || []).length >= 3);
 }
 
 console.log("SVG EXPORT");
@@ -74,8 +130,12 @@ console.log("EDITOR ROUND TRIP");
   store["strips"].children.length = 0;
   app.applyJSON();
   check("re-render succeeds", store["jsonMsg"].textContent === "Re-rendered.");
-  check("added line renders", store["strips"].children.length === o.SYSTEM.lines.length);
+  const svg = store["strips"].children[0].innerHTML;
+  check("unmatched line renders as orphan strip with pentagon", svg.includes('data-band="L9"') && /h16 l8 10 l-8 10 h-16/.test(svg) && svg.includes(">Z<"));
+  check("fan:3 survives the JSON round trip (TYP badge drawn)", svg.includes("TYP ×3"));
   check("hostile project name escaped in meta", !store["docMeta"].innerHTML.includes("<script>"));
+  const bad = collisions(textBoxes(svg));
+  check("still zero text collisions after edit", bad.length === 0, bad.slice(0, 4).join("; "));
   box.value = "{not json";
   app.applyJSON();
   check("malformed JSON reported, no crash", store["jsonMsg"].textContent.startsWith("JSON error"));
