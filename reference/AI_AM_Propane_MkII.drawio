@@ -1,0 +1,139 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="supply" name="Supply and regulation">
+    <mxGraphModel dx="900" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="s1" value="&lt;b&gt;Propane tanks&lt;/b&gt;&lt;br&gt;2x 20 lb, in-date stamp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="320" y="40" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="s2" value="&lt;b&gt;1/4 in ball shutoff&lt;/b&gt;&lt;br&gt;1/4 in NPT, one per tank" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="320" y="150" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="s3" value="&lt;b&gt;3/8 in flare hose&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="320" y="260" width="220" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="s4" value="&lt;b&gt;Flare cross / tee&lt;/b&gt;&lt;br&gt;3-way for 2 tanks, 4-way for 3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="320" y="360" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="s5" value="&lt;b&gt;3/8 in flare hose&lt;/b&gt;&lt;br&gt;1/4 in ball valve each end" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="320" y="470" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="s6" value="&lt;b&gt;60 psi regulator&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="320" y="580" width="220" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="s7" value="&lt;b&gt;30 psi regulator&lt;/b&gt;&lt;br&gt;move to poofer side?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAEEDA;strokeColor=#854F0B;fontColor=#412402;" vertex="1" parent="1">
+          <mxGeometry x="320" y="680" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="s8" value="&lt;b&gt;Branch manifold x3&lt;/b&gt;&lt;br&gt;1/4 in NPT, 3/8 in flare out" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="160" y="820" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="s9" value="&lt;b&gt;Poofer assembly&lt;/b&gt;&lt;br&gt;via 3/8 in flare hose" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAECE7;strokeColor=#993C1D;fontColor=#4A1B0C;" vertex="1" parent="1">
+          <mxGeometry x="480" y="820" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="se1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="s1" target="s2"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="se2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="s2" target="s3"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="se3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="s3" target="s4"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="se4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="s4" target="s5"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="se5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="s5" target="s6"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="se6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="s6" target="s7"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="se7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="s7" target="s8"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="se8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="s7" target="s9"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="branch" name="Branch detail (x3)">
+    <mxGraphModel dx="900" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="b1" value="&lt;b&gt;Branch inlet&lt;/b&gt;&lt;br&gt;3/8 in flare hose, x3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="280" y="40" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="b2" value="&lt;b&gt;1/4 in NPT manifold&lt;/b&gt;&lt;br&gt;3x outlets" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="280" y="150" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="b3" value="&lt;b&gt;NC solenoid&lt;/b&gt;&lt;br&gt;12 V, main flow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="280" y="260" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="b4" value="&lt;b&gt;Needle valve + stepper&lt;/b&gt;&lt;br&gt;1/4 in NPT bypass, 3/8 in flare copper" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="580" y="260" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="b5" value="&lt;b&gt;3/8 in flare tee&lt;/b&gt;&lt;br&gt;bypass rejoins here" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="280" y="380" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="b6" value="&lt;b&gt;3/8 in copper wrap&lt;/b&gt;&lt;br&gt;main effect run" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="140" y="520" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="b7" value="&lt;b&gt;3/8-1/4-1/4 reducer&lt;/b&gt;&lt;br&gt;to effect nozzle" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAECE7;strokeColor=#993C1D;fontColor=#4A1B0C;" vertex="1" parent="1">
+          <mxGeometry x="140" y="630" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="b8" value="&lt;b&gt;1/4 in copper wrap x??&lt;/b&gt;&lt;br&gt;via 1/4 in flare tee, count TBD" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAEEDA;strokeColor=#854F0B;fontColor=#412402;" vertex="1" parent="1">
+          <mxGeometry x="440" y="520" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="b9" value="&lt;b&gt;Steel wool pinhole pilot&lt;/b&gt;&lt;br&gt;1/4 in flare tee entry" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAECE7;strokeColor=#993C1D;fontColor=#4A1B0C;" vertex="1" parent="1">
+          <mxGeometry x="440" y="630" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="b10" value="&lt;b&gt;Air mixer?&lt;/b&gt;&lt;br&gt;copper feed, unclear in sketch" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=#FAEEDA;strokeColor=#854F0B;fontColor=#412402;" vertex="1" parent="1">
+          <mxGeometry x="580" y="150" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="be1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="b1" target="b2"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="be2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="b2" target="b3"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="be3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="b2" target="b4"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="be4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="b3" target="b5"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="be5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="b4" target="b5"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="be6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="b5" target="b6"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="be7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="b5" target="b8"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="be8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="b6" target="b7"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="be9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="b8" target="b9"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="be10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;" edge="1" parent="1" source="b2" target="b10"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="poofer" name="Poofer and accumulator (guessed)">
+    <mxGraphModel dx="900" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="pn" value="Whole page is a best guess from the left side of the sketch - verify before building" style="text;html=1;align=center;fontStyle=2;fontColor=#854F0B;" vertex="1" parent="1">
+          <mxGeometry x="200" y="0" width="460" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1" value="&lt;b&gt;Supply in&lt;/b&gt;&lt;br&gt;3/8 in flare hose from regulator" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="320" y="50" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2" value="&lt;b&gt;1/4 in NPT check valve&lt;/b&gt;&lt;br&gt;one-way accumulator fill" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="320" y="160" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3" value="&lt;b&gt;Accumulator&lt;/b&gt;&lt;br&gt;repurposed LP tank" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAEEDA;strokeColor=#854F0B;fontColor=#412402;" vertex="1" parent="1">
+          <mxGeometry x="320" y="270" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4" value="&lt;b&gt;1/4 in ball valve&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="320" y="380" width="220" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5" value="&lt;b&gt;1/2 in NPT tee&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="320" y="480" width="220" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6" value="&lt;b&gt;1/2 in solenoid valve&lt;/b&gt;&lt;br&gt;poof dump" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="160" y="620" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7" value="&lt;b&gt;Poofer nozzle&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAECE7;strokeColor=#993C1D;fontColor=#4A1B0C;" vertex="1" parent="1">
+          <mxGeometry x="160" y="730" width="220" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="p8" value="&lt;b&gt;1/4 in needle valve&lt;/b&gt;&lt;br&gt;pilot flow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="480" y="620" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="p9" value="&lt;b&gt;Steel wool pinhole pilot&lt;/b&gt;&lt;br&gt;1/4 in copper flare" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAECE7;strokeColor=#993C1D;fontColor=#4A1B0C;" vertex="1" parent="1">
+          <mxGeometry x="480" y="730" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="pe1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="p1" target="p2"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pe2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="p2" target="p3"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pe3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="p3" target="p4"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pe4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="p4" target="p5"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pe5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="p5" target="p6"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pe6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="p5" target="p8"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pe7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="p6" target="p7"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pe8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="p8" target="p9"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

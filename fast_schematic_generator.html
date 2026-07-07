@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flame effect schematic generator — FAST review packet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1F2933; --ink2:#52606D; --paper:#FFFFFF; --line:#CBD2D9;
+  --flame:#C6480A; --ok:#146A47; --okbg:#E4F3EC; --rev:#8A5A00; --revbg:#FBF0DA;
+  --fld:#274B8A; --fldbg:#E7EEFA; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --sans:'IBM Plex Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#EDEFF2;color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5}
+.sheet{max-width:1160px;margin:24px auto;background:var(--paper);border:1.5px solid var(--ink);padding:0 0 24px}
+.tblock{display:grid;grid-template-columns:1fr auto auto;border-bottom:1.5px solid var(--ink)}
+.tblock>div{padding:14px 18px;border-left:1px solid var(--line)}
+.tblock>div:first-child{border-left:none}
+.tblock h1{margin:0;font-size:19px;font-weight:500;letter-spacing:.01em}
+.tblock .sub{color:var(--ink2);font-size:12.5px;margin-top:2px}
+.meta{font-family:var(--mono);font-size:11.5px;color:var(--ink2);display:grid;grid-template-columns:auto auto;gap:2px 14px;align-content:center}
+.meta b{color:var(--ink);font-weight:500}
+.stamp{align-self:center;margin:0 18px;border:2px solid var(--flame);color:var(--flame);
+  font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.12em;padding:8px 12px;text-align:center;transform:rotate(-2deg)}
+section{padding:18px 22px 4px}
+h2{font-size:13px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);
+   border-bottom:1px solid var(--line);padding-bottom:6px;margin:6px 0 12px}
+.strip{margin:0 0 18px;overflow-x:auto}
+.strip .lt{font-family:var(--mono);font-size:12px;margin:0 0 2px}
+.strip .lt b{font-weight:500}
+.strip .lt .psi{color:var(--flame)}
+svg text{font-family:var(--mono)}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{font-family:var(--mono);font-size:11px;text-align:left;color:var(--ink2);font-weight:500;
+   border-bottom:1.5px solid var(--ink);padding:6px 8px}
+td{border-bottom:1px solid var(--line);padding:7px 8px;vertical-align:top}
+td.mono,.mono{font-family:var(--mono);font-size:12px}
+.chip{display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.06em;
+  padding:2px 8px;border-radius:3px;white-space:nowrap}
+.c-ok{background:var(--okbg);color:var(--ok)} .c-rev{background:var(--revbg);color:var(--rev)}
+.c-fld{background:var(--fldbg);color:var(--fld)}
+.note{color:var(--ink2);font-size:12.5px;margin:10px 0}
+.legend{display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--mono);font-size:11.5px;color:var(--ink2);padding-bottom:12px}
+footer{padding:14px 22px;border-top:1.5px solid var(--ink);margin-top:12px;font-size:12px;color:var(--ink2)}
+.toolbar{max-width:1160px;margin:0 auto 40px;display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}
+button{font-family:var(--mono);font-size:12.5px;background:var(--ink);color:#fff;border:none;padding:9px 16px;cursor:pointer;border-radius:3px}
+button.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--ink)}
+details{flex:1 1 100%;background:#fff;border:1.5px solid var(--ink);border-radius:3px}
+details summary{font-family:var(--mono);font-size:12.5px;padding:9px 14px;cursor:pointer}
+textarea{width:100%;height:300px;border:none;border-top:1px solid var(--line);font-family:var(--mono);font-size:11.5px;padding:12px}
+@media print{
+  body{background:#fff} .toolbar{display:none} .sheet{border-width:1px;margin:0;max-width:none}
+  .strip{overflow:visible}
+}
+</style>
+</head>
+<body>
+
+<div class="sheet" id="sheet">
+  <div class="tblock">
+    <div>
+      <h1 id="docTitle">AI AM Propane Mk. II — LP-gas flame effect schematic</h1>
+      <div class="sub">Fuel flow shown supply → effect heads. Schematic representation — symbols and run lengths are not to scale. Balloon numbers key to the parts schedule.</div>
+    </div>
+    <div class="meta" id="docMeta"></div>
+    <div class="stamp">FOR FAST REVIEW<br>NOT A BURN LICENSE</div>
+  </div>
+
+  <section>
+    <h2>Plumbing schematic</h2>
+    <div id="strips"></div>
+    <div class="legend" id="legend"></div>
+  </section>
+
+  <section>
+    <h2>Parts schedule</h2>
+    <table id="partsTable"></table>
+    <p class="note">SPEC VERIFIED = catalog specification confirmed against the vendor's published data. VERIFY PN = the component class and rating are specified; confirm the exact catalog number (mcmaster.com or vendor) before purchase and enter it above.</p>
+  </section>
+
+  <section>
+    <h2>Compliance schedule — Burning Man flame effects guidelines</h2>
+    <table id="compTable"></table>
+    <p class="note"><span class="chip c-ok">DESIGN PASS</span> the schematic as drawn satisfies the requirement &nbsp;·&nbsp; <span class="chip c-rev">REVIEW</span> resolve before submitting &nbsp;·&nbsp; <span class="chip c-fld">FIELD</span> compliance is demonstrated at installation/inspection, not on a drawing</p>
+  </section>
+
+  <footer id="disclaimer">
+    This document is a self-review aid prepared against the published Burning Man Flame Effects Guidelines. It does not constitute FAST approval; all flame effects require submitted documentation, on-playa inspection, and a burn license issued by a FAST inspector. Custom-fabricated components (marked REVIEW) should be discussed with your FAST Artist Liaison early.
+  </footer>
+</div>
+
+<div class="toolbar">
+  <button onclick="downloadSVG()">Download schematic as SVG</button>
+  <button class="ghost" onclick="window.print()">Print / save PDF packet</button>
+  <details>
+    <summary>Edit system definition (JSON) — change parts, pressures, and line layout, then re-render</summary>
+    <textarea id="jsonBox" spellcheck="false"></textarea>
+    <div style="padding:10px 14px"><button onclick="applyJSON()">Re-render from JSON</button> <span class="mono" id="jsonMsg" style="color:var(--rev)"></span></div>
+  </details>
+</div>
+
+<script>
+"use strict";
+const S = 12; // base unit for symbol sizing (drawing proportions only, not dimensions)
+
+/* ---------- PARTS LIBRARY ----------
+   verified: true  -> spec confirmed against vendor published data
+   verified: false -> real component class & required rating; confirm exact PN */
+let PARTS = {
+  tank100:{ name:"Propane cylinder, 100 lb", vendor:"Worthington / Flame King", pn:"DOT 4BA240 class", verified:true,
+    spec:"Vapor service. CGA-510 (POL) valve. Must be within DOT requalification date. Foot ring required. 100 lb meets the fuel team's delivery minimum; installation is inner playa — arrange delivery via fire art registration / fuel questionnaire and keep truck access to the cylinders clear.",
+    rating:250, sym:"tank", w:14.5, h:48 },
+  polAdapter:{ name:"Cylinder adapter, POL x 1/4 in MNPT", vendor:"Mr. Heater", pn:"F273754", verified:false,
+    spec:"Brass, excess-flow soft-nose POL (CGA-510, LH internal thread) x 1/4 in MNPT.", rating:250, sym:"hexAdapter", w:2.2, h:1.1 },
+  ball14:{ name:"Ball valve, 1/4 in FNPT x FNPT", vendor:"Apollo 94A series / McMaster fuel-gas ball valve", pn:"verify", verified:false,
+    spec:"2-pc forged brass, quarter-turn lever, 600 psi WOG, rated for fuel gases (CSA).", rating:600, sym:"ball", w:2.4, h:1.6 },
+  hoseLP:{ name:"LP-gas hose assembly, 3/8 in", vendor:"Mr. Heater", pn:"F273702 (verify length)", verified:false,
+    spec:"Factory-crimped ends, 3/8 in SAE 45 deg female flare swivel both ends. WP 350 psi, continuously marked LP-GAS / 350 PSI by manufacturer. No hose clamps.", rating:350, sym:"none", w:0, h:0 },
+  flareTee:{ name:"Flare tee, 3/8 in tube (5/8-18 UNF)", vendor:"McMaster 45 deg flared fittings for propane / Anderson Metals", pn:"verify", verified:false,
+    spec:"Forged brass SAE 45 deg flare union tee, rated for natural gas / LP / butane. Use cross for 3-tank supply.", rating:500, sym:"tee", w:2.0, h:1.6 },
+  reg60:{ name:"Regulator, main — set 60 psi", vendor:"Marshall Excelsior", pn:"MEGR-6120-60", verified:true,
+    spec:"High-pressure adjustable LP regulator, outlet range 1-60 psi, 1/4 in FNPT in/out + 1/4 in FNPT gauge port, max inlet 250 psig, die-cast aluminum, UL 144. NON-RELIEF regulator — external overpressure protection required.", rating:250, sym:"reg", w:3.4, h:3.2 },
+  reg30:{ name:"Regulator, poofer — set 30 psi", vendor:"Marshall Excelsior", pn:"MEGR-6120-30", verified:true,
+    spec:"High-pressure adjustable LP regulator, outlet range 1-30 psi, 1/4 in FNPT in/out + 1/4 in FNPT gauge port, max inlet 250 psig, die-cast aluminum, UL 144. NON-RELIEF regulator — external overpressure protection required.", rating:250, sym:"reg", w:3.4, h:3.2 },
+  gaugeHP:{ name:"Pressure gauge, 0-300 psi", vendor:"SENCTRL", pn:"verify (0-300 psi)", verified:false,
+    spec:"1/4 in MNPT bottom connection, brass internals compatible with LP vapor. Confirm exact model on purchase.", rating:300, sym:"gauge", w:2.5, h:3.2 },
+  gaugeLP:{ name:"Pressure gauge, 0-60 psi", vendor:"SENCTRL", pn:"verify (0-60 psi)", verified:false,
+    spec:"1/4 in MNPT bottom connection, brass internals compatible with LP vapor. Confirm exact model on purchase.", rating:300, sym:"gauge", w:2.5, h:3.2 },
+  gauge30:{ name:"Pressure gauge, 0-30 psi", vendor:"SENCTRL", pn:"verify (0-30 psi)", verified:false,
+    spec:"1/4 in MNPT bottom connection, brass internals compatible with LP vapor. Confirm exact model on purchase.", rating:300, sym:"gauge", w:2.5, h:3.2 },
+  manifold:{ name:"Manifold, 1/4 in FNPT, 3 outlets", vendor:"brass manifold block + 1/4 MNPT x 3/8 male flare adapters", pn:"verify", verified:false,
+    spec:"Forged brass, 1 in x 3 out, all ports 1/4 in FNPT. Rated well above 60 psi service.", rating:600, sym:"manifold", w:4.0, h:1.6 },
+  nptTee:{ name:"Tee, 1/4 in FNPT", vendor:"McMaster / Anderson Metals forged brass pipe tee", pn:"verify", verified:false,
+    spec:"Forged brass NPT run tee, fuel-gas service. Branch port carries a gauge or pilot tap.", rating:1000, sym:"tee", w:2.0, h:1.6 },
+  sol14:{ name:"Solenoid valve, 1/4 in NPT, NC", vendor:"Beduan (Amazon)", pn:"B07N2LGFYS", verified:false,
+    spec:"Brass body 2W-series, 2-way normally closed, 12 VDC, zero differential claimed by vendor. Max ~100 psi (0.7 MPa air). Seal material unpublished and no fuel-gas listing — confirm LP compatibility with FAST liaison. Must stay downstream of regulation.", rating:100, sym:"sol", w:2.8, h:3.4 },
+  sol12:{ name:"Solenoid valve, 1/2 in NPT, NC (poofer dump)", vendor:"Beduan (Amazon)", pn:"B07N6246YB", verified:false,
+    spec:"Brass body 2W160-15, 2-way normally closed, 12 VDC. Max 0.7 MPa (~100 psi) air. Seal material unpublished and no fuel-gas listing — confirm LP compatibility with FAST liaison. Must stay downstream of regulation.", rating:100, sym:"sol", w:3.2, h:3.6 },
+  needle:{ name:"Needle valve, 1/4 in NPT", vendor:"Breezliy (Amazon)", pn:"B08K8NP26L", verified:false,
+    spec:"Brass instrument needle valve, 1/4 in FNPT x FNPT, fine-metering stem. No published pressure rating or fuel-gas listing — confirm suitability with FAST liaison. Stepper actuator is custom.", rating:600, sym:"needle", w:2.2, h:2.6 },
+  check14:{ name:"Check valve, 1/4 in NPT", vendor:"McMaster brass spring check, Viton seal", pn:"verify", verified:false,
+    spec:"Inline spring-loaded poppet, brass body, Viton seat, flow arrow marked on body. Prevents accumulator back-flow.", rating:600, sym:"check", w:2.2, h:1.3 },
+  accum:{ name:"Accumulator — DOT LP cylinder", vendor:"DOT 4BA240 cylinder", pn:"out of requalification", verified:false,
+    spec:"Service valve removed; plumbed via existing NGT opening — no welds or modifications to the vessel. DOT requalification stamp is expired and the cylinder cannot be restamped (valve missing). Supply regulated to 30 psi, far below the 240 psi design service pressure. OPEN ITEM — see FE-8.", rating:250, sym:"tank", w:9, h:13 },
+  cu38:{ name:"Copper tube, 3/8 in OD", vendor:"Type L soft copper coil + brass SAE flare nuts", pn:"—", verified:true,
+    spec:"All joints SAE 45 deg flared. Compression and soldered joints prohibited on fuel lines.", rating:700, sym:"none", w:0, h:0 },
+  reducer:{ name:"Flare reducers, 3/8 to 1/4 in", vendor:"McMaster / Anderson Metals brass flare fittings", pn:"verify", verified:false,
+    spec:"Forged brass SAE 45 deg flare reducing unions.", rating:500, sym:"hexAdapter", w:1.8, h:1.1 },
+  mixer:{ name:"Venturi air mixer", vendor:"torch-type venturi mixer, 3/8 FNPT inlet", pn:"verify", verified:false,
+    spec:"Cast venturi with fixed air ports; premixes air at the effect head for cleaner combustion.", rating:100, sym:"mixer", w:3.6, h:1.8 },
+  nozzle:{ name:"Effect nozzle", vendor:"brass flare/NPT fittings, open discharge", pn:"—", verified:true,
+    spec:"Vertical discharge. Orifice sized during commissioning.", rating:500, sym:"nozzle", w:1.6, h:2.2 },
+  pilot:{ name:"Pilot — steel wool pinhole tip", vendor:"custom fabrication", pn:"—", verified:false,
+    spec:"1/4 in copper feed, pinhole orifice, stainless wool flame holder. CUSTOM COMPONENT — review design with FAST liaison; wind-resistant pilots and pilot supervision are inspection points.", rating:100, sym:"pilot", w:1.6, h:2.0 }
+};
+
+/* ---------- SYSTEM DEFINITION ---------- */
+let SYSTEM = {
+  meta:{ project:"AI AM Propane Mk. II", drawnBy:"—", rev:"A", date:new Date().toISOString().slice(0,10), scale:"none \u2014 schematic (NTS)" },
+  lines:[
+    { id:"L1", title:"Supply & regulation", psi:"tank vapor pressure (up to ~235 psi) upstream of PRV-1; 60 psi downstream", op:235,
+      items:[
+        {p:"tank100", tag:"TK-1/TK-2", note:"x2, secured upright, TYP both tanks"},
+        {j:"pol"},
+        {p:"polAdapter", tag:"F-1", note:"+ 1/4 NPT x 3/8 male flare adapter"},
+        {j:"flare", size:"3/8"},
+        {j:"hose", part:"hoseLP", label:"HS-1 (x2, one per tank)"},
+        {j:"flare", size:"3/8", lr:"F<M"},
+        {p:"flareTee", tag:"F-2", branch:{arrow:"in"}, note:"2nd tank chain (TYP) joins on branch · tee for 2 tanks / cross for 3"},
+        {j:"flare", size:"3/8"},
+        {p:"ball14", tag:"V-1", emergency:true, note:"depot 1/4-turn emergency shut-off, marked"},
+        {j:"npt", size:"1/4", lr:"M>F"},
+        {p:"nptTee", tag:"F-5", note:"1/4 FNPT tee + flare adapters", mount:{p:"gaugeHP", tag:"PI-1", note:"tank pressure, on branch"}},
+        {j:"flare", size:"3/8"},
+        {j:"hose", part:"hoseLP", label:"HS-2 — to regulator"},
+        {j:"flare", size:"3/8", lr:"F<M"},
+        {j:"npt", size:"1/4", lr:"M>F"},
+        {p:"reg60", tag:"PRV-1", note:"set 60 psi"},
+        {p:"gaugeLP", tag:"PI-2", note:"in PRV-1 gauge port"},
+        {j:"npt", size:"1/4", lr:"M>F"},
+        {p:"ball14", tag:"V-2", emergency:true, note:"main 1/4-turn shut-off, marked"},
+        {j:"npt", size:"1/4", lr:"M>F"},
+        {p:"nptTee", tag:"F-7", branch:{ref:"B"}, note:"poofer supply take-off (see L4)"},
+        {j:"off", ref:"A", dir:"out", label:"to L2 manifold — 60 psi"}
+      ]},
+    { id:"L2", title:"Distribution manifold", psi:"60 psi", op:60,
+      items:[
+        {j:"off", ref:"A", dir:"in", label:"from L1"},
+        {j:"npt", size:"1/4", lr:"M>F"},
+        {p:"manifold", tag:"MF-1"},
+        {j:"flare", size:"3/8"},
+        {j:"off", ref:"C", dir:"out", label:"to L3 — TYP 3 branches"}
+      ]},
+    { id:"L3", title:"Effect branch (typical of 3)", psi:"60 psi", op:60,
+      items:[
+        {j:"off", ref:"C", dir:"in", label:"from MF-1"},
+        {j:"hose", part:"hoseLP", label:"HS-3"},
+        {j:"flare", size:"3/8", lr:"F<M"},
+        {p:"flareTee", tag:"F-3", branch:{ref:"P"}, note:"pilot feed take-off, upstream of SV-1 (see L3a)"},
+        {j:"npt", size:"1/4", lr:"M>F"},
+        {p:"sol14", tag:"SV-1", note:"main flow, 12 VDC NC"},
+        {j:"npt", size:"1/4", lr:"M>F"},
+        {j:"tube", part:"cu38", size:"3/8", label:"TB-1"},
+        {p:"reducer", tag:"F-4"},
+        {j:"flare", size:"3/8"},
+        {p:"mixer", tag:"AM-1"},
+        {j:"npt", size:"3/8", lr:"M>F"},
+        {p:"nozzle", tag:"N-1", flame:true}
+      ]},
+    { id:"L3a", title:"Branch pilot feed (typical of 3) — teed off F-3, upstream of SV-1", psi:"60 psi", op:60,
+      items:[
+        {j:"off", ref:"P", dir:"in", label:"from L3 tee F-3"},
+        {j:"tube", part:"cu38", size:"3/8", label:"TB-2"},
+        {p:"needle", tag:"NV-1", note:"+ stepper (custom)"},
+        {j:"tube", part:"cu38", size:"1/4", label:"TB-3"},
+        {p:"pilot", tag:"PL-1", flame:true, note:"count per branch TBD"}
+      ]},
+    { id:"L4", title:"Poofer & accumulator", psi:"60 psi in; 30 psi downstream of PRV-2 (accumulator MAOP 250 psi)", op:60,
+      items:[
+        {j:"off", ref:"B", dir:"in", label:"from L1 — 60 psi"},
+        {j:"hose", part:"hoseLP", label:"HS-4"},
+        {j:"flare", size:"3/8", lr:"F<M"},
+        {j:"npt", size:"1/4", lr:"M>F"},
+        {p:"reg30", tag:"PRV-2", note:"set 30 psi, poofer only"},
+        {p:"gauge30", tag:"PI-3", note:"in PRV-2 gauge port"},
+        {j:"npt", size:"1/4", lr:"M>F"},
+        {p:"nptTee", tag:"F-6", branch:{ref:"D"}, note:"poofer pilot tap (see L4a)"},
+        {j:"npt", size:"1/4", lr:"M>F"},
+        {p:"check14", tag:"CV-1", note:"one-way fill"},
+        {j:"npt", size:"1/4", lr:"M>F"},
+        {p:"accum", tag:"AC-1"},
+        {j:"npt", size:"1/4", lr:"M>F"},
+        {p:"ball14", tag:"V-3", emergency:true, note:"accumulator isolation, marked"},
+        {j:"npt", size:"1/2", lr:"M>F"},
+        {p:"sol12", tag:"SV-2", note:"poof dump, 12 VDC NC"},
+        {j:"npt", size:"1/2", lr:"M>F"},
+        {p:"nozzle", tag:"N-2", flame:true}
+      ]},
+    { id:"L4a", title:"Poofer pilot — teed at F-6, downstream of PRV-2", psi:"30 psi", op:30,
+      items:[
+        {j:"off", ref:"D", dir:"in", label:"from L4 tee F-6"},
+        {j:"tube", part:"cu38", size:"3/8", label:"TB-4"},
+        {p:"needle", tag:"NV-2", note:"pilot metering"},
+        {j:"tube", part:"cu38", size:"1/4", label:"TB-5"},
+        {p:"pilot", tag:"PL-2", flame:true, note:"poofer pilot"}
+      ]}
+  ]
+};
+
+/* ---------- LAYOUT GRID ----------
+   Fixed rows shared by every strip so all text aligns:
+   balloon / joint spec / centerline / joint detail / tag / note lines.
+   Cell widths grow to fit their widest label — labels can never collide. */
+const INK="#1F2933", INK2="#52606D", FLAME="#C6480A";
+const CL=112;
+const ROW={balloon:32, jTop:CL-26, jBot:CL+26, tag:CL+50, n1:CL+64, n2:CL+77};
+function frac(s){return String(s).replace(/\b1\/4\b/g,"¼").replace(/\b1\/2\b/g,"½").replace(/\b3\/4\b/g,"¾").replace(/\b1\/8\b/g,"⅛").replace(/\b3\/8\b/g,"⅜").replace(/\b5\/8\b/g,"⅝");}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function txt(x,y,s,size,anchor,fill,w){return s?`<text x="${x}" y="${y}" font-size="${size||10}" text-anchor="${anchor||"middle"}" fill="${fill||INK}"${w?' font-weight="500"':''}>${esc(s)}</text>`:"";}
+function measure(s,size){return s?s.length*size*0.62:0;}
+function wrapNote(s){if(!s)return[];if(measure(s,9)<=200)return[s];
+  const t=s.split(" \u00b7 ");const half=measure(s,9)/2;const a=[],b=[];let len=0;
+  t.forEach(x=>{if(len<half){a.push(x);len+=measure(x,9)+10;}else b.push(x);});
+  return [a.join(" \u00b7 "),b.join(" \u00b7 ")].filter(Boolean);}
+
+/* ---------- SYMBOLS ----------
+   Drawn centered at cx on the CL run line; white-filled bodies mask the line.
+   Max extents: 46 px above / 34 px below CL. No text inside symbols. */
+const SYM={
+  tank(cx,p){const w=50,h=62,x=cx-w/2,y=CL-h/2;
+    return `<rect x="${x}" y="${y+7}" width="${w}" height="${h-7}" rx="9" fill="#fff" stroke="${INK}" stroke-width="1.4"/>
+    <path d="M${x+w*0.28} ${y+7} Q${cx} ${y-3} ${x+w*0.72} ${y+7}" fill="#fff" stroke="${INK}" stroke-width="1.4"/>
+    <rect x="${cx-6}" y="${y-5}" width="12" height="7" fill="#fff" stroke="${INK}"/>
+    <line x1="${x+5}" y1="${y+h}" x2="${x+5}" y2="${y+h+4}" stroke="${INK}"/><line x1="${x+w-5}" y1="${y+h}" x2="${x+w-5}" y2="${y+h+4}" stroke="${INK}"/>`;},
+  hexAdapter(cx,p){const w=Math.max(p.w*S,24),h=13;
+    return `<path d="M${cx-w/2} ${CL} L${cx-w/2+5} ${CL-h} H${cx+w/2-5} L${cx+w/2} ${CL} L${cx+w/2-5} ${CL+h} H${cx-w/2+5} Z" fill="#fff" stroke="${INK}" stroke-width="1.4"/>`;},
+  ball(cx,p,it){const w=p.w*S,h=20,c=it&&it.emergency?FLAME:INK;
+    return `<rect x="${cx-w/2}" y="${CL-h/2}" width="${w}" height="${h}" rx="3" fill="#fff" stroke="${c}" stroke-width="1.6"/>
+    <circle cx="${cx}" cy="${CL}" r="6" fill="none" stroke="${c}"/>
+    <line x1="${cx}" y1="${CL-h/2}" x2="${cx+12}" y2="${CL-h/2-12}" stroke="${c}" stroke-width="2.2" stroke-linecap="round"/>`;},
+  tee(cx,p){const w=p.w*S;
+    return `<rect x="${cx-w/2}" y="${CL-9}" width="${w}" height="18" rx="2" fill="#fff" stroke="${INK}" stroke-width="1.4"/>
+    <rect x="${cx-5}" y="${CL+9}" width="10" height="13" fill="#fff" stroke="${INK}" stroke-width="1.4"/>`;},
+  reg(cx,p){const w=p.w*S,h=16,dr=Math.min(w*0.32,13);
+    return `<rect x="${cx-w/2}" y="${CL-h/2}" width="${w}" height="${h}" rx="3" fill="#fff" stroke="${INK}" stroke-width="1.4"/>
+    <path d="M${cx-dr} ${CL-h/2} A ${dr} ${dr} 0 0 1 ${cx+dr} ${CL-h/2}" fill="#fff" stroke="${INK}" stroke-width="1.4"/>
+    <line x1="${cx}" y1="${CL-h/2-dr}" x2="${cx}" y2="${CL-h/2-dr-7}" stroke="${INK}" stroke-width="2"/>
+    <circle cx="${cx+dr+6}" cy="${CL-h/2-4}" r="2.2" fill="#fff" stroke="${INK2}"/>
+    <path d="M${cx-7} ${CL} h11 m0 0 l-4 -3 m4 3 l-4 3" stroke="${INK}" fill="none"/>`;},
+  gauge(cx,p){const r=12;
+    return `<line x1="${cx}" y1="${CL}" x2="${cx}" y2="${CL-8}" stroke="${INK}" stroke-width="2"/>
+    <circle cx="${cx}" cy="${CL-8-r}" r="${r}" fill="#fff" stroke="${INK}" stroke-width="1.4"/>
+    <path d="M${cx-r*0.6} ${CL-8-r+r*0.5} A ${r*0.7} ${r*0.7} 0 1 1 ${cx+r*0.6} ${CL-8-r+r*0.5}" fill="none" stroke="${INK2}" stroke-width="1"/>
+    <line x1="${cx}" y1="${CL-8-r}" x2="${cx-r*0.45}" y2="${CL-8-r-r*0.4}" stroke="${FLAME}" stroke-width="1.5"/>
+    <circle cx="${cx}" cy="${CL}" r="2" fill="${INK}"/>`;},
+  manifold(cx,p){const w=p.w*S,h=20;
+    return `<rect x="${cx-w/2}" y="${CL-h/2}" width="${w}" height="${h}" rx="3" fill="#fff" stroke="${INK}" stroke-width="1.6"/>
+    ${[-1,0,1].map(i=>`<line x1="${cx+i*w*0.28}" y1="${CL+h/2}" x2="${cx+i*w*0.28}" y2="${CL+h/2+8}" stroke="${INK}" stroke-width="2"/>`).join("")}`;},
+  sol(cx,p){const w=p.w*S,h=16,cw=w*0.56,ch=22;
+    return `<rect x="${cx-w/2}" y="${CL-h/2}" width="${w}" height="${h}" rx="3" fill="#fff" stroke="${INK}" stroke-width="1.6"/>
+    <rect x="${cx-cw/2}" y="${CL-h/2-ch}" width="${cw}" height="${ch}" fill="#fff" stroke="${INK}" stroke-width="1.4"/>
+    <line x1="${cx-cw/2}" y1="${CL-h/2-ch+5}" x2="${cx+cw/2}" y2="${CL-h/2-ch+5}" stroke="${INK2}"/>
+    <line x1="${cx-cw/2}" y1="${CL-h/2-ch+9}" x2="${cx+cw/2}" y2="${CL-h/2-ch+9}" stroke="${INK2}"/>
+    ${txt(cx,CL+3.5,"NC",9)}`;},
+  needle(cx,p){const w=p.w*S,h=16;
+    return `<rect x="${cx-w/2}" y="${CL-h/2}" width="${w}" height="${h}" rx="3" fill="#fff" stroke="${INK}" stroke-width="1.4"/>
+    <path d="M${cx-4} ${CL+5} L${cx} ${CL-3} L${cx+4} ${CL+5}" fill="none" stroke="${INK2}"/>
+    <line x1="${cx}" y1="${CL-h/2}" x2="${cx}" y2="${CL-h/2-11}" stroke="${INK}" stroke-width="2"/>
+    <line x1="${cx-8}" y1="${CL-h/2-11}" x2="${cx+8}" y2="${CL-h/2-11}" stroke="${INK}" stroke-width="2.4"/>`;},
+  check(cx,p){const w=p.w*S,h=16;
+    return `<rect x="${cx-w/2}" y="${CL-h/2}" width="${w}" height="${h}" rx="3" fill="#fff" stroke="${INK}" stroke-width="1.4"/>
+    <path d="M${cx-6} ${CL-4.5} L${cx+2} ${CL} L${cx-6} ${CL+4.5} Z" fill="${INK}"/>
+    <line x1="${cx+4.5}" y1="${CL-4.5}" x2="${cx+4.5}" y2="${CL+4.5}" stroke="${INK}" stroke-width="2"/>`;},
+  mixer(cx,p){const w=p.w*S,h=20;
+    return `<path d="M${cx-w/2} ${CL-h*0.22} L${cx-w*0.08} ${CL-h/2} H${cx+w*0.08} L${cx+w/2} ${CL-h*0.22} V${CL+h*0.22} L${cx+w*0.08} ${CL+h/2} H${cx-w*0.08} L${cx-w/2} ${CL+h*0.22} Z" fill="#fff" stroke="${INK}" stroke-width="1.4"/>
+    <circle cx="${cx}" cy="${CL-h/2+2.5}" r="1.5" fill="${INK2}"/><circle cx="${cx+w*0.06}" cy="${CL+h/2-2.5}" r="1.5" fill="${INK2}"/>`;},
+  nozzle(cx,p){const w=p.w*S;
+    return `<path d="M${cx-w/2} ${CL+8} L${cx-w*0.16} ${CL-16} H${cx+w*0.16} L${cx+w/2} ${CL+8} Z" fill="#fff" stroke="${FLAME}" stroke-width="1.6"/>
+    <path d="M${cx-4} ${CL-18} Q${cx-7} ${CL-26} ${cx-1} ${CL-31} M${cx+2} ${CL-18} Q${cx+7} ${CL-24} ${cx+4} ${CL-32}" fill="none" stroke="${FLAME}" stroke-width="1.3"/>`;},
+  pilot(cx,p){
+    return `<circle cx="${cx}" cy="${CL}" r="9" fill="#fff" stroke="${FLAME}" stroke-width="1.4"/>
+    <path d="M${cx-5} ${CL} q2.5 -3.5 5 0 q2.5 3.5 5 0" fill="none" stroke="${INK2}"/>
+    <path d="M${cx-1} ${CL-9} Q${cx-4} ${CL-17} ${cx+1} ${CL-21}" fill="none" stroke="${FLAME}" stroke-width="1.3"/>`;}
+};
+const AUTONOTE={ball:"1/4-turn",reg:"flow \u2192",gauge:"",manifold:"3 outlets, 1/4 FNPT",sol:"12 VDC coil \u00b7 NC",needle:"metering stem",check:"one-way, flow \u2192",mixer:"venturi air ports",nozzle:"vertical discharge \u2191",pilot:"pinhole + steel wool",tank:"",hexAdapter:"",tee:"run + branch",none:""};
+
+function jointMarker(it,cx){
+  if(it.j==="npt")return `<path d="M${cx-15} ${CL-6} L${cx-1} ${CL-3.5} V${CL+3.5} L${cx-15} ${CL+6} Z" fill="#fff" stroke="${INK}"/>
+    <path d="M${cx-12} ${CL-3} l3 6 m2 -6 l3 6 m2 -6 l3 6" stroke="${INK2}" stroke-width=".8"/>
+    <path d="M${cx} ${CL-7} h13 v14 h-13 M${cx} ${CL-3.5} h8 m-8 7 h8" fill="none" stroke="${INK}"/>`;
+  if(it.j==="flare"){const m=`<rect x="${cx-17}" y="${CL-5}" width="9" height="10" fill="#fff" stroke="${INK}"/>
+    <path d="M${cx-8} ${CL-7} L${cx+1} ${CL} L${cx-8} ${CL+7} Z" fill="#fff" stroke="${INK}"/>
+    <path d="M${cx+1} ${CL-8} h9 l5 8 l-5 8 h-9 Z" fill="#fff" stroke="${INK}"/>`;
+    return it.lr==="F<M"?`<g transform="translate(${2*cx},0) scale(-1,1)">${m}</g>`:m;}
+  if(it.j==="pol")return `<circle cx="${cx}" cy="${CL}" r="8" fill="#fff" stroke="${INK}"/><circle cx="${cx}" cy="${CL}" r="3.2" fill="none" stroke="${INK}"/>`;
+  return "";
+}
+
+/* ---------- CELLS & RENDER ---------- */
+let refIndex={}, refCounter=0;
+function buildRefs(){refIndex={};refCounter=0;
+  SYSTEM.lines.forEach(L=>L.items.forEach(it=>{
+    if(it.p&&refIndex[it.p]===undefined){refCounter++;refIndex[it.p]=refCounter;}
+    if(it.mount&&refIndex[it.mount.p]===undefined){refCounter++;refIndex[it.mount.p]=refCounter;}
+    if((it.j==="hose"||it.j==="tube")&&refIndex[it.part]===undefined){refCounter++;refIndex[it.part]=refCounter;}
+  }));
+}
+function buildCell(it){
+  if(it.p){const p=PARTS[it.p];const m=it.mount?PARTS[it.mount.p]:null;
+    const wSym=(p.sym==="tank")?50:Math.max(p.w*S,30);
+    const tag=(it.tag?it.tag+(m&&it.mount.tag?"+"+it.mount.tag:"")+" \u2014 ":"")+p.name.split(",")[0]+(m?" + "+m.name.split(",")[0].toLowerCase():"");
+    const notes=wrapNote(frac([it.emergency?"EMERGENCY FUEL SHUT-OFF":"",AUTONOTE[p.sym]||"",it.note||"",m&&it.mount.note?it.mount.tag+": "+it.mount.note:""].filter(Boolean).join(" \u00b7 ")));
+    const w=Math.max(wSym+18,measure(tag,10)+14,...(notes.length?notes.map(n=>measure(n,9)+12):[0]),46);
+    return {w,draw(x){const cx=x+w/2;
+      const bx=(it.branch||m)?cx-16:cx; // balloon shifts left so the branch line / mounted symbol stays clear
+      let s=`<line x1="${x}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
+      if(it.branch){const b=it.branch;
+        s+=`<line x1="${cx}" y1="${b.ref?CL-19.5:CL-44}" x2="${cx}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
+        if(b.ref)s+=`<path d="M${cx-12} ${CL-39.5} h16 l8 10 l-8 10 h-16 Z" fill="#fff" stroke="${INK}" stroke-width="1.4"/>${txt(cx-1,ROW.jTop,b.ref,11)}`;
+        if(b.arrow==="in")s+=`<path d="M${cx-4} ${CL-16} l4 5 l4 -5" fill="none" stroke="${INK}" stroke-width="1.6"/>`;
+        else if(b.ref)s+=`<path d="M${cx-4} ${CL-9} l4 -5 l4 5" fill="none" stroke="${INK}" stroke-width="1.6"/>`;
+      }
+      s+=SYM[p.sym==="none"?"hexAdapter":p.sym](cx,p,it);
+      if(m)s+=SYM[m.sym](cx,m,it.mount);
+      s+=`<line x1="${bx}" y1="${ROW.balloon+10}" x2="${bx}" y2="${CL-48}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
+      <circle cx="${bx}" cy="${ROW.balloon}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(bx,ROW.balloon+3.5,refIndex[it.p],10.5)}`;
+      if(m)s+=`<line x1="${cx+16}" y1="${ROW.balloon+10}" x2="${cx+16}" y2="${CL-48}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
+      <circle cx="${cx+16}" cy="${ROW.balloon}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(cx+16,ROW.balloon+3.5,refIndex[it.mount.p],10.5)}`;
+      s+=txt(cx,ROW.tag,tag,10,"middle",INK,1);
+      if(notes[0])s+=txt(cx,ROW.n1,notes[0],9,"middle",it.emergency?FLAME:INK2);
+      if(notes[1])s+=txt(cx,ROW.n2,notes[1],9,"middle",INK2);
+      return s;}};
+  }
+  let top="",bot="",wG=64;
+  if(it.j==="npt"){top=`${frac(it.size)}" NPT`;bot=(it.lr==="M>F"?"M \u25b8 F":"F \u25c2 M");wG=60;}
+  else if(it.j==="flare"){top=`${frac(it.size)}" SAE 45\u00b0 flare`;bot=(it.lr==="F<M"?"nut \u25c2 cone":"cone \u25b8 nut");wG=64;}
+  else if(it.j==="pol"){top="CGA-510 POL";bot="LEFT-hand thread \u00b7 nipple \u25b8 cyl. valve";wG=76;}
+  else if(it.j==="hose"){const p=PARTS[it.part];top=`${it.label||"hose"}`;bot=`WP ${p.rating} psi \u00b7 factory-crimped \u00b7 marked`;wG=150;}
+  else if(it.j==="tube"){top=`${it.label||"tube"}: ${frac(it.size)}" OD Cu`;bot="soft copper";wG=140;}
+  else if(it.j==="off"){bot=it.label||"";wG=72;}
+  const w=Math.max(wG,measure(top,10)+10,measure(bot,9)+8);
+  return {w,draw(x){const cx=x+w/2;let s="";
+    if(it.j==="hose"){
+      s+=`<line x1="${x}" y1="${CL}" x2="${x+16}" y2="${CL}" stroke="${INK}" stroke-width="2.4"/>
+      <rect x="${x+16}" y="${CL-4.5}" width="9" height="9" fill="#fff" stroke="${INK}"/>
+      <path d="M${x+25} ${CL} H${cx-14} l5 -8 6 16 5 -8 H${x+w-25}" fill="none" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+      <rect x="${x+w-25}" y="${CL-4.5}" width="9" height="9" fill="#fff" stroke="${INK}"/>
+      <line x1="${x+w-16}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="2.4"/>`;
+    } else if(it.j==="tube"){
+      s+=`<line x1="${x}" y1="${CL}" x2="${cx-14}" y2="${CL}" stroke="${INK}" stroke-width="1.6"/>
+      <path d="M${cx-14} ${CL} l5 -8 6 16 5 -8" fill="none" stroke="${INK}" stroke-width="1.6"/>
+      <line x1="${cx+2}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="1.6"/>`;
+    } else if(it.j==="off"){
+      const out=it.dir==="out";
+      if(out)s+=`<path d="M${x} ${CL} h${w-34} m0 0 l-5 -4 m5 4 l-5 4" stroke="${INK}" fill="none" stroke-width="2"/>`;
+      else s+=`<line x1="${x+34}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
+      const hx=out?x+w-30:x+4;
+      s+=`<path d="M${hx} ${CL-10} h16 l8 10 l-8 10 h-16 Z" fill="#fff" stroke="${INK}" stroke-width="1.4"/>${txt(hx+11,CL+3.5,it.ref,11)}`;
+    } else {
+      s+=`<line x1="${x}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`+jointMarker(it,cx);
+    }
+    s+=txt(cx,ROW.jTop,top,10);
+    s+=txt(cx,ROW.jBot,bot,9,"middle",INK2);
+    return s;}};
+}
+const STRIP_H=ROW.n2+16;
+function renderStrips(){
+  buildRefs();
+  const host=document.getElementById("strips");host.innerHTML="";
+  SYSTEM.lines.forEach(L=>{
+    let x=14,inner="";
+    L.items.forEach(it=>{const c=buildCell(it);inner+=c.draw(x);x+=c.w;});
+    const wTot=Math.round(x+14);
+    const div=document.createElement("div");div.className="strip";
+    div.innerHTML=`<div class="lt"><b>${esc(L.id)} \u2014 ${esc(L.title)}</b> \u00b7 <span class="psi">operating pressure: ${esc(L.psi)}</span></div>
+    <svg width="${wTot}" height="${STRIP_H}" viewBox="0 0 ${wTot} ${STRIP_H}" xmlns="http://www.w3.org/2000/svg" data-line="${L.id}">
+    <rect x="1" y="${ROW.balloon-16}" width="${wTot-2}" height="${STRIP_H-(ROW.balloon-16)-2}" fill="none" stroke="#CBD2D9"/>
+    ${inner}</svg>`;
+    host.appendChild(div);
+  });
+  document.getElementById("legend").innerHTML=[
+    "\u25ef n \u2014 balloon: parts schedule ref","hatched trapezoid \u25b8 box \u2014 NPT male into female \u00b7 ALL NPT joints: PTFE gas tape",
+    "cone \u25b8 nut \u2014 SAE 45\u00b0 flare (metal-to-metal seat, no sealant)","\u3030 with break \u2014 hose/tube run, length as required \u00b7 ALL Cu tube joints: flared only",
+    "pentagon A/B/C \u2014 off-page connector between lines",`<span style="color:${FLAME}">orange</span> \u2014 flame heads & marked emergency shut-offs`
+  ].map(s=>`<span>${s}</span>`).join("");
+  document.getElementById("docMeta").innerHTML=
+    `<span>PROJECT</span><b>${esc(SYSTEM.meta.project)}</b><span>REV / DATE</span><b>${esc(SYSTEM.meta.rev)} \u00b7 ${esc(SYSTEM.meta.date)}</b>
+     <span>SCALE</span><b>${esc(SYSTEM.meta.scale)}</b><span>SHEET</span><b>1 of 1 \u00b7 ${SYSTEM.lines.length} lines</b>`;
+}
+function renderParts(){
+  const rows=Object.keys(refIndex).sort((a,b)=>refIndex[a]-refIndex[b]).map(k=>{
+    const p=PARTS[k];
+    return `<tr><td class="mono">${refIndex[k]}</td><td><b>${p.name}</b><br><span style="color:var(--ink2)">${p.spec}</span></td>
+    <td class="mono">${p.vendor}</td><td class="mono">${p.pn}</td><td class="mono">${p.rating} psi</td>
+    <td>${p.verified?'<span class="chip c-ok">SPEC VERIFIED</span>':'<span class="chip c-rev">VERIFY PN</span>'}</td></tr>`;
+  }).join("");
+  document.getElementById("partsTable").innerHTML=
+  `<tr><th>REF</th><th>COMPONENT & SPECIFICATION</th><th>VENDOR / CATALOG</th><th>PART NO.</th><th>RATING</th><th>STATUS</th></tr>${rows}`;
+}
+
+/* ---------- COMPLIANCE ENGINE ---------- */
+function runChecks(){
+  const C=[];const chip=(s)=>s==="ok"?'<span class="chip c-ok">DESIGN PASS</span>':s==="rev"?'<span class="chip c-rev">REVIEW</span>':'<span class="chip c-fld">FIELD</span>';
+  const allItems=SYSTEM.lines.flatMap(L=>L.items.map(it=>({...it,op:L.op,line:L.id})));
+  // FE-1 quarter-turn emergency shut-offs
+  const ems=allItems.filter(it=>it.emergency);
+  C.push({id:"FE-1",req:"Quarter-turn shut-off valve at each fuel supply connection; closing it stops all fuel flow; exposed, visible, and clearly marked as the emergency fuel shut-off.",
+    status:ems.length>=2?"ok":"rev",note:ems.length?`Shown: ${ems.map(e=>e.tag+" ("+e.line+")").join(", ")}. Physical marking & visibility verified at inspection.`:"No valve is flagged emergency:true in the system definition."});
+  // FE-2 component ratings vs operating pressure
+  const under=allItems.filter(it=>it.p&&PARTS[it.p].rating<it.op);
+  C.push({id:"FE-2",req:"Every fitting, pipe, valve, and connector rated for LP-gas and for the maximum operating pressure of its segment.",
+    status:under.length?"rev":"ok",note:under.length?`Rating below segment pressure: ${under.map(u=>u.tag||u.p).join(", ")}.`:"All scheduled component ratings meet or exceed their segment's operating pressure. Components marked VERIFY PN must be confirmed on purchase."});
+  // FE-3 hoses
+  const hoses=allItems.filter(it=>it.j==="hose");
+  const badHose=hoses.filter(h=>h.op>5&&PARTS[h.part].rating<350);
+  C.push({id:"FE-3",req:"LP-gas hoses operated above 5 psi rated ≥ 350 psi working pressure and continuously marked by the manufacturer for LP compatibility.",
+    status:badHose.length?"rev":"ok",note:`${hoses.length} hose runs scheduled at WP 350 psi, factory-marked. Marking legibility checked in the field.`});
+  C.push({id:"FE-4",req:"Hose connections factory-made or purpose-crimped; hose clamps prohibited on fuel lines.",
+    status:"ok",note:"All scheduled hoses are factory-crimped assemblies with SAE flare swivel ends; no field-clamped hose appears in the schematic."});
+  // FE-5 >125 psi metallic segments
+  const hp=SYSTEM.lines.filter(L=>L.op>125);
+  C.push({id:"FE-5",req:"Metallic piping and fittings operating above 125 psi are schedule 80 or heavier.",
+    status:hp.length?"rev":"ok",note:hp.length?`Line(s) ${hp.map(L=>L.id).join(", ")} upstream of PRV-1 see cylinder pressure. Forged brass valve/fitting bodies there must carry ratings ≥ segment pressure (scheduled at 250–600 psi); any threaded pipe nipples in this segment must be schedule 80. Confirm each upstream component.`:"No metallic piping segment exceeds 125 psi."});
+  // FE-6 tubing joints
+  const tubes=allItems.filter(it=>it.j==="tube");
+  C.push({id:"FE-6",req:"All metallic tubing joints are flare fittings; compression fittings and soldered joints prohibited.",
+    status:"ok",note:`${tubes.length} copper runs shown, all joints SAE 45° flare. No compression or soldered joints appear in the design.`});
+  C.push({id:"FE-7",req:"All valves designed for LP-gas; plumbing fixtures prohibited in pressurized segments.",
+    status:"rev",note:"Ball valves and regulators are fuel-gas rated. Beduan solenoids and Breezliy needle valves have no published fuel-gas listing or seal spec — raise with your FAST liaison."});
+  // FE-8/9 accumulator
+  const hasAcc=allItems.some(it=>it.p==="accum");
+  if(hasAcc){
+    C.push({id:"FE-8",req:"Accumulators / pressure vessels designed, manufactured, and tested to ASME BPVC or DOT for the gas pressure in use; no uncertified welding or modification.",
+      status:"rev",note:"AC-1 is an unmodified DOT LP cylinder, but its requalification stamp is expired and it cannot be restamped (service valve removed). The guideline requires a vessel tested to DOT/ASME for the pressure in use — raise this with your FAST liaison EARLY; the safe fallback is swapping AC-1 for an in-requalification cylinder before the event."});
+    C.push({id:"FE-9",req:"If supply pressure exceeds the vessel's MAOP, a regulator must sit between the fuel supply and the vessel.",
+      status:"ok",note:"PRV-1 (60 psi) and PRV-2 (30 psi) are upstream of AC-1; regulated 30 psi supply is below the vessel's 250 psi MAOP. Note: MEGR-6120 regulators are UL-listed non-relief — external overpressure protection on the accumulator segment is recommended and flagged on the schematic."});
+  }
+  C.push({id:"DOC-1",req:"Submitted diagrams must show fuel flow from supply to effect head(s), every component in the path, and the locations of all shut-offs, regulators, pressure vessels, and ignition sources.",
+    status:"ok",note:"This sheet traces supply → regulation → distribution → effect heads and pilots, with every valve, regulator, gauge, vessel, and ignition point ballooned and scheduled."});
+  ["Cylinders stored upright, secured against tipping, foot ring intact, OPD valves on 4–40 lb cylinders.",
+   "Daily pre-operation safety and leak check of all components and connections.",
+   "Rated dry-chemical extinguisher(s) at the effect; effect never left unattended; trained operator 21+ in fire-resistant clothing.",
+   "Pilot supervision / wind performance of the custom steel-wool pilot demonstrated to the inspector."]
+   .forEach((t,i)=>C.push({id:"FLD-"+(i+1),req:t,status:"fld",note:"Verified on playa at FAST inspection — cannot be demonstrated on a schematic."}));
+  document.getElementById("compTable").innerHTML=
+  `<tr><th>ID</th><th>REQUIREMENT (paraphrased from published guidelines)</th><th>STATUS</th><th>BASIS IN THIS DESIGN</th></tr>`+
+  C.map(c=>`<tr><td class="mono">${c.id}</td><td>${c.req}</td><td>${chip(c.status)}</td><td style="color:var(--ink2)">${c.note}</td></tr>`).join("");
+}
+
+/* ---------- EXPORT & EDIT ---------- */
+function downloadSVG(){
+  const strips=[...document.querySelectorAll("#strips svg")];let y=70,parts="";
+  const w=Math.max(...strips.map(s=>+s.getAttribute("width")))+40;
+  strips.forEach((s,i)=>{const L=SYSTEM.lines[i];
+    parts+=`<text x="20" y="${y-6}" font-family="monospace" font-size="13" fill="${INK}">${esc(L.id+" — "+L.title+" · "+L.psi)}</text>
+    <g transform="translate(20,${y})">${s.innerHTML}</g>`;y+=STRIP_H+22;});
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${y}" viewBox="0 0 ${w} ${y}" font-family="monospace">
+  <rect x="1" y="1" width="${w-2}" height="${y-2}" fill="#fff" stroke="${INK}" stroke-width="2"/>
+  <text x="20" y="30" font-size="16" fill="${INK}">${esc(SYSTEM.meta.project+" — LP-gas flame effect schematic · REV "+SYSTEM.meta.rev+" · "+SYSTEM.meta.date+" · FOR FAST REVIEW")}</text>
+  <text x="20" y="48" font-size="11" fill="${INK2}">Schematic — not to scale. Balloons key to parts schedule (see packet).</text>${parts}</svg>`;
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([svg],{type:"image/svg+xml"}));
+  a.download=SYSTEM.meta.project.replace(/\W+/g,"_")+"_schematic.svg";a.click();
+}
+function applyJSON(){
+  try{const o=JSON.parse(document.getElementById("jsonBox").value);
+    if(o.PARTS)PARTS=o.PARTS; if(o.SYSTEM)SYSTEM=o.SYSTEM;
+    renderAll();document.getElementById("jsonMsg").textContent="Re-rendered.";
+  }catch(e){document.getElementById("jsonMsg").textContent="JSON error: "+e.message;}
+}
+function renderAll(){renderStrips();renderParts();runChecks();
+  document.getElementById("docTitle").textContent=SYSTEM.meta.project+" — LP-gas flame effect schematic";
+  document.getElementById("jsonBox").value=JSON.stringify({SYSTEM,PARTS},null,1);
+}
+renderAll();
+</script>
+</body>
+</html>

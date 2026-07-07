@@ -1,0 +1,209 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="full" name="Full system">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2160" pageHeight="1500" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="hdr" value="AI AM Propane Mk. II - verify part numbers and spring ranges before ordering, leak-test before fueling" style="text;html=1;align=left;fontStyle=2;fontColor=#854F0B;" vertex="1" parent="1">
+          <mxGeometry x="40" y="0" width="800" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="t1" value="&lt;b&gt;Tank 1 - 20 lb DOT cylinder&lt;/b&gt;&lt;br&gt;OPD valve, in-date recert" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="200" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="t2" value="&lt;b&gt;Tank 2 - 20 lb DOT cylinder&lt;/b&gt;&lt;br&gt;OPD valve, in-date recert" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="280" y="40" width="200" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="v1" value="&lt;b&gt;POL adapter + 1/4 in ball valve&lt;/b&gt;&lt;br&gt;Mr. Heater F273754 + Apollo 94A" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="40" y="140" width="200" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="v2" value="&lt;b&gt;POL adapter + 1/4 in ball valve&lt;/b&gt;&lt;br&gt;Mr. Heater F273754 + Apollo 94A" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="280" y="140" width="200" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="h1" value="&lt;b&gt;LP hose, 3/8 in SAE flare&lt;/b&gt;&lt;br&gt;Mr. Heater F273702 (verify length)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="240" width="200" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="h2" value="&lt;b&gt;LP hose, 3/8 in SAE flare&lt;/b&gt;&lt;br&gt;Mr. Heater F273702 (verify length)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="280" y="240" width="200" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="cx" value="&lt;b&gt;3/8 in SAE flare branch tee&lt;/b&gt;&lt;br&gt;Anderson Metals 45 deg flare (cross for 3 tanks)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="160" y="340" width="200" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="h3" value="&lt;b&gt;LP hose, 3/8 in SAE flare&lt;/b&gt;&lt;br&gt;Apollo 94A 1/4 in ball valve each end" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="160" y="450" width="200" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="r1" value="&lt;b&gt;Fisher 67CH, 30-60 psi spring&lt;/b&gt;&lt;br&gt;set 60 psi, 1/4 in FNPT in/out" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="160" y="550" width="200" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="r2" value="&lt;b&gt;Fisher 67CH-743, 3-35 psi&lt;/b&gt;&lt;br&gt;set 30 psi - move to poofer side? No internal relief - add overpressure protection" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAEEDA;strokeColor=#854F0B;fontColor=#412402;" vertex="1" parent="1">
+          <mxGeometry x="160" y="650" width="200" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="vb" value="&lt;b&gt;1/4 in ball valve&lt;/b&gt;&lt;br&gt;Apollo 94A, gas-rated" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="160" y="770" width="200" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="mf" value="&lt;b&gt;Brass manifold, 1/4 in FNPT x3&lt;/b&gt;&lt;br&gt;1/4 MNPT x 3/8 flare outlet adapters" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="160" y="870" width="200" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q1in" value="&lt;b&gt;Branch 1 inlet&lt;/b&gt;&lt;br&gt;3/8 in flare hose (F273702)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="160" y="1000" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q1sol" value="&lt;b&gt;STC 2W160-3/8-1-V-D&lt;/b&gt;&lt;br&gt;12 VDC NC solenoid, Viton, zero differential" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1100" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q1nv" value="&lt;b&gt;Needle valve bypass&lt;/b&gt;&lt;br&gt;1/4 in NPT brass + stepper drive" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="300" y="1100" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q1tee" value="&lt;b&gt;3/8 in SAE flare tee&lt;/b&gt;&lt;br&gt;Anderson Metals 45 deg" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="160" y="1200" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q1run" value="&lt;b&gt;Effect run&lt;/b&gt;&lt;br&gt;3/8 in OD soft copper, 45 deg flared" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1300" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q1noz" value="&lt;b&gt;Effect nozzle&lt;/b&gt;&lt;br&gt;3/8 to 1/4 in flare reducers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAECE7;strokeColor=#993C1D;fontColor=#4A1B0C;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1400" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q1pl" value="&lt;b&gt;Pilot line&lt;/b&gt;&lt;br&gt;1/4 in OD copper, flare tee, count TBD" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="300" y="1300" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q1pi" value="&lt;b&gt;Steel wool pinhole pilot&lt;/b&gt;&lt;br&gt;custom" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAECE7;strokeColor=#993C1D;fontColor=#4A1B0C;" vertex="1" parent="1">
+          <mxGeometry x="300" y="1400" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q2in" value="&lt;b&gt;Branch 2 inlet&lt;/b&gt;&lt;br&gt;3/8 in flare hose (F273702)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="680" y="1000" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q2sol" value="&lt;b&gt;STC 2W160-3/8-1-V-D&lt;/b&gt;&lt;br&gt;12 VDC NC solenoid, Viton, zero differential" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="560" y="1100" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q2nv" value="&lt;b&gt;Needle valve bypass&lt;/b&gt;&lt;br&gt;1/4 in NPT brass + stepper drive" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="820" y="1100" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q2tee" value="&lt;b&gt;3/8 in SAE flare tee&lt;/b&gt;&lt;br&gt;Anderson Metals 45 deg" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="680" y="1200" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q2run" value="&lt;b&gt;Effect run&lt;/b&gt;&lt;br&gt;3/8 in OD soft copper, 45 deg flared" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="560" y="1300" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q2noz" value="&lt;b&gt;Effect nozzle&lt;/b&gt;&lt;br&gt;3/8 to 1/4 in flare reducers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAECE7;strokeColor=#993C1D;fontColor=#4A1B0C;" vertex="1" parent="1">
+          <mxGeometry x="560" y="1400" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q2pl" value="&lt;b&gt;Pilot line&lt;/b&gt;&lt;br&gt;1/4 in OD copper, flare tee, count TBD" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="820" y="1300" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q2pi" value="&lt;b&gt;Steel wool pinhole pilot&lt;/b&gt;&lt;br&gt;custom" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAECE7;strokeColor=#993C1D;fontColor=#4A1B0C;" vertex="1" parent="1">
+          <mxGeometry x="820" y="1400" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q3in" value="&lt;b&gt;Branch 3 inlet&lt;/b&gt;&lt;br&gt;3/8 in flare hose (F273702)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="1000" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q3sol" value="&lt;b&gt;STC 2W160-3/8-1-V-D&lt;/b&gt;&lt;br&gt;12 VDC NC solenoid, Viton, zero differential" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="1100" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q3nv" value="&lt;b&gt;Needle valve bypass&lt;/b&gt;&lt;br&gt;1/4 in NPT brass + stepper drive" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="1340" y="1100" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q3tee" value="&lt;b&gt;3/8 in SAE flare tee&lt;/b&gt;&lt;br&gt;Anderson Metals 45 deg" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="1200" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q3run" value="&lt;b&gt;Effect run&lt;/b&gt;&lt;br&gt;3/8 in OD soft copper, 45 deg flared" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="1300" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q3noz" value="&lt;b&gt;Effect nozzle&lt;/b&gt;&lt;br&gt;3/8 to 1/4 in flare reducers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAECE7;strokeColor=#993C1D;fontColor=#4A1B0C;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="1400" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q3pl" value="&lt;b&gt;Pilot line&lt;/b&gt;&lt;br&gt;1/4 in OD copper, flare tee, count TBD" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1340" y="1300" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="q3pi" value="&lt;b&gt;Steel wool pinhole pilot&lt;/b&gt;&lt;br&gt;custom" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAECE7;strokeColor=#993C1D;fontColor=#4A1B0C;" vertex="1" parent="1">
+          <mxGeometry x="1340" y="1400" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="ph" value="&lt;b&gt;LP hose to accumulator&lt;/b&gt;&lt;br&gt;3/8 in SAE flare (F273702)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="770" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="pc" value="&lt;b&gt;1/4 in NPT check valve&lt;/b&gt;&lt;br&gt;brass spring check, Viton seat" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="1620" y="770" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="pa" value="&lt;b&gt;Accumulator&lt;/b&gt;&lt;br&gt;DOT-certified LP cylinder, in-date only" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAEEDA;strokeColor=#854F0B;fontColor=#412402;" vertex="1" parent="1">
+          <mxGeometry x="1620" y="870" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="pb" value="&lt;b&gt;1/4 in ball valve&lt;/b&gt;&lt;br&gt;Apollo 94A, gas-rated" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="1620" y="970" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="pt" value="&lt;b&gt;1/2 in NPT brass tee&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1620" y="1070" width="220" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="ps" value="&lt;b&gt;STC 2W160-1/2-1-V-D&lt;/b&gt;&lt;br&gt;12 VDC NC dump solenoid, Viton" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="1620" y="1180" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="pnz" value="&lt;b&gt;Poofer nozzle&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAECE7;strokeColor=#993C1D;fontColor=#4A1B0C;" vertex="1" parent="1">
+          <mxGeometry x="1620" y="1280" width="220" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="pnv" value="&lt;b&gt;1/4 in needle valve&lt;/b&gt;&lt;br&gt;pilot flow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5EE;strokeColor=#0F6E56;fontColor=#04342C;" vertex="1" parent="1">
+          <mxGeometry x="1880" y="1180" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="ppl" value="&lt;b&gt;Steel wool pinhole pilot&lt;/b&gt;&lt;br&gt;1/4 in copper flare" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAECE7;strokeColor=#993C1D;fontColor=#4A1B0C;" vertex="1" parent="1">
+          <mxGeometry x="1880" y="1280" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="t1" target="v1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="t2" target="v2"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="v1" target="h1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="v2" target="h2"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="h1" target="cx"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="h2" target="cx"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="cx" target="h3"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="h3" target="r1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="r1" target="r2"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="r2" target="vb"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="vb" target="mf"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="vb" target="ph"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="mf" target="q1in"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="mf" target="q2in"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="mf" target="q3in"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q1in" target="q1sol"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q1in" target="q1nv"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q1sol" target="q1tee"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q1nv" target="q1tee"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q1tee" target="q1run"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q1tee" target="q1pl"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q1run" target="q1noz"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q1pl" target="q1pi"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q2in" target="q2sol"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q2in" target="q2nv"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q2sol" target="q2tee"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q2nv" target="q2tee"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q2tee" target="q2run"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q2tee" target="q2pl"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q2run" target="q2noz"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q2pl" target="q2pi"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q3in" target="q3sol"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q3in" target="q3nv"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q3sol" target="q3tee"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q3nv" target="q3tee"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q3tee" target="q3run"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q3tee" target="q3pl"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q3run" target="q3noz"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="q3pl" target="q3pi"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="ph" target="pc"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="pc" target="pa"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="pa" target="pb"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="pb" target="pt"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="pt" target="ps"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="pt" target="pnv"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="ps" target="pnz"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="pnv" target="ppl"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="bom" name="Bill of materials">
+    <mxGraphModel dx="900" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="bomtitle" value="&lt;b&gt;AI AM Propane Mk. II - bill of materials (2 tanks, 3 branches, 1 poofer)&lt;/b&gt;" style="text;html=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="720" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="bomlist" value="2x - 20 lb DOT propane cylinder, OPD valve, in-date recertification&lt;br&gt;2x - POL x 1/4 in MNPT cylinder adapter (Mr. Heater F273754 - verify exact model)&lt;br&gt;6x - 1/4 in NPT brass ball valve, gas-rated (Apollo 94A series or CSA equivalent)&lt;br&gt;5x - LP hose assembly, 3/8 in SAE 45 deg flare ends (Mr. Heater F273702 - verify lengths)&lt;br&gt;1x - 3/8 in SAE 45 deg flare branch tee (Anderson Metals; use cross for 3 tanks)&lt;br&gt;1x - Fisher 67CH high-pressure regulator, 30-60 psi spring, 1/4 in FNPT (first stage, set 60 psi)&lt;br&gt;1x - Fisher 67CH-743 regulator, 3-35 psi, 1/4 in FNPT (second stage, set 30 psi) - no internal relief, add external overpressure protection&lt;br&gt;1x - brass manifold block, 1/4 in FNPT, 3 outlets, with 1/4 MNPT x 3/8 flare adapters&lt;br&gt;3x - STC 2W160-3/8 solenoid valve, 12 VDC, normally closed, Viton seals, zero differential (order code 2W160-3/8-1-V-D)&lt;br&gt;1x - STC 2W160-1/2 solenoid valve, 12 VDC, normally closed, Viton seals (poofer dump, order code 2W160-1/2-1-V-D)&lt;br&gt;4x - 1/4 in NPT brass needle valve (3 branch bypasses + 1 poofer pilot) + stepper actuators (custom)&lt;br&gt;1x - 1/4 in NPT brass spring check valve, Viton seat (accumulator fill)&lt;br&gt;1x - accumulator: DOT-certified LP cylinder, in-date only (expired tanks fail inspection)&lt;br&gt;bulk - 3/8 in and 1/4 in OD soft copper tubing, SAE 45 deg flare nuts and tees (Anderson Metals)&lt;br&gt;3-4x - steel wool pinhole pilots (custom fabrication)&lt;br&gt;bulk - LP-rated thread sealant (yellow gas-rated PTFE tape or Rectorseal)&lt;br&gt;&lt;br&gt;&lt;i&gt;Open questions carried over from the sketch: 30 psi regulator location, pilot count per branch, air mixer detail&lt;/i&gt;" style="text;html=1;align=left;verticalAlign=top;spacing=4;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="760" height="560" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
