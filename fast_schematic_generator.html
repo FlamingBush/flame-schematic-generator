@@ -256,7 +256,7 @@ const INK="#1F2933", INK2="#52606D", FLAME="#C6480A";
 const CL=112;
 const ROW={balloon:32, jTop:CL-26, jBot:CL+26, tag:CL+50, n1:CL+64, n2:CL+77};
 function frac(s){return String(s).replace(/\b1\/4\b/g,"¼").replace(/\b1\/2\b/g,"½").replace(/\b3\/4\b/g,"¾").replace(/\b1\/8\b/g,"⅛").replace(/\b3\/8\b/g,"⅜").replace(/\b5\/8\b/g,"⅝");}
-function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 function txt(x,y,s,size,anchor,fill,w){return s?`<text x="${x}" y="${y}" font-size="${size||10}" text-anchor="${anchor||"middle"}" fill="${fill||INK}"${w?' font-weight="500"':''}>${esc(s)}</text>`:"";}
 function measure(s,size){return s?s.length*size*0.62:0;}
 function wrapNote(s){if(!s)return[];if(measure(s,9)<=200)return[s];
@@ -581,6 +581,20 @@ function trunkEndCell(it,edge){
       }
       return s+"</g>";}};
 }
+/* Non-terminal off item on the trunk: the run CONTINUES — draw a side stub
+   with pentagon + label instead of a (false) termination elbow. */
+function trunkStubCell(it){
+  const out=it.dir==="out";
+  return {h:40,textW:it.label?measure(it.label,9):0,
+    draw(y){const yA=y+20;
+      let s=`<g class="tcell" data-y="${yA}">`;
+      s+=`<line x1="${TRUNK.X}" y1="${y}" x2="${TRUNK.X}" y2="${y+40}" stroke="${INK}" stroke-width="2"/>`;
+      s+=out?`<path d="M${TRUNK.X} ${yA} h40 m0 0 l-6 -4.5 m6 4.5 l-6 4.5" fill="none" stroke="${INK}" stroke-width="2"/>`
+            :`<line x1="${TRUNK.X}" y1="${yA}" x2="${TRUNK.X+40}" y2="${yA}" stroke="${INK}" stroke-width="2"/><path d="M${TRUNK.X+14} ${yA-4.5} L${TRUNK.X+8} ${yA} L${TRUNK.X+14} ${yA+4.5}" fill="none" stroke="${INK}" stroke-width="2"/>`;
+      s+=`<path d="M${TRUNK.X+42} ${yA-10} h16 l8 10 l-8 10 h-16 Z" fill="#fff" stroke="${INK}" stroke-width="1.4"/>${txt(TRUNK.X+53,yA+TROW.pent,it.ref,11)}`;
+      if(it.label)s+=txt(TRUNK.TEXT_X,yA+TROW.connLabel,it.label,9,"start",INK2);
+      return s+"</g>";}};
+}
 
 /* ---------- BANDS (horizontal, existing cell machinery) ---------- */
 function renderBand(L){
@@ -608,9 +622,12 @@ function renderBand(L){
 function bandTitle(L){return txt(14,8,`${L.id} \u2014 ${L.title} \u00b7 operating pressure: ${L.psi}`,10,"start",INK2);}
 function placeBand(L,absX,absY,parts,edgeByRef){
   const b=renderBand(L);
-  parts.push(`<g class="band" data-band="${esc(L.id)}" data-cl="${absY+CL}" transform="translate(${absX} ${absY})">${bandTitle(L)}${b.inner}</g>`);
+  parts.push(`<g class="band" data-band="${esc(L.id)}" data-cl="${absY+CL}" data-w="${b.w}" transform="translate(${absX} ${absY})">${bandTitle(L)}${b.inner}</g>`);
   let right=absX+b.w,bottom=absY+STRIP_H,subY=absY+STRIP_H+TRUNK.GAP;
-  b.tees.forEach(t=>{
+  // place sub-bands right-to-left: each later (lefter) drop corridor then
+  // passes LEFT of every sibling band already stacked above it — corridors
+  // can never slice through a sibling's strip
+  [...b.tees].reverse().forEach(t=>{
     const e=edgeByRef[t.ref];if(!e)return;
     const corrX=absX+t.corrX,pCL=absY+CL,sCL=subY+CL;
     parts.push(`<path data-conn="${esc(t.ref)}" data-cly="${sCL}" d="M${absX+t.cx} ${pCL+22} V${pCL+30} H${corrX} V${sCL-8} Q${corrX} ${sCL} ${corrX+8} ${sCL}" fill="none" stroke="${INK}" stroke-width="2"/>`);
@@ -626,11 +643,14 @@ function renderSchematic(){
   buildRefs();deriveTree();
   const edgeByRef={};TREE.edges.forEach(e=>{edgeByRef[e.ref]=e;});
   function env(L){let h=STRIP_H;TREE.edges.forEach(e=>{if(e.from===L)h+=TRUNK.GAP+env(e.to);});return h;}
-  const cells=TREE.trunk.map(en=>{
+  const cells=TREE.trunk.map((en,idx)=>{
     if(en.title)return trunkTitleCell(en.title);
     const it=en.it;
     if(it.p){const e=it.branch&&it.branch.ref?edgeByRef[it.branch.ref]:null;return trunkPartCell(it,e&&e.kind==="takeoff"?e:null);}
-    if(it.j==="off"&&it.dir==="out"&&it.ref){const e=edgeByRef[it.ref];return trunkEndCell(it,e&&e.kind==="end"?e:null);}
+    if(it.j==="off"&&it.ref){
+      if(it.dir==="out"&&idx===TREE.trunk.length-1){const e=edgeByRef[it.ref];return trunkEndCell(it,e&&e.kind==="end"?e:null);}
+      return trunkStubCell(it); // mid-run off: side stub, the trunk continues
+    }
     return trunkJointCell(it);
   });
   // vertical placement: spacer runs keep each take-off clear of the previous band's envelope
@@ -647,7 +667,12 @@ function renderSchematic(){
       c.y=yy;yy+=c.h;list.push(c);
       minA=c.y+c.anchorOff+env(edgeByRef[c.anchorRef].to)+TRUNK.GAP;
       insIdx=list.length;
-    } else {c.y=yy;yy+=c.h;list.push(c);}
+    } else {
+      c.y=yy;yy+=c.h;list.push(c);
+      // a title sitting right at the insertion point stays above any spacer,
+      // so the run can never start above the section heading
+      if(c.isTitle&&list.length-1===insIdx)insIdx=list.length;
+    }
   });
   const maxTextW=Math.max(0,...cells.map(c=>c.textW||0));
   const BX=Math.max(TRUNK.BRANCH_MIN,TRUNK.TEXT_X+Math.ceil(maxTextW)+24);

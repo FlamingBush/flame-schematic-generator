@@ -35,7 +35,9 @@ function textBoxes(svg) {
     const a = tok.match(/<text x="(-?[\d.]+)" y="(-?[\d.]+)" font-size="([\d.]+)" text-anchor="(\w+)"[^>]*>([^<]*)<\/text>/);
     const top = stack[stack.length - 1];
     if (!a) { boxes.push({ malformed: tok }); continue; }
-    const fsz = +a[3], wpx = a[5].length * fsz * 0.62;
+    // measure the RENDERED string, not the escaped markup (&quot; is one glyph)
+    const raw = a[5].replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+    const fsz = +a[3], wpx = raw.length * fsz * 0.62;
     const x0 = a[4] === "start" ? +a[1] : +a[1] - wpx / 2;
     boxes.push({
       rot: top.rot, band: top.band, cellY: top.cellY, localY: +a[2], s: a[5],
@@ -44,6 +46,7 @@ function textBoxes(svg) {
   }
   return boxes;
 }
+const rx = s => String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // literal string -> regex
 function collisions(boxes) {
   const bad = [];
   for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) {
@@ -87,8 +90,8 @@ console.log("LAYOUT INVARIANTS");
   // connectors: every derived edge draws exactly one connector whose y equals
   // the destination band's centerline (real branching, not matching letters)
   app.TREE.edges.forEach(e => {
-    const conns = [...svg.matchAll(new RegExp(`data-conn="${e.ref}" data-cly="(-?[\\d.]+)"`, "g"))];
-    const band = svg.match(new RegExp(`data-band="${e.to.id}" data-cl="(-?[\\d.]+)"`));
+    const conns = [...svg.matchAll(new RegExp(`data-conn="${rx(e.ref)}" data-cly="(-?[\\d.]+)"`, "g"))];
+    const band = svg.match(new RegExp(`data-band="${rx(e.to.id)}" data-cl="(-?[\\d.]+)"`));
     check(`ref ${e.ref} (${e.kind}): one connector, aligned to ${e.to.id} centerline`,
       conns.length === 1 && !!band && conns[0][1] === band[1],
       `${conns.length} conns, cly=${conns[0] && conns[0][1]}, cl=${band && band[1]}`);
@@ -139,6 +142,67 @@ console.log("EDITOR ROUND TRIP");
   box.value = "{not json";
   app.applyJSON();
   check("malformed JSON reported, no crash", store["jsonMsg"].textContent.startsWith("JSON error"));
+}
+
+console.log("MULTI-BRANCH & HOSTILE DATA");
+{
+  const { store, captured, app } = loadApp();
+  const o = JSON.parse(store["jsonBox"].value);
+  // second matched pilot tap on L3 (the corridor-crossing regression)
+  const L3 = o.SYSTEM.lines.find(L => L.id === "L3");
+  L3.items.splice(L3.items.findIndex(it => it.tag === "SV-1") + 1, 0,
+    { p: "nptTee", tag: "F-9", branch: { ref: "P2" }, note: "second pilot tap" }, { j: "npt", size: "1/4", lr: "M>F" });
+  o.SYSTEM.lines.push({ id: "L3b", title: "Second pilot", psi: "60 psi", op: 60,
+    items: [{ j: "off", ref: "P2", dir: "in", label: "from F-9" }, { j: "tube", part: "cu38", size: "3/8", label: "TB-9" }, { p: "pilot", tag: "PL-9", flame: true }] });
+  // mid-trunk off-out (must NOT terminate the run)
+  const L1 = o.SYSTEM.lines.find(L => L.id === "L1");
+  L1.items.splice(L1.items.length - 2, 0, { j: "off", ref: "Q", dir: "out", label: "aux port (future)" });
+  // line id with a double quote (attribute-injection regression)
+  o.SYSTEM.lines.push({ id: 'Z"9', title: 'quoted "id" line', psi: "1 psi", op: 1,
+    items: [{ p: "ball14", tag: "V-Q" }, { j: "off", ref: "QQ", dir: "out", label: "loose" }] });
+  store["jsonBox"].value = JSON.stringify(o);
+  store["strips"].children.length = 0;
+  app.applyJSON();
+  check("re-render succeeds", store["jsonMsg"].textContent === "Re-rendered.");
+  const svg = store["strips"].children[0].innerHTML;
+
+  const rects = {};
+  [...svg.matchAll(/<g class="band" data-band="([^"]*)" data-cl="(-?[\d.]+)" data-w="(-?[\d.]+)" transform="translate\((-?[\d.]+) (-?[\d.]+)\)"/g)]
+    .forEach(m => { rects[m[1]] = { w: +m[3], x: +m[4], y: +m[5] }; });
+  app.TREE.edges.filter(e => e.kind === "drop").forEach(e => {
+    const m = svg.match(new RegExp(`data-conn="${rx(e.ref)}" data-cly="(-?[\\d.]+)" d="M(-?[\\d.]+) (-?[\\d.]+) V(-?[\\d.]+) H(-?[\\d.]+) V(-?[\\d.]+)`));
+    const cross = m ? Object.entries(rects).filter(([id, r]) =>
+      id !== e.to.id && (!e.from || id !== e.from.id) &&
+      +m[5] >= r.x && +m[5] <= r.x + r.w &&
+      Math.min(+m[4], +m[6]) < r.y + app.STRIP_H && Math.max(+m[4], +m[6]) > r.y).map(([id]) => id) : ["no-path"];
+    check(`drop ${e.ref}: corridor clears sibling bands`, !!m && cross.length === 0, cross.join(","));
+  });
+
+  const elbows = svg.match(new RegExp(`M${app.TRUNK.X} (-?[\\d.]+) Q${app.TRUNK.X} `, "g")) || [];
+  check("mid-trunk off does not terminate the run (one end elbow)", elbows.length === 1, elbows.length + " elbows");
+  check("mid-trunk off renders as pentagon stub", svg.includes(">Q<"));
+  check("quoted line id escaped in attributes", svg.includes('data-band="Z&quot;9"'));
+  app.downloadSVG();
+  const bareAmp = captured.svg.match(/&(?!amp;|lt;|gt;|quot;|apos;|#\d+;|#x[\da-fA-F]+;)/g) || [];
+  check("hostile export: still no unescaped &", bareAmp.length === 0, bareAmp.length + " found");
+  check("hostile export: quoted attr intact", captured.svg.includes('data-band="Z&quot;9"'));
+  const bad = collisions(textBoxes(svg));
+  check("hostile render: zero text collisions", bad.length === 0, bad.slice(0, 3).join("; "));
+}
+{
+  const { store, app } = loadApp();
+  const o = JSON.parse(store["jsonBox"].value);
+  o.SYSTEM.lines = [
+    { id: "R1", title: "Root", psi: "5 psi", op: 5, items: [
+      { p: "nptTee", tag: "F-X", branch: { ref: "X" } }, { j: "npt", size: "1/4", lr: "M>F" }, { p: "nozzle", tag: "N-X", flame: true }] },
+    { id: "C1", title: "Child", psi: "5 psi", op: 5, items: [
+      { j: "off", ref: "X", dir: "in", label: "from F-X" }, { p: "pilot", tag: "PL-X", flame: true }] }];
+  store["jsonBox"].value = JSON.stringify(o);
+  store["strips"].children.length = 0;
+  app.applyJSON();
+  const svg = store["strips"].children[0].innerHTML;
+  const runYs = [...svg.matchAll(new RegExp(`<line x1="${app.TRUNK.X}" y1="(-?[\\d.]+)"`, "g"))].map(m => +m[1]);
+  check("early take-off: run never starts above the section title", Math.min(...runYs) >= 50, "min y " + Math.min(...runYs));
 }
 
 console.log("COMPLIANCE & PARTS TABLES");
