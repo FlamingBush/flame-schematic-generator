@@ -522,10 +522,11 @@ function trunkPartCell(it,edge){
   const key=p.sym==="none"?"hexAdapter":p.sym;
   const wSym=(key==="tank")?76:Math.max(p.w*S,30);
   const ko=!!edge; // take-off cell: connector leaves at the anchor, text stacks above it
-  // ceil keeps every cell height (and thus every anchor y) integral, so the
-  // connector/band centerline equality is exact — no float drift
-  const h=Math.ceil(Math.max(wSym+16,ko?94:46,(m&&key==="reg")?72:0));
   const leftStub=!!(it.branch&&!edge);
+  // ceil keeps every cell height (and thus every anchor y) integral, so the
+  // connector/band centerline equality is exact — no float drift; leftStub
+  // cells grow so their up-shifted balloon stays inside the cell
+  const h=Math.ceil(Math.max(wSym+16,ko?94:46,(m&&key==="reg")?72:0,leftStub?64:0));
   return {h,anchorRef:edge?edge.ref:null,anchorOff:h/2,
     textW:Math.max(measure(tag,10),...(notes.length?notes.map(n=>measure(n,9)):[0])),
     draw(y){const yA=y+h/2;
@@ -542,11 +543,13 @@ function trunkPartCell(it,edge){
           s+=`<g transform="translate(${TRUNK.X+12} ${yA+dr+6}) rotate(90) translate(0 ${-CL})">${SYM[m.sym](0,m,it.mount)}</g>`;}
         else s+=trunkGlyph(m,m.sym,it.mount,yA,false);
       }
-      const by=m?yA-11:(leftStub?yA-22:yA);
+      // balloon circle centers derive from the TROW numeral rows (baseline−3.5)
+      const by=m?yA+TROW.balMain-3.5:(leftStub?yA+TROW.balShift-3.5:yA);
       s+=`<line x1="${TRUNK.BAL_X+10}" y1="${by}" x2="${TRUNK.X-38}" y2="${by}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
       <circle cx="${TRUNK.BAL_X}" cy="${by}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(TRUNK.BAL_X,by+3.5,refIndex[it.p],10.5)}`;
-      if(m)s+=`<line x1="${TRUNK.BAL_X+10}" y1="${yA+11}" x2="${TRUNK.X-38}" y2="${yA+11}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
-      <circle cx="${TRUNK.BAL_X}" cy="${yA+11}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(TRUNK.BAL_X,yA+11+3.5,refIndex[it.mount.p],10.5)}`;
+      if(m){const bm=yA+TROW.balMount-3.5;
+      s+=`<line x1="${TRUNK.BAL_X+10}" y1="${bm}" x2="${TRUNK.X-38}" y2="${bm}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
+      <circle cx="${TRUNK.BAL_X}" cy="${bm}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(TRUNK.BAL_X,bm+3.5,refIndex[it.mount.p],10.5)}`;}
       const o=ko?{t:TROW.koTag,a:TROW.koN1,b:TROW.koN2}:{t:TROW.tag,a:TROW.n1,b:TROW.n2};
       s+=txt(TRUNK.TEXT_X,yA+o.t,tag,10,"start",INK,1);
       if(notes[0])s+=txt(TRUNK.TEXT_X,yA+o.a,notes[0],9,"start",it.emergency?FLAME:INK2);
@@ -619,19 +622,24 @@ function renderBand(L){
   });
   return {w:x+14,inner,tees};
 }
-function bandTitle(L){return txt(14,8,`${L.id} \u2014 ${L.title} \u00b7 operating pressure: ${L.psi}`,10,"start",INK2);}
-function placeBand(L,absX,absY,parts,edgeByRef){
+function bandTitleText(L){return `${L.id} \u2014 ${L.title} \u00b7 operating pressure: ${L.psi}`;}
+function bandTitle(L){return txt(14,8,bandTitleText(L),10,"start",INK2);}
+function placeBand(L,absX,absY,out,edgeByRef){
   const b=renderBand(L);
-  parts.push(`<g class="band" data-band="${esc(L.id)}" data-cl="${absY+CL}" data-w="${b.w}" transform="translate(${absX} ${absY})">${bandTitle(L)}${b.inner}</g>`);
-  let right=absX+b.w,bottom=absY+STRIP_H,subY=absY+STRIP_H+TRUNK.GAP;
+  out.over.push(`<g class="band" data-band="${esc(L.id)}" data-cl="${absY+CL}" data-w="${b.w}" transform="translate(${absX} ${absY})">${bandTitle(L)}${b.inner}</g>`);
+  // the title can be wider than the cells \u2014 it must count toward the canvas
+  let right=absX+Math.max(b.w,14+measure(bandTitleText(L),10)+8),bottom=absY+STRIP_H,subY=absY+STRIP_H+TRUNK.GAP;
   // place sub-bands right-to-left: each later (lefter) drop corridor then
   // passes LEFT of every sibling band already stacked above it — corridors
   // can never slice through a sibling's strip
   [...b.tees].reverse().forEach(t=>{
     const e=edgeByRef[t.ref];if(!e)return;
     const corrX=absX+t.corrX,pCL=absY+CL,sCL=subY+CL;
-    parts.push(`<path data-conn="${esc(t.ref)}" data-cly="${sCL}" d="M${absX+t.cx} ${pCL+22} V${pCL+30} H${corrX} V${sCL-8} Q${corrX} ${sCL} ${corrX+8} ${sCL}" fill="none" stroke="${INK}" stroke-width="2"/>`);
-    const r=placeBand(e.to,corrX-6,subY,parts,edgeByRef);
+    // connectors paint UNDER the bands and start at the run centerline: the
+    // host symbol's white body masks the overlap, so any branch host (tee,
+    // ball, ...) meets its connector with no floating gap
+    out.under.push(`<path data-conn="${esc(t.ref)}" data-cly="${sCL}" d="M${absX+t.cx} ${pCL} V${pCL+30} H${corrX} V${sCL-8} Q${corrX} ${sCL} ${corrX+8} ${sCL}" fill="none" stroke="${INK}" stroke-width="2"/>`);
+    const r=placeBand(e.to,corrX-6,subY,out,edgeByRef);
     right=Math.max(right,r.right);bottom=Math.max(bottom,r.bottom);subY=r.bottom+TRUNK.GAP;
   });
   return {right,bottom};
@@ -682,11 +690,12 @@ function renderSchematic(){
     else parts.push(c.draw(c.y,i!==0));
   });
   let right=TRUNK.TEXT_X+maxTextW,bottom=yy;
+  const out={over:parts,under:[]};
   list.forEach(c=>{
     if(!c.spacer&&c.anchorRef){
       const e=edgeByRef[c.anchorRef];const yA=c.y+c.anchorOff;
-      parts.push(`<path data-conn="${esc(e.ref)}" data-cly="${yA}" d="M${c.end?TRUNK.X+14:TRUNK.X+22} ${yA} H${BX+14}" fill="none" stroke="${INK}" stroke-width="2"/>`);
-      const r=placeBand(e.to,BX,yA-CL,parts,edgeByRef);
+      out.under.push(`<path data-conn="${esc(e.ref)}" data-cly="${yA}" d="M${c.end?TRUNK.X+14:TRUNK.X} ${yA} H${BX+14}" fill="none" stroke="${INK}" stroke-width="2"/>`);
+      const r=placeBand(e.to,BX,yA-CL,out,edgeByRef);
       right=Math.max(right,r.right);bottom=Math.max(bottom,r.bottom);
     }
   });
@@ -694,10 +703,10 @@ function renderSchematic(){
   TREE.orphans.forEach(L=>{
     const b=renderBand(L);
     parts.push(`<g class="strip" data-band="${esc(L.id)}" transform="translate(20 ${oy})">${bandTitle(L)}${b.inner}</g>`);
-    right=Math.max(right,20+b.w);oy+=STRIP_H+18;bottom=oy-18;
+    right=Math.max(right,20+Math.max(b.w,14+measure(bandTitleText(L),10)+8));oy+=STRIP_H+18;bottom=oy-18;
   });
   const W=Math.round(right+20),H=Math.round(bottom+16);
-  LAST_RENDER.w=W;LAST_RENDER.h=H;LAST_RENDER.inner=parts.join("");
+  LAST_RENDER.w=W;LAST_RENDER.h=H;LAST_RENDER.inner=out.under.join("")+parts.join("");
   const host=document.getElementById("strips");host.innerHTML="";
   const div=document.createElement("div");div.className="strip";
   div.innerHTML=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${LAST_RENDER.inner}</svg>`;
