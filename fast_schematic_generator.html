@@ -754,15 +754,22 @@ function renderBandRows(L,availW){
   });
   return rows;
 }
-/* Place a band. Its rows stack CONTIGUOUSLY (a compact block that reads like
-   a paragraph, loop-backs living in the row gaps); every branch band then
-   hangs BELOW the whole block in reading order. Drops from the LAST row
-   descend straight under their tee (the classic look); drops from earlier
-   rows ride a left-margin lane down past the remaining rows; a terminal fan
-   S-routes on the right below everything. Returns the subtree extents and
-   the first row's centerline so the caller can draw the arriving connector. */
-function placeBand(L,absX,topY,out,edgeByRef){
-  const rows=renderBandRows(L,Math.max(SHEET_W-absX,900));
+/* Place a band. ONLY THE ROOT band wraps — into at most TWO rows (a single
+   loop-back; more folds make the sheet unreadable). Branch bands keep their
+   full single-strip shapes and hang BELOW the root block in reading order.
+   Drops from the last row descend straight under their tee (the classic
+   look); drops from earlier rows ride a left-margin lane down past the
+   remaining rows; a terminal fan S-routes on the right below everything.
+   Returns the subtree extents and the first row's centerline so the caller
+   can draw the arriving connector. */
+function placeBand(L,absX,topY,out,edgeByRef,isRoot){
+  let avail=1e9;
+  if(isRoot){
+    const w0=renderBandRows(L,1e9)[0].w;
+    avail=Math.max(SHEET_W-absX,Math.ceil(w0/2)+260);
+    for(let t=0;t<6&&renderBandRows(L,avail).length>2;t++)avail=Math.ceil(avail*1.15);
+  }
+  const rows=renderBandRows(L,avail);
   const merged=TREE.chain[L.id]?` data-merged="${esc(TREE.chain[L.id].slice(1).map(s=>s.id).join(" "))}"`:"";
   const lastIdx=rows.length-1;
   const direct=[],routed=[];let endInfo=null;
@@ -838,7 +845,7 @@ function renderSchematic(){
   const x0=20+12+8*TREE.edges.length;
   let right=600,bottom=16;
   if(TREE.root){
-    const r=placeBand(TREE.root,x0,16,out,edgeByRef);
+    const r=placeBand(TREE.root,x0,16,out,edgeByRef,true);
     right=Math.max(right,r.right);bottom=r.bottom;
   }
   let oy=bottom+30;

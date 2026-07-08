@@ -74,12 +74,14 @@ console.log("LAYOUT INVARIANTS");
   check("default system: root band carries supply, no orphans",
     !!app.TREE.root && app.TREE.orphans.length === 0 && svg.includes(`data-band="${app.TREE.root.id}"`));
 
-  // wrapping: the main run exceeds SHEET_W, so it must loop back at least once,
-  // and every loop-back must join two of the drawn row centerlines
+  // the main run folds horizontal with EXACTLY one loop-back (two rows) —
+  // branch bands never wrap, so no other loops may appear anywhere
   const loops = [...svg.matchAll(/data-loop="[^"]*" data-y1="(-?[\d.]+)" data-y2="(-?[\d.]+)"/g)];
   const cls = new Set([...svg.matchAll(/data-cl="(-?[\d.]+)"/g)].map(m => m[1]));
-  check("main run wraps: at least one loop-back drawn", loops.length >= 1);
-  check("every loop-back joins two row centerlines", loops.every(m => cls.has(m[1]) && cls.has(m[2])));
+  check("main run folds exactly once (one loop-back on the whole sheet)", loops.length === 1);
+  check("the loop-back joins two row centerlines", loops.every(m => cls.has(m[1]) && cls.has(m[2])));
+  check("branch bands never wrap (no data-row outside the root)",
+    [...svg.matchAll(/data-band="([^"]*)"[^>]*data-row=/g)].every(m => m[1] === app.TREE.root.id));
 
   // new constructs: band chain (L4→L4b), discharge riser, split/rejoin
   const bandChunks = id => { // all row <g>s of one band, concatenated
@@ -232,7 +234,7 @@ console.log("MULTI-BRANCH & HOSTILE DATA");
     // host's (last-row drops descend all the way into their band; earlier-row
     // drops descend only into their own row gap before jogging left)
     const cross = m ? Object.entries(rows).filter(([id, rs]) =>
-      id !== e.from.id && rs.some(r =>
+      id !== e.from.id && id !== e.to.id && rs.some(r =>
         +m[2] >= r.x && +m[2] <= r.x + r.w &&
         Math.min(+m[3], +m[4]) < r.y + app.STRIP_H && Math.max(+m[3], +m[4]) > r.y + 1)).map(([id]) => id) : ["no-path"];
     check(`drop ${e.ref}: descent clears sibling strips`, !!m && cross.length === 0, cross.join(","));

@@ -47,18 +47,18 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
 4. Layout engine — the important invariants. Every band renders on the FIXED
    ROW GRID (`ROW`): balloon row / joint-spec row / centerline `CL` /
    joint-detail row / tag row / two note rows; cell widths are computed from
-   the widest label (`measure()`), so labels cannot collide. Bands WRAP: rows
-   fill toward `SHEET_W` and stack CONTIGUOUSLY (a compact block that reads
-   like a paragraph), the run looping back to the band's left margin through
-   an S-routed connector in each row gap (`data-loop`; the return line runs
-   at the gap bottom, above the next row's riser headroom `row.up`). Branch
-   bands hang BELOW the whole block in reading order: last-row drops descend
-   straight under their tee (right-to-left so a later corridor passes left of
-   every sibling); earlier-row drops jog left in their own row gap and ride a
-   reserved left-margin lane down past the remaining rows (the gutter is
-   sized in `renderSchematic` from the edge count); the terminal fan S-routes
-   on the right below everything. Splits and risers are atomic units that
-   wrap as a whole. Discharge risers are the one vertical construct: they reuse
+   the widest label (`measure()`), so labels cannot collide. ONLY THE ROOT
+   band wraps, into AT MOST TWO rows — one `data-loop` loop-back through the
+   row gap (return line at the gap bottom, above the next row's riser
+   headroom `row.up`); more folds were tried and made the sheet unreadable,
+   and branch bands must NEVER wrap (Marcus: "don't mess with the bottom
+   bulk"). Branch bands hang BELOW the root block in reading order: last-row
+   drops descend straight under their tee (right-to-left so a later corridor
+   passes left of every sibling); earlier-row drops jog left in their own row
+   gap and ride a reserved left-margin lane down past the remaining rows
+   (the gutter is sized in `renderSchematic` from the edge count); the
+   terminal fan S-routes on the right below everything. Splits and risers
+   are atomic units. Discharge risers are the one vertical construct: they reuse
    the `TROW` per-cell mini-grid (anchored at each `g.tcell`'s `data-y`),
    flowing bottom → top. Symbols are white-filled bodies over one continuous
    run line, capped 46 px above / 34 px below `CL`, and contain NO text
