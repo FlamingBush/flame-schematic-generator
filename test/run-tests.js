@@ -131,7 +131,9 @@ console.log("LAYOUT INVARIANTS");
   check("all refs resolve in default data — no pentagons drawn", !/h16 l8 10 l-8 10 h-16/.test(svg));
   check("symbols are text-free (rotatable)", Object.keys(app.SYM).every(k => !/<text/.test(app.SYM[k](0, { w: 3, h: 3 }, {}))));
   check("no undefined/NaN in svg", !/undefined|NaN/.test(svg));
-  check("emergency shut-offs annotated", (svg.match(/EMERGENCY FUEL SHUT-OFF/g) || []).length >= 3);
+  // V-1 (depot) and V-2 (main) are the marked emergency shut-offs; V-3 is a
+  // plain convenience valve for testing and must NOT carry the annotation
+  check("emergency shut-offs annotated (V-1, V-2 only)", (svg.match(/EMERGENCY FUEL SHUT-OFF/g) || []).length === 2);
 }
 
 console.log("SVG EXPORT");
