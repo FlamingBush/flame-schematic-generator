@@ -596,7 +596,7 @@ function drawRiser(rit,rest,x0){
    render as standalone strips at the bottom — nothing throws on hostile
    data. */
 function deriveTree(){
-  MATCHED.clear();TREE.edges.length=0;TREE.merged.length=0;TREE.orphans.length=0;TREE.trunk.length=0;TREE.root=null;TREE.chain={};
+  MATCHED.clear();TREE.edges.length=0;TREE.merged.length=0;TREE.orphans.length=0;TREE.trunk.length=0;TREE.root=null;TREE.chain={};TREE.fan=new Set();
   const producers={},consumers={};
   SYSTEM.lines.forEach(L=>{
     L.items.forEach((it,i)=>{
@@ -630,7 +630,7 @@ function deriveTree(){
       }
       if(i===its.length-1&&it.j==="off"&&it.dir==="out"&&it.ref&&cand(it.ref)&&!used.has(consumers[it.ref][0])){
         const child=consumers[it.ref][0];used.add(child);MATCHED.add(it.ref);
-        TREE.edges.push({ref:it.ref,from:band,to:child,kind:"end",fan:it.fan});
+        TREE.edges.push({ref:it.ref,from:band,to:child,kind:"end",fan:it.fan});TREE.fan.add(it.ref);
         attach(child);
       }
     });
@@ -675,8 +675,18 @@ function renderBandRows(L,availW){
     }
     const it=en.it;
     if(i===0&&it.j==="off"&&it.dir==="in"&&it.ref&&MATCHED.has(it.ref)){
-      // lead-in: the connector arrives here; keep the off label at the entry
       const lbl=it.label||"";
+      if(TREE.fan&&TREE.fan.has(it.ref)){
+        // the run resumes here from the matching pentagon at the fan's end —
+        // a drawn route back across the sheet would read as a second loop
+        const w=Math.max(80,measure(lbl,9)+42);
+        row.inner+=`<g data-pin="${esc(it.ref)}"><path d="M${row.x+4} ${CL-10} h16 l8 10 l-8 10 h-16 Z" fill="#fff" stroke="${INK}" stroke-width="1.4"/>${txt(row.x+15,CL+3.5,it.ref,11)}
+        <line x1="${row.x+34}" y1="${CL}" x2="${row.x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>
+        <path d="M${row.x+40} ${CL} h10 m0 0 l-6 -4.5 m6 4.5 l-6 4.5" fill="none" stroke="${INK}" stroke-width="2"/></g>`;
+        row.inner+=txt(row.x+34+(w-30)/2,ROW.jBot,lbl,9,"middle",INK2);
+        row.x+=w;return;
+      }
+      // lead-in: the connector arrives here; keep the off label at the entry
       const w=Math.max(46,measure(lbl,9)+8);
       row.inner+=`<line x1="${row.x}" y1="${CL}" x2="${row.x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>
       <path d="M${row.x+12} ${CL} h14 m0 0 l-6 -4.5 m6 4.5 l-6 4.5" fill="none" stroke="${INK}" stroke-width="2"/>`;
@@ -724,15 +734,20 @@ function renderBandRows(L,availW){
       return;
     }
     if(i===entries.length-1&&it.j==="off"&&it.dir==="out"&&it.ref&&MATCHED.has(it.ref)){
-      // matched terminal off-out: the run turns down into its consumer band
-      // (one-of-n fan); badge on the joint-spec row, corridor drawn by placeBand
+      // matched terminal fan: drawn as a labeled PENTAGON here, with the
+      // matching pentagon at the consumer band's lead-in — a drawn route back
+      // across the sheet would read as a second loop-back
       const e=TREE.edges.find(x=>x.ref===it.ref&&x.kind==="end");
       const badge=e&&e.fan?"one of "+e.fan+" identical branches":"";
-      const w=18+(badge?measure(badge,9)+26:12);
+      const lbl=it.label||"";
+      const w=Math.max(96,measure(lbl,9)+16,(badge?measure(badge,9):0)+44);
       if(!fits(w))wrap();
-      row.inner+=`<path d="M${row.x} ${CL} h4 Q${row.x+18} ${CL} ${row.x+18} ${CL+14}" fill="none" stroke="${INK}" stroke-width="2"/>`;
-      if(badge)row.inner+=`<rect x="${row.x+30}" y="${ROW.jTop-11}" width="${measure(badge,9)+12}" height="14" rx="3" fill="#fff" stroke="${INK}"/>`+txt(row.x+36,ROW.jTop,badge,9,"start",INK,1);
-      row.endTee={ref:it.ref,corrX:row.x+18};
+      const x=row.x,hx=x+w-34;
+      row.inner+=`<g data-pout="${esc(it.ref)}"><path d="M${x} ${CL} h${w-38} m0 0 l-5 -4 m5 4 l-5 4" stroke="${INK}" fill="none" stroke-width="2"/>
+      <path d="M${hx} ${CL-10} h16 l8 10 l-8 10 h-16 Z" fill="#fff" stroke="${INK}" stroke-width="1.4"/>${txt(hx+11,CL+3.5,it.ref,11)}</g>`;
+      if(badge)row.inner+=`<rect x="${x+8}" y="${ROW.jTop-11}" width="${measure(badge,9)+12}" height="14" rx="3" fill="#fff" stroke="${INK}"/>`+txt(x+14,ROW.jTop,badge,9,"start",INK,1);
+      row.inner+=txt(x+(w-24)/2,ROW.jBot,lbl,9,"middle",INK2);
+      row.endTee={ref:it.ref};
       row.x+=w;return;
     }
     const c=buildCell(it);
@@ -822,14 +837,11 @@ function placeBand(L,absX,topY,out,edgeByRef,isRoot){
     out.under.push(`<path data-conn="${esc(t.ref)}" data-cly="${r.cl0}" d="M${cx} ${rowCL} V${jy-8} Q${cx} ${jy} ${cx-8} ${jy} H${lane+8} Q${lane} ${jy} ${lane} ${jy+8} V${r.cl0-8} Q${lane} ${r.cl0} ${lane+8} ${r.cl0} H${absX+15}" fill="none" stroke="${INK}" stroke-width="2"/>`);
     right=Math.max(right,r.right);bottom=Math.max(bottom,r.bottom);subY=r.bottom+TRUNK.GAP;
   });
-  // pass 2c: terminal fan below everything, S-routed on the right
+  // pass 2c: terminal fan band below everything — no drawn route; the run
+  // breaks at the labeled pentagon and resumes at the matching one here
   if(endInfo){
-    const {ri,t,e}=endInfo;
-    const rowCL=rowY[ri]+CL,yMid=subY-8;
-    const r=placeBand(e.to,absX,subY+6,out,edgeByRef);
-    const lane=Math.max(right,r.right)+18,eX=absX+t.corrX;
-    out.under.push(`<path data-conn="${esc(t.ref)}" data-cly="${r.cl0}" d="M${eX} ${rowCL+12} H${lane-8} Q${lane} ${rowCL+12} ${lane} ${rowCL+20} V${yMid-8} Q${lane} ${yMid} ${lane-8} ${yMid} H${absX+2} Q${absX-6} ${yMid} ${absX-6} ${yMid+8} V${r.cl0-8} Q${absX-6} ${r.cl0} ${absX+2} ${r.cl0} H${absX+15}" fill="none" stroke="${INK}" stroke-width="2"/>`);
-    right=Math.max(right,lane);bottom=Math.max(bottom,r.bottom);
+    const r=placeBand(endInfo.e.to,absX,subY+6,out,edgeByRef);
+    right=Math.max(right,r.right);bottom=Math.max(bottom,r.bottom);
   }
   return {right,bottom,cl0:rowY[0]+CL};
 }
@@ -864,7 +876,7 @@ function renderSchematic(){
     "cone ▸ nut — SAE 45° flare (metal-to-metal seat, no sealant)","〰 with break — hose/tube run, length as required · ALL Cu tube joints: flared only",
     "main run flows left → right and loops back to the left margin at row ends (follow the arrows) · branch lines drop below their tees · discharge risers flow bottom → top",
     "dashed box — the components of one numbered line · 'one of n identical branches' — built n times, drawn once",
-    "pentagon n — unresolved connector ref (no matching line)",`<span style="color:${FLAME}">orange</span> — flame heads & marked emergency shut-offs`
+    "pentagon n — the run continues at the matching pentagon (an unmatched ref renders the same way)",`<span style="color:${FLAME}">orange</span> — flame heads & marked emergency shut-offs`
   ].map(s=>`<span>${s}</span>`).join("");
   document.getElementById("docMeta").innerHTML=
     `<span>PROJECT</span><b>${esc(SYSTEM.meta.project)}</b><span>REV / DATE</span><b>${esc(SYSTEM.meta.rev)} · ${esc(SYSTEM.meta.date)}</b>

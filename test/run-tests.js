@@ -126,16 +126,25 @@ console.log("LAYOUT INVARIANTS");
   const clip = clippedByCanvas(svg, boxes);
   check("no text clipped by the canvas edge", clip.length === 0, clip.slice(0, 3).join("; "));
 
-  // connectors: every derived edge draws exactly one connector whose y equals
-  // the destination band's centerline (real branching, not matching letters)
+  // connectors: every drop edge draws exactly one connector whose y equals
+  // the destination band's centerline; a fan (end) edge instead breaks into a
+  // labeled pentagon PAIR — a drawn route would read as a second loop-back
   app.TREE.edges.forEach(e => {
+    if (e.kind === "end") {
+      const pout = (svg.match(new RegExp(`data-pout="${rx(e.ref)}"`, "g")) || []).length;
+      const pin = (svg.match(new RegExp(`data-pin="${rx(e.ref)}"`, "g")) || []).length;
+      check(`ref ${e.ref} (end): labeled pentagon pair, no cross-sheet route`,
+        pout === 1 && pin === 1 && !svg.includes(`data-conn="${e.ref}"`), `pout ${pout}, pin ${pin}`);
+      return;
+    }
     const conns = [...svg.matchAll(new RegExp(`data-conn="${rx(e.ref)}" data-cly="(-?[\\d.]+)"`, "g"))];
     const band = svg.match(new RegExp(`data-band="${rx(e.to.id)}" data-cl="(-?[\\d.]+)"`));
     check(`ref ${e.ref} (${e.kind}): one connector, aligned to ${e.to.id} centerline`,
       conns.length === 1 && !!band && conns[0][1] === band[1],
       `${conns.length} conns, cly=${conns[0] && conns[0][1]}, cl=${band && band[1]}`);
   });
-  check("all refs resolve in default data — no pentagons drawn", !/h16 l8 10 l-8 10 h-16/.test(svg));
+  check("pentagons appear only as the matched fan pair",
+    (svg.match(/h16 l8 10 l-8 10 h-16/g) || []).length === 2);
   check("symbols are text-free (rotatable)", Object.keys(app.SYM).every(k => !/<text/.test(app.SYM[k](0, { w: 3, h: 3 }, {}))));
   check("no undefined/NaN in svg", !/undefined|NaN/.test(svg));
   // V-1 (depot) and V-2 (main) are the marked emergency shut-offs; V-3 is a
