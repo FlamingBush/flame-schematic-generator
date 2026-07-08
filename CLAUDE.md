@@ -67,7 +67,14 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
    offsets or text inside `SYM` functions — captions route to the note rows
    via `AUTONOTE` (whose flow arrows turn ↑ on risers). A gauge mounted on a
    regulator attaches to the reg's gauge-port circle, offset from the run —
-   never draw it inline as if fuel flowed through it.
+   never draw it inline as if fuel flowed through it. VERBOSITY: cell
+   captions carry only what is unique to the item — joint direction (glyphs
+   encode it), hose/tube ratings, solenoid voltage, valve style, POL thread
+   and the like live in the diagram-wide GENERAL NOTES (legend + export
+   header); Marcus asked for ~70% less label text, so resist re-adding
+   boilerplate to notes or AUTONOTE. A [joint][hex adapter][joint] sequence
+   renders as ONE consolidated cell (markers flanking the hex, sizes in a
+   single "A ▸ B" caption), not three spread-out cells.
 5. Port linter (`lintPorts`) — machine check that every drawn joint is
    mechanically assemblable. `PARTS[*].ports` declares each part's end ports
    as `"type:size:gender"` strings (`flare` M = cone, F = swivel nut; size

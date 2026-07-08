@@ -151,9 +151,14 @@ console.log("LAYOUT INVARIANTS");
   // plain convenience valve for testing and must NOT carry the annotation
   check("emergency shut-offs annotated (V-1, V-2 only)", (svg.match(/EMERGENCY FUEL SHUT-OFF/g) || []).length === 2);
   // FNPT-to-FNPT junctions (regs, ball valves, solenoids, NPT tees are all
-  // female-ported) must show a hex nipple, never a bare M ▸ F claim
+  // female-ported) must show a hex nipple glyph, never a bare M-into-F marker
+  // (the glyph's center hex body is the unique 6x12 white rect)
   check("hex nipples drawn at every female-to-female NPT junction",
-    (svg.match(/F ◂ nipple ▸ F/g) || []).length >= 11);
+    (svg.match(/width="6" height="12"/g) || []).length >= 11);
+  // adapters consolidate: interface markers flank the hex body in ONE cell
+  // with a combined size caption instead of three spread-out cells
+  check("adapter cells consolidated (combined joint caption)",
+    (svg.match(/&quot; flare ▸ [⅜¼½⅛⅝]&quot; NPT</g) || []).length >= 3 && svg.includes("CGA-510 POL ▸ ⅜&quot; flare"));
   check("SV-3 removed — metered path is needle-only", !svg.includes("SV-3"));
   check("hose-to-regulator flare x NPT adapters drawn (F-13, F-14)",
     svg.includes("F-13") && svg.includes("F-14"));
