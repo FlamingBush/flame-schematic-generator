@@ -377,23 +377,19 @@ function jointMarker(it,cx){
   return "";
 }
 
-/* ---------- TRUNK GRID ----------
-   The main supply path renders as a vertical trunk (flow top -> bottom) at
-   TRUNK.X. Balloons sit in a left column, tags/notes in a right column, on a
-   per-cell mini-grid (TROW offsets from the cell anchor) — the vertical analog
-   of ROW. Branch lines hang horizontally to the right at their tee's true y. */
-const TRUNK={X:88, BAL_X:26, TEXT_X:150, BRANCH_MIN:440, GAP:24, DROP_W:24, Y0:130};
-const TROW={tag:-8, n1:6, n2:19, jTop:-3, jBot:10,          // normal cell rows
-  koTag:-36, koN1:-23, koN2:-10,                            // take-off cells: text above the connector
-  connBadge:-6, connLabel:14,                               // fan badge / connector label rows
-  title1:0, title2:13, title3:26,                           // trunk section titles
-  balloon:3.5, balShift:-18.5, balMain:-7.5, balMount:14.5, pent:3.5}; // balloon numerals & pentagon refs
-const NO_ROTATE={tank:true}; // upright vessels stay upright on the trunk
+/* ---------- SHEET & VERTICAL MINI-GRID ----------
+   The whole drawing is horizontal bands: the main run wraps into rows at
+   SHEET_W, looping back to the left margin; branch bands hang below their
+   tees. TROW is the per-cell mini-grid (offsets from a tcell's data-y) used
+   by the vertical discharge risers — the vertical analog of ROW. */
+const SHEET_W=2400;
+const TRUNK={GAP:24, DROP_W:24}; // band stacking gap / reserved drop-corridor width
+const TROW={tag:-8, n1:6, n2:19, jTop:-3, jBot:10, balloon:3.5, balMain:-7.5, balMount:14.5};
 
 /* ---------- CELLS & RENDER ---------- */
 let refIndex={}, refCounter=0;
 const MATCHED=new Set();   // refs drawn as real connectors this render (mutated in place)
-const TREE={root:null, trunk:[], edges:[], merged:[], orphans:[], chain:{}}; // derived system tree
+const TREE={root:null, trunk:[], edges:[], merged:[], orphans:[], chain:{}}; // derived system tree (trunk retained for API compat, always empty)
 function buildRefs(){refIndex={};refCounter=0;
   const reg=it=>{if(!it)return;
     if(it.p&&refIndex[it.p]===undefined){refCounter++;refIndex[it.p]=refCounter;}
@@ -421,9 +417,9 @@ function bandEntries(L){
   return out;
 }
 function bandItems(L){return bandEntries(L).filter(e=>e.it).map(e=>e.it);}
-/* Shared label computation \u2014 one source of truth for band cells and trunk cells.
-   vert: flow-direction arrows in AUTONOTE turn downward on the vertical trunk
-   (vert===true) or upward on a discharge riser (vert==="up"). */
+/* Shared label computation \u2014 one source of truth for band and riser cells.
+   vert: flow-direction arrows in AUTONOTE turn upward on a discharge riser
+   (vert==="up"); horizontal cells keep them pointing right. */
 function partText(it,vert){const p=PARTS[it.p];const m=it.mount?PARTS[it.mount.p]:null;
   const tag=(it.tag?it.tag+(m&&it.mount.tag?"+"+it.mount.tag:"")+" \u2014 ":"")+p.name.split(",")[0]+(m?" + "+m.name.split(",")[0].toLowerCase():"");
   const an=(AUTONOTE[p.sym]||"").replace(/\u2192/g,vert==="up"?"\u2191":vert?"\u2193":"\u2192");
@@ -486,7 +482,7 @@ function buildCell(it){
     return s;}};
 }
 /* Text-free run glyphs (hose / tube / plain run + joint marker), shared by the
-   horizontal band cells and the vertical trunk (which rotates them). */
+   horizontal band cells and the vertical risers (which rotate them). */
 function jointGlyph(it,x,w){const cx=x+w/2;
   if(it.j==="hose")return `<line x1="${x}" y1="${CL}" x2="${x+16}" y2="${CL}" stroke="${INK}" stroke-width="2.4"/>
       <rect x="${x+16}" y="${CL-4.5}" width="9" height="9" fill="#fff" stroke="${INK}"/>
@@ -506,7 +502,7 @@ const PAR_DY=STRIP_H; // split (parallel-path) strip renders one full row grid b
    (a mounted vessel hangs below it on the tee branch) and the remaining items
    stack vertically, flow bottom -> top. Reuses the TROW mini-grid (tcell
    anchors, balloons left of the run, text right) and the same text-free
-   rotatable symbols — the trunk's grammar flipped to flow up. */
+   rotatable symbols, turned so flow reads bottom → top. */
 const RISER={TEXT_DX:40, BAL_DX:-52.5, PAD:14, NOR:{tank:1,nozzle:1,pilot:1}};
 function riserCellH(it){
   if(it.p&&PARTS[it.p]){const p=PARTS[it.p];const wSym=(p.sym==="tank")?76:Math.max(p.w*S,30);
@@ -514,13 +510,6 @@ function riserCellH(it){
   return it.j==="hose"?110:it.j==="tube"?90:(it.j==="npt"&&it.part)?70:40;
 }
 function riserUpH(items){return items.reduce((a,it)=>a+riserCellH(it),0)+RISER.PAD;}
-function bandUp(L){ // headroom the band needs above its own strip top (riser overshoot)
-  const items=bandItems(L);
-  const k=items.findIndex(it=>it&&it.j==="riser");
-  if(k<0)return 0;
-  return Math.max(0,riserUpH(items.slice(k+1))-CL+4);
-}
-function bandH(L){return STRIP_H+(bandItems(L).some(it=>it&&it.split)?PAR_DY:0);}
 function drawRiser(rit,rest,x0){
   const rx=x0+66; // entry stub long enough that the base balloons (left of the run) clear the previous cell's text
   let inner=`<line x1="${x0}" y1="${CL}" x2="${rx}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
@@ -577,12 +566,15 @@ function drawRiser(rit,rest,x0){
 
 /* ---------- SYSTEM TREE ----------
    Built from the existing ref match keys (branch:{ref} on a tee <-> first-item
-   {j:"off",dir:"in",ref}); no data-model change required. A terminal off-out
-   matched 1:1 merges its consumer into the trunk (continuation) unless it
-   carries fan:n (drawn as a one-of-n band instead); the same 1:1 continuation
-   inside a band chains the consumer into that band (TREE.chain). Unmatched
-   refs degrade to the classic pentagon look; unreachable lines render as
-   standalone strips. */
+   {j:"off",dir:"in",ref}); no data-model change required. Every line renders
+   as a horizontal band. A terminal off-out matched 1:1 chains its consumer
+   into the same band (TREE.chain) unless it carries fan:n — those hang the
+   consumer as a one-of-n band below the run's end elbow (kind "end"); tees
+   hang their consumer bands below at the tee's true x (kind "drop"). The root
+   line (first one not starting with an off-in) is just the outermost band.
+   Unmatched refs degrade to the classic pentagon look; unreachable lines
+   render as standalone strips at the bottom — nothing throws on hostile
+   data. */
 function deriveTree(){
   MATCHED.clear();TREE.edges.length=0;TREE.merged.length=0;TREE.orphans.length=0;TREE.trunk.length=0;TREE.root=null;TREE.chain={};
   const producers={},consumers={};
@@ -598,265 +590,203 @@ function deriveTree(){
   const used=new Set();
   const root=SYSTEM.lines.find(L=>{const f=L.items[0];return !(f&&f.j==="off"&&f.dir==="in"&&f.ref);});
   TREE.root=root||null;
-  if(root){
-    used.add(root);
-    let cur=root,items=cur.items.slice();
-    TREE.trunk.push({title:cur});
-    for(let g=0;g<1000;g++){
-      const last=items[items.length-1];
-      const merge=last&&last.j==="off"&&last.dir==="out"&&last.ref&&!last.fan&&cand(last.ref)&&!used.has(consumers[last.ref][0]);
-      if(!merge){items.forEach(it=>TREE.trunk.push({it,line:cur}));break;}
-      items.slice(0,-1).forEach(it=>TREE.trunk.push({it,line:cur}));
-      MATCHED.add(last.ref);TREE.merged.push(last.ref);
-      cur=consumers[last.ref][0];used.add(cur);
-      TREE.trunk.push({title:cur});
-      items=cur.items.slice(1);
-    }
-  }
-  const attach=(its,host,isTrunk)=>{
-    its.forEach((it,i)=>{
-      if(it.p&&it.branch&&it.branch.ref&&cand(it.branch.ref)&&!used.has(consumers[it.branch.ref][0])){
-        const child=consumers[it.branch.ref][0];used.add(child);MATCHED.add(it.branch.ref);
-        TREE.edges.push({ref:it.branch.ref,from:host,to:child,kind:isTrunk?"takeoff":"drop"});
-        linkBand(child);
-      }
-      if(isTrunk&&i===its.length-1&&it.j==="off"&&it.dir==="out"&&it.ref&&cand(it.ref)&&!used.has(consumers[it.ref][0])){
-        const child=consumers[it.ref][0];used.add(child);MATCHED.add(it.ref);
-        TREE.edges.push({ref:it.ref,from:host,to:child,kind:"end",fan:it.fan});
-        linkBand(child);
-      }
-    });
-  };
-  // a band whose last item is a 1:1 off-out chains its consumer(s) into the
-  // same band (the band analog of the trunk continuation merge), then the
-  // whole chain's items attach with the chain HEAD as host — env/edges/tees
-  // all see one band
-  const linkBand=(child)=>{
-    const segs=[child];let cur=child;
+  // chain-merge a band's 1:1 continuations, then wire its branches (and its
+  // terminal fan-out) as edges, recursing into each consumer band
+  const attach=(band)=>{
+    const segs=[band];let cur=band;
     for(let g=0;g<1000;g++){
       const last=cur.items[cur.items.length-1];
       if(!(last&&last.j==="off"&&last.dir==="out"&&last.ref&&!last.fan&&cand(last.ref)&&!used.has(consumers[last.ref][0])))break;
       MATCHED.add(last.ref);TREE.merged.push(last.ref);
       cur=consumers[last.ref][0];used.add(cur);segs.push(cur);
     }
-    if(segs.length>1)TREE.chain[child.id]=segs;
-    attach(bandItems(child),child,false);
+    if(segs.length>1)TREE.chain[band.id]=segs;
+    const its=bandItems(band);
+    its.forEach((it,i)=>{
+      if(it.p&&it.branch&&it.branch.ref&&cand(it.branch.ref)&&!used.has(consumers[it.branch.ref][0])){
+        const child=consumers[it.branch.ref][0];used.add(child);MATCHED.add(it.branch.ref);
+        TREE.edges.push({ref:it.branch.ref,from:band,to:child,kind:"drop"});
+        attach(child);
+      }
+      if(i===its.length-1&&it.j==="off"&&it.dir==="out"&&it.ref&&cand(it.ref)&&!used.has(consumers[it.ref][0])){
+        const child=consumers[it.ref][0];used.add(child);MATCHED.add(it.ref);
+        TREE.edges.push({ref:it.ref,from:band,to:child,kind:"end",fan:it.fan});
+        attach(child);
+      }
+    });
   };
-  attach(TREE.trunk.filter(e=>e.it).map(e=>e.it),null,true);
+  if(root){used.add(root);attach(root);}
   SYSTEM.lines.forEach(L=>{if(!used.has(L))TREE.orphans.push(L);});
 }
 
-/* ---------- TRUNK CELLS ----------
-   Each trunk cell draws its own vertical run segment, the symbol (rotated 90\u00b0
-   so along-run maps to downward flow; mirrored when its branch port must face
-   the band side; tanks stay upright), balloons in the left column, and text on
-   the TROW mini-grid anchored at data-y. No text is ever rotated. */
-function trunkGlyph(p,key,it,yA,mirror){
-  if(NO_ROTATE[key])return `<g transform="translate(${TRUNK.X} ${yA-CL})">${SYM[key](0,p,it)}</g>`;
-  const tf=mirror?`translate(${TRUNK.X} ${yA}) rotate(90) translate(0 ${CL}) scale(1,-1)`
-                 :`translate(${TRUNK.X} ${yA}) rotate(90) translate(0 ${-CL})`;
-  return `<g transform="${tf}">${SYM[key](0,p,it)}</g>`;
-}
-function trunkTitleCell(L){
-  const t1=`${L.id} \u2014 ${L.title}`;
-  const psi="operating pressure: "+L.psi;
-  const cut=psi.indexOf("; ");
-  const ps=(measure(psi,9)>250&&cut>0)?[psi.slice(0,cut+1),psi.slice(cut+2)]:[psi];
-  const h=ps.length>1?52:38;
-  return {h,textW:Math.max(measure(t1,11),...ps.map(x=>measure(x,9))),isTitle:true,
-    draw(y,withRun){const yA=y+12;
-      let s=`<g class="tcell" data-y="${yA}">`;
-      if(withRun)s+=`<line x1="${TRUNK.X}" y1="${y}" x2="${TRUNK.X}" y2="${y+h}" stroke="${INK}" stroke-width="2"/>`;
-      s+=txt(TRUNK.TEXT_X,yA+TROW.title1,t1,11,"start",INK,1);
-      s+=txt(TRUNK.TEXT_X,yA+TROW.title2,ps[0],9,"start",INK2);
-      if(ps[1])s+=txt(TRUNK.TEXT_X,yA+TROW.title3,ps[1],9,"start",INK2);
-      return s+"</g>";}};
-}
-function trunkPartCell(it,edge){
-  const {p,m,tag,notes}=partText(it,true);
-  const key=p.sym==="none"?"hexAdapter":p.sym;
-  const wSym=(key==="tank")?76:Math.max(p.w*S,30);
-  const ko=!!edge; // take-off cell: connector leaves at the anchor, text stacks above it
-  const leftStub=!!(it.branch&&!edge);
-  // ceil keeps every cell height (and thus every anchor y) integral, so the
-  // connector/band centerline equality is exact — no float drift; leftStub
-  // cells grow so their up-shifted balloon stays inside the cell
-  const h=Math.ceil(Math.max(wSym+16,ko?94:46,(m&&key==="reg")?72:0,leftStub?64:0));
-  return {h,anchorRef:edge?edge.ref:null,anchorOff:h/2,
-    textW:Math.max(measure(tag,10),...(notes.length?notes.map(n=>measure(n,9)):[0])),
-    draw(y){const yA=y+h/2;
-      let s=`<g class="tcell" data-y="${yA}">`;
-      s+=`<line x1="${TRUNK.X}" y1="${y}" x2="${TRUNK.X}" y2="${y+h}" stroke="${INK}" stroke-width="2"/>`;
-      if(leftStub){
-        s+=`<line x1="${TRUNK.X-40}" y1="${yA}" x2="${TRUNK.X-22}" y2="${yA}" stroke="${INK}" stroke-width="2"/>`;
-        if(it.branch.ref)s+=`<path d="M${TRUNK.X-64} ${yA-10} h16 l8 10 l-8 10 h-16 Z" fill="#fff" stroke="${INK}" stroke-width="1.4"/>${txt(TRUNK.X-53,yA+TROW.pent,it.branch.ref,11)}`;
-        if(it.branch.arrow==="in")s+=`<path d="M${TRUNK.X-34} ${yA-4} l5 4 l-5 4" fill="none" stroke="${INK}" stroke-width="1.6"/>`;
-      }
-      s+=trunkGlyph(p,key,it,yA,ko||key==="manifold");
-      if(m){
-        if(key==="reg"){const dr=Math.min(p.w*S*0.32,13);
-          s+=`<g transform="translate(${TRUNK.X+12} ${yA+dr+6}) rotate(90) translate(0 ${-CL})">${SYM[m.sym](0,m,it.mount)}</g>`;}
-        else s+=trunkGlyph(m,m.sym,it.mount,yA,false);
-      }
-      // balloon circle centers derive from the TROW numeral rows (baseline−3.5)
-      const by=m?yA+TROW.balMain-3.5:(leftStub?yA+TROW.balShift-3.5:yA);
-      s+=`<line x1="${TRUNK.BAL_X+10}" y1="${by}" x2="${TRUNK.X-38}" y2="${by}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
-      <circle cx="${TRUNK.BAL_X}" cy="${by}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(TRUNK.BAL_X,by+3.5,refIndex[it.p],10.5)}`;
-      if(m){const bm=yA+TROW.balMount-3.5;
-      s+=`<line x1="${TRUNK.BAL_X+10}" y1="${bm}" x2="${TRUNK.X-38}" y2="${bm}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
-      <circle cx="${TRUNK.BAL_X}" cy="${bm}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(TRUNK.BAL_X,bm+3.5,refIndex[it.mount.p],10.5)}`;}
-      const o=ko?{t:TROW.koTag,a:TROW.koN1,b:TROW.koN2}:{t:TROW.tag,a:TROW.n1,b:TROW.n2};
-      s+=txt(TRUNK.TEXT_X,yA+o.t,tag,10,"start",INK,1);
-      if(notes[0])s+=txt(TRUNK.TEXT_X,yA+o.a,notes[0],9,"start",it.emergency?FLAME:INK2);
-      if(notes[1])s+=txt(TRUNK.TEXT_X,yA+o.b,notes[1],9,"start",INK2);
-      return s+"</g>";}};
-}
-function trunkJointCell(it){
-  const {top,bot}=jointText(it);
-  const h=it.j==="hose"?110:it.j==="tube"?90:(it.j==="npt"&&it.part)?70:40; // nipple marker spans ±26 along the run
-  return {h,textW:Math.max(measure(top,10),measure(bot,9)),
-    draw(y){const yA=y+h/2;
-      let s=`<g class="tcell" data-y="${yA}">`;
-      s+=`<g transform="translate(${TRUNK.X} ${y}) rotate(90) translate(0 ${-CL})">${jointGlyph(it,0,h)}</g>`;
-      s+=txt(TRUNK.TEXT_X,yA+TROW.jTop,top,10,"start");
-      s+=txt(TRUNK.TEXT_X,yA+TROW.jBot,bot,9,"start",INK2);
-      return s+"</g>";}};
-}
-function trunkEndCell(it,edge){
-  const badge=edge&&edge.fan?"one of "+edge.fan+" identical branches":"";
-  return {h:40,anchorRef:edge?edge.ref:null,anchorOff:20,end:true,
-    textW:Math.max(badge?measure(badge,9)+12:0,(!edge&&it.label)?measure(it.label,9):0),
-    draw(y){const yE=y+20;
-      let s=`<g class="tcell" data-y="${yE}">`;
-      s+=`<line x1="${TRUNK.X}" y1="${y}" x2="${TRUNK.X}" y2="${yE-14}" stroke="${INK}" stroke-width="2"/>
-      <path d="M${TRUNK.X} ${yE-14} Q${TRUNK.X} ${yE} ${TRUNK.X+14} ${yE}" fill="none" stroke="${INK}" stroke-width="2"/>`;
-      if(edge){
-        if(badge)s+=`<rect x="${TRUNK.TEXT_X-6}" y="${yE-16}" width="${measure(badge,9)+12}" height="14" rx="3" fill="#fff" stroke="${INK}"/>`+txt(TRUNK.TEXT_X,yE+TROW.connBadge,badge,9,"start",INK,1);
-      }else{
-        s+=`<line x1="${TRUNK.X+14}" y1="${yE}" x2="${TRUNK.X+40}" y2="${yE}" stroke="${INK}" stroke-width="2"/>
-        <path d="M${TRUNK.X+42} ${yE-10} h16 l8 10 l-8 10 h-16 Z" fill="#fff" stroke="${INK}" stroke-width="1.4"/>${txt(TRUNK.X+53,yE+TROW.pent,it.ref,11)}`;
-        if(it.label)s+=txt(TRUNK.TEXT_X,yE+TROW.connLabel,it.label,9,"start",INK2);
-      }
-      return s+"</g>";}};
-}
-/* Non-terminal off item on the trunk: the run CONTINUES — draw a side stub
-   with pentagon + label instead of a (false) termination elbow. */
-function trunkStubCell(it){
-  const out=it.dir==="out";
-  return {h:40,textW:it.label?measure(it.label,9):0,
-    draw(y){const yA=y+20;
-      let s=`<g class="tcell" data-y="${yA}">`;
-      s+=`<line x1="${TRUNK.X}" y1="${y}" x2="${TRUNK.X}" y2="${y+40}" stroke="${INK}" stroke-width="2"/>`;
-      s+=out?`<path d="M${TRUNK.X} ${yA} h40 m0 0 l-6 -4.5 m6 4.5 l-6 4.5" fill="none" stroke="${INK}" stroke-width="2"/>`
-            :`<line x1="${TRUNK.X}" y1="${yA}" x2="${TRUNK.X+40}" y2="${yA}" stroke="${INK}" stroke-width="2"/><path d="M${TRUNK.X+14} ${yA-4.5} L${TRUNK.X+8} ${yA} L${TRUNK.X+14} ${yA+4.5}" fill="none" stroke="${INK}" stroke-width="2"/>`;
-      s+=`<path d="M${TRUNK.X+42} ${yA-10} h16 l8 10 l-8 10 h-16 Z" fill="#fff" stroke="${INK}" stroke-width="1.4"/>${txt(TRUNK.X+53,yA+TROW.pent,it.ref,11)}`;
-      if(it.label)s+=txt(TRUNK.TEXT_X,yA+TROW.connLabel,it.label,9,"start",INK2);
-      return s+"</g>";}};
-}
-
-/* ---------- BANDS (horizontal, existing cell machinery) ---------- */
-function renderBand(L){
+/* ---------- BANDS (horizontal, wrap-aware) ----------
+   A band renders as one or more ROWS. Rows fill toward SHEET_W and the run
+   loops back to the band's left margin between them (loop-backs drawn by
+   placeBand); splits and risers are atomic units that trigger a wrap when
+   they don't fit. Segment boxes and seam titles are per-row; a line spanning
+   a wrap gets a box on each row. */
+function bandTitleText(L){return `${L.id} — ${L.title} · operating pressure: ${L.psi}`;}
+function bandTitle(L){return txt(14,8,bandTitleText(L),10,"start",INK2);}
+function renderBandRows(L,availW){
   const entries=bandEntries(L);
-  let x=14,inner="",under="",tees=[],up=0,hasSplit=false,done=false;
-  let titleEnd=14+measure(bandTitleText(L),10);
-  const segs=[{id:L.id,x0:2,top:-4,bot:STRIP_H-4}];
-  let seg=segs[0];
+  const rows=[];let row=null,curId=L.id,done=false;
+  const seg=()=>row.segs[row.segs.length-1];
+  const newRow=first=>{row={x:14,inner:"",under:"",tees:[],up:0,hasSplit:false,endTee:null,
+    titleEnd:first?14+measure(bandTitleText(L),10):8,
+    segs:[{id:curId,x0:2,top:-4,bot:STRIP_H-4}]};rows.push(row);};
+  newRow(true);
+  const fits=w=>row.x+w<=availW||row.x<=14; // a row always accepts at least one unit
+  const wrap=()=>{seg().x1=row.x+11;newRow(false);};
   entries.forEach((en,i)=>{
     if(done)return;
     if(en.seam){
-      // chain seam: the run continues; a new numbered segment starts here
-      seg.x1=x+11;
-      seg={id:en.line.id,x0:x+15,top:-4,bot:STRIP_H-4};segs.push(seg);
-      const t=bandTitleText(en.line),tx=Math.max(x+22,titleEnd+24);
-      inner+=`<line x1="${x}" y1="${CL}" x2="${x+26}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`+txt(tx,8,t,10,"start",INK2);
-      titleEnd=tx+measure(t,10);x+=26;return;
+      // chain seam: the run continues; a new numbered segment starts here.
+      // never open a section in a row's last sliver — wrap first
+      if(!fits(200))wrap();
+      curId=en.line.id;
+      if(row.x<=14){seg().id=curId;} // seam landed at a row start: no stub box, no pre-run
+      else{seg().x1=row.x+11;
+        row.segs.push({id:curId,x0:row.x+15,top:-4,bot:STRIP_H-4});
+        row.inner+=`<line x1="${row.x}" y1="${CL}" x2="${row.x+26}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
+        row.x+=26;}
+      const t=bandTitleText(en.line),tx=Math.max(row.x+8,row.titleEnd+24);
+      row.inner+=txt(tx,8,t,10,"start",INK2);
+      row.titleEnd=tx+measure(t,10);return;
     }
     const it=en.it;
     if(i===0&&it.j==="off"&&it.dir==="in"&&it.ref&&MATCHED.has(it.ref)){
       // lead-in: the connector arrives here; keep the off label at the entry
       const lbl=it.label||"";
       const w=Math.max(46,measure(lbl,9)+8);
-      inner+=`<line x1="${x}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>
-      <path d="M${x+12} ${CL} h14 m0 0 l-6 -4.5 m6 4.5 l-6 4.5" fill="none" stroke="${INK}" stroke-width="2"/>`;
-      inner+=txt(x+w/2,ROW.jBot,lbl,9,"middle",INK2);
-      x+=w;return;
+      row.inner+=`<line x1="${row.x}" y1="${CL}" x2="${row.x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>
+      <path d="M${row.x+12} ${CL} h14 m0 0 l-6 -4.5 m6 4.5 l-6 4.5" fill="none" stroke="${INK}" stroke-width="2"/>`;
+      row.inner+=txt(row.x+w/2,ROW.jBot,lbl,9,"middle",INK2);
+      row.x+=w;return;
     }
     if(it.split){
       // split/rejoin: path A stays on this row grid between the two tees;
       // path B renders a full row grid one strip below, entered and left
-      // through rounded elbows under the tees' branch ports
-      hasSplit=true;seg.bot=PAR_DY+STRIP_H-4;
+      // through rounded elbows in reserved corridors flanking the tees
       const sp=it.split;
       const tA=sp.tee&&sp.tee.p&&PARTS[sp.tee.p]?buildCell(sp.tee):null;
       const tB=sp.rejoin&&sp.rejoin.p&&PARTS[sp.rejoin.p]?buildCell(sp.rejoin):null;
       const aC=(sp.a||[]).map(buildCell),bC=(sp.b||[]).map(buildCell);
       const span=Math.max(aC.reduce((s,c)=>s+c.w,0),bC.reduce((s,c)=>s+c.w,0)-8,60);
-      let cxS=x+8;
-      if(tA){inner+=tA.draw(x);cxS=x+tA.w/2;x+=tA.w;}
-      // reserved corridors flank the tees (same pattern as drop corridors):
-      // the connectors jog into them at CL+30 so they never cross cell text
-      inner+=`<line x1="${x}" y1="${CL}" x2="${x+TRUNK.DROP_W}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
+      if(!fits((tA?tA.w:0)+(tB?tB.w:0)+span+2*TRUNK.DROP_W))wrap();
+      row.hasSplit=true;seg().bot=PAR_DY+STRIP_H-4;
+      let x=row.x,cxS=x+8;
+      if(tA){row.inner+=tA.draw(x);cxS=x+tA.w/2;x+=tA.w;}
+      row.inner+=`<line x1="${x}" y1="${CL}" x2="${x+TRUNK.DROP_W}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
       const corr1=x+TRUNK.DROP_W/2;x+=TRUNK.DROP_W;
-      let xa=x;aC.forEach(c=>{inner+=c.draw(xa);xa+=c.w;});
-      if(xa<x+span)inner+=`<line x1="${xa}" y1="${CL}" x2="${x+span}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
+      let xa=x;aC.forEach(c=>{row.inner+=c.draw(xa);xa+=c.w;});
+      if(xa<x+span)row.inner+=`<line x1="${xa}" y1="${CL}" x2="${x+span}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
       x+=span;
-      inner+=`<line x1="${x}" y1="${CL}" x2="${x+TRUNK.DROP_W}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
+      row.inner+=`<line x1="${x}" y1="${CL}" x2="${x+TRUNK.DROP_W}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
       const corr2=x+TRUNK.DROP_W/2;x+=TRUNK.DROP_W;
       let cxR=x+8;
-      if(tB){inner+=tB.draw(x);cxR=x+tB.w/2;x+=tB.w;}
+      if(tB){row.inner+=tB.draw(x);cxR=x+tB.w/2;x+=tB.w;}
       let pb="",xb=8;bC.forEach(c=>{pb+=c.draw(xb);xb+=c.w;});
       if(xb<corr2-corr1-8)pb+=`<line x1="${xb}" y1="${CL}" x2="${corr2-corr1-8}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
-      under+=`<path d="M${cxS} ${CL} V${CL+30} H${corr1} V${PAR_DY+CL-8} Q${corr1} ${PAR_DY+CL} ${corr1+8} ${PAR_DY+CL}" fill="none" stroke="${INK}" stroke-width="2"/>
+      row.under+=`<path d="M${cxS} ${CL} V${CL+30} H${corr1} V${PAR_DY+CL-8} Q${corr1} ${PAR_DY+CL} ${corr1+8} ${PAR_DY+CL}" fill="none" stroke="${INK}" stroke-width="2"/>
       <path d="M${corr2-8} ${PAR_DY+CL} Q${corr2} ${PAR_DY+CL} ${corr2} ${PAR_DY+CL-8} V${CL+30} H${cxR} V${CL}" fill="none" stroke="${INK}" stroke-width="2"/>`;
-      inner+=`<g class="band" data-par="${esc(L.id)}" transform="translate(${corr1} ${PAR_DY})">${pb}</g>`;
-      return;
+      row.inner+=`<g class="band" data-par="${esc(L.id)}" transform="translate(${corr1} ${PAR_DY})">${pb}</g>`;
+      row.x=x;return;
     }
     if(it.j==="riser"){
       const rest=entries.slice(i+1).filter(e=>e.it).map(e=>e.it);
       if(rest.length||it.tee){
-        const r=drawRiser(it,rest,x);
-        inner+=r.inner;x=Math.max(x,r.x);up=Math.max(up,r.up);seg.top=Math.min(seg.top,r.top);
+        if(!fits(drawRiser(it,rest,0).x))wrap();
+        const r=drawRiser(it,rest,row.x);
+        row.inner+=r.inner;row.x=Math.max(row.x,r.x);row.up=Math.max(row.up,r.up);
+        seg().top=Math.min(seg().top,r.top);
         done=true;
       }
       return;
     }
-    const c=buildCell(it);inner+=c.draw(x);x+=c.w;
-    if(it.p&&it.branch&&it.branch.ref&&MATCHED.has(it.branch.ref)){
+    if(i===entries.length-1&&it.j==="off"&&it.dir==="out"&&it.ref&&MATCHED.has(it.ref)){
+      // matched terminal off-out: the run turns down into its consumer band
+      // (one-of-n fan); badge on the joint-spec row, corridor drawn by placeBand
+      const e=TREE.edges.find(x=>x.ref===it.ref&&x.kind==="end");
+      const badge=e&&e.fan?"one of "+e.fan+" identical branches":"";
+      const w=18+(badge?measure(badge,9)+26:12);
+      if(!fits(w))wrap();
+      row.inner+=`<path d="M${row.x} ${CL} h4 Q${row.x+18} ${CL} ${row.x+18} ${CL+14}" fill="none" stroke="${INK}" stroke-width="2"/>`;
+      if(badge)row.inner+=`<rect x="${row.x+30}" y="${ROW.jTop-11}" width="${measure(badge,9)+12}" height="14" rx="3" fill="#fff" stroke="${INK}"/>`+txt(row.x+36,ROW.jTop,badge,9,"start",INK,1);
+      row.endTee={ref:it.ref,corrX:row.x+18};
+      row.x+=w;return;
+    }
+    const c=buildCell(it);
+    const teeRef=it.p&&it.branch&&it.branch.ref&&MATCHED.has(it.branch.ref)?it.branch.ref:null;
+    if(!fits(c.w+(teeRef?TRUNK.DROP_W:0)))wrap();
+    row.inner+=c.draw(row.x);row.x+=c.w;
+    if(teeRef){
       // reserved drop corridor: the connector to the sub-band descends here
-      inner+=`<line x1="${x}" y1="${CL}" x2="${x+TRUNK.DROP_W}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
-      tees.push({ref:it.branch.ref,cx:x-c.w/2,corrX:x+TRUNK.DROP_W/2});
-      x+=TRUNK.DROP_W;
+      row.inner+=`<line x1="${row.x}" y1="${CL}" x2="${row.x+TRUNK.DROP_W}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
+      row.tees.push({ref:teeRef,cx:row.x-c.w/2,corrX:row.x+TRUNK.DROP_W/2});
+      row.x+=TRUNK.DROP_W;
     }
   });
-  const w=Math.max(x+14,titleEnd+12);
-  seg.x1=w-2;
-  // dashed segment boxes make each numbered line's region explicit
-  const boxes=segs.map(s=>`<rect x="${s.x0}" y="${s.top}" width="${Math.max(s.x1-s.x0,20)}" height="${s.bot-s.top}" rx="7" fill="none" stroke="${INK2}" stroke-dasharray="7 4"/>`).join("");
-  return {w,h:STRIP_H+(hasSplit?PAR_DY:0),inner:boxes+under+inner,tees,up};
-}
-function bandTitleText(L){return `${L.id} \u2014 ${L.title} \u00b7 operating pressure: ${L.psi}`;}
-function bandTitle(L){return txt(14,8,bandTitleText(L),10,"start",INK2);}
-function placeBand(L,absX,absY,out,edgeByRef){
-  const b=renderBand(L);
-  const merged=TREE.chain[L.id]?` data-merged="${esc(TREE.chain[L.id].slice(1).map(s=>s.id).join(" "))}"`:"";
-  out.over.push(`<g class="band" data-band="${esc(L.id)}" data-cl="${absY+CL}" data-w="${b.w}" transform="translate(${absX} ${absY})"${merged}>${bandTitle(L)}${b.inner}</g>`);
-  // b.w already covers cell widths, titles, seam headings, and riser text
-  let right=absX+b.w,bottom=absY+b.h,subY=absY+b.h+TRUNK.GAP;
-  // place sub-bands right-to-left: each later (lefter) drop corridor then
-  // passes LEFT of every sibling band already stacked above it — corridors
-  // can never slice through a sibling's strip
-  [...b.tees].reverse().forEach(t=>{
-    const e=edgeByRef[t.ref];if(!e)return;
-    const sTop=subY+bandUp(e.to); // riser headroom above the sub-band's strip
-    const corrX=absX+t.corrX,pCL=absY+CL,sCL=sTop+CL;
-    // connectors paint UNDER the bands and start at the run centerline: the
-    // host symbol's white body masks the overlap, so any branch host (tee,
-    // ball, ...) meets its connector with no floating gap
-    out.under.push(`<path data-conn="${esc(t.ref)}" data-cly="${sCL}" d="M${absX+t.cx} ${pCL} V${pCL+30} H${corrX} V${sCL-8} Q${corrX} ${sCL} ${corrX+8} ${sCL}" fill="none" stroke="${INK}" stroke-width="2"/>`);
-    const r=placeBand(e.to,corrX-6,sTop,out,edgeByRef);
-    right=Math.max(right,r.right);bottom=Math.max(bottom,r.bottom);subY=r.bottom+TRUNK.GAP;
+  rows.forEach(r=>{
+    r.w=Math.max(r.x+14,r.titleEnd+12);
+    r.segs[r.segs.length-1].x1=r.w-2;
+    r.h=STRIP_H+(r.hasSplit?PAR_DY:0);
+    // dashed segment boxes make each numbered line's region explicit
+    const boxes=r.segs.map(s=>`<rect x="${s.x0}" y="${s.top}" width="${Math.max(s.x1-s.x0,20)}" height="${s.bot-s.top}" rx="7" fill="none" stroke="${INK2}" stroke-dasharray="7 4"/>`).join("");
+    r.content=boxes+r.under+r.inner;
   });
-  return {right,bottom};
+  return rows;
+}
+/* Place a band's rows, its dropped sub-bands, its loop-back connectors, and
+   (for a matched terminal fan) its end band. Returns the subtree extents and
+   the first row's centerline so the caller can draw the arriving connector. */
+function placeBand(L,absX,topY,out,edgeByRef){
+  const rows=renderBandRows(L,Math.max(SHEET_W-absX,900));
+  const merged=TREE.chain[L.id]?` data-merged="${esc(TREE.chain[L.id].slice(1).map(s=>s.id).join(" "))}"`:"";
+  let right=absX,bottom=topY,cl0=0,y=topY+rows[0].up;
+  rows.forEach((row,ri)=>{
+    const rowCL=y+CL;
+    if(ri===0)cl0=rowCL;
+    out.over.push(`<g class="band" data-band="${esc(L.id)}" data-cl="${rowCL}" data-w="${row.w}" transform="translate(${absX} ${y})"${ri?` data-row="${ri}"`:merged}>${ri===0?bandTitle(L):""}${row.content}</g>`);
+    const rowRight=absX+row.w;
+    let rowBottom=y+row.h,subY=rowBottom+TRUNK.GAP;
+    right=Math.max(right,rowRight);
+    // place sub-bands right-to-left: each later (lefter) drop corridor then
+    // passes LEFT of every sibling band already stacked above it — corridors
+    // can never slice through a sibling's strip
+    [...row.tees].reverse().forEach(t=>{
+      const e=edgeByRef[t.ref];if(!e)return;
+      const corrX=absX+t.corrX;
+      const r=placeBand(e.to,corrX-6,subY,out,edgeByRef);
+      // connectors paint UNDER the bands and start at the run centerline: the
+      // host symbol's white body masks the overlap, so any branch host (tee,
+      // ball, ...) meets its connector with no floating gap
+      out.under.push(`<path data-conn="${esc(t.ref)}" data-cly="${r.cl0}" d="M${absX+t.cx} ${rowCL} V${rowCL+30} H${corrX} V${r.cl0-8} Q${corrX} ${r.cl0} ${corrX+8} ${r.cl0}" fill="none" stroke="${INK}" stroke-width="2"/>`);
+      right=Math.max(right,r.right);rowBottom=Math.max(rowBottom,r.bottom);subY=r.bottom+TRUNK.GAP;
+    });
+    if(row.endTee){
+      const e=edgeByRef[row.endTee.ref];
+      if(e){
+        const r=placeBand(e.to,absX,rowBottom+TRUNK.GAP+12,out,edgeByRef);
+        // route right of everything this subtree drew, then back left above
+        // the fan band — the same S-route the loop-backs use
+        const lane=Math.max(rowRight,right,r.right)+18,yMid=rowBottom+12,eX=absX+row.endTee.corrX;
+        out.under.push(`<path data-conn="${esc(row.endTee.ref)}" data-cly="${r.cl0}" d="M${eX} ${rowCL+12} H${lane-8} Q${lane} ${rowCL+12} ${lane} ${rowCL+20} V${yMid-8} Q${lane} ${yMid} ${lane-8} ${yMid} H${absX+2} Q${absX-6} ${yMid} ${absX-6} ${yMid+8} V${r.cl0-8} Q${absX-6} ${r.cl0} ${absX+2} ${r.cl0} H${absX+15} M${absX+18} ${r.cl0-4} l6 4 l-6 4" fill="none" stroke="${INK}" stroke-width="2"/>`);
+        right=Math.max(right,lane);rowBottom=Math.max(rowBottom,r.bottom);
+      }
+    }
+    bottom=Math.max(bottom,rowBottom);
+    if(ri<rows.length-1){
+      // loop back to the band's left margin for the next row
+      // the return line runs just below THIS row's envelope so it clears the
+      // next row's riser headroom (which extends above that row's strip top)
+      const nextTop=rowBottom+TRUNK.GAP+rows[ri+1].up;
+      const nextCL=nextTop+CL,yMid=rowBottom+12,lane=Math.max(rowRight,right)+18;
+      out.under.push(`<path data-loop="${esc(L.id)}:${ri}" data-y1="${rowCL}" data-y2="${nextCL}" d="M${absX+row.x} ${rowCL} H${lane-8} Q${lane} ${rowCL} ${lane} ${rowCL+8} V${yMid-8} Q${lane} ${yMid} ${lane-8} ${yMid} H${absX+2} Q${absX-6} ${yMid} ${absX-6} ${yMid+8} V${nextCL-8} Q${absX-6} ${nextCL} ${absX+2} ${nextCL} H${absX+15} M${absX+18} ${nextCL-4} l6 4 l-6 4" fill="none" stroke="${INK}" stroke-width="2"/>`);
+      right=Math.max(right,lane);
+      y=nextTop;
+    }
+  });
+  return {right,bottom,cl0};
 }
 
 /* ---------- SCHEMATIC ASSEMBLY ---------- */
@@ -864,95 +794,35 @@ const LAST_RENDER={w:0,h:0,inner:""};
 function renderSchematic(){
   buildRefs();deriveTree();
   const edgeByRef={};TREE.edges.forEach(e=>{edgeByRef[e.ref]=e;});
-  function env(L){let h=bandH(L);TREE.edges.forEach(e=>{if(e.from===L)h+=TRUNK.GAP+bandUp(e.to)+env(e.to);});return h;}
-  const cells=TREE.trunk.map((en,idx)=>{
-    if(en.title)return trunkTitleCell(en.title);
-    const it=en.it;
-    if(it.p){const e=it.branch&&it.branch.ref?edgeByRef[it.branch.ref]:null;return trunkPartCell(it,e&&e.kind==="takeoff"?e:null);}
-    if(it.j==="off"&&it.ref){
-      if(it.dir==="out"&&idx===TREE.trunk.length-1){const e=edgeByRef[it.ref];return trunkEndCell(it,e&&e.kind==="end"?e:null);}
-      return trunkStubCell(it); // mid-run off: side stub, the trunk continues
-    }
-    return trunkJointCell(it);
-  });
-  // small run gap ahead of each section title so the dashed section boxes
-  // never touch the previous section's note rows
-  const spaced=cells.flatMap((c,i)=>c.isTitle&&i>0?[{spacer:true,h:12},c]:[c]);
-  // vertical placement: spacer runs keep each take-off clear of the previous band's envelope
-  const list=[];let yy=16,minA=TRUNK.Y0,insIdx=0;
-  spaced.forEach(c=>{
-    if(c.anchorRef){
-      // a riser extends the band's content above its strip top — reserve it
-      const need=minA+bandUp(edgeByRef[c.anchorRef].to);
-      const nat=yy+c.anchorOff;
-      if(nat<need){
-        list.splice(insIdx,0,{spacer:true,h:need-nat});
-        let ty=insIdx>0?list[insIdx-1].y+list[insIdx-1].h:16;
-        for(let k=insIdx;k<list.length;k++){list[k].y=ty;ty+=list[k].h;}
-        yy=ty;
-      }
-      c.y=yy;yy+=c.h;list.push(c);
-      minA=c.y+c.anchorOff+env(edgeByRef[c.anchorRef].to)+TRUNK.GAP;
-      insIdx=list.length;
-    } else {
-      c.y=yy;yy+=c.h;list.push(c);
-      // a title sitting right at the insertion point stays above any spacer,
-      // so the run can never start above the section heading
-      if(c.isTitle&&list.length-1===insIdx)insIdx=list.length;
-    }
-  });
-  const maxTextW=Math.max(0,...cells.map(c=>c.textW||0));
-  const BX=Math.max(TRUNK.BRANCH_MIN,TRUNK.TEXT_X+Math.ceil(maxTextW)+24);
-  const parts=[];
-  list.forEach((c,i)=>{
-    if(c.spacer)parts.push(`<line x1="${TRUNK.X}" y1="${c.y}" x2="${TRUNK.X}" y2="${c.y+c.h}" stroke="${INK}" stroke-width="2"/>`);
-    else parts.push(c.draw(c.y,i!==0));
-  });
-  let right=TRUNK.TEXT_X+maxTextW,bottom=yy;
-  const out={over:parts,under:[]};
-  // dashed boxes around each trunk section (title to next title) — the trunk
-  // analog of the band segment boxes; widths follow each section's own text
-  {const secs=[];let sec=null;
-   list.forEach(c=>{
-     if(c.spacer)return;
-     if(c.isTitle){if(sec)secs.push(sec);sec={y0:c.y-2,y1:c.y+c.h,w:c.textW||0};}
-     else if(sec){sec.y1=c.y+c.h;sec.w=Math.max(sec.w,c.textW||0);}
-   });
-   if(sec)secs.push(sec);
-   secs.forEach(s=>out.under.push(`<rect x="8" y="${s.y0}" width="${Math.min(TRUNK.TEXT_X+Math.ceil(s.w)+12,BX-12)-8}" height="${s.y1-s.y0+2}" rx="7" fill="none" stroke="${INK2}" stroke-dasharray="7 4"/>`));
+  const out={over:[],under:[]};
+  let right=600,bottom=16;
+  if(TREE.root){
+    const r=placeBand(TREE.root,20,16,out,edgeByRef);
+    right=Math.max(right,r.right);bottom=r.bottom;
   }
-  list.forEach(c=>{
-    if(!c.spacer&&c.anchorRef){
-      const e=edgeByRef[c.anchorRef];const yA=c.y+c.anchorOff;
-      out.under.push(`<path data-conn="${esc(e.ref)}" data-cly="${yA}" d="M${c.end?TRUNK.X+14:TRUNK.X} ${yA} H${BX+14}" fill="none" stroke="${INK}" stroke-width="2"/>`);
-      const r=placeBand(e.to,BX,yA-CL,out,edgeByRef);
-      right=Math.max(right,r.right);bottom=Math.max(bottom,r.bottom);
-    }
-  });
   let oy=bottom+30;
   TREE.orphans.forEach(L=>{
-    const b=renderBand(L);
-    const st=oy+bandUp(L); // riser headroom for standalone strips too
-    parts.push(`<g class="strip" data-band="${esc(L.id)}" transform="translate(20 ${st})">${bandTitle(L)}${b.inner}</g>`);
-    right=Math.max(right,20+b.w);oy=st+b.h+18;bottom=oy-18;
+    const r=placeBand(L,20,oy,out,edgeByRef);
+    right=Math.max(right,r.right);oy=r.bottom+18;bottom=r.bottom;
   });
   const W=Math.round(right+20),H=Math.round(bottom+16);
-  LAST_RENDER.w=W;LAST_RENDER.h=H;LAST_RENDER.inner=out.under.join("")+parts.join("");
+  LAST_RENDER.w=W;LAST_RENDER.h=H;LAST_RENDER.inner=out.under.join("")+out.over.join("");
   const host=document.getElementById("strips");host.innerHTML="";
   const div=document.createElement("div");div.className="strip";
   div.innerHTML=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${LAST_RENDER.inner}</svg>`;
   host.appendChild(div);
   document.getElementById("legend").innerHTML=[
-    "\u25ef n \u2014 balloon: parts schedule ref","hatched trapezoid \u25b8 box \u2014 NPT male into female \u00b7 back-to-back pair \u2014 hex nipple joining two female ports \u00b7 ALL NPT joints: PTFE gas tape",
-    "cone \u25b8 nut \u2014 SAE 45\u00b0 flare (metal-to-metal seat, no sealant)","\u3030 with break \u2014 hose/tube run, length as required \u00b7 ALL Cu tube joints: flared only",
-    "vertical trunk \u2014 supply flows top \u2192 bottom; branch lines leave at their tee \u00b7 discharge risers flow bottom \u2192 top",
-    "dashed box \u2014 the components of one numbered line \u00b7 'one of n identical branches' \u2014 built n times, drawn once",
-    "pentagon n \u2014 unresolved connector ref (no matching line)",`<span style="color:${FLAME}">orange</span> \u2014 flame heads & marked emergency shut-offs`
+    "◯ n — balloon: parts schedule ref","hatched trapezoid ▸ box — NPT male into female · back-to-back pair — hex nipple joining two female ports · ALL NPT joints: PTFE gas tape",
+    "cone ▸ nut — SAE 45° flare (metal-to-metal seat, no sealant)","〰 with break — hose/tube run, length as required · ALL Cu tube joints: flared only",
+    "main run flows left → right and loops back to the left margin at row ends (follow the arrows) · branch lines drop below their tees · discharge risers flow bottom → top",
+    "dashed box — the components of one numbered line · 'one of n identical branches' — built n times, drawn once",
+    "pentagon n — unresolved connector ref (no matching line)",`<span style="color:${FLAME}">orange</span> — flame heads & marked emergency shut-offs`
   ].map(s=>`<span>${s}</span>`).join("");
   document.getElementById("docMeta").innerHTML=
-    `<span>PROJECT</span><b>${esc(SYSTEM.meta.project)}</b><span>REV / DATE</span><b>${esc(SYSTEM.meta.rev)} \u00b7 ${esc(SYSTEM.meta.date)}</b>
-     <span>SCALE</span><b>${esc(SYSTEM.meta.scale)}</b><span>SHEET</span><b>1 of 1 \u00b7 ${SYSTEM.lines.length} lines</b>`;
+    `<span>PROJECT</span><b>${esc(SYSTEM.meta.project)}</b><span>REV / DATE</span><b>${esc(SYSTEM.meta.rev)} · ${esc(SYSTEM.meta.date)}</b>
+     <span>SCALE</span><b>${esc(SYSTEM.meta.scale)}</b><span>SHEET</span><b>1 of 1 · ${SYSTEM.lines.length} lines</b>`;
 }
+
 function renderParts(){
   const rows=Object.keys(refIndex).sort((a,b)=>refIndex[a]-refIndex[b]).map(k=>{
     const p=PARTS[k];
@@ -1046,7 +916,7 @@ function lintPorts(){
     direct(hp,mp,`${line}: ${lbl(it)} mount ${it.mount.tag||lbl(it.mount)}`);
   }
   const outState=it=>({port:endPort(it,"o"),ad:PA(it.adaptOut),it});
-  const stash={}; // off-out ref -> walk state, for trunk-end (fan) continuations
+  const stash={}; // off-out ref -> walk state, for terminal fan continuations
   function walk(items,open,line,pending){
     pending=pending||null;
     for(const it of items){
@@ -1077,7 +947,7 @@ function lintPorts(){
     }
     return {open,pending};
   }
-  walk(TREE.trunk.filter(e=>e.it).map(e=>e.it),null,"trunk");
+  if(TREE.root)walk(bandItems(TREE.root),null,TREE.root.id);
   TREE.edges.forEach(e=>{
     const entries=bandItems(e.to);
     if(e.kind==="end"){const st=stash[e.ref]||{open:null,pending:null};
@@ -1089,7 +959,7 @@ function lintPorts(){
       if(x.j==="riser"&&x.tee&&x.tee.branch&&x.tee.branch.ref===e.ref)hostIt=x.tee;
       if(x.split){scan(x.split.a);scan(x.split.b);
         [x.split.tee,x.split.rejoin].forEach(t=>{if(t&&t.branch&&t.branch.ref===e.ref)hostIt=t;});}});
-    scan(e.from?bandItems(e.from):TREE.trunk.filter(en=>en.it).map(en=>en.it));
+    scan(e.from?bandItems(e.from):[]);
     const hp=hostIt&&PARTS[hostIt.p]?P(PARTS[hostIt.p].branch):null;
     walk(entries,hostIt?{port:hp,ad:PA(hostIt.branchAdapt),it:hostIt}:null,e.to.id);
   });
@@ -1166,7 +1036,7 @@ function downloadSVG(){
   const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" font-family="monospace">
   <rect x="1" y="1" width="${w-2}" height="${h-2}" fill="#fff" stroke="${INK}" stroke-width="2"/>
   <text x="20" y="30" font-size="16" fill="${INK}">${esc(SYSTEM.meta.project+" — LP-gas flame effect schematic · REV "+SYSTEM.meta.rev+" · "+SYSTEM.meta.date+" · FOR FAST REVIEW")}</text>
-  <text x="20" y="48" font-size="11" fill="${INK2}">${esc("Schematic — not to scale. Fuel flows top → bottom on the supply trunk; branch lines leave at their tees. Balloons key to parts schedule (see packet).")}</text>
+  <text x="20" y="48" font-size="11" fill="${INK2}">${esc("Schematic — not to scale. The main run flows left → right and loops back to the left margin at row ends (follow the arrows); branch lines drop below their tees. Balloons key to parts schedule (see packet).")}</text>
   <g transform="translate(20 60)">${LAST_RENDER.inner}</g></svg>`;
   const a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob([svg],{type:"image/svg+xml"}));

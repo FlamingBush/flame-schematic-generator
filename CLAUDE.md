@@ -30,37 +30,39 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
    the symbol side by side (standby rail tips) under one balloon.
 3. System tree (`deriveTree`) — the drawing is CONNECTED, not letter-matched.
    The existing `ref` fields are pure match keys: `branch:{ref}` on a tee pairs
-   with a line whose first item is `{j:"off", dir:"in", ref}`. The root line
-   (first one not starting with an off-in) plus its 1:1 terminal continuations
-   (off-out matched to off-in, no `fan`) merge into the TRUNK; matched tees
-   hang their consumer line as a horizontal BAND at the tee's true y; a
-   terminal off-out with `fan:n` hangs its consumer as a one-of-n band; tees
-   inside bands hang SUB-BANDS true-position below (fed by a drop through a
-   reserved 24 px corridor cell); a band whose LAST item is a 1:1 off-out
-   chains its consumer into the same band (`TREE.chain`, seam title + fresh
-   dashed box mid-band — how L4 supply and L4b accumulator read as one run
-   while keeping separate `op` pressures). Unmatched refs degrade to the
-   classic pentagon; unreachable lines render as standalone strips at the
-   bottom — nothing throws on hostile data. Dashed rounded boxes group every
-   numbered line's components (band segment boxes in `renderBand`, trunk
-   section boxes in `renderSchematic`); keep them clear of text rows.
-4. Layout engine — the important invariant, in two orientations.
-   Bands (horizontal) use the FIXED ROW GRID (`ROW`): balloon row / joint-spec
-   row / centerline `CL` / joint-detail row / tag row / two note rows; cell
-   widths are computed from the widest label (`measure()`), so labels cannot
-   collide. The trunk (vertical) is the analog rotated 90°: run line at
-   `TRUNK.X`, balloons in a left column, tags/notes in a right column on the
-   `TROW` per-cell mini-grid (anchored at each `g.tcell`'s `data-y`); cell
-   HEIGHTS are computed the same way, and `BRANCH_X` grows past the widest
-   trunk label so bands can never collide with trunk text. Symbols are
-   white-filled bodies over one continuous run line, capped 46 px above /
-   34 px below `CL`, and contain NO text whatsoever — that is what makes them
-   rotatable (`rotate(90)` for trunk flow; mirrored about the run when the
-   branch port must face the bands; tanks never rotate). Do not reintroduce
-   ad-hoc text offsets or text inside `SYM` functions — captions route to the
-   note rows via `AUTONOTE` (whose flow arrows turn ↓ on the trunk). A gauge
-   mounted on a regulator attaches to the reg's gauge-port circle, offset from
-   the run — never draw it inline as if fuel flowed through it.
+   with a line whose first item is `{j:"off", dir:"in", ref}`. Every line is a
+   horizontal BAND; the root line (first one not starting with an off-in) is
+   the outermost band. A band whose LAST item is a 1:1 off-out chains its
+   consumer into the same band (`TREE.chain`, seam title + fresh dashed box
+   mid-band — how L1+L2 and L4+L4b each read as one run while keeping
+   separate `op` pressures); matched tees hang their consumer band BELOW at
+   the tee's true x (kind "drop", fed through a reserved 24 px corridor
+   cell); a terminal off-out with `fan:n` hangs its consumer under the run's
+   end elbow with a one-of-n badge (kind "end", S-routed connector).
+   Unmatched refs degrade to the classic pentagon; unreachable lines render
+   as standalone strips at the bottom — nothing throws on hostile data.
+   Dashed rounded boxes group every numbered line's components per row; keep
+   them clear of text rows.
+4. Layout engine — the important invariants. Every band renders on the FIXED
+   ROW GRID (`ROW`): balloon row / joint-spec row / centerline `CL` /
+   joint-detail row / tag row / two note rows; cell widths are computed from
+   the widest label (`measure()`), so labels cannot collide. Bands WRAP: rows
+   fill toward `SHEET_W` and the run loops back to the band's left margin
+   through an S-routed connector (`data-loop`, right lane → return line just
+   below the previous row's envelope → left lane), with splits and risers as
+   atomic units; the return line must clear both the row's dropped sub-bands
+   (placed between rows, right-to-left so corridors never slice a sibling
+   strip) and the next row's riser headroom (`row.up`, reserved above its
+   strip top). Discharge risers are the one vertical construct: they reuse
+   the `TROW` per-cell mini-grid (anchored at each `g.tcell`'s `data-y`),
+   flowing bottom → top. Symbols are white-filled bodies over one continuous
+   run line, capped 46 px above / 34 px below `CL`, and contain NO text
+   whatsoever — that is what makes them rotatable (`rotate(-90)` on risers;
+   tanks and flame heads stay upright). Do not reintroduce ad-hoc text
+   offsets or text inside `SYM` functions — captions route to the note rows
+   via `AUTONOTE` (whose flow arrows turn ↑ on risers). A gauge mounted on a
+   regulator attaches to the reg's gauge-port circle, offset from the run —
+   never draw it inline as if fuel flowed through it.
 5. Port linter (`lintPorts`) — machine check that every drawn joint is
    mechanically assemblable. `PARTS[*].ports` declares each part's end ports
    as `"type:size:gender"` strings (`flare` M = cone, F = swivel nut; size
@@ -69,7 +71,7 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
    (`"decl"` = declared from listing text, no fetchable catalog). Item-level
    `adaptIn`/`adaptOut`/`branchAdapt` (`"in>out"`) declare note-only adapter
    stacks; a drawn joint attaches to whichever side of such an adapter its
-   thread type matches. The walk covers the merged trunk, band chains,
+   thread type matches. The walk covers the root band chain, sub-band chains,
    splits, risers, mounts, branch edges, and orphans; custom fabrications
    without ports are counted skipped, never failed; hostile data must not
    throw. Results surface as compliance row FIT-1 and the suite seeds the
@@ -115,7 +117,7 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
 ## Testing philosophy
 
 The suite asserts invariants, not snapshots: every text baseline on a band row
-or trunk mini-grid row, ZERO text-bbox collisions across the entire combined
+or riser mini-grid row, ZERO text-bbox collisions across the entire combined
 sheet (translate-resolving parser in `textBoxes()`), no text inside rotated
 groups and none inside `SYM` bodies, every derived edge drawing exactly one
 connector whose y equals its band's centerline (`data-conn`/`data-cl`), orphan

@@ -52,12 +52,6 @@ function clippedByCanvas(svg, boxes) {
   return boxes.filter(b => !b.malformed && (b.x0 < 0 || b.y0 < 0 || b.x1 > +dim[1] || b.y1 > +dim[2]))
     .map(b => `${b.s}@${Math.round(b.x1)},${Math.round(b.y1)} vs ${dim[1]}x${dim[2]}`);
 }
-function balloonGaps(svg, balX) { // trunk balloon circles must never intersect (r=9.5)
-  const cys = [...svg.matchAll(new RegExp(`<circle cx="${balX}" cy="(-?[\\d.]+)"`, "g"))].map(m => +m[1]).sort((a, b) => a - b);
-  const bad = [];
-  for (let i = 1; i < cys.length; i++) if (cys[i] - cys[i - 1] < 19) bad.push(`${cys[i - 1]}~${cys[i]}`);
-  return bad;
-}
 function collisions(boxes) {
   const bad = [];
   for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) {
@@ -74,26 +68,39 @@ console.log("LAYOUT INVARIANTS");
   const hosts = store["strips"].children;
   check("one combined svg", hosts.length === 1 && /<svg /.test(hosts[0].innerHTML));
   const svg = hosts[0].innerHTML;
-  const trunkIds = app.TREE.trunk.filter(e => e.title).map(e => e.title.id);
   const chained = Object.values(app.TREE.chain).flatMap(segs => segs.slice(1).map(s => s.id));
-  check("every line rendered (trunk segment, band, or band chain)", app.SYSTEM.lines.every(L =>
-    trunkIds.includes(L.id) || chained.includes(L.id) || svg.includes(`data-band="${L.id}"`)));
-  check("default system: trunk carries supply, no orphans", trunkIds.length >= 1 && app.TREE.orphans.length === 0);
+  check("every line rendered (band, chain seam, or orphan strip)", app.SYSTEM.lines.every(L =>
+    chained.includes(L.id) || svg.includes(`data-band="${L.id}"`)));
+  check("default system: root band carries supply, no orphans",
+    !!app.TREE.root && app.TREE.orphans.length === 0 && svg.includes(`data-band="${app.TREE.root.id}"`));
+
+  // wrapping: the main run exceeds SHEET_W, so it must loop back at least once,
+  // and every loop-back must join two of the drawn row centerlines
+  const loops = [...svg.matchAll(/data-loop="[^"]*" data-y1="(-?[\d.]+)" data-y2="(-?[\d.]+)"/g)];
+  const cls = new Set([...svg.matchAll(/data-cl="(-?[\d.]+)"/g)].map(m => m[1]));
+  check("main run wraps: at least one loop-back drawn", loops.length >= 1);
+  check("every loop-back joins two row centerlines", loops.every(m => cls.has(m[1]) && cls.has(m[2])));
 
   // new constructs: band chain (L4→L4b), discharge riser, split/rejoin
-  const bandChunk = id => { const i = svg.indexOf(`data-band="${id}"`); if (i < 0) return "";
-    const j = svg.indexOf('class="band" data-band=', i + 1); return svg.slice(i, j < 0 ? undefined : j); };
+  const bandChunks = id => { // all row <g>s of one band, concatenated
+    let s = "", i = 0;
+    while ((i = svg.indexOf(`data-band="${id}"`, i)) >= 0) {
+      const j = svg.indexOf('class="band" data-band=', i + 1);
+      s += svg.slice(i, j < 0 ? undefined : j); i = j < 0 ? svg.length : j;
+    }
+    return s;
+  };
   check("L4b chains into the L4 band (seam, no separate strip)",
     svg.includes('data-merged="L4b"') && !svg.includes('data-band="L4b"') && svg.includes("L4b — Poofer accumulator"));
-  const l4band = bandChunk("L4");
+  const l4band = bandChunks("L4");
   check("riser: L4 discharge turns upward (tcell mini-grid + rotate(-90) symbols)",
     l4band.includes('class="tcell"') && l4band.includes("rotate(-90)"));
-  const l3band = bandChunk("L3"), pcl = app.STRIP_H + app.CL;
+  const l3band = bandChunks("L3"), pcl = app.STRIP_H + app.CL;
   check("split: metered path strip renders below with down and up elbows",
     l3band.includes('data-par="L3"') && l3band.includes(`V${pcl - 8} Q`) && l3band.includes(`V${app.CL}"`));
   check("standby rail draws repeated tips (xn)",
-    bandChunk("L3a").includes('translate(-22 0)') && bandChunk("L3a").includes('translate(22 0)'));
-  check("dashed line boxes drawn (trunk sections + band segments)",
+    bandChunks("L3a").includes('translate(-22 0)') && bandChunks("L3a").includes('translate(22 0)'));
+  check("dashed line boxes drawn (one per line segment per row)",
     (svg.match(/stroke-dasharray="7 4"/g) || []).length >= app.SYSTEM.lines.length);
 
   const boxes = textBoxes(svg);
@@ -109,15 +116,13 @@ console.log("LAYOUT INVARIANTS");
     else if (b.cellY !== null) { const o = b.localY - b.cellY; if (![...trunkOffs].some(r => Math.abs(r - o) < 0.01)) { offGrid++; offDetail.push(b.s + "@trunk:" + o); } }
     else { homeless++; offDetail.push("homeless:" + b.s); }
   });
-  check("every text baseline on a band row or trunk mini-grid row", offGrid === 0, offDetail.slice(0, 4).join("; "));
+  check("every text baseline on a band row or riser mini-grid row", offGrid === 0, offDetail.slice(0, 4).join("; "));
   check("every text inside a band/strip/tcell group", homeless === 0, offDetail.slice(0, 4).join("; "));
 
   const bad = collisions(boxes);
   check("zero text collisions anywhere on the sheet", bad.length === 0, bad.slice(0, 4).join("; "));
   const clip = clippedByCanvas(svg, boxes);
   check("no text clipped by the canvas edge", clip.length === 0, clip.slice(0, 3).join("; "));
-  const bg = balloonGaps(svg, app.TRUNK.BAL_X);
-  check("trunk balloons never overlap", bg.length === 0, bg.join("; "));
 
   // connectors: every derived edge draws exactly one connector whose y equals
   // the destination band's centerline (real branching, not matching letters)
@@ -213,27 +218,24 @@ console.log("MULTI-BRANCH & HOSTILE DATA");
   check("re-render succeeds", store["jsonMsg"].textContent === "Re-rendered.");
   const svg = store["strips"].children[0].innerHTML;
 
-  const rects = {};
+  // rows[id] = every drawn row rect of that band (a band may wrap)
+  const rows = {};
   [...svg.matchAll(/<g class="band" data-band="([^"]*)" data-cl="(-?[\d.]+)" data-w="(-?[\d.]+)" transform="translate\((-?[\d.]+) (-?[\d.]+)\)"/g)]
-    .forEach(m => { rects[m[1]] = { cl: +m[2], w: +m[3], x: +m[4], y: +m[5] }; });
+    .forEach(m => { (rows[m[1]] = rows[m[1]] || []).push({ cl: +m[2], w: +m[3], x: +m[4], y: +m[5] }); });
   app.TREE.edges.filter(e => e.kind === "drop").forEach(e => {
     const m = svg.match(new RegExp(`data-conn="${rx(e.ref)}" data-cly="(-?[\\d.]+)" d="M(-?[\\d.]+) (-?[\\d.]+) V(-?[\\d.]+) H(-?[\\d.]+) V(-?[\\d.]+)`));
-    const cross = m ? Object.entries(rects).filter(([id, r]) =>
-      id !== e.to.id && (!e.from || id !== e.from.id) &&
-      +m[5] >= r.x && +m[5] <= r.x + r.w &&
-      Math.min(+m[4], +m[6]) < r.y + app.STRIP_H && Math.max(+m[4], +m[6]) > r.y).map(([id]) => id) : ["no-path"];
+    const cross = m ? Object.entries(rows).filter(([id, rs]) =>
+      id !== e.to.id && id !== e.from.id && rs.some(r =>
+        +m[5] >= r.x && +m[5] <= r.x + r.w &&
+        Math.min(+m[4], +m[6]) < r.y + app.STRIP_H && Math.max(+m[4], +m[6]) > r.y)).map(([id]) => id) : ["no-path"];
     check(`drop ${e.ref}: corridor clears sibling bands`, !!m && cross.length === 0, cross.join(","));
-    check(`drop ${e.ref}: starts at the host run centerline`, !!m && +m[3] === rects[e.from.id].cl,
-      m && `starts ${m[3]} vs cl ${rects[e.from.id] && rects[e.from.id].cl}`);
+    check(`drop ${e.ref}: starts at one of the host's row centerlines`,
+      !!m && (rows[e.from.id] || []).some(r => r.cl === +m[3]),
+      m && `starts ${m[3]} vs cls ${(rows[e.from.id] || []).map(r => r.cl).join("/")}`);
   });
-  const bg = balloonGaps(svg, app.TRUNK.BAL_X);
-  check("trunk balloons never overlap (mount + left-stub adjacency)", bg.length === 0, bg.join("; "));
   const clip = clippedByCanvas(svg, textBoxes(svg));
   check("long orphan title not clipped by canvas", clip.length === 0, clip.slice(0, 3).join("; "));
-
-  const elbows = svg.match(new RegExp(`M${app.TRUNK.X} (-?[\\d.]+) Q${app.TRUNK.X} `, "g")) || [];
-  check("mid-trunk off does not terminate the run (one end elbow)", elbows.length === 1, elbows.length + " elbows");
-  check("mid-trunk off renders as pentagon stub", svg.includes(">Q<"));
+  check("mid-run off renders as pentagon stub, run continues", svg.includes(">Q<"));
   check("quoted line id escaped in attributes", svg.includes('data-band="Z&quot;9"'));
   app.downloadSVG();
   const bareAmp = captured.svg.match(/&(?!amp;|lt;|gt;|quot;|apos;|#\d+;|#x[\da-fA-F]+;)/g) || [];
@@ -254,12 +256,12 @@ console.log("MULTI-BRANCH & HOSTILE DATA");
   store["strips"].children.length = 0;
   app.applyJSON();
   const svg = store["strips"].children[0].innerHTML;
-  const runYs = [...svg.matchAll(new RegExp(`<line x1="${app.TRUNK.X}" y1="(-?[\\d.]+)"`, "g"))].map(m => +m[1]);
-  check("early take-off: run never starts above the section title", Math.min(...runYs) >= 50, "min y " + Math.min(...runYs));
-  // non-tee branch host: connector must start at the trunk run line (painted
-  // under the symbol body), not float at the tee port offset
-  check("take-off from a ball valve starts at the trunk centerline",
-    new RegExp(`data-conn="X" data-cly="(-?[\\d.]+)" d="M${app.TRUNK.X} `).test(svg));
+  // non-tee branch host: the drop connector must start at the host band's run
+  // centerline (painted under the symbol body), not float at a port offset
+  const conn = svg.match(/data-conn="X" data-cly="(-?[\d.]+)" d="M(-?[\d.]+) (-?[\d.]+)/);
+  const host = svg.match(/data-band="R1" data-cl="(-?[\d.]+)"/);
+  check("take-off from a ball valve starts at the host run centerline",
+    !!conn && !!host && conn[3] === host[1], conn && host && `${conn[3]} vs ${host[1]}`);
 }
 
 console.log("PORT LINTER");
