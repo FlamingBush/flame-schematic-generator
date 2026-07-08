@@ -19,19 +19,31 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
    text, pressure rating, symbol key, drawing proportions (`w`/`h`).
 2. `SYSTEM` — the system definition: `meta` + `lines[]`. Each line has an
    operating pressure `op` (used by compliance checks) and an ordered `items[]`
-   sequence alternating components (`{p, tag, note, emergency}`) and joints
-   (`{j: npt|flare|pol|hose|tube|off, ...}`).
+   sequence alternating components (`{p, tag, note, emergency, xn}`) and joints
+   (`{j: npt|flare|pol|hose|tube|off, ...}`). Two structured items exist:
+   `{split:{tee, rejoin, a:[...], b:[...]}}` draws two parallel paths between
+   two tees (path b on a full row grid one `PAR_DY` below, entered/left through
+   the same reserved corridors drops use), and `{j:"riser", tee:{...}}` turns
+   the band's remaining items into a vertical bottom→top discharge stack (TROW
+   mini-grid, `rotate(-90)` symbols, tanks/heads stay upright; `bandUp()`
+   reserves the headroom above the strip). `xn:n` on a part draws n copies of
+   the symbol side by side (standby rail tips) under one balloon.
 3. System tree (`deriveTree`) — the drawing is CONNECTED, not letter-matched.
    The existing `ref` fields are pure match keys: `branch:{ref}` on a tee pairs
    with a line whose first item is `{j:"off", dir:"in", ref}`. The root line
    (first one not starting with an off-in) plus its 1:1 terminal continuations
    (off-out matched to off-in, no `fan`) merge into the TRUNK; matched tees
    hang their consumer line as a horizontal BAND at the tee's true y; a
-   terminal off-out with `fan:n` hangs its consumer as a TYP ×n band; tees
+   terminal off-out with `fan:n` hangs its consumer as a one-of-n band; tees
    inside bands hang SUB-BANDS true-position below (fed by a drop through a
-   reserved 24 px corridor cell). Unmatched refs degrade to the classic
-   pentagon; unreachable lines render as standalone strips at the bottom —
-   nothing throws on hostile data.
+   reserved 24 px corridor cell); a band whose LAST item is a 1:1 off-out
+   chains its consumer into the same band (`TREE.chain`, seam title + fresh
+   dashed box mid-band — how L4 supply and L4b accumulator read as one run
+   while keeping separate `op` pressures). Unmatched refs degrade to the
+   classic pentagon; unreachable lines render as standalone strips at the
+   bottom — nothing throws on hostile data. Dashed rounded boxes group every
+   numbered line's components (band segment boxes in `renderBand`, trunk
+   section boxes in `renderSchematic`); keep them clear of text rows.
 4. Layout engine — the important invariant, in two orientations.
    Bands (horizontal) use the FIXED ROW GRID (`ROW`): balloon row / joint-spec
    row / centerline `CL` / joint-detail row / tag row / two note rows; cell
@@ -65,14 +77,21 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
   proportions in PARTS are visual only. Do not add scale claims unless the
   dimensions are replaced with real vendor spec-sheet numbers first.
 - `verified:false` parts show a VERIFY PN chip. Verified so far against vendor
-  data: Marshall Excelsior MEGR-6120-60 / -6120-30 regulators (1/4 FNPT in/out
-  + 1/4 FNPT gauge port, max inlet 250 psig, UL 144 NON-relief — external
-  overpressure protection flagged). Mr. Heater F273754/F273702 part numbers are
-  plausible but unconfirmed; Breezliy B08K8NP26L needle valves and Beduan
-  B07N2LGFYS 1/4 in / B07N6246YB 1/2 in solenoids (2W-series, 12 VDC NC,
-  ~100 psi max) have no
-  published seal material or fuel-gas listing. Never mark a part verified
-  without a source.
+  data: Marshall Excelsior MEGR-6120-60 / -6120-30 regulators, confirmed
+  verbatim from MEC's own bulletin (form 976): 1/4 FNPT in/out + TWO 1/4 FNPT
+  gauge ports, max inlet 250 psig, UL 144 NON-relief — external overpressure
+  protection flagged. Amazon ASIN B07N2LGFYS is NOT the brass 1/4 in solenoid —
+  it is Beduan kl04010, an anodized-ALUMINUM air valve (115 psi, CE only); the
+  brass 1/4 in candidate is B08C2NLPR5. Beduan B07N6246YB (2W160-15, 1/2 in)
+  claims FNPT but the plain 2W-series model number denotes G/BSPP threads in
+  the originating product line ("N" variants are NPT) — both solenoids carry a
+  gauge-check-threads-on-receipt warning in their specs; neither publishes
+  seal material or a fuel-gas listing. Mr. Heater F273754/F273702 part numbers
+  are plausible but unconfirmed; Breezliy B08K8NP26L needle valves likewise
+  unlisted. Anderson Metals SAE 45° flare catalog items confirmed to exist
+  (LP/fuel-gas service in catalog text): 04044-06 union tee, 04052-06 four-way
+  cross, 04056-0604 3/8x1/4 reducing union, 48/54-series flare x NPT half
+  unions (e.g. 54048-0606). Never mark a part verified without a source.
 - Compliance output is a self-review aid, not approval — the footer disclaimer
   and the FOR FAST REVIEW / NOT A BURN LICENSE stamp stay.
 - No localStorage/sessionStorage; state lives in the editable JSON box.
@@ -86,9 +105,12 @@ groups and none inside `SYM` bodies, every derived edge drawing exactly one
 connector whose y equals its band's centerline (`data-conn`/`data-cl`), orphan
 lines falling back to pentagons, no undefined/NaN leaks, strict escaping in the
 export, editor round trip (including hostile strings and an unmatched-ref
-line), graceful malformed-JSON handling. Bugs found by this suite so far:
-missing `tee` symbol, unescaped `&` breaking the exported XML, unescaped user
-strings in the title block. Add a check when you fix a bug.
+line), graceful malformed-JSON handling, and the newer constructs: band chains
+render as one strip with a seam (`data-merged`), risers use tcell mini-grid
+rows with `rotate(-90)` symbols, split paths draw both corridor elbows, `xn`
+tips repeat, and dashed line boxes appear for every line. Bugs found by this
+suite so far: missing `tee` symbol, unescaped `&` breaking the exported XML,
+unescaped user strings in the title block. Add a check when you fix a bug.
 
 ## Roadmap candidates
 

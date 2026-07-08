@@ -75,9 +75,26 @@ console.log("LAYOUT INVARIANTS");
   check("one combined svg", hosts.length === 1 && /<svg /.test(hosts[0].innerHTML));
   const svg = hosts[0].innerHTML;
   const trunkIds = app.TREE.trunk.filter(e => e.title).map(e => e.title.id);
-  check("every line rendered (as trunk segment or band)", app.SYSTEM.lines.every(L =>
-    trunkIds.includes(L.id) || svg.includes(`data-band="${L.id}"`)));
+  const chained = Object.values(app.TREE.chain).flatMap(segs => segs.slice(1).map(s => s.id));
+  check("every line rendered (trunk segment, band, or band chain)", app.SYSTEM.lines.every(L =>
+    trunkIds.includes(L.id) || chained.includes(L.id) || svg.includes(`data-band="${L.id}"`)));
   check("default system: trunk carries supply, no orphans", trunkIds.length >= 1 && app.TREE.orphans.length === 0);
+
+  // new constructs: band chain (L4→L4b), discharge riser, split/rejoin
+  const bandChunk = id => { const i = svg.indexOf(`data-band="${id}"`); if (i < 0) return "";
+    const j = svg.indexOf('class="band" data-band=', i + 1); return svg.slice(i, j < 0 ? undefined : j); };
+  check("L4b chains into the L4 band (seam, no separate strip)",
+    svg.includes('data-merged="L4b"') && !svg.includes('data-band="L4b"') && svg.includes("L4b — Poofer accumulator"));
+  const l4band = bandChunk("L4");
+  check("riser: L4 discharge turns upward (tcell mini-grid + rotate(-90) symbols)",
+    l4band.includes('class="tcell"') && l4band.includes("rotate(-90)"));
+  const l3band = bandChunk("L3"), pcl = app.STRIP_H + app.CL;
+  check("split: metered path strip renders below with down and up elbows",
+    l3band.includes('data-par="L3"') && l3band.includes(`V${pcl - 8} Q`) && l3band.includes(`V${app.CL}"`));
+  check("standby rail draws repeated tips (xn)",
+    bandChunk("L3a").includes('translate(-22 0)') && bandChunk("L3a").includes('translate(22 0)'));
+  check("dashed line boxes drawn (trunk sections + band segments)",
+    (svg.match(/stroke-dasharray="7 4"/g) || []).length >= app.SYSTEM.lines.length);
 
   const boxes = textBoxes(svg);
   check("all <text> elements parseable", !boxes.some(b => b.malformed), (boxes.find(b => b.malformed) || {}).malformed);
@@ -150,7 +167,7 @@ console.log("EDITOR ROUND TRIP");
   check("re-render succeeds", store["jsonMsg"].textContent === "Re-rendered.");
   const svg = store["strips"].children[0].innerHTML;
   check("unmatched line renders as orphan strip with pentagon", svg.includes('data-band="L9"') && /h16 l8 10 l-8 10 h-16/.test(svg) && svg.includes(">Z<"));
-  check("fan:3 survives the JSON round trip (TYP badge drawn)", svg.includes("TYP ×3"));
+  check("fan:3 survives the JSON round trip (one-of-n badge drawn)", svg.includes("one of 3 identical branches"));
   check("hostile project name escaped in meta", !store["docMeta"].innerHTML.includes("<script>"));
   const bad = collisions(textBoxes(svg));
   check("still zero text collisions after edit", bad.length === 0, bad.slice(0, 4).join("; "));
@@ -163,12 +180,12 @@ console.log("MULTI-BRANCH & HOSTILE DATA");
 {
   const { store, captured, app } = loadApp();
   const o = JSON.parse(store["jsonBox"].value);
-  // second matched pilot tap on L3 (the corridor-crossing regression)
+  // second matched tap on L3, downstream of the split (the corridor-crossing regression)
   const L3 = o.SYSTEM.lines.find(L => L.id === "L3");
-  L3.items.splice(L3.items.findIndex(it => it.tag === "SV-1") + 1, 0,
-    { p: "nptTee", tag: "F-9", branch: { ref: "P2" }, note: "second pilot tap" }, { j: "npt", size: "1/4", lr: "M>F" });
+  L3.items.splice(L3.items.findIndex(it => it.tag === "F-4") + 1, 0,
+    { p: "nptTee", tag: "F-T9", branch: { ref: "P2" }, note: "second standby tap" }, { j: "npt", size: "1/4", lr: "M>F" });
   o.SYSTEM.lines.push({ id: "L3b", title: "Second pilot", psi: "60 psi", op: 60,
-    items: [{ j: "off", ref: "P2", dir: "in", label: "from F-9" }, { j: "tube", part: "cu38", size: "3/8", label: "TB-9" }, { p: "pilot", tag: "PL-9", flame: true }] });
+    items: [{ j: "off", ref: "P2", dir: "in", label: "from F-T9" }, { j: "tube", part: "cu38", size: "3/8", label: "TB-9" }, { p: "pilot", tag: "PL-9", flame: true }] });
   // mid-trunk off-out (must NOT terminate the run)
   const L1 = o.SYSTEM.lines.find(L => L.id === "L1");
   L1.items.splice(L1.items.length - 2, 0, { j: "off", ref: "Q", dir: "out", label: "aux port (future)" });
