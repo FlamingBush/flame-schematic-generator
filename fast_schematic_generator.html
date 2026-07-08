@@ -439,6 +439,26 @@ function buildCell(it){
   if(it.p){const {p,m,tag,notes}=partText(it);
     const xn=Math.min(Math.max(it.xn|0,1),6); // xn: repeated tips (standby rail) drawn side by side
     const wSym=((p.sym==="tank")?50:Math.max(p.w*S,30))+(xn-1)*22;
+    // a cell hosting a MATCHED drop keeps the column under its glyph clear:
+    // tag/notes move to the right of the symbol so the connector can descend
+    // straight from the tee — the branch leaves AT the fitting, not past it
+    if(it.branch&&it.branch.ref&&MATCHED.has(it.branch.ref)){
+      const textW=Math.max(measure(tag,10),...(notes.length?notes.map(n=>measure(n,9)):[0]),40);
+      const gh=Math.max(wSym/2,15);
+      const w=Math.ceil(26+2*gh+12+textW+10);
+      return {w,cx:26+gh,draw(x){const cx=x+26+gh,tx=cx+gh+12;
+        let s=`<line x1="${x}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
+        for(let k=0;k<xn;k++)s+=`<g transform="translate(${(k-(xn-1)/2)*22} 0)">${SYM[p.sym==="none"?"hexAdapter":p.sym](cx,p,it)}</g>`;
+        if(m)s+=SYM[m.sym](cx,m,it.mount);
+        s+=`<line x1="${cx-16}" y1="${ROW.balloon+10}" x2="${cx-16}" y2="${CL-48}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
+        <circle cx="${cx-16}" cy="${ROW.balloon}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(cx-16,ROW.balloon+3.5,refIndex[it.p],10.5)}`;
+        if(m)s+=`<line x1="${cx+16}" y1="${ROW.balloon+10}" x2="${cx+16}" y2="${CL-48}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
+        <circle cx="${cx+16}" cy="${ROW.balloon}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(cx+16,ROW.balloon+3.5,refIndex[it.mount.p],10.5)}`;
+        s+=txt(tx,ROW.tag,tag,10,"start",INK,1);
+        if(notes[0])s+=txt(tx,ROW.n1,notes[0],9,"start",it.emergency?FLAME:INK2);
+        if(notes[1])s+=txt(tx,ROW.n2,notes[1],9,"start",INK2);
+        return s;}};
+    }
     const w=Math.max(wSym+18,measure(tag,10)+14,...(notes.length?notes.map(n=>measure(n,9)+12):[0]),46);
     return {w,draw(x){const cx=x+w/2;
       const bx=(it.branch||m)?cx-16:cx; // balloon shifts left so the branch line / mounted symbol stays clear
@@ -717,14 +737,12 @@ function renderBandRows(L,availW){
     }
     const c=buildCell(it);
     const teeRef=it.p&&it.branch&&it.branch.ref&&MATCHED.has(it.branch.ref)?it.branch.ref:null;
-    if(!fits(c.w+(teeRef?TRUNK.DROP_W:0)))wrap();
+    if(!fits(c.w))wrap();
+    const xB=row.x;
     row.inner+=c.draw(row.x);row.x+=c.w;
-    if(teeRef){
-      // reserved drop corridor: the connector to the sub-band descends here
-      row.inner+=`<line x1="${row.x}" y1="${CL}" x2="${row.x+TRUNK.DROP_W}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
-      row.tees.push({ref:teeRef,cx:row.x-c.w/2,corrX:row.x+TRUNK.DROP_W/2});
-      row.x+=TRUNK.DROP_W;
-    }
+    // the connector descends straight from the tee glyph (drop-host cells keep
+    // that column free of text)
+    if(teeRef)row.tees.push({ref:teeRef,cx:xB+(c.cx!==undefined?c.cx:c.w/2)});
   });
   rows.forEach(r=>{
     r.w=Math.max(r.x+14,r.titleEnd+12);
@@ -736,57 +754,77 @@ function renderBandRows(L,availW){
   });
   return rows;
 }
-/* Place a band's rows, its dropped sub-bands, its loop-back connectors, and
-   (for a matched terminal fan) its end band. Returns the subtree extents and
+/* Place a band. Its rows stack CONTIGUOUSLY (a compact block that reads like
+   a paragraph, loop-backs living in the row gaps); every branch band then
+   hangs BELOW the whole block in reading order. Drops from the LAST row
+   descend straight under their tee (the classic look); drops from earlier
+   rows ride a left-margin lane down past the remaining rows; a terminal fan
+   S-routes on the right below everything. Returns the subtree extents and
    the first row's centerline so the caller can draw the arriving connector. */
 function placeBand(L,absX,topY,out,edgeByRef){
   const rows=renderBandRows(L,Math.max(SHEET_W-absX,900));
   const merged=TREE.chain[L.id]?` data-merged="${esc(TREE.chain[L.id].slice(1).map(s=>s.id).join(" "))}"`:"";
-  let right=absX,bottom=topY,cl0=0,y=topY+rows[0].up;
+  const lastIdx=rows.length-1;
+  const direct=[],routed=[];let endInfo=null;
   rows.forEach((row,ri)=>{
-    const rowCL=y+CL;
-    if(ri===0)cl0=rowCL;
-    out.over.push(`<g class="band" data-band="${esc(L.id)}" data-cl="${rowCL}" data-w="${row.w}" transform="translate(${absX} ${y})"${ri?` data-row="${ri}"`:merged}>${ri===0?bandTitle(L):""}${row.content}</g>`);
-    const rowRight=absX+row.w;
-    let rowBottom=y+row.h,subY=rowBottom+TRUNK.GAP;
-    right=Math.max(right,rowRight);
-    // place sub-bands right-to-left: each later (lefter) drop corridor then
-    // passes LEFT of every sibling band already stacked above it — corridors
-    // can never slice through a sibling's strip
-    [...row.tees].reverse().forEach(t=>{
-      const e=edgeByRef[t.ref];if(!e)return;
-      const corrX=absX+t.corrX;
-      const r=placeBand(e.to,corrX-6,subY,out,edgeByRef);
-      // connectors paint UNDER the bands and start at the run centerline: the
-      // host symbol's white body masks the overlap, so any branch host (tee,
-      // ball, ...) meets its connector with no floating gap
-      out.under.push(`<path data-conn="${esc(t.ref)}" data-cly="${r.cl0}" d="M${absX+t.cx} ${rowCL} V${rowCL+30} H${corrX} V${r.cl0-8} Q${corrX} ${r.cl0} ${corrX+8} ${r.cl0}" fill="none" stroke="${INK}" stroke-width="2"/>`);
-      right=Math.max(right,r.right);rowBottom=Math.max(rowBottom,r.bottom);subY=r.bottom+TRUNK.GAP;
-    });
-    if(row.endTee){
-      const e=edgeByRef[row.endTee.ref];
-      if(e){
-        const r=placeBand(e.to,absX,rowBottom+TRUNK.GAP+12,out,edgeByRef);
-        // route right of everything this subtree drew, then back left above
-        // the fan band — the same S-route the loop-backs use
-        const lane=Math.max(rowRight,right,r.right)+18,yMid=rowBottom+12,eX=absX+row.endTee.corrX;
-        out.under.push(`<path data-conn="${esc(row.endTee.ref)}" data-cly="${r.cl0}" d="M${eX} ${rowCL+12} H${lane-8} Q${lane} ${rowCL+12} ${lane} ${rowCL+20} V${yMid-8} Q${lane} ${yMid} ${lane-8} ${yMid} H${absX+2} Q${absX-6} ${yMid} ${absX-6} ${yMid+8} V${r.cl0-8} Q${absX-6} ${r.cl0} ${absX+2} ${r.cl0} H${absX+15} M${absX+18} ${r.cl0-4} l6 4 l-6 4" fill="none" stroke="${INK}" stroke-width="2"/>`);
-        right=Math.max(right,lane);rowBottom=Math.max(rowBottom,r.bottom);
-      }
-    }
-    bottom=Math.max(bottom,rowBottom);
-    if(ri<rows.length-1){
-      // loop back to the band's left margin for the next row
-      // the return line runs just below THIS row's envelope so it clears the
-      // next row's riser headroom (which extends above that row's strip top)
-      const nextTop=rowBottom+TRUNK.GAP+rows[ri+1].up;
-      const nextCL=nextTop+CL,yMid=rowBottom+12,lane=Math.max(rowRight,right)+18;
-      out.under.push(`<path data-loop="${esc(L.id)}:${ri}" data-y1="${rowCL}" data-y2="${nextCL}" d="M${absX+row.x} ${rowCL} H${lane-8} Q${lane} ${rowCL} ${lane} ${rowCL+8} V${yMid-8} Q${lane} ${yMid} ${lane-8} ${yMid} H${absX+2} Q${absX-6} ${yMid} ${absX-6} ${yMid+8} V${nextCL-8} Q${absX-6} ${nextCL} ${absX+2} ${nextCL} H${absX+15} M${absX+18} ${nextCL-4} l6 4 l-6 4" fill="none" stroke="${INK}" stroke-width="2"/>`);
-      right=Math.max(right,lane);
-      y=nextTop;
-    }
+    row.tees.forEach(t=>{const e=edgeByRef[t.ref];if(!e)return;
+      (ri===lastIdx?direct:routed).push({ri,t,e});});
+    if(row.endTee&&edgeByRef[row.endTee.ref])endInfo={ri,t:row.endTee,e:edgeByRef[row.endTee.ref]};
   });
-  return {right,bottom,cl0};
+  routed.sort((a,b)=>a.ri-b.ri||a.t.cx-b.t.cx);
+  const jogsPerGap={};routed.forEach(r=>{jogsPerGap[r.ri]=(jogsPerGap[r.ri]||0)+1;});
+  // pass 1: rows, gaps grown to hold the jogs routed through them
+  const rowY=[];let y=topY+rows[0].up,right=absX;
+  rows.forEach((row,ri)=>{
+    rowY[ri]=y;right=Math.max(right,absX+row.w);
+    out.over.push(`<g class="band" data-band="${esc(L.id)}" data-cl="${y+CL}" data-w="${row.w}" transform="translate(${absX} ${y})"${ri?` data-row="${ri}"`:merged}>${ri===0?bandTitle(L):""}${row.content}</g>`);
+    if(ri<lastIdx)y+=row.h+TRUNK.GAP+6*(jogsPerGap[ri]||0)+rows[ri+1].up;
+  });
+  let bottom=rowY[lastIdx]+rows[lastIdx].h;
+  // loop-backs: out on the right of the two rows they join, back along the
+  // bottom of the gap (above the next row's riser headroom), in at the margin
+  rows.forEach((row,ri)=>{
+    if(ri>=lastIdx)return;
+    const rowCL=rowY[ri]+CL,nextCL=rowY[ri+1]+CL;
+    const yMid=rowY[ri+1]-rows[ri+1].up-10;
+    const lane=absX+Math.max(row.w,rows[ri+1].w)+18;
+    out.under.push(`<path data-loop="${esc(L.id)}:${ri}" data-y1="${rowCL}" data-y2="${nextCL}" d="M${absX+row.x} ${rowCL} H${lane-8} Q${lane} ${rowCL} ${lane} ${rowCL+8} V${yMid-8} Q${lane} ${yMid} ${lane-8} ${yMid} H${absX+2} Q${absX-6} ${yMid} ${absX-6} ${yMid+8} V${nextCL-8} Q${absX-6} ${nextCL} ${absX+2} ${nextCL} H${absX+15} M${absX+18} ${nextCL-4} l6 4 l-6 4" fill="none" stroke="${INK}" stroke-width="2"/>`);
+    right=Math.max(right,lane);
+  });
+  // pass 2a: last-row drops, right-to-left, straight down under the tee — a
+  // later (lefter) corridor passes LEFT of every sibling stacked above it
+  let subY=bottom+TRUNK.GAP;
+  [...direct].sort((a,b)=>b.t.cx-a.t.cx).forEach(({t,e})=>{
+    const cx=absX+t.cx;
+    const r=placeBand(e.to,cx-6,subY,out,edgeByRef);
+    out.under.push(`<path data-conn="${esc(t.ref)}" data-cly="${r.cl0}" d="M${cx} ${rowY[lastIdx]+CL} V${r.cl0-8} Q${cx} ${r.cl0} ${cx+8} ${r.cl0}" fill="none" stroke="${INK}" stroke-width="2"/>`);
+    right=Math.max(right,r.right);bottom=Math.max(bottom,r.bottom);subY=r.bottom+TRUNK.GAP;
+  });
+  // pass 2b: earlier-row drops leave straight below their tee, jog left in
+  // their row gap, ride a left-margin lane down past the remaining rows, and
+  // enter their band from the left; bands placed deepest-lane-first so an
+  // entry never crosses another lane
+  const jogIdx={};
+  const jobs=routed.map((r,k)=>{
+    const n=(jogIdx[r.ri]=(jogIdx[r.ri]||0)+1);
+    return {...r,lane:absX-12-8*(routed.length-1-k),jy:rowY[r.ri]+rows[r.ri].h+4+6*(n-1)};
+  });
+  [...jobs].reverse().forEach(({ri,t,e,lane,jy})=>{
+    const cx=absX+t.cx,rowCL=rowY[ri]+CL;
+    const r=placeBand(e.to,absX,subY,out,edgeByRef);
+    out.under.push(`<path data-conn="${esc(t.ref)}" data-cly="${r.cl0}" d="M${cx} ${rowCL} V${jy-8} Q${cx} ${jy} ${cx-8} ${jy} H${lane+8} Q${lane} ${jy} ${lane} ${jy+8} V${r.cl0-8} Q${lane} ${r.cl0} ${lane+8} ${r.cl0} H${absX+15}" fill="none" stroke="${INK}" stroke-width="2"/>`);
+    right=Math.max(right,r.right);bottom=Math.max(bottom,r.bottom);subY=r.bottom+TRUNK.GAP;
+  });
+  // pass 2c: terminal fan below everything, S-routed on the right
+  if(endInfo){
+    const {ri,t,e}=endInfo;
+    const rowCL=rowY[ri]+CL,yMid=subY-8;
+    const r=placeBand(e.to,absX,subY+6,out,edgeByRef);
+    const lane=Math.max(right,r.right)+18,eX=absX+t.corrX;
+    out.under.push(`<path data-conn="${esc(t.ref)}" data-cly="${r.cl0}" d="M${eX} ${rowCL+12} H${lane-8} Q${lane} ${rowCL+12} ${lane} ${rowCL+20} V${yMid-8} Q${lane} ${yMid} ${lane-8} ${yMid} H${absX+2} Q${absX-6} ${yMid} ${absX-6} ${yMid+8} V${r.cl0-8} Q${absX-6} ${r.cl0} ${absX+2} ${r.cl0} H${absX+15}" fill="none" stroke="${INK}" stroke-width="2"/>`);
+    right=Math.max(right,lane);bottom=Math.max(bottom,r.bottom);
+  }
+  return {right,bottom,cl0:rowY[0]+CL};
 }
 
 /* ---------- SCHEMATIC ASSEMBLY ---------- */
@@ -795,14 +833,17 @@ function renderSchematic(){
   buildRefs();deriveTree();
   const edgeByRef={};TREE.edges.forEach(e=>{edgeByRef[e.ref]=e;});
   const out={over:[],under:[]};
+  // reserve a left gutter for the lanes that route earlier-row drops down the
+  // margin (worst case: one lane per derived edge)
+  const x0=20+12+8*TREE.edges.length;
   let right=600,bottom=16;
   if(TREE.root){
-    const r=placeBand(TREE.root,20,16,out,edgeByRef);
+    const r=placeBand(TREE.root,x0,16,out,edgeByRef);
     right=Math.max(right,r.right);bottom=r.bottom;
   }
   let oy=bottom+30;
   TREE.orphans.forEach(L=>{
-    const r=placeBand(L,20,oy,out,edgeByRef);
+    const r=placeBand(L,x0,oy,out,edgeByRef);
     right=Math.max(right,r.right);oy=r.bottom+18;bottom=r.bottom;
   });
   const W=Math.round(right+20),H=Math.round(bottom+16);

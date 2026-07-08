@@ -35,10 +35,11 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
    the outermost band. A band whose LAST item is a 1:1 off-out chains its
    consumer into the same band (`TREE.chain`, seam title + fresh dashed box
    mid-band — how L1+L2 and L4+L4b each read as one run while keeping
-   separate `op` pressures); matched tees hang their consumer band BELOW at
-   the tee's true x (kind "drop", fed through a reserved 24 px corridor
-   cell); a terminal off-out with `fan:n` hangs its consumer under the run's
-   end elbow with a one-of-n badge (kind "end", S-routed connector).
+   separate `op` pressures); matched tees hang their consumer band below the
+   host band's whole row block (kind "drop") — the connector leaves straight
+   DOWN from the tee glyph (drop-host cells move their text right of the
+   symbol to keep that column clear); a terminal off-out with `fan:n` hangs
+   its consumer with a one-of-n badge (kind "end", S-routed on the right).
    Unmatched refs degrade to the classic pentagon; unreachable lines render
    as standalone strips at the bottom — nothing throws on hostile data.
    Dashed rounded boxes group every numbered line's components per row; keep
@@ -47,13 +48,17 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
    ROW GRID (`ROW`): balloon row / joint-spec row / centerline `CL` /
    joint-detail row / tag row / two note rows; cell widths are computed from
    the widest label (`measure()`), so labels cannot collide. Bands WRAP: rows
-   fill toward `SHEET_W` and the run loops back to the band's left margin
-   through an S-routed connector (`data-loop`, right lane → return line just
-   below the previous row's envelope → left lane), with splits and risers as
-   atomic units; the return line must clear both the row's dropped sub-bands
-   (placed between rows, right-to-left so corridors never slice a sibling
-   strip) and the next row's riser headroom (`row.up`, reserved above its
-   strip top). Discharge risers are the one vertical construct: they reuse
+   fill toward `SHEET_W` and stack CONTIGUOUSLY (a compact block that reads
+   like a paragraph), the run looping back to the band's left margin through
+   an S-routed connector in each row gap (`data-loop`; the return line runs
+   at the gap bottom, above the next row's riser headroom `row.up`). Branch
+   bands hang BELOW the whole block in reading order: last-row drops descend
+   straight under their tee (right-to-left so a later corridor passes left of
+   every sibling); earlier-row drops jog left in their own row gap and ride a
+   reserved left-margin lane down past the remaining rows (the gutter is
+   sized in `renderSchematic` from the edge count); the terminal fan S-routes
+   on the right below everything. Splits and risers are atomic units that
+   wrap as a whole. Discharge risers are the one vertical construct: they reuse
    the `TROW` per-cell mini-grid (anchored at each `g.tcell`'s `data-y`),
    flowing bottom → top. Symbols are white-filled bodies over one continuous
    run line, capped 46 px above / 34 px below `CL`, and contain NO text

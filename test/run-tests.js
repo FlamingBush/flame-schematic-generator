@@ -223,15 +223,19 @@ console.log("MULTI-BRANCH & HOSTILE DATA");
   [...svg.matchAll(/<g class="band" data-band="([^"]*)" data-cl="(-?[\d.]+)" data-w="(-?[\d.]+)" transform="translate\((-?[\d.]+) (-?[\d.]+)\)"/g)]
     .forEach(m => { (rows[m[1]] = rows[m[1]] || []).push({ cl: +m[2], w: +m[3], x: +m[4], y: +m[5] }); });
   app.TREE.edges.filter(e => e.kind === "drop").forEach(e => {
-    const m = svg.match(new RegExp(`data-conn="${rx(e.ref)}" data-cly="(-?[\\d.]+)" d="M(-?[\\d.]+) (-?[\\d.]+) V(-?[\\d.]+) H(-?[\\d.]+) V(-?[\\d.]+)`));
-    const cross = m ? Object.entries(rows).filter(([id, rs]) =>
-      id !== e.to.id && id !== e.from.id && rs.some(r =>
-        +m[5] >= r.x && +m[5] <= r.x + r.w &&
-        Math.min(+m[4], +m[6]) < r.y + app.STRIP_H && Math.max(+m[4], +m[6]) > r.y)).map(([id]) => id) : ["no-path"];
-    check(`drop ${e.ref}: corridor clears sibling bands`, !!m && cross.length === 0, cross.join(","));
-    check(`drop ${e.ref}: starts at one of the host's row centerlines`,
+    // every drop connector leaves straight DOWN from its tee: M x cl V ...
+    const m = svg.match(new RegExp(`data-conn="${rx(e.ref)}" data-cly="(-?[\\d.]+)" d="M(-?[\\d.]+) (-?[\\d.]+) V(-?[\\d.]+)`));
+    check(`drop ${e.ref}: leaves straight down from its tee, at a host row centerline`,
       !!m && (rows[e.from.id] || []).some(r => r.cl === +m[3]),
       m && `starts ${m[3]} vs cls ${(rows[e.from.id] || []).map(r => r.cl).join("/")}`);
+    // the initial vertical segment must not slice any strip other than its
+    // host's (last-row drops descend all the way into their band; earlier-row
+    // drops descend only into their own row gap before jogging left)
+    const cross = m ? Object.entries(rows).filter(([id, rs]) =>
+      id !== e.from.id && rs.some(r =>
+        +m[2] >= r.x && +m[2] <= r.x + r.w &&
+        Math.min(+m[3], +m[4]) < r.y + app.STRIP_H && Math.max(+m[3], +m[4]) > r.y + 1)).map(([id]) => id) : ["no-path"];
+    check(`drop ${e.ref}: descent clears sibling strips`, !!m && cross.length === 0, cross.join(","));
   });
   const clip = clippedByCanvas(svg, textBoxes(svg));
   check("long orphan title not clipped by canvas", clip.length === 0, clip.slice(0, 3).join("; "));
