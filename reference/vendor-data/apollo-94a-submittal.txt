@@ -1,0 +1,167 @@
+1
+aalberts-ips.us
+we reserve the right to change box quantities
+customer service 704.841.6000
+submittal
+sheet
+standard materials list 
+body forged brass (Cu >57%) 
+retainer forged brass (Cu >57%) 
+ball brass, Cr plated
+stem brass, Cr plated
+stem seal/o-ring EPDM
+seats PTFE
+stem packing PTFE
+gland nut brass 
+handle steel, plated (with PVC 
+Grip)
+handle nut steel, plated
+dimensions 
+PART
+NUMBER
+SIZE
+(IN.)
+DIMENSIONS (IN.)
+WT. 
+(LB.)
+KIT OPTIONS
+A B C D E
+2-1/4”
+STEM EXTENSION 
++ MEMORY STOP
+REPLACEMENT 
+LEVER HANDLES
+NPT
+94A-101-01 1/4” 0.39 1.76 1.73 3.54 - 0.3 78217101 W93240094A-102-01 3/8” 0.39 1.76 1.73 3.54 - 0.3
+94A-103-01 1/2” 0.58 2.05 2.04 3.54 - 0.4 78217201 W932500
+94A-104-01 3/4” 0.75 2.36 2.26 3.78 - 0.7 78217301 W936000
+94A-105-01 1” 0.95 2.76 2.58 4.53 - 1.1 78217401 W932600
+94A-106-01 1-1/4” 1.26 3.31 3.05 4.53 - 1.6 78217501 W932700
+94A-107-01 1-1/2” 1.58 3.66 3.37 5.51 - 2.4 78217601 W932800
+94A-108-01 2” 1.97 4.18 3.70 6.30 - 3.4 W233200
+94A-109-01 2-1/2” 2.52 5.38 4.65 8.66 - 7.6 78217701 W93290094A-100-01 3” 2.95 6.04 4.97 8.66 - 9.3
+94A-10A-01 4” 3.95 7.39 6.13 11.02 - 16.9 78217801 W933000
+SOLDER
+94A-203-01 1/2” 0.58 2.05 1.84 3.54 0.63 0.4 78217201 W932500
+94A-204-01 3/4” 0.75 2.75 2.14 3.78 0.88 0.7 78217301 W936000
+94A-205-01 1” 0.95 3.31 2.45 4.53 1.13 1.1 78217401 W932600
+94A-206-01 1-1/4” 1.26 3.82 3.04 4.53 1.38 1.4 78217501 W932700
+94A-207-01 1-1/2” 1.58 4.43 3.17 5.51 1.63 2.2 78217601 W932800
+94A-208-01 2” 1.97 5.38 3.49 6.30 2.13 3.0 W233200
+94A-209-01 2-1/2” 2.52 6.28 4.66 8.66 2.63 6.4 78217701 W93290094A-200-01 3” 2.95 7.15 4.87 8.66 3.13 8.5
+94A-20A-01 4” 3.95 9.28 5.87 11.02 4.13 15.8 78217801 W933000
+  E   A
+  B
+  D
+  C
+  D
+  C
+  A
+  B
+  E   A
+  B
+  D
+  C
+  D
+  C
+  A
+  B
+**94A-2xx intended for soft solder installation 
+using solders with melting temperature < 
+500°F.
+description
+the Apollo International TM 94A forged brass ball valve combines reliable operation with maximum economy. ideal for general flow 
+control applications including hvac, fuel gases, and fire protection trim and drain etc.  valves include most pertinent agency approvals.
+job name:
+job location:
+engineer:
+contractor:
+tag:
+po#:
+rep:
+wholesale dist.:
+full port brass ball valve
+94A series
+SS1001 © 08/22
+features
+• 2-piece, full port design
+• blowout-proof stem
+• adjustable stem packing nut
+• 100% factory tested
+• stem seal o-ring (solder version 1/2” - 2”)
+• MSS SP-110 Ball Valves
+• 2 Year Warranty
+CSA listed
+(file # 226234) per the following standards:
+• ANSI Z21.1591-002) (1/4” – 4”)
+• ASME B16.33 (125 psi) (CGA 3.16) (1/4” – 2”)
+performance rating
+• 600 CWP – 1/4” - 4” 
+• 400 CWP – 2-1/2” - 4”
+• temperature range: 0°F - 400°F
+*not for use in potable water applications in the 
+United States.
+FM listed
+• FM 1140 fire protection quick opening 
+valves
+UL listed
+• UL 125 - flow control valves for LP-Gas, guide YSDT to 250 psi max
+• UL 258 - fire protection trim & drain, guide VQGU to 175psi max (1/4” – 2”)
+• UL 842 - valves for flammable fluids, guides YRBX, YRPV, and MHKZ to 250 psi max. 
+(1/4” - 4” NPT only)
+• UL 1477 - compressed Ggas shutoff valves, guide YQNZ to 250 psi max (1/4” - 4” NPT 
+only)
+*gas approvals apply to NPT models only
+if locking lever kit option is installed, its position will be 180 degrees that of the standard lever.2
+aalberts-ips.us
+we reserve the right to change box quantities
+customer service 704.841.6000
+submittal
+sheet
+accessories
+94A series
+replacement lever handles kits
+stem extension kits
+tee handle kits
+stainless steel lever & nut kits
+latch lock lever kits
+PART NO. SIZE (IN.) PRICE EA.
+W932400 1/4", 3/8" $2.85 
+W932500 1/2" $2.85 
+W936000 3/4" $3.96 
+W932600 1" $4.54 
+W932700 1-1/4" $4.76 
+W932800 1-1/2", 2" $9.04 
+W932900 2-1/2", 3" $14.18 
+W933000 4" $16.54 
+PART NO. SIZE (IN.) LIST PRICE EA.
+W350312T 1/2" $2.77 
+W350334T 3/4" $3.55 
+W35031T 1" $4.14 
+W3503114T 1 1/4" $4.73 
+PART NO. SIZE (IN.) LIST PRICE EA.
+W932400S 1/4"-3/8" $7.38 
+W932500S 1/2" $7.09 
+W936000S 3/4" $10.93 
+W932600S 1" $11.81 
+W932700S 1 1/4" $13.29 
+W932800S 1 1/2"-2" $17.72 
+W932900S 2 1/2"-3" $29.54 
+PART NO. SIZE (IN.) LIST PRICE EA.
+78217202 1/4" 3/8" $8.86 
+78217302 1/2" $8.86 
+78217402 3/4" $9.61 
+78217502 1" $11.08 
+78217602 1-1/4" $13.29 
+78217702 1-1/2" & 2" $17.72 
+78217802 2-1/2" & 3" $23.63 
+78217902 4" $44.30 
+PART NO. SIZE (IN.) PRICE EA.
+78217101 1/4", 3/8" $20.59 
+78217201 1/2" $21.77 
+78217301 3/4" $22.81 
+78217401 1" $24.86 
+78217501 1-1/4" $26.99 
+78217601 1-1/2", 2" $35.23 
+78217701 2-1/2", 3" $47.25 
+78217801 4" $53.16 

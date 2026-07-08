@@ -1,0 +1,182 @@
+The contents of this publication are for informational purposes only.  While every effort has been made to ensure accuracy, these contents 
+are not to be construed as warranties or guarantees, expressed or implied, regarding the products or services described herein or for their use 
+or applicability.  Marshall Excelsior Co. reserves the right to modify or improve the designs or specifications of such products at any time 
+without notice.  The MEC™ logo is the trademark of Marshall Excelsior Co. 
+ 
+  Form #976 Rev A 
+ 
+ 
+ 
+ 
+                                                  MEGR-6120 GAS REGULATOR 
+ 
+Instruction Manual- Look Inside For: 
+Description 
+Installation 
+Operation 
+Maintenance 
+Parts Ordering 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Marshall Excelsior Company 
+Marshall, MI 49068 
+269-789-6700 
+FAX 269-781-8340 
+ 
+www.marshallexcelsior.com 
+ 
+ 
+MEGR-6120 Instruction Manual 
+  
+ 
+ 
+Form #976 Rev A  
+ 
+ 
+ 
+ATTENTION: 
+ The installation of this device must be in accordance with NFPA standards No. 54 & 58, along with all 
+ federal, state, and local codes.  All personnel installing this device should be trained on the hazards 
+ associated with combustible gases and fluids.  MEC assumes no responsibly from damage or injury 
+ that may result from servicing or the improper installation of this regulator.   
+ 
+OPERATION: 
+ The MEGR-6120 is a high capacity, pounds to pounds, industrial gas regulator.  It is designed to 
+ conform to UL Standard 144 for use with LP Gas.  The maximum supply pressure is 250 PSIG. The 
+ maximum output pressure is printed on the regulator nameplate.  This regulator is not intended for use 
+ in pressure applications below 3 PSIG. The operating temperature range is -40° to +200° F. 
+ 
+INSTALLATION: 
+ Ensure all gas lines are free from dirt and scale.  Shut off the gas.  The MEGR-6120 can be mounted at 
+ any angle without affecting operation.  Install the regulator as close as possible to the instrument that it 
+ is to supply.  Avoid using undersized fittings that will limit the flow through the regulator and cause 
+ downstream pressure drop.  Apply a minimum amount of pipe compound to the male threads of the 
+ inlet and outlet piping.  The words "IN" and "OUT" are cast into the body of the regulator to indicate the 
+ direction of flow.  The regulator must be oriented in  the correct flow direction or internal damage to the 
+ regulator may occur.  The two 1/4" NPT gauge ports marked "GA" can also be used as optional output 
+ ports, but with decreased flow delivery.  Before putting the regulator into service for the first time, 
+ relieve compression on the range spring by turning the "T" handle counter clockwise.  After gas is 
+ applied to the regulator, check installation to ensure that there is a leak tight seal.  To operate, turn the 
+ "T" handle slowly in a clockwise direction until the required downstream pressure is obtained.  
+ 
+ 
+CAUTION:  
+The MEGR-6120 is a non-relieving regulator and thus cannot exhaust excess pressure 
+at the regulator.  In order to establish an accurate output pressure it may be necessary 
+to cycle the downstream flow or to set the regulator at a slight flow. 
+ 
+ 
+MAINTENANCE: 
+ Because the MEGR-6120 is assembled and tested at the factory to conform to UL Standard 144, any 
+ maintenance or repair should be in accordance with this listing as well as any other applicable 
+ regulations.  Regulator parts showing wear should be replaced as necessary. The procedure below 
+ describes how to disassemble the MEGR-6120 for parts replacement and inspection.  Assembly is 
+ the reverse of this procedure.  
+ 
+1. Turn the adjustment screw 
+counterclockwise to remove spring tension. 
+2. Loosen the six build screws and separate 
+the bonnet from the body. 
+3. Remove the spring guide and spring. 
+4. Unscrew the diaphragm assembly from the 
+pintle assembly. 
+5. Loosen, by turning counterclockwise, and 
+remove the O-Ring and bottom plug. 
+6. Remove the pintle spring and pintle 
+assembly.
+ HIGH PRESSURE REGULATORS            
+MEGR-6120 & MEGR-6121 SERIES
+MEGR-6120 & MEGR-6121 Specifications:
+Type:   Adjustable or Fixed / PSI
+Max. Inlet Pressure: 250 PSIG (17,2 bar)
+Inlet Connection:  1/4” FNPT
+Outlet Connections: 1/4” FNPT
+Gauge Port:  1/4” FNPT
+Exterior Finish:   Red Wet Coat
+Diaphragm:  Fabric Reinforced Buna N
+Body/ Bonnet Material: Die Cast Aluminum
+Liquid Capacity:   3-5 GPH
+Listings:    UL LISTED / UL 144
+For Your Local Marshall Excelsior Distributor Call 269-789-6700, 
+Fax 269-781-8340 or E-mail: sales@marshallexcelsior.com
+www.marshallexcelsior.com
+Adjustable Configurations
+Part No. Description
+ MEGR-6120-30 High Pressure Adjustable Reg 1-30 PSI - 1/4” FNPT Inlet/Outlet
+ MEGR-6120-60 High Pressure Adjustable Reg 1-60 PSI - 1/4” FNPT Inlet/Outlet
+ MEGR-6120-100 High Pressure Adjustable Reg 1-100 PSI - 1/4” FNPT Inlet/Outlet
+Non-Adjustable Configurations
+Part No. Description
+ MEGR-6121-05 High Pressure Fixed Reg 5PSI - 1/4” FNPT Inlet/Outlet
+ MEGR-6121-10 High Pressure Fixed Reg 10PSI - 1/4” FNPT Inlet/Outlet
+ MEGR-6121-20 High Pressure Fixed Reg 20PSI - 1/4” FNPT Inlet/Outlet
+ MEGR-6121-30 High Pressure Fixed Reg 30PSI - 1/4” FNPT Inlet/Outlet
+ MEGR-6121-40 High Pressure Fixed Reg 40PSI - 1/4” FNPT Inlet/Outlet
+ MEGR-6121-50 High Pressure Fixed Reg 50PSI - 1/4” FNPT Inlet/Outlet
+ MEGR-6121-60 High Pressure Fixed Reg 60PSI - 1/4” FNPT Inlet/Outlet
+Application:
+The MEGR-6120 Series are UL LISTED high-pressure regulators that meet a variety of applications for liquid or vapor          
+service. The compact body design makes these regulators particularly useful in installations with space limitations. The basic 
+MEGR-6120 Series regulators come equipped with a handwheel adjustment.  The non-adjustable ME6121 Series provides a 
+tamper-resistant spring case and one of seven fixed setpoints: 5, 10, 20, 30, 40, 50, or 60 PSI.
+The MEGR-6120 & MEGR-6121 Series are UL listed as high pressure, non-relief regulators.  Both MEGR-6120 & MEGR-6121 Series 
+regulators contain brass materials that are not compatible with anhydrous ammonia service. 
+CAPACITIES: BTU/H LPG (VAPOR)
+Outlet Set 
+Point
+Inlet    
+Pressure BTU / HR
+15 PSI
+15 PSI
+15 PSI
+50 PSI
+100 PSI
+150 PSI
+ 850,000
+ 1,700,000
+ 2,500,000
+20 PSI
+20 PSI
+50 PSI
+100 PSI
+ 900,000
+ 1,800,000
+40 PSI
+40 PSI
+100 PSI
+150 PSI
+ 1,500,000
+ 2,000,000
+50 PSI
+50 PSI
+50 PSI
+100 PSI
+150 PSI
+200 PSI
+ 1,300,000
+ 1,800,000
+ 2,300,000
+*Approximate BTU/H vapor capacities taking     
+10-20% droop into consideration
+Note: Side Outlet Connection Style (Plugged): 
+1/4” MNPT, pressure gauge (MEJ500 Series) 
+can be installed
+MEGR-6120
+Series
+MEGR-6121
+Series

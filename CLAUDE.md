@@ -61,11 +61,27 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
    note rows via `AUTONOTE` (whose flow arrows turn ↓ on the trunk). A gauge
    mounted on a regulator attaches to the reg's gauge-port circle, offset from
    the run — never draw it inline as if fuel flowed through it.
-5. Compliance engine (`runChecks`) — rules paraphrased from the published
+5. Port linter (`lintPorts`) — machine check that every drawn joint is
+   mechanically assemblable. `PARTS[*].ports` declares each part's end ports
+   as `"type:size:gender"` strings (`flare` M = cone, F = swivel nut; size
+   `"*"` = takes the tube item's size); `branch`/`gauge` declare side ports;
+   `psrc` names the grounding document in `reference/vendor-data/SOURCES.md`
+   (`"decl"` = declared from listing text, no fetchable catalog). Item-level
+   `adaptIn`/`adaptOut`/`branchAdapt` (`"in>out"`) declare note-only adapter
+   stacks; a drawn joint attaches to whichever side of such an adapter its
+   thread type matches. The walk covers the merged trunk, band chains,
+   splits, risers, mounts, branch edges, and orphans; custom fabrications
+   without ports are counted skipped, never failed; hostile data must not
+   throw. Results surface as compliance row FIT-1 and the suite seeds the
+   five hand-found defect classes (F-F without nipple, missing adapter,
+   size discontinuity, wrong joint type, backwards arrow) to keep them
+   caught. When adding a part, declare its ports and try to vault a source
+   document first (curl with a browser UA; see SOURCES.md re-fetch policy).
+6. Compliance engine (`runChecks`) — rules paraphrased from the published
    Burning Man Flame Effects Guidelines, evaluated against SYSTEM data. Three
    statuses: DESIGN PASS / REVIEW / FIELD. Keep requirement text paraphrased,
    never quoted verbatim.
-6. `downloadSVG()` — wraps `LAST_RENDER` (the single combined schematic SVG,
+7. `downloadSVG()` — wraps `LAST_RENDER` (the single combined schematic SVG,
    mutated in place by `renderSchematic()` so external references stay live)
    into one standalone document. Every interpolated string MUST pass through
    `esc()`; browsers forgive raw `&`/`<` in-page but the exported .svg must be
@@ -125,7 +141,12 @@ unescaped user strings in the title block. Add a check when you fix a bug.
 ## Reference material
 
 `reference/` holds the earlier draw.io versions of the same system (superseded
-by the HTML tool, kept for the record). The compliance rules were derived from
+by the HTML tool, kept for the record) and `reference/vendor-data/` — local
+copies of the vendor catalogs/spec sheets that ground the port model, with a
+SOURCES.md manifest. Many vendors block automated fetching (McMaster,
+Motorsnorkel, marshallexcelsior.com; Amazon serves a JS shell), so documents
+are vaulted here once and cited by `psrc` key — never cite a live URL in
+PARTS without a local copy. The compliance rules were derived from
 the published Burning Man Flame Effects Guidelines and the FAST
 required-documentation page on burningman.org — re-check those pages each year;
 requirements change between events.

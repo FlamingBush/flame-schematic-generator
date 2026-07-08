@@ -134,6 +134,13 @@ console.log("LAYOUT INVARIANTS");
   // V-1 (depot) and V-2 (main) are the marked emergency shut-offs; V-3 is a
   // plain convenience valve for testing and must NOT carry the annotation
   check("emergency shut-offs annotated (V-1, V-2 only)", (svg.match(/EMERGENCY FUEL SHUT-OFF/g) || []).length === 2);
+  // FNPT-to-FNPT junctions (regs, ball valves, solenoids, NPT tees are all
+  // female-ported) must show a hex nipple, never a bare M ▸ F claim
+  check("hex nipples drawn at every female-to-female NPT junction",
+    (svg.match(/F ◂ nipple ▸ F/g) || []).length >= 11);
+  check("SV-3 removed — metered path is needle-only", !svg.includes("SV-3"));
+  check("hose-to-regulator flare x NPT adapters drawn (F-13, F-14)",
+    svg.includes("F-13") && svg.includes("F-14"));
 }
 
 console.log("SVG EXPORT");
@@ -255,12 +262,70 @@ console.log("MULTI-BRANCH & HOSTILE DATA");
     new RegExp(`data-conn="X" data-cly="(-?[\\d.]+)" d="M${app.TRUNK.X} `).test(svg));
 }
 
+console.log("PORT LINTER");
+{
+  const { store, app } = loadApp();
+  const r = app.lintPorts();
+  check("zero issues in the default system", r.issues.length === 0, r.issues.slice(0, 3).join("; "));
+  check("meaningful coverage (checked many, skipped only customs)", r.checked >= 40 && r.skipped > 0 && r.skipped < 20,
+    `checked ${r.checked}, skipped ${r.skipped}`);
+  check("FIT-1 row passes in the compliance table",
+    store["compTable"].innerHTML.includes("FIT-1") && store["compTable"].innerHTML.includes("junctions machine-checked"));
+
+  // seed the exact defect classes found by hand review — each must be caught
+  const seed = (mutate) => {
+    const { store, app } = loadApp();
+    const o = JSON.parse(store["jsonBox"].value);
+    mutate(o);
+    store["jsonBox"].value = JSON.stringify(o);
+    store["strips"].children.length = 0;
+    app.applyJSON();
+    return app.lintPorts();
+  };
+  // 1) the PRV-1 → V-2 bug: female-to-female drawn as a bare M ▸ F joint
+  let r1 = seed(o => {
+    const L1 = o.SYSTEM.lines.find(L => L.id === "L1");
+    const i = L1.items.findIndex(it => it.p === "reg60") + 1;
+    L1.items[i] = { j: "npt", size: "1/4", lr: "M>F" };
+  });
+  check("catches female-to-female drawn without a nipple", r1.issues.some(s => s.includes("needs a nipple")), r1.issues.join("; "));
+  // 2) the missing-adapter bug: hose flare directly into an NPT port
+  let r2 = seed(o => {
+    const L1 = o.SYSTEM.lines.find(L => L.id === "L1");
+    L1.items.splice(L1.items.findIndex(it => it.tag === "F-13"), 1);
+  });
+  check("catches a missing adapter (two joints in a row)", r2.issues.some(s => s.includes("adapter part is missing")), r2.issues.join("; "));
+  // 3) size discontinuity: 1/4 joint drawn against the 3/8 mixer inlet
+  let r3 = seed(o => {
+    const L3 = o.SYSTEM.lines.find(L => L.id === "L3");
+    const i = L3.items.findIndex(it => it.p === "mixer") - 1;
+    L3.items[i] = { j: "npt", size: "1/4", lr: "M>F" };
+  });
+  check("catches a joint size discontinuity", r3.issues.some(s => s.includes("but the")), r3.issues.join("; "));
+  // 4) wrong joint type: NPT drawn where the ports are flare
+  let r4 = seed(o => {
+    const L1 = o.SYSTEM.lines.find(L => L.id === "L1");
+    const i = L1.items.findIndex(it => it.tag === "F-2") + 1;
+    L1.items[i] = { j: "npt", size: "1/4", lr: "M>F" };
+  });
+  check("catches an NPT joint drawn on flare ends", r4.issues.some(s => s.includes("NPT joint drawn on a flare end")), r4.issues.join("; "));
+  // 5) backwards arrow: M ▸ F where the male port is actually downstream
+  let r5 = seed(o => {
+    const L1 = o.SYSTEM.lines.find(L => L.id === "L1");
+    const i = L1.items.findIndex(it => it.tag === "F-8") + 1;
+    L1.items[i] = { j: "npt", size: "1/4" };
+  });
+  check("catches a backwards thread-direction arrow", r5.issues.some(s => s.includes("male port is upstream")), r5.issues.join("; "));
+}
+
 console.log("COMPLIANCE & PARTS TABLES");
 {
   const { store } = loadApp();
   check("parts schedule populated", (store["partsTable"].innerHTML.match(/<tr>/g) || []).length > 15);
   check("compliance schedule populated", (store["compTable"].innerHTML.match(/<tr>/g) || []).length > 10);
   check("unverified parts flagged", store["partsTable"].innerHTML.includes("VERIFY PN"));
+  check("nipples & adapters reach the schedule via joint parts",
+    store["partsTable"].innerHTML.includes("Hex nipple") && store["partsTable"].innerHTML.includes("half union"));
   check("field-only items present", store["compTable"].innerHTML.includes("FIELD"));
 }
 

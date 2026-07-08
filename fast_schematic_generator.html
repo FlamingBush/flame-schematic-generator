@@ -112,47 +112,53 @@ const S = 12; // base unit for symbol sizing (drawing proportions only, not dime
 let PARTS = {
   tank100:{ name:"Propane cylinder, 100 lb", vendor:"Worthington / Flame King", pn:"DOT 4BA240 class", verified:true,
     spec:"Vapor service. CGA-510 (POL) valve. Must be within DOT requalification date. Foot ring required. 100 lb meets the fuel team's delivery minimum; installation is inner playa — arrange delivery via fire art registration / fuel questionnaire and keep truck access to the cylinders clear.",
-    rating:250, sym:"tank", w:14.5, h:48 },
+    rating:250, ports:{o:"pol::F"}, psrc:"decl", sym:"tank", w:14.5, h:48 },
   polAdapter:{ name:"Cylinder adapter, POL x 1/4 in MNPT", vendor:"Mr. Heater", pn:"F273754", verified:false,
-    spec:"Brass, excess-flow soft-nose POL (CGA-510, LH internal thread) x 1/4 in MNPT.", rating:250, sym:"hexAdapter", w:2.2, h:1.1 },
+    spec:"Brass, excess-flow soft-nose POL (CGA-510, LH internal thread) x 1/4 in MNPT.", rating:250, ports:{i:"pol::M",o:"npt:1/4:M"}, psrc:"decl", sym:"hexAdapter", w:2.2, h:1.1 },
   ball14:{ name:"Ball valve, 1/4 in FNPT x FNPT", vendor:"Apollo 94A series / McMaster fuel-gas ball valve", pn:"verify", verified:false,
-    spec:"2-pc forged brass, quarter-turn lever, 600 psi WOG, rated for fuel gases (CSA).", rating:600, sym:"ball", w:2.4, h:1.6 },
+    spec:"2-pc forged brass, quarter-turn lever, 600 psi WOG, rated for fuel gases (CSA).", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"apollo", sym:"ball", w:2.4, h:1.6 },
   hoseLP:{ name:"LP-gas hose assembly, 3/8 in", vendor:"Mr. Heater", pn:"F273702 (verify length)", verified:false,
-    spec:"Factory-crimped ends, 3/8 in SAE 45 deg female flare swivel both ends. WP 350 psi, continuously marked LP-GAS / 350 PSI by manufacturer. No hose clamps.", rating:350, sym:"none", w:0, h:0 },
+    spec:"Factory-crimped ends, 3/8 in SAE 45 deg female flare swivel both ends. WP 350 psi, continuously marked LP-GAS / 350 PSI by manufacturer. No hose clamps.", rating:350, ports:{i:"flare:3/8:F",o:"flare:3/8:F"}, psrc:"decl", sym:"none", w:0, h:0 },
   flareTee:{ name:"Flare tee, 3/8 in tube (5/8-18 UNF)", vendor:"Anderson Metals / Fairview (LP-gas listed)", pn:"04044-06 tee / 04052-06 cross", verified:false,
-    spec:"Forged brass SAE 45 deg flare union tee, catalog-listed for LP / natural gas service. Use the 04052-06 four-way flare cross for 3-tank supply. Confirm pressure rating on purchase.", rating:500, sym:"tee", w:2.0, h:1.6 },
+    spec:"Forged brass SAE 45 deg flare union tee, catalog-listed for LP / natural gas service. Use the 04052-06 four-way flare cross for 3-tank supply. Confirm pressure rating on purchase.", rating:500, ports:{i:"flare:3/8:M",o:"flare:3/8:M"}, branch:"flare:3/8:M", psrc:"anderson", sym:"tee", w:2.0, h:1.6 },
   flareNptF:{ name:"Adapter, 3/8 in female flare swivel x 1/4 in MNPT", vendor:"US Carburetion / Motorsnorkel (RV-propane)", pn:"2327", verified:false,
-    spec:"Brass; SAE 45 deg female swivel nut spins onto a male flare end, 1/4 in MNPT out. Joins flare tees to FNPT valve bodies. Confirm pressure rating on purchase.", rating:250, sym:"hexAdapter", w:2.2, h:1.1 },
+    spec:"Brass; SAE 45 deg female swivel nut spins onto a male flare end, 1/4 in MNPT out. Joins flare tees to FNPT valve bodies. Confirm pressure rating on purchase.", rating:250, ports:{i:"flare:3/8:F",o:"npt:1/4:M"}, psrc:"sturgis", sym:"hexAdapter", w:2.2, h:1.1 },
+  flare14npt:{ name:"Adapter, 3/8 in male flare x 1/4 in MNPT (half union)", vendor:"Anderson Metals / MB Sturgis", pn:"54048-0604 / MBS77FR", verified:false,
+    spec:"Forged brass SAE 45 deg half union: the hose swivel nut lands on the male cone, 1/4 MNPT threads into the regulator inlet. 48/54 series listed for fuel-gas service; confirm pressure rating on purchase.", rating:250, ports:{i:"flare:3/8:M",o:"npt:1/4:M"}, psrc:"anderson", sym:"hexAdapter", w:2.2, h:1.1 },
+  nipple14:{ name:"Hex nipple, 1/4 in MNPT x MNPT", vendor:"Anderson Metals", pn:"06122-04", verified:false,
+    spec:"Forged brass hex nipple, male NPT both ends — joins female-ported valves, regulators, and tees (the schedule's regulators, ball valves, solenoids, and NPT tees are all FNPT). PTFE gas tape both ends. In segments above 125 psi use forged brass rated at or above segment pressure, or schedule 80 steel.", rating:1200, ports:{i:"npt:1/4:M",o:"npt:1/4:M"}, psrc:"anderson", sym:"none", w:0, h:0 },
+  nipple1412:{ name:"Reducing hex nipple, 1/4 x 1/2 in MNPT", vendor:"Anderson Metals", pn:"06123-0804", verified:false,
+    spec:"Forged brass reducing hex nipple stepping the 1/4 in accumulator train up to the 1/2 in poof dump valve.", rating:1200, ports:{i:"npt:1/4:M",o:"npt:1/2:M"}, psrc:"anderson", sym:"none", w:0, h:0 },
   reg60:{ name:"Regulator, main — set 60 psi", vendor:"Marshall Excelsior", pn:"MEGR-6120-60", verified:true,
-    spec:"High-pressure adjustable LP regulator, outlet range 1-60 psi, 1/4 in FNPT in/out + two 1/4 in FNPT gauge ports, max inlet 250 psig, die-cast aluminum, UL 144 (per MEC bulletin form 976). NON-RELIEF regulator — external overpressure protection required.", rating:250, sym:"reg", w:3.4, h:3.2 },
+    spec:"High-pressure adjustable LP regulator, outlet range 1-60 psi, 1/4 in FNPT in/out + two 1/4 in FNPT gauge ports, max inlet 250 psig, die-cast aluminum, UL 144 (per MEC bulletin form 976). NON-RELIEF regulator — external overpressure protection required.", rating:250, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, gauge:"npt:1/4:F", psrc:"mec", sym:"reg", w:3.4, h:3.2 },
   reg30:{ name:"Regulator, poofer — set 30 psi", vendor:"Marshall Excelsior", pn:"MEGR-6120-30", verified:true,
-    spec:"High-pressure adjustable LP regulator, outlet range 1-30 psi, 1/4 in FNPT in/out + two 1/4 in FNPT gauge ports, max inlet 250 psig, die-cast aluminum, UL 144 (per MEC bulletin form 976). NON-RELIEF regulator — external overpressure protection required.", rating:250, sym:"reg", w:3.4, h:3.2 },
+    spec:"High-pressure adjustable LP regulator, outlet range 1-30 psi, 1/4 in FNPT in/out + two 1/4 in FNPT gauge ports, max inlet 250 psig, die-cast aluminum, UL 144 (per MEC bulletin form 976). NON-RELIEF regulator — external overpressure protection required.", rating:250, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, gauge:"npt:1/4:F", psrc:"mec", sym:"reg", w:3.4, h:3.2 },
   gaugeHP:{ name:"Pressure gauge, 0-300 psi", vendor:"SENCTRL", pn:"verify (0-300 psi)", verified:false,
-    spec:"1/4 in MNPT bottom connection, brass internals compatible with LP vapor. Confirm exact model on purchase.", rating:300, sym:"gauge", w:2.5, h:3.2 },
+    spec:"1/4 in MNPT bottom connection, brass internals compatible with LP vapor. Confirm exact model on purchase.", rating:300, ports:{i:"npt:1/4:M"}, psrc:"decl", sym:"gauge", w:2.5, h:3.2 },
   gaugeLP:{ name:"Pressure gauge, 0-60 psi", vendor:"SENCTRL", pn:"verify (0-60 psi)", verified:false,
-    spec:"1/4 in MNPT bottom connection, brass internals compatible with LP vapor. Confirm exact model on purchase.", rating:300, sym:"gauge", w:2.5, h:3.2 },
+    spec:"1/4 in MNPT bottom connection, brass internals compatible with LP vapor. Confirm exact model on purchase.", rating:300, ports:{i:"npt:1/4:M"}, psrc:"decl", sym:"gauge", w:2.5, h:3.2 },
   gauge30:{ name:"Pressure gauge, 0-30 psi", vendor:"SENCTRL", pn:"verify (0-30 psi)", verified:false,
-    spec:"1/4 in MNPT bottom connection, brass internals compatible with LP vapor. Confirm exact model on purchase.", rating:300, sym:"gauge", w:2.5, h:3.2 },
+    spec:"1/4 in MNPT bottom connection, brass internals compatible with LP vapor. Confirm exact model on purchase.", rating:300, ports:{i:"npt:1/4:M"}, psrc:"decl", sym:"gauge", w:2.5, h:3.2 },
   manifold:{ name:"Manifold, 1/4 in FNPT, 3 outlets", vendor:"brass manifold block + 1/4 MNPT x 3/8 male flare adapters", pn:"verify", verified:false,
-    spec:"Forged brass, 1 in x 3 out, all ports 1/4 in FNPT. Rated well above 60 psi service.", rating:600, sym:"manifold", w:4.0, h:1.6 },
+    spec:"Forged brass, 1 in x 3 out, all ports 1/4 in FNPT. Rated well above 60 psi service.", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"decl", sym:"manifold", w:4.0, h:1.6 },
   nptTee:{ name:"Tee, 1/4 in FNPT", vendor:"McMaster / Anderson Metals forged brass pipe tee", pn:"verify", verified:false,
-    spec:"Forged brass NPT run tee, fuel-gas service. Branch port carries a gauge or pilot tap.", rating:1000, sym:"tee", w:2.0, h:1.6 },
+    spec:"Forged brass NPT run tee, fuel-gas service. Branch port carries a gauge or pilot tap.", rating:1000, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, branch:"npt:1/4:F", psrc:"decl", sym:"tee", w:2.0, h:1.6 },
   sol14:{ name:"Solenoid valve, 1/4 in NPT, NC", vendor:"Beduan (Amazon)", pn:"B08C2NLPR5", verified:false,
-    spec:"Brass body, 2-way normally closed, 12 VDC. Max ~100 psi. THREADS: listing claims NPT, but plain Chinese 2W-series model numbers denote G (BSPP) — gauge-check threads on receipt. Prior pick B07N2LGFYS is an aluminum air valve (kl04010) — do not use. Seal material unpublished, no fuel-gas listing — confirm LP compatibility with FAST liaison. Must stay downstream of regulation.", rating:100, sym:"sol", w:2.8, h:3.4 },
+    spec:"Brass body, 2-way normally closed, 12 VDC. Max ~100 psi. THREADS: listing claims NPT, but plain Chinese 2W-series model numbers denote G (BSPP) — gauge-check threads on receipt. Prior pick B07N2LGFYS is an aluminum air valve (kl04010) — do not use. Seal material unpublished, no fuel-gas listing — confirm LP compatibility with FAST liaison. Must stay downstream of regulation.", rating:100, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"decl", sym:"sol", w:2.8, h:3.4 },
   sol12:{ name:"Solenoid valve, 1/2 in NPT, NC (poofer dump)", vendor:"Beduan (Amazon)", pn:"B07N6246YB", verified:false,
-    spec:"Brass body 2W160-15, 2-way normally closed, 12 VDC. Max 0.7 MPa (~100 psi) air / 0.5 MPa liquid. THREADS: listing claims 1/2 in FNPT, but the plain 2W160-15 model number denotes G 1/2 (BSPP) in the originating line ('N' variants are NPT) — gauge-check threads on receipt. Seal material unpublished, no fuel-gas listing — confirm LP compatibility with FAST liaison. Must stay downstream of regulation.", rating:100, sym:"sol", w:3.2, h:3.6 },
+    spec:"Brass body 2W160-15, 2-way normally closed, 12 VDC. Max 0.7 MPa (~100 psi) air / 0.5 MPa liquid. THREADS: listing claims 1/2 in FNPT, but the plain 2W160-15 model number denotes G 1/2 (BSPP) in the originating line ('N' variants are NPT) — gauge-check threads on receipt. Seal material unpublished, no fuel-gas listing — confirm LP compatibility with FAST liaison. Must stay downstream of regulation.", rating:100, ports:{i:"npt:1/2:F",o:"npt:1/2:F"}, psrc:"beduan", sym:"sol", w:3.2, h:3.6 },
   needle:{ name:"Needle valve, 1/4 in NPT", vendor:"Breezliy (Amazon)", pn:"B08K8NP26L", verified:false,
-    spec:"Brass instrument needle valve, 1/4 in FNPT x FNPT, fine-metering stem. No published pressure rating or fuel-gas listing — confirm suitability with FAST liaison. Stepper actuator is custom.", rating:600, sym:"needle", w:2.2, h:2.6 },
+    spec:"Brass instrument needle valve, 1/4 in FNPT x FNPT, fine-metering stem. No published pressure rating or fuel-gas listing — confirm suitability with FAST liaison. Stepper actuator is custom.", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"decl", sym:"needle", w:2.2, h:2.6 },
   check14:{ name:"Check valve, 1/4 in NPT", vendor:"McMaster brass spring check, Viton seal", pn:"verify", verified:false,
-    spec:"Inline spring-loaded poppet, brass body, Viton seat, flow arrow marked on body. Prevents accumulator back-flow.", rating:600, sym:"check", w:2.2, h:1.3 },
+    spec:"Inline spring-loaded poppet, brass body, Viton seat, flow arrow marked on body. Prevents accumulator back-flow.", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"decl", sym:"check", w:2.2, h:1.3 },
   accum:{ name:"Accumulator, DOT LP cylinder", vendor:"DOT 4BA240 cylinder", pn:"out of requalification", verified:false,
     spec:"Service valve removed; plumbed via existing NGT opening — no welds or modifications to the vessel. Vessel hangs below a vertical run tee: fill enters the side branch, the vessel sits on the bottom run port, and discharge rises from the top run port. DOT requalification stamp is expired and the cylinder cannot be restamped (valve missing). Interior condition inspected and photo-documented for FAST review during fitting replacement. Supply regulated to 30 psi, far below the 240 psi design service pressure. See FE-8.", rating:250, sym:"tank", w:9, h:13 },
   cu38:{ name:"Copper tube, 3/8 in OD", vendor:"Type L soft copper coil + brass SAE flare nuts", pn:"—", verified:true,
-    spec:"All joints SAE 45 deg flared. Compression and soldered joints prohibited on fuel lines.", rating:700, sym:"none", w:0, h:0 },
+    spec:"All joints SAE 45 deg flared. Compression and soldered joints prohibited on fuel lines.", rating:700, ports:{i:"flare:*:F",o:"flare:*:F"}, psrc:"decl", sym:"none", w:0, h:0 },
   flare38npt:{ name:"Adapter, 3/8 in male flare x 3/8 in MNPT (half union)", vendor:"Anderson Metals", pn:"54048-0606", verified:false,
-    spec:"Forged brass SAE 45 deg half union: flare nut side to the copper tube, MNPT side into the mixer inlet. Anderson lists the 48/54 series for fuel-gas service; confirm pressure rating on purchase.", rating:500, sym:"hexAdapter", w:1.8, h:1.1 },
+    spec:"Forged brass SAE 45 deg half union: flare nut side to the copper tube, MNPT side into the mixer inlet. Anderson lists the 48/54 series for fuel-gas service; confirm pressure rating on purchase.", rating:500, ports:{i:"flare:3/8:M",o:"npt:3/8:M"}, psrc:"anderson", sym:"hexAdapter", w:1.8, h:1.1 },
   mixer:{ name:"Venturi air mixer", vendor:"torch-type venturi mixer, 3/8 FNPT inlet", pn:"verify", verified:false,
-    spec:"Cast venturi with fixed air ports; premixes air at the effect head for cleaner combustion.", rating:100, sym:"mixer", w:3.6, h:1.8 },
+    spec:"Cast venturi with fixed air ports; premixes air at the effect head for cleaner combustion.", rating:100, ports:{i:"npt:3/8:F"}, psrc:"decl", sym:"mixer", w:3.6, h:1.8 },
   nozzle:{ name:"Effect nozzle", vendor:"brass flare/NPT fittings, open discharge", pn:"—", verified:true,
     spec:"Vertical discharge. Orifice sized during commissioning.", rating:500, sym:"nozzle", w:1.6, h:2.2 },
   pilot:{ name:"Pilot — steel wool pinhole tip", vendor:"custom fabrication", pn:"—", verified:false,
@@ -169,7 +175,7 @@ let SYSTEM = {
       items:[
         {p:"tank100", tag:"TK-1/TK-2", note:"x2, secured upright — both tanks plumbed identically"},
         {j:"pol"},
-        {p:"polAdapter", tag:"F-1", note:"+ 1/4 NPT x 3/8 male flare adapter"},
+        {p:"polAdapter", tag:"F-1", adaptOut:"npt:1/4:F>flare:3/8:M", note:"+ 1/4 FNPT x 3/8 male flare adapter (04046-0604)"},
         {j:"flare", size:"3/8"},
         {j:"hose", part:"hoseLP", label:"HS-1 (x2, one per tank)"},
         {j:"flare", size:"3/8", lr:"F<M"},
@@ -178,24 +184,25 @@ let SYSTEM = {
         {p:"flareNptF", tag:"F-8", note:"swivel onto F-2, 1/4 MNPT into V-1"},
         {j:"npt", size:"1/4", lr:"M>F"},
         {p:"ball14", tag:"V-1", emergency:true, note:"depot 1/4-turn emergency shut-off, marked"},
-        {j:"npt", size:"1/4", lr:"M>F"},
-        {p:"nptTee", tag:"F-5", note:"1/4 FNPT tee + flare adapters", mount:{p:"gaugeHP", tag:"PI-1", note:"tank pressure, on branch"}},
-        {j:"npt", size:"1/4", lr:"M>F"},
-        {p:"nptTee", tag:"F-7", branch:{ref:"B"}, note:"poofer supply take-off at tank pressure (see L4) · + flare adapter for HS-4"},
+        {j:"npt", size:"1/4", part:"nipple14"},
+        {p:"nptTee", tag:"F-5", note:"1/4 FNPT tee", mount:{p:"gaugeHP", tag:"PI-1", note:"tank pressure, on branch"}},
+        {j:"npt", size:"1/4", part:"nipple14"},
+        {p:"nptTee", tag:"F-7", branch:{ref:"B"}, adaptOut:"npt:1/4:M>flare:3/8:M", branchAdapt:"npt:1/4:M>flare:3/8:M", note:"poofer supply take-off at tank pressure (see L4) · + flare adapters: run to HS-2, branch to HS-4"},
         {j:"flare", size:"3/8"},
         {j:"hose", part:"hoseLP", label:"HS-2 — to regulator"},
         {j:"flare", size:"3/8", lr:"F<M"},
+        {p:"flare14npt", tag:"F-13", note:"male cone for the HS-2 swivel, MNPT into PRV-1"},
         {j:"npt", size:"1/4", lr:"M>F"},
         {p:"reg60", tag:"PRV-1", note:"set 60 psi", mount:{p:"gaugeLP", tag:"PI-2", note:"in PRV-1 gauge port"}},
-        {j:"npt", size:"1/4", lr:"M>F"},
+        {j:"npt", size:"1/4", part:"nipple14"},
         {p:"ball14", tag:"V-2", emergency:true, note:"main 1/4-turn shut-off, marked"},
         {j:"off", ref:"A", dir:"out", label:"to L2 manifold — 60 psi"}
       ]},
     { id:"L2", title:"Distribution manifold", psi:"60 psi", op:60,
       items:[
         {j:"off", ref:"A", dir:"in", label:"from L1"},
-        {j:"npt", size:"1/4", lr:"M>F"},
-        {p:"manifold", tag:"MF-1"},
+        {j:"npt", size:"1/4", part:"nipple14"},
+        {p:"manifold", tag:"MF-1", adaptOut:"npt:1/4:M>flare:3/8:M"},
         {j:"flare", size:"3/8"},
         {j:"off", ref:"C", dir:"out", fan:3, label:"to L3 — feeds 3 identical branches"}
       ]},
@@ -210,20 +217,18 @@ let SYSTEM = {
         {j:"npt", size:"1/4", lr:"M>F"},
         {split:{
           tee:{p:"nptTee", tag:"F-10", note:"flow splits: full-flow path + metered path below"},
-          rejoin:{p:"nptTee", tag:"F-11", note:"paths rejoin, feed the jet · + flare adapter for TB-1"},
+          rejoin:{p:"nptTee", tag:"F-11", adaptOut:"npt:1/4:M>flare:3/8:M", note:"paths rejoin, feed the jet · + flare adapter for TB-1"},
           a:[
-            {j:"npt", size:"1/4", lr:"M>F"},
+            {j:"npt", size:"1/4", part:"nipple14"},
             {p:"sol14", tag:"SV-1", note:"full-flow path — jet bursts, 12 VDC NC"},
-            {j:"npt", size:"1/4", lr:"M>F"}
+            {j:"npt", size:"1/4", part:"nipple14"}
           ],
           b:[
-            {j:"npt", size:"1/4", lr:"M>F"},
-            {p:"needle", tag:"NV-1", note:"+ stepper actuator (custom) — sets standing-flame height"},
-            {j:"npt", size:"1/4", lr:"M>F"},
-            {p:"sol14", tag:"SV-3", note:"gates the metered path, 12 VDC NC"},
-            {j:"npt", size:"1/4", lr:"M>F"}
+            {j:"npt", size:"1/4", part:"nipple14"},
+            {p:"needle", tag:"NV-1", note:"+ stepper actuator (custom) — sets standing-flame height · closes to trim the standing flame"},
+            {j:"npt", size:"1/4", part:"nipple14"}
           ]}},
-        {j:"npt", size:"1/4", lr:"M>F"},
+        {j:"npt", size:"1/4"},
         {j:"tube", part:"cu38", size:"3/8", label:"TB-1"},
         {j:"flare", size:"3/8", lr:"F<M"},
         {p:"flare38npt", tag:"F-4"},
@@ -236,7 +241,7 @@ let SYSTEM = {
       items:[
         {j:"off", ref:"P", dir:"in", label:"from L3 tee F-3"},
         {j:"tube", part:"cu38", size:"3/8", label:"TB-2"},
-        {p:"needle", tag:"NV-3", note:"manual rail metering · flare x NPT adapters both ports"},
+        {p:"needle", tag:"NV-3", adaptIn:"flare:3/8:M>npt:1/4:M", adaptOut:"npt:1/4:M>flare:1/4:M", note:"manual rail metering · flare x NPT adapters both ports"},
         {j:"tube", part:"cu38", size:"1/4", label:"TB-3"},
         {p:"standby", tag:"SB-1", flame:true, xn:3, note:"several tips along the branch, always lit · the tip beside N-1 ignites the jet · count set at commissioning"}
       ]},
@@ -246,6 +251,7 @@ let SYSTEM = {
         {j:"flare", size:"3/8"},
         {j:"hose", part:"hoseLP", label:"HS-4"},
         {j:"flare", size:"3/8", lr:"F<M"},
+        {p:"flare14npt", tag:"F-14", note:"male cone for the HS-4 swivel, MNPT into PRV-2"},
         {j:"npt", size:"1/4", lr:"M>F"},
         {p:"reg30", tag:"PRV-2", note:"set 30 psi, poofer only · fed at tank pressure for fast accumulator refill", mount:{p:"gauge30", tag:"PI-3", note:"in PRV-2 gauge port"}},
         {j:"off", ref:"E", dir:"out", label:"to L4b — 30 psi"}
@@ -253,15 +259,15 @@ let SYSTEM = {
     { id:"L4b", title:"Poofer accumulator & discharge", psi:"30 psi (accumulator MAOP 250 psi)", op:30,
       items:[
         {j:"off", ref:"E", dir:"in", label:"from PRV-2"},
-        {j:"npt", size:"1/4", lr:"M>F"},
-        {p:"nptTee", tag:"F-6", branch:{ref:"D"}, note:"poofer pilot tap (see L4a)"},
-        {j:"npt", size:"1/4", lr:"M>F"},
+        {j:"npt", size:"1/4", part:"nipple14"},
+        {p:"nptTee", tag:"F-6", branch:{ref:"D"}, branchAdapt:"npt:1/4:M>flare:3/8:M", note:"poofer pilot tap (see L4a) · + flare adapter for TB-4"},
+        {j:"npt", size:"1/4", part:"nipple14"},
         {p:"check14", tag:"CV-1", note:"one-way fill"},
-        {j:"npt", size:"1/4", lr:"M>F"},
+        {j:"npt", size:"1/4", part:"nipple14"},
         {j:"riser", tee:{p:"nptTee", tag:"F-12", mount:{p:"accum", tag:"AC-1", note:"on bottom port · fill enters side branch, discharge rises"}}},
-        {j:"npt", size:"1/4", lr:"M>F"},
+        {j:"npt", size:"1/4", part:"nipple14"},
         {p:"ball14", tag:"V-3", note:"accumulator isolation · convenience shut-off for testing"},
-        {j:"npt", size:"1/2", lr:"M>F"},
+        {j:"npt", size:"1/4 x 1/2", part:"nipple1412"},
         {p:"sol12", tag:"SV-2", note:"poof dump, 12 VDC NC"},
         {j:"npt", size:"1/2", lr:"M>F"},
         {p:"nozzle", tag:"N-2", flame:true}
@@ -270,7 +276,7 @@ let SYSTEM = {
       items:[
         {j:"off", ref:"D", dir:"in", label:"from L4b tee F-6"},
         {j:"tube", part:"cu38", size:"3/8", label:"TB-4"},
-        {p:"needle", tag:"NV-2", note:"pilot metering · flare x NPT adapters both ports"},
+        {p:"needle", tag:"NV-2", adaptIn:"flare:3/8:M>npt:1/4:M", adaptOut:"npt:1/4:M>flare:1/4:M", note:"pilot metering · flare x NPT adapters both ports"},
         {j:"tube", part:"cu38", size:"1/4", label:"TB-5"},
         {p:"pilot", tag:"PL-2", flame:true, note:"poofer pilot"}
       ]}
@@ -354,6 +360,12 @@ const SYM={
 const AUTONOTE={ball:"1/4-turn",reg:"flow \u2192",gauge:"",manifold:"3 outlets, 1/4 FNPT",sol:"12 VDC coil \u00b7 NC",needle:"metering stem",check:"one-way, flow \u2192",mixer:"venturi air ports",nozzle:"vertical discharge \u2191",pilot:"pinhole + steel wool",tank:"",hexAdapter:"",tee:"run + branch",none:""};
 
 function jointMarker(it,cx){
+  // a nipple joint (part on an npt joint) joins two FEMALE ports: hex body in
+  // the middle, male studs tapering outward into a female box on each side
+  if(it.j==="npt"&&it.part){const g=`<path d="M${cx+3} ${CL-6} L${cx+14} ${CL-3.5} V${CL+3.5} L${cx+3} ${CL+6} Z" fill="#fff" stroke="${INK}"/>
+    <path d="M${cx+6} ${CL-3} l3 6 m2 -6 l3 6" stroke="${INK2}" stroke-width=".8"/>
+    <path d="M${cx+15} ${CL-7} h11 v14 h-11 M${cx+15} ${CL-3.5} h7 m-7 7 h7" fill="none" stroke="${INK}"/>`;
+    return `<g transform="translate(${2*cx},0) scale(-1,1)">${g}</g>${g}<rect x="${cx-3}" y="${CL-6}" width="6" height="12" fill="#fff" stroke="${INK}"/>`;}
   if(it.j==="npt")return `<path d="M${cx-15} ${CL-6} L${cx-1} ${CL-3.5} V${CL+3.5} L${cx-15} ${CL+6} Z" fill="#fff" stroke="${INK}"/>
     <path d="M${cx-12} ${CL-3} l3 6 m2 -6 l3 6 m2 -6 l3 6" stroke="${INK2}" stroke-width=".8"/>
     <path d="M${cx} ${CL-7} h13 v14 h-13 M${cx} ${CL-3.5} h8 m-8 7 h8" fill="none" stroke="${INK}"/>`;
@@ -386,7 +398,7 @@ function buildRefs(){refIndex={};refCounter=0;
   const reg=it=>{if(!it)return;
     if(it.p&&refIndex[it.p]===undefined){refCounter++;refIndex[it.p]=refCounter;}
     if(it.mount&&refIndex[it.mount.p]===undefined){refCounter++;refIndex[it.mount.p]=refCounter;}
-    if((it.j==="hose"||it.j==="tube")&&refIndex[it.part]===undefined){refCounter++;refIndex[it.part]=refCounter;}
+    if(it.part&&(it.j==="hose"||it.j==="tube"||it.j==="npt")&&refIndex[it.part]===undefined){refCounter++;refIndex[it.part]=refCounter;}
     if(it.j==="riser")reg(it.tee);
     if(it.split){reg(it.split.tee);reg(it.split.rejoin);(it.split.a||[]).forEach(reg);(it.split.b||[]).forEach(reg);}
   };
@@ -419,7 +431,7 @@ function partText(it,vert){const p=PARTS[it.p];const m=it.mount?PARTS[it.mount.p
   return {p,m,tag,notes};
 }
 function jointText(it){let top="",bot="",wG=64;
-  if(it.j==="npt"){top=`${frac(it.size)}" NPT`;bot=(it.lr==="M>F"?"M \u25b8 F":"F \u25c2 M");wG=60;}
+  if(it.j==="npt"){top=`${frac(it.size)}" NPT`;bot=it.part?"F \u25c2 nipple \u25b8 F":(it.lr==="M>F"?"M \u25b8 F":"F \u25c2 M");wG=it.part?76:60;}
   else if(it.j==="flare"){top=`${frac(it.size)}" SAE 45\u00b0 flare`;bot=(it.lr==="F<M"?"nut \u25c2 cone":"cone \u25b8 nut");wG=64;}
   else if(it.j==="pol"){top="CGA-510 POL";bot="LEFT-hand thread \u00b7 nipple \u25b8 cyl. valve";wG=76;}
   else if(it.j==="hose"){const p=PARTS[it.part];top=`${it.label||"hose"}`;bot=`WP ${p.rating} psi \u00b7 factory-crimped \u00b7 marked`;wG=150;}
@@ -499,7 +511,7 @@ const RISER={TEXT_DX:40, BAL_DX:-52.5, PAD:14, NOR:{tank:1,nozzle:1,pilot:1}};
 function riserCellH(it){
   if(it.p&&PARTS[it.p]){const p=PARTS[it.p];const wSym=(p.sym==="tank")?76:Math.max(p.w*S,30);
     return Math.ceil(Math.max(wSym+16,46));}
-  return it.j==="hose"?110:it.j==="tube"?90:40;
+  return it.j==="hose"?110:it.j==="tube"?90:(it.j==="npt"&&it.part)?70:40;
 }
 function riserUpH(items){return items.reduce((a,it)=>a+riserCellH(it),0)+RISER.PAD;}
 function bandUp(L){ // headroom the band needs above its own strip top (riser overshoot)
@@ -510,7 +522,7 @@ function bandUp(L){ // headroom the band needs above its own strip top (riser ov
 }
 function bandH(L){return STRIP_H+(bandItems(L).some(it=>it&&it.split)?PAR_DY:0);}
 function drawRiser(rit,rest,x0){
-  const rx=x0+46;
+  const rx=x0+66; // entry stub long enough that the base balloons (left of the run) clear the previous cell's text
   let inner=`<line x1="${x0}" y1="${CL}" x2="${rx}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
   let yB=CL,maxW=0;
   rest.forEach(it=>{
@@ -701,7 +713,7 @@ function trunkPartCell(it,edge){
 }
 function trunkJointCell(it){
   const {top,bot}=jointText(it);
-  const h=it.j==="hose"?110:it.j==="tube"?90:40;
+  const h=it.j==="hose"?110:it.j==="tube"?90:(it.j==="npt"&&it.part)?70:40; // nipple marker spans ±26 along the run
   return {h,textW:Math.max(measure(top,10),measure(bot,9)),
     draw(y){const yA=y+h/2;
       let s=`<g class="tcell" data-y="${yA}">`;
@@ -931,7 +943,7 @@ function renderSchematic(){
   div.innerHTML=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${LAST_RENDER.inner}</svg>`;
   host.appendChild(div);
   document.getElementById("legend").innerHTML=[
-    "\u25ef n \u2014 balloon: parts schedule ref","hatched trapezoid \u25b8 box \u2014 NPT male into female \u00b7 ALL NPT joints: PTFE gas tape",
+    "\u25ef n \u2014 balloon: parts schedule ref","hatched trapezoid \u25b8 box \u2014 NPT male into female \u00b7 back-to-back pair \u2014 hex nipple joining two female ports \u00b7 ALL NPT joints: PTFE gas tape",
     "cone \u25b8 nut \u2014 SAE 45\u00b0 flare (metal-to-metal seat, no sealant)","\u3030 with break \u2014 hose/tube run, length as required \u00b7 ALL Cu tube joints: flared only",
     "vertical trunk \u2014 supply flows top \u2192 bottom; branch lines leave at their tee \u00b7 discharge risers flow bottom \u2192 top",
     "dashed box \u2014 the components of one numbered line \u00b7 'one of n identical branches' \u2014 built n times, drawn once",
@@ -952,9 +964,148 @@ function renderParts(){
   `<tr><th>REF</th><th>COMPONENT & SPECIFICATION</th><th>VENDOR / CATALOG</th><th>PART NO.</th><th>RATING</th><th>STATUS</th></tr>${rows}`;
 }
 
+/* ---------- PORT LINTER ----------
+   Machine check that every drawn joint is mechanically assemblable: adjacent
+   port thread TYPES match the joint, SIZES are continuous, and GENDERS mate
+   (two females need a nipple; the drawn arrows must point male-into-female).
+   Port data lives in PARTS[*].ports as "type:size:gender" strings (flare
+   M = cone, F = swivel nut; size "*" = takes the tube item's size) grounded
+   in the documents vaulted under reference/vendor-data — see each entry's
+   psrc key ("decl" = declared from listing text only, no fetchable catalog).
+   Custom fabrications carry no ports; their junctions count as skipped, not
+   failed. Item-level adaptIn/adaptOut/branchAdapt ("in>out") declare the
+   note-only adapter stacks so the walk sees them; a drawn joint attaches to
+   whichever side of such an adapter its thread type matches. */
+function P(s){if(!s)return null;const a=String(s).split(":");return {t:a[0],sz:a[1]||null,g:a[2]||null};}
+function PA(s){if(!s)return null;const a=String(s).split(">");return {in:P(a[0]),out:P(a[1])};}
+function lintPorts(){
+  deriveTree();
+  const issues=[];let checked=0,skipped=0;
+  const gname=g=>g==="F"?"female":"male";
+  const lbl=it=>(it&&(it.tag||it.label||it.p||it.part||it.j))||"?";
+  const endPort=(it,side)=>{if(!it)return null;
+    if(it.j==="hose"||it.j==="tube"){const p=PARTS[it.part];const q=p&&p.ports?P(p.ports[side]):null;
+      if(q&&(!q.sz||q.sz==="*"))q.sz=it.size||null;return q;}
+    const p=PARTS[it.p];return p&&p.ports?P(p.ports[side]):null;};
+  function direct(a,b,where){ // adjacent ends with no drawn joint between
+    if(!a||!b){skipped++;return;}
+    checked++;
+    if(a.t!==b.t){issues.push(`${where}: a ${a.t} end meets a ${b.t} end with no adapter`);return;}
+    if(a.sz&&b.sz&&a.sz!==b.sz)issues.push(`${where}: ${frac(a.sz)}" meets ${frac(b.sz)}" with no reducer`);
+    if(a.g&&b.g&&a.g===b.g)issues.push(`${where}: two ${gname(a.g)} ${a.t} ends together`);
+  }
+  function joint(a,j,b,where){
+    if(!a&&!b){skipped++;return;}
+    checked++;
+    const szs=String(j.size||"").split(" x ");
+    const chk=(p,which,sz)=>{if(!p)return;
+      if(p.t!==j.j){issues.push(`${where}: ${j.j.toUpperCase()} joint drawn on a ${p.t} end (${which})`);return;}
+      if(sz&&p.sz&&p.sz!==sz)issues.push(`${where}: joint is ${frac(j.size)}" but the ${which} port is ${frac(p.sz)}"`);};
+    if(j.j==="npt"){
+      chk(a,"upstream",szs[0]);chk(b,"downstream",szs[1]||szs[0]);
+      if(j.part){ // hex nipple joins two females
+        if(a&&a.t==="npt"&&a.g==="M")issues.push(`${where}: nipple drawn against a male port (upstream)`);
+        if(b&&b.t==="npt"&&b.g==="M")issues.push(`${where}: nipple drawn against a male port (downstream)`);
+      }else if(a&&b&&a.t==="npt"&&b.t==="npt"&&a.g&&b.g){
+        if(a.g===b.g)issues.push(`${where}: ${frac(j.size)}" NPT drawn between two ${gname(a.g)} ports — needs a ${a.g==="F"?"nipple":"coupling"}`);
+        else if(j.lr==="M>F"&&a.g!=="M")issues.push(`${where}: arrow says M ▸ F but the male port is downstream`);
+        else if(j.lr!=="M>F"&&a.g!=="F")issues.push(`${where}: arrow says F ◂ M but the male port is upstream`);
+      }
+    }else if(j.j==="flare"){
+      chk(a,"upstream",szs[0]);chk(b,"downstream",szs[0]);
+      if(a&&b&&a.t==="flare"&&b.t==="flare"&&a.g&&b.g){
+        if(a.g===b.g)issues.push(`${where}: two flare ${a.g==="M"?"cones":"nuts"} together`);
+        else if(j.lr==="F<M"&&a.g!=="F")issues.push(`${where}: drawn nut ◂ cone but the nut is downstream`);
+        else if(j.lr!=="F<M"&&a.g!=="M")issues.push(`${where}: drawn cone ▸ nut but the cone is downstream`);
+      }
+    }else if(j.j==="pol"){
+      if(a&&a.t!=="pol")issues.push(`${where}: POL joint on a ${a.t} end`);
+      if(b&&b.t!=="pol")issues.push(`${where}: POL joint on a ${b.t} end`);
+      if(a&&b&&a.g&&b.g&&a.g===b.g)issues.push(`${where}: two ${gname(a.g)} POL ends together`);
+    }
+  }
+  // mate the open out-state to component `it` through the pending drawn joint
+  function mate(open,pending,it,where){
+    let a=open?open.port:null;
+    const ad=open?open.ad:null,ai=PA(it&&it.adaptIn);
+    const b=ai?ai.in:endPort(it,"i");
+    if(ad){
+      if(pending&&ad.in&&pending.j===ad.in.t){joint(a,pending,ad.in,where);pending=null;}
+      else direct(a,ad.in,where);
+      a=ad.out;
+    }
+    if(pending)joint(a,pending,b,where);
+    else direct(a,b,where);
+    if(ai)direct(ai.out,endPort(it,"i"),where+" (behind adapter)");
+  }
+  function mounts(it,line){
+    if(!it||!it.mount)return;
+    const host=PARTS[it.p],m=PARTS[it.mount.p];
+    const hp=host?(host.sym==="reg"?P(host.gauge):P(host.branch)):null;
+    const mp=m&&m.ports?P(m.ports.i):null;
+    direct(hp,mp,`${line}: ${lbl(it)} mount ${it.mount.tag||lbl(it.mount)}`);
+  }
+  const outState=it=>({port:endPort(it,"o"),ad:PA(it.adaptOut),it});
+  const stash={}; // off-out ref -> walk state, for trunk-end (fan) continuations
+  function walk(items,open,line,pending){
+    pending=pending||null;
+    for(const it of items){
+      if(!it)continue;
+      if(it.j==="off"){if(it.dir==="out"&&it.ref)stash[it.ref]={open,pending};continue;}
+      if(it.j==="npt"||it.j==="flare"||it.j==="pol"){
+        if(pending){checked++;issues.push(`${line}: two joints in a row near ${lbl(it)} — an adapter part is missing from the drawing`);}
+        pending=it;continue;}
+      if(it.j==="riser"){
+        if(it.tee&&it.tee.p){mate(open,pending,it.tee,`${line}: ${lbl(open&&open.it)} → ${lbl(it.tee)}`);mounts(it.tee,line);
+          open=outState(it.tee);pending=null;}
+        continue;}
+      if(it.split){const sp=it.split;
+        if(sp.tee&&sp.tee.p){mate(open,pending,sp.tee,`${line}: ${lbl(open&&open.it)} → ${lbl(sp.tee)}`);mounts(sp.tee,line);
+          open=outState(sp.tee);pending=null;}
+        [sp.a,sp.b].forEach((path,pi)=>{
+          if(!path||!path.length)return;
+          const tail=walk(path,open,`${line} path ${pi?"b":"a"}`);
+          if(sp.rejoin&&sp.rejoin.p)mate(tail.open,tail.pending,sp.rejoin,`${line} path ${pi?"b":"a"}: ${lbl(tail.open&&tail.open.it)} → ${lbl(sp.rejoin)}`);
+        });
+        if(sp.rejoin&&sp.rejoin.p){mounts(sp.rejoin,line);open=outState(sp.rejoin);}
+        pending=null;continue;}
+      if(it.j==="hose"||it.j==="tube"||it.p){
+        if(it.p&&!PARTS[it.p])continue;
+        mate(open,pending,it,`${line}: ${lbl(open&&open.it)} → ${lbl(it)}`);
+        mounts(it,line);
+        open=outState(it);pending=null;continue;}
+    }
+    return {open,pending};
+  }
+  walk(TREE.trunk.filter(e=>e.it).map(e=>e.it),null,"trunk");
+  TREE.edges.forEach(e=>{
+    const entries=bandItems(e.to);
+    if(e.kind==="end"){const st=stash[e.ref]||{open:null,pending:null};
+      walk(entries,st.open,e.to.id,st.pending);return;}
+    // find the host item carrying this branch ref (splits and risers included)
+    let hostIt=null;
+    const scan=its=>its&&its.forEach(x=>{if(!x)return;
+      if(x.p&&x.branch&&x.branch.ref===e.ref)hostIt=x;
+      if(x.j==="riser"&&x.tee&&x.tee.branch&&x.tee.branch.ref===e.ref)hostIt=x.tee;
+      if(x.split){scan(x.split.a);scan(x.split.b);
+        [x.split.tee,x.split.rejoin].forEach(t=>{if(t&&t.branch&&t.branch.ref===e.ref)hostIt=t;});}});
+    scan(e.from?bandItems(e.from):TREE.trunk.filter(en=>en.it).map(en=>en.it));
+    const hp=hostIt&&PARTS[hostIt.p]?P(PARTS[hostIt.p].branch):null;
+    walk(entries,hostIt?{port:hp,ad:PA(hostIt.branchAdapt),it:hostIt}:null,e.to.id);
+  });
+  TREE.orphans.forEach(L=>walk(L.items,null,L.id));
+  return {issues,checked,skipped};
+}
+
 /* ---------- COMPLIANCE ENGINE ---------- */
 function runChecks(){
   const C=[];const chip=(s)=>s==="ok"?'<span class="chip c-ok">DESIGN PASS</span>':s==="rev"?'<span class="chip c-rev">REVIEW</span>':'<span class="chip c-fld">FIELD</span>';
+  let lint={issues:["port linter failed to run"],checked:0,skipped:0};
+  try{lint=lintPorts();}catch(err){}
+  C.push({id:"FIT-1",req:"Every drawn joint is mechanically assemblable: thread types match, sizes are continuous, genders mate (male into female; nipples between females), and every adapter is drawn or declared.",
+    status:lint.issues.length?"rev":"ok",
+    note:lint.issues.length?`${lint.issues.length} impossible or under-specified junction(s): ${lint.issues.slice(0,4).join(" · ")}${lint.issues.length>4?" · …":""}`
+      :`${lint.checked} junctions machine-checked against the port model (thread type / size / gender from the vendor documents vaulted in reference/vendor-data). ${lint.skipped} junction sides touch custom fabrications without port data and were skipped.`});
   const allItems=SYSTEM.lines.flatMap(L=>{
     const flat=[];
     const add=it=>{if(!it)return;flat.push(it);
@@ -969,9 +1120,9 @@ function runChecks(){
   C.push({id:"FE-1",req:"Quarter-turn shut-off valve at each fuel supply connection; closing it stops all fuel flow; exposed, visible, and clearly marked as the emergency fuel shut-off.",
     status:ems.length>=2?"ok":"rev",note:ems.length?`Shown: ${ems.map(e=>e.tag+" ("+e.line+")").join(", ")}. Physical marking & visibility verified at inspection.`:"No valve is flagged emergency:true in the system definition."});
   // FE-2 component ratings vs operating pressure
-  const under=allItems.filter(it=>it.p&&PARTS[it.p].rating<it.op);
+  const under=allItems.filter(it=>(it.p&&PARTS[it.p].rating<it.op)||(it.part&&PARTS[it.part]&&PARTS[it.part].rating<it.op));
   C.push({id:"FE-2",req:"Every fitting, pipe, valve, and connector rated for LP-gas and for the maximum operating pressure of its segment.",
-    status:under.length?"rev":"ok",note:under.length?`Rating below segment pressure: ${under.map(u=>u.tag||u.p).join(", ")}.`:"All scheduled component ratings meet or exceed their segment's operating pressure. Components marked VERIFY PN must be confirmed on purchase."});
+    status:under.length?"rev":"ok",note:under.length?`Rating below segment pressure: ${under.map(u=>u.tag||u.label||u.p||u.part).join(", ")}.`:"All scheduled component ratings meet or exceed their segment's operating pressure. Components marked VERIFY PN must be confirmed on purchase."});
   // FE-3 hoses
   const hoses=allItems.filter(it=>it.j==="hose");
   const badHose=hoses.filter(h=>h.op>5&&PARTS[h.part].rating<350);
