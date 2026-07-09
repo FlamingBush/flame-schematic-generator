@@ -15,8 +15,10 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
 
 ## Architecture (inside the HTML `<script>`)
 
-1. `PARTS` — parts library. Each entry: name, vendor, pn, `verified` flag, spec
-   text, pressure rating, symbol key, drawing proportions (`w`/`h`).
+1. `PARTS` — parts library. Each entry: name, vendor, pn, spec text, pressure
+   rating, symbol key, drawing proportions (`w`/`h`). (There is no `verified`
+   flag or status chip any more — Marcus removed them — but specs must still
+   be grounded in vaulted vendor documents via `psrc`.)
 2. `SYSTEM` — the system definition: `meta` + `lines[]`. Each line has an
    operating pressure `op` (used by compliance checks) and an ordered `items[]`
    sequence alternating components (`{p, tag, note, emergency, xn}`) and joints
@@ -28,14 +30,25 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
    mini-grid, `rotate(-90)` symbols, tanks/heads stay upright; `bandUp()`
    reserves the headroom above the strip); and `{j:"turn"}` marks the end of a
    vertical SUPPLY STACK — every item before it renders bottom→top BELOW the
-   band centerline (`drawSupply`, same TROW mini-grid), the last part before
-   the marker sits at the corner masking the bend (the forged elbow), and the
-   band continues horizontally after. Cylinders in a stack connect through
+   band centerline (`drawSupply`, same TROW mini-grid), the run turns through
+   a bare curve at the centerline (Marcus: no elbow fitting — the NTS line
+   just bends; a corner PART right before the marker is still supported and
+   masks the bend), and the band continues horizontally after. Cylinders in a stack connect through
    their TOP valve only — never draw the run through a tank body. `xn:n` on a
    part draws n copies of the symbol side by side (standby rail tips, the two
    cylinders) under one balloon. `rev:true` on a part item installs the same
    fitting in the opposite flow direction — the port linter swaps its `i`/`o`
-   ends and one schedule row serves both orientations.
+   ends and one schedule row serves both orientations. `chk:true` on an npt
+   joint appends `*` to its caption (thread-per-listing, gauge-check on
+   receipt — the Beduan solenoids); the footnote lives in GENERAL NOTES.
+   `mount:{..., via:"part"}` hangs a mount through an adapter (the
+   accumulator's NGT boss bushing) — drawn as a hex on the hanger stub with
+   its own balloon (riser base only). A ref with MULTIPLE producers is a
+   DELIBERATE idiom, not an error: every port marked with that ref renders
+   the plain pentagon and the consumer line renders once as an orphan strip
+   at the bottom — how the ×3 standby tip runs are drawn once (ref "T").
+   Cell labels carry part numbers at the end — except adapters, pipe/hose
+   sections, and handmade tips, which don't need them (Marcus).
 3. System tree (`deriveTree`) — the drawing is CONNECTED, not letter-matched.
    The existing `ref` fields are pure match keys: `branch:{ref}` on a tee pairs
    with a line whose first item is `{j:"off", dir:"in", ref}`. Every line is a
@@ -132,8 +145,9 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
 - The drawing is declared "not to scale" everywhere on purpose. The `w`/`h`
   proportions in PARTS are visual only. Do not add scale claims unless the
   dimensions are replaced with real vendor spec-sheet numbers first.
-- `verified:false` parts show a VERIFY PN chip. Verified so far against vendor
-  data: Marshall Excelsior MEGR-6120-60 / -6120-30 regulators, confirmed
+- The schedule renders no verification chips, but the sourcing discipline
+  stands: never state a vendor spec without a vaulted source. Confirmed so far
+  against vendor data: Marshall Excelsior MEGR-6120-60 / -6120-30 regulators, confirmed
   verbatim from MEC's own bulletin (form 976): 1/4 FNPT in/out + TWO 1/4 FNPT
   gauge ports, max inlet 250 psig, UL 144 NON-relief — external overpressure
   protection flagged. Amazon ASIN B07N2LGFYS is NOT the brass 1/4 in solenoid —
@@ -145,9 +159,12 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
   seal material or a fuel-gas listing. Mr. Heater F273754/F273702 part numbers
   are plausible but unconfirmed; Breezliy B08K8NP26L needle valves likewise
   unlisted. Anderson Metals SAE 45° flare catalog items confirmed to exist
-  (LP/fuel-gas service in catalog text): 04044-06 union tee, 04052-06 four-way
-  cross, 04056-0604 3/8x1/4 reducing union, 48/54-series flare x NPT half
-  unions (e.g. 54048-0606). Never mark a part verified without a source.
+  (LP/fuel-gas service in catalog text): 04044-04/-06 union tees, 04052-06
+  four-way cross, 04059-060604/-060404 fig 509 reducing tees, 04046 fig 406
+  flare x female pipe couplings, 48/54-series flare x NPT half unions (e.g.
+  54048-0606). Stanbroil 3/4 in LP air mixer confirmed 3/4 MNPT in / 3/4 FNPT
+  out, 300k BTU max. Aquatrol series 140 ASME relief valves are air/inert-gas
+  media only — LP suitability is a liaison flag, like the solenoids.
 - Compliance output is a self-review aid, not approval — the footer disclaimer
   and the FOR FAST REVIEW / NOT A BURN LICENSE stamp stay.
 - No localStorage/sessionStorage; state lives in the editable JSON box.

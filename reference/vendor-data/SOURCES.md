@@ -30,6 +30,20 @@ on a live fetch. The `.txt` files are pypdf extractions of the PDFs.
   adapters page: "3/8″ Female SAE Swivel X 1/4″ Male NPTF Adapter" (the
   flareNptF part; Motorsnorkel #2327 is the same fitting but their site
   blocks fetching). https://www.mbsturgis.com/adapters-fittings/sae-flare-adapters/3-8-sae-flare-adapters/
+- `stanbroil` → `stanbroil-air-mixer.html` — Stanbroil 3/4" LP Air Mixer Valve
+  product page. Grounds the mixer: "3/4\" Male NPT on Incoming Side · 3/4\"
+  Female or Male (with included adapter) NPT on Burner Side · Rated BTU's:
+  300,000 Max", brass, LP only.
+  https://www.stanbroil.com/product/Stanbroil-34-LP-Air-Mixer-Valve-for-Liquid-Propane-Fire-Pits-300K-BTU-Max-Brass.html
+- `aquatrol` → `aquatrol-series140.html` + `aquatrol-140-cutsheet.pdf` (+ .txt)
+  — Aquatrol Series 140 safety valve (Kingston 112CSS successor; Kingston is
+  now part of Aquatrol). Grounds the relief part: "Safety Valve for Air /
+  Gas — ASME - NB Section XIII 'UV' for Section VIII Div. 1", B16 brass body,
+  stainless disk/spring, 1/4" inlet (orifice A), Series 140 limited to
+  350 psi, 0-350 psig settings, NPT. Media is AIR/INERT GAS only — no LP-gas
+  listing; flagged for FAST liaison like the solenoids.
+  https://aquatrol.com/valve-series/series-140/
+  https://aquatrol.com/wp-content/uploads/2026/02/140-cut-sheet.pdf
 
 ## Blocked / unavailable (ports stay `src:"decl"` — declared from listing text)
 

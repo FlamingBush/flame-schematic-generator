@@ -78,7 +78,6 @@ textarea{width:100%;height:300px;border:none;border-top:1px solid var(--line);fo
   <section>
     <h2>Parts schedule</h2>
     <table id="partsTable"></table>
-    <p class="note">SPEC VERIFIED = catalog specification confirmed against the vendor's published data. VERIFY PN = the component class and rating are specified; confirm the exact catalog number (mcmaster.com or vendor) before purchase and enter it above.</p>
   </section>
 
   <section>
@@ -107,72 +106,84 @@ textarea{width:100%;height:300px;border:none;border-top:1px solid var(--line);fo
 const S = 12; // base unit for symbol sizing (drawing proportions only, not dimensions)
 
 /* ---------- PARTS LIBRARY ----------
-   verified: true  -> spec confirmed against vendor published data
-   verified: false -> real component class & required rating; confirm exact PN */
+   specs quoted from vendor data vaulted in reference/vendor-data (psrc key);
+   "decl" = declared from listing text only — no fetchable catalog */
 let PARTS = {
-  tank100:{ name:"Propane cylinder, 100 lb", vendor:"Worthington / Flame King", pn:"DOT 4BA240 class", verified:true,
+  tank100:{ name:"Propane cylinder, 100 lb", vendor:"Worthington / Flame King", pn:"DOT 4BA240 class",
     spec:"Vapor service. CGA-510 (POL) valve. Must be within DOT requalification date. Foot ring required. 100 lb meets the fuel team's delivery minimum; installation is inner playa — arrange delivery via fire art registration / fuel questionnaire and keep truck access to the cylinders clear.",
     rating:250, ports:{o:"pol::F"}, psrc:"decl", sym:"tank", w:14.5, h:48 },
-  polAdapter:{ name:"Cylinder adapter, POL x 1/4 in MNPT", vendor:"Mr. Heater", pn:"F273754", verified:false,
+  polAdapter:{ name:"Cylinder adapter, POL x 1/4 in MNPT", vendor:"Mr. Heater", pn:"F273754",
     spec:"Brass, excess-flow soft-nose POL (CGA-510, LH internal thread) x 1/4 in MNPT.", rating:250, ports:{i:"pol::M",o:"npt:1/4:M"}, psrc:"decl", sym:"hexAdapter", w:2.2, h:1.1 },
-  ball14:{ name:"Ball valve, 1/4 in FNPT x FNPT", vendor:"Apollo 94A series / McMaster fuel-gas ball valve", pn:"verify", verified:false,
+  ball14:{ name:"Ball valve, 1/4 in FNPT x FNPT", vendor:"Apollo 94A series / McMaster fuel-gas ball valve", pn:"—",
     spec:"2-pc forged brass, quarter-turn lever, 600 psi WOG, rated for fuel gases (CSA).", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"apollo", sym:"ball", w:2.4, h:1.6 },
-  hoseLP:{ name:"LP-gas hose assembly, 3/8 in", vendor:"Mr. Heater", pn:"F273702 (verify length)", verified:false,
+  hoseLP:{ name:"LP-gas hose assembly, 3/8 in", vendor:"Mr. Heater", pn:"F273702",
     spec:"Factory-crimped ends, 3/8 in SAE 45 deg female flare swivel both ends. WP 350 psi, continuously marked LP-GAS / 350 PSI by manufacturer. No hose clamps.", rating:350, ports:{i:"flare:3/8:F",o:"flare:3/8:F"}, psrc:"decl", sym:"none", w:0, h:0 },
-  flareTee:{ name:"Flare tee, 3/8 in tube (5/8-18 UNF)", vendor:"Anderson Metals / Fairview (LP-gas listed)", pn:"04044-06 tee / 04052-06 cross", verified:false,
+  flareTee:{ name:"Flare tee, 3/8 in tube (5/8-18 UNF)", vendor:"Anderson Metals / Fairview (LP-gas listed)", pn:"04044-06",
     spec:"Forged brass SAE 45 deg flare union tee, catalog-listed for LP / natural gas service. Use the 04052-06 four-way flare cross for 3-tank supply. Confirm pressure rating on purchase.", rating:500, ports:{i:"flare:3/8:M",o:"flare:3/8:M"}, branch:"flare:3/8:M", psrc:"anderson", sym:"tee", w:2.0, h:1.6 },
-  flareNptF:{ name:"Adapter, 3/8 in female flare swivel x 1/4 in MNPT", vendor:"US Carburetion / Motorsnorkel (RV-propane)", pn:"2327", verified:false,
+  flareTee14:{ name:"Flare tee, 1/4 in tube", vendor:"Anderson Metals", pn:"04044-04",
+    spec:"Forged brass SAE 45 deg flare union tee (fig 404); each branch port carries a pinpoint standby tip.", rating:500, ports:{i:"flare:1/4:M",o:"flare:1/4:M"}, branch:"flare:1/4:M", psrc:"anderson", sym:"tee", w:2.0, h:1.6 },
+  flareTeeR3814:{ name:"Flare tee, reducing, 3/8 x 3/8 x 1/4 in", vendor:"Anderson Metals", pn:"04059-060604",
+    spec:"Forged brass SAE 45 deg reducing flare tee (fig 509): 3/8 run, 1/4 branch feeding a tip run.", rating:500, ports:{i:"flare:3/8:M",o:"flare:3/8:M"}, branch:"flare:1/4:M", psrc:"anderson", sym:"tee", w:2.0, h:1.6 },
+  flareTeeR1414:{ name:"Flare tee, reducing, 3/8 x 1/4 x 1/4 in", vendor:"Anderson Metals", pn:"04059-060404",
+    spec:"Forged brass SAE 45 deg reducing flare tee (fig 509), last on the rail: the 3/8 run reduces to 1/4 and the branch feeds a tip run.", rating:500, ports:{i:"flare:3/8:M",o:"flare:1/4:M"}, branch:"flare:1/4:M", psrc:"anderson", sym:"tee", w:2.0, h:1.6 },
+  flareNptF:{ name:"Adapter, 3/8 in female flare swivel x 1/4 in MNPT", vendor:"US Carburetion / Motorsnorkel (RV-propane)", pn:"2327",
     spec:"Brass; SAE 45 deg female swivel nut spins onto a male flare end, 1/4 in MNPT out. Joins flare tees to FNPT valve bodies. Confirm pressure rating on purchase.", rating:250, ports:{i:"flare:3/8:F",o:"npt:1/4:M"}, psrc:"sturgis", sym:"hexAdapter", w:2.2, h:1.1 },
-  flare14npt:{ name:"Adapter, 3/8 in male flare x 1/4 in MNPT (half union)", vendor:"Anderson Metals / MB Sturgis", pn:"54048-0604 / MBS77FR", verified:false,
+  flare14npt:{ name:"Adapter, 3/8 in male flare x 1/4 in MNPT (half union)", vendor:"Anderson Metals / MB Sturgis", pn:"54048-0604 / MBS77FR",
     spec:"Forged brass SAE 45 deg half union: the hose or tube swivel nut lands on the male cone, 1/4 MNPT threads into the mating female port. Used in both flow directions (cone-in and cone-out). 48/54 series listed for fuel-gas service; confirm pressure rating on purchase.", rating:250, ports:{i:"flare:3/8:M",o:"npt:1/4:M"}, psrc:"anderson", sym:"hexAdapter", w:2.2, h:1.1 },
-  fnptFlare:{ name:"Adapter, 1/4 in FNPT x 3/8 in male flare", vendor:"Anderson Metals", pn:"04046-0604", verified:false,
+  fnptFlare:{ name:"Adapter, 1/4 in FNPT x 3/8 in male flare", vendor:"Anderson Metals", pn:"04046-0604",
     spec:"Brass SAE 45 deg flare x female pipe coupling (fig 406): 1/4 FNPT onto the cylinder adapter's male thread, 3/8 flare cone out to the supply hose swivel. Confirm pressure rating on purchase.", rating:250, ports:{i:"npt:1/4:F",o:"flare:3/8:M"}, psrc:"anderson", sym:"hexAdapter", w:2.2, h:1.1 },
-  flare14npt14:{ name:"Adapter, 1/4 in male flare x 1/4 in MNPT (half union)", vendor:"Anderson Metals", pn:"04048-0404", verified:false,
+  flare14npt14:{ name:"Adapter, 1/4 in male flare x 1/4 in MNPT (half union)", vendor:"Anderson Metals", pn:"04048-0404",
     spec:"Brass SAE 45 deg half union (fig 48): 1/4 MNPT into the needle valve outlet, 1/4 flare cone out to the copper pilot line's swivel nut. 48 series listed for fuel-gas service; confirm pressure rating on purchase.", rating:250, ports:{i:"npt:1/4:M",o:"flare:1/4:M"}, psrc:"anderson", sym:"hexAdapter", w:2.2, h:1.1 },
-  ell14:{ name:"Elbow, 90 deg, 1/4 in FNPT", vendor:"Anderson Metals", pn:"06100-04 (confirm forged fig 100F)", verified:false,
-    spec:"Forged brass 90 deg elbow, female NPT both ends — turns the vertical supply train horizontal ahead of tee F-7. Sees cylinder pressure: use the forged variant, rated at or above segment pressure.", rating:1200, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"anderson", sym:"ell", w:2.0, h:1.6 },
-  nipple14:{ name:"Hex nipple, 1/4 in MNPT x MNPT", vendor:"Anderson Metals", pn:"06122-04", verified:false,
+  nipple14:{ name:"Hex nipple, 1/4 in MNPT x MNPT", vendor:"Anderson Metals", pn:"06122-04",
     spec:"Forged brass hex nipple, male NPT both ends — joins female-ported valves, regulators, and tees (the schedule's regulators, ball valves, solenoids, and NPT tees are all FNPT). PTFE gas tape both ends. In segments above 125 psi use forged brass rated at or above segment pressure, or schedule 80 steel.", rating:1200, ports:{i:"npt:1/4:M",o:"npt:1/4:M"}, psrc:"anderson", sym:"none", w:0, h:0 },
-  nipple1412:{ name:"Reducing hex nipple, 1/4 x 1/2 in MNPT", vendor:"Anderson Metals", pn:"06123-0804", verified:false,
+  nipple1412:{ name:"Reducing hex nipple, 1/4 x 1/2 in MNPT", vendor:"Anderson Metals", pn:"06123-0804",
     spec:"Forged brass reducing hex nipple stepping the 1/4 in accumulator train up to the 1/2 in poof dump valve.", rating:1200, ports:{i:"npt:1/4:M",o:"npt:1/2:M"}, psrc:"anderson", sym:"none", w:0, h:0 },
-  reg60:{ name:"Regulator, main — set 60 psi", vendor:"Marshall Excelsior", pn:"MEGR-6120-60", verified:true,
+  reg60:{ name:"Regulator, main — set 60 psi", vendor:"Marshall Excelsior", pn:"MEGR-6120-60",
     spec:"High-pressure adjustable LP regulator, outlet range 1-60 psi, 1/4 in FNPT in/out + two 1/4 in FNPT gauge ports, max inlet 250 psig, die-cast aluminum, UL 144 (per MEC bulletin form 976). NON-RELIEF regulator — external overpressure protection required.", rating:250, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, gauge:"npt:1/4:F", psrc:"mec", sym:"reg", w:3.4, h:3.2 },
-  reg30:{ name:"Regulator, poofer — set 30 psi", vendor:"Marshall Excelsior", pn:"MEGR-6120-30", verified:true,
+  reg30:{ name:"Regulator, poofer — set 30 psi", vendor:"Marshall Excelsior", pn:"MEGR-6120-30",
     spec:"High-pressure adjustable LP regulator, outlet range 1-30 psi, 1/4 in FNPT in/out + two 1/4 in FNPT gauge ports, max inlet 250 psig, die-cast aluminum, UL 144 (per MEC bulletin form 976). NON-RELIEF regulator — external overpressure protection required.", rating:250, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, gauge:"npt:1/4:F", psrc:"mec", sym:"reg", w:3.4, h:3.2 },
-  gaugeHP:{ name:"Pressure gauge, 0-300 psi", vendor:"SENCTRL", pn:"verify (0-300 psi)", verified:false,
+  gaugeHP:{ name:"Pressure gauge, 0-300 psi", vendor:"SENCTRL", pn:"—",
     spec:"1/4 in MNPT bottom connection, brass internals compatible with LP vapor. Confirm exact model on purchase.", rating:300, ports:{i:"npt:1/4:M"}, psrc:"decl", sym:"gauge", w:2.5, h:3.2 },
-  gaugeLP:{ name:"Pressure gauge, 0-60 psi", vendor:"SENCTRL", pn:"verify (0-60 psi)", verified:false,
+  gaugeLP:{ name:"Pressure gauge, 0-60 psi", vendor:"SENCTRL", pn:"—",
     spec:"1/4 in MNPT bottom connection, brass internals compatible with LP vapor. Confirm exact model on purchase.", rating:300, ports:{i:"npt:1/4:M"}, psrc:"decl", sym:"gauge", w:2.5, h:3.2 },
-  gauge30:{ name:"Pressure gauge, 0-30 psi", vendor:"SENCTRL", pn:"verify (0-30 psi)", verified:false,
+  gauge30:{ name:"Pressure gauge, 0-30 psi", vendor:"SENCTRL", pn:"—",
     spec:"1/4 in MNPT bottom connection, brass internals compatible with LP vapor. Confirm exact model on purchase.", rating:300, ports:{i:"npt:1/4:M"}, psrc:"decl", sym:"gauge", w:2.5, h:3.2 },
-  manifold:{ name:"Manifold, 1/4 in FNPT, 3 outlets", vendor:"brass manifold block", pn:"verify", verified:false,
-    spec:"Forged brass, 1 in x 3 out, all ports 1/4 in FNPT. Rated well above 60 psi service.", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"decl", sym:"manifold", w:4.0, h:1.6 },
-  nptTee:{ name:"Tee, 1/4 in FNPT", vendor:"McMaster / Anderson Metals forged brass pipe tee", pn:"verify", verified:false,
+  manifold:{ name:"Cross, 1/4 in FNPT, four ends", vendor:"Anderson Metals", pn:"06202-04", 
+    spec:"Forged brass pipe cross (fig 102F), four 1/4 in FNPT ports: one feed in, three outlets — one per jet branch. Replaces the generic manifold block with a catalog part.", rating:1200, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"anderson", sym:"manifold", w:4.0, h:1.6 },
+  nptTee:{ name:"Tee, 1/4 in FNPT", vendor:"McMaster / Anderson Metals forged brass pipe tee", pn:"—",
     spec:"Forged brass NPT run tee, fuel-gas service. Branch port carries a gauge or pilot tap.", rating:1000, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, branch:"npt:1/4:F", psrc:"decl", sym:"tee", w:2.0, h:1.6 },
-  sol14:{ name:"Solenoid valve, 1/4 in NPT, NC", vendor:"Beduan (Amazon)", pn:"B08C2NLPR5", verified:false,
+  sol14:{ name:"Solenoid valve, 1/4 in NPT, NC", vendor:"Beduan (Amazon)", pn:"B08C2NLPR5",
     spec:"Brass body, 2-way normally closed, 12 VDC. Max ~100 psi. THREADS: listing claims NPT, but plain Chinese 2W-series model numbers denote G (BSPP) — gauge-check threads on receipt. Prior pick B07N2LGFYS is an aluminum air valve (kl04010) — do not use. Seal material unpublished, no fuel-gas listing — confirm LP compatibility with FAST liaison. Must stay downstream of regulation.", rating:100, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"decl", sym:"sol", w:2.8, h:3.4 },
-  sol12:{ name:"Solenoid valve, 1/2 in NPT, NC (poofer dump)", vendor:"Beduan (Amazon)", pn:"B07N6246YB", verified:false,
+  sol12:{ name:"Solenoid valve, 1/2 in NPT, NC (poofer dump)", vendor:"Beduan (Amazon)", pn:"B07N6246YB",
     spec:"Brass body 2W160-15, 2-way normally closed, 12 VDC. Max 0.7 MPa (~100 psi) air / 0.5 MPa liquid. THREADS: listing claims 1/2 in FNPT, but the plain 2W160-15 model number denotes G 1/2 (BSPP) in the originating line ('N' variants are NPT) — gauge-check threads on receipt. Seal material unpublished, no fuel-gas listing — confirm LP compatibility with FAST liaison. Must stay downstream of regulation.", rating:100, ports:{i:"npt:1/2:F",o:"npt:1/2:F"}, psrc:"beduan", sym:"sol", w:3.2, h:3.6 },
-  needle:{ name:"Needle valve, 1/4 in NPT", vendor:"Breezliy (Amazon)", pn:"B08K8NP26L", verified:false,
+  needle:{ name:"Needle valve, 1/4 in NPT", vendor:"Breezliy (Amazon)", pn:"B08K8NP26L",
     spec:"Brass instrument needle valve, 1/4 in FNPT x FNPT, fine-metering stem. No published pressure rating or fuel-gas listing — confirm suitability with FAST liaison. Stepper actuator is custom.", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"decl", sym:"needle", w:2.2, h:2.6 },
-  check14:{ name:"Check valve, 1/4 in NPT", vendor:"McMaster brass spring check, Viton seal", pn:"verify", verified:false,
+  check14:{ name:"Check valve, 1/4 in NPT", vendor:"McMaster brass spring check, Viton seal", pn:"—",
     spec:"Inline spring-loaded poppet, brass body, Viton seat, flow arrow marked on body. Prevents accumulator back-flow.", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"decl", sym:"check", w:2.2, h:1.3 },
-  accum:{ name:"Accumulator, DOT LP cylinder", vendor:"DOT 4BA240 cylinder", pn:"out of requalification", verified:false,
+  relief:{ name:"Relief valve, ASME, 1/4 in MNPT", vendor:"Aquatrol series 140 (ex-Kingston 112CSS)", pn:"140A, 1/4 in",
+    spec:"Brass ASME 'UV' Section VIII Div. 1 safety valve, National Board certified, stainless disk and spring, factory set per tag: RV-1 75 psig (30 psi accumulator train), RV-2 90 psig (60 psi distribution). Both protect the ~100 psi solenoid listings if a regulator fails at cylinder inlet pressure. Manufacturer media rating is air/inert gas — no published LP-gas listing; confirm with FAST liaison. Aim discharges away from operators and ignition sources.", rating:350, ports:{i:"npt:1/4:M"}, psrc:"aquatrol", sym:"relief", w:2.0, h:2.6 },
+  ngtAdapter:{ name:"Adapter, 3/4 in MNGT x 1/4 in MNPT", vendor:"steel cylinder-boss adapter", pn:"—",
+    spec:"Machined steel double-male adapter: 3/4-14 NGT threads into the accumulator's existing valve boss (no welds or vessel modification), 1/4 MNPT up into the run tee.", rating:1000, ports:{i:"npt:1/4:M",o:"ngt:3/4:M"}, psrc:"decl", sym:"hexAdapter", w:1.8, h:1.1 },
+  accum:{ name:"Accumulator, DOT LP cylinder", vendor:"DOT 4BA240 cylinder", pn:"out of requalification",
     spec:"Service valve removed; plumbed via existing NGT opening — no welds or modifications to the vessel. Vessel hangs below a vertical run tee: fill enters the side branch, the vessel sits on the bottom run port, and discharge rises from the top run port. DOT requalification stamp is expired and the cylinder cannot be restamped (valve missing). Interior condition inspected and photo-documented for FAST review during fitting replacement. Supply regulated to 30 psi, far below the 240 psi design service pressure. See FE-8.", rating:250, sym:"tank", w:9, h:13 },
-  cu38:{ name:"Copper tube, 3/8 in OD", vendor:"Type L soft copper coil + brass SAE flare nuts", pn:"—", verified:true,
+  cu38:{ name:"Copper tube, 3/8 in OD", vendor:"soft copper refrigeration (ACR) coil + brass SAE flare nuts", pn:"—",
     spec:"All joints SAE 45 deg flared. Compression and soldered joints prohibited on fuel lines.", rating:700, ports:{i:"flare:*:F",o:"flare:*:F"}, psrc:"decl", sym:"none", w:0, h:0 },
-  cu14:{ name:"Copper tube, 1/4 in OD", vendor:"Type L soft copper coil + brass SAE flare nuts", pn:"—", verified:true,
+  cu14:{ name:"Copper tube, 1/4 in OD", vendor:"soft copper refrigeration (ACR) coil + brass SAE flare nuts", pn:"—",
     spec:"Pilot and standby-tip feed runs. All joints SAE 45 deg flared. Compression and soldered joints prohibited on fuel lines.", rating:700, ports:{i:"flare:*:F",o:"flare:*:F"}, psrc:"decl", sym:"none", w:0, h:0 },
-  flare38npt:{ name:"Adapter, 3/8 in male flare x 3/8 in MNPT (half union)", vendor:"Anderson Metals", pn:"54048-0606", verified:false,
-    spec:"Forged brass SAE 45 deg half union: flare nut side to the copper tube, MNPT side into the mixer inlet. Anderson lists the 48/54 series for fuel-gas service; confirm pressure rating on purchase.", rating:500, ports:{i:"flare:3/8:M",o:"npt:3/8:M"}, psrc:"anderson", sym:"hexAdapter", w:1.8, h:1.1 },
-  mixer:{ name:"Venturi air mixer", vendor:"torch-type venturi mixer, 3/8 FNPT inlet", pn:"verify", verified:false,
-    spec:"Cast venturi with fixed air ports; premixes air at the effect head for cleaner combustion.", rating:100, ports:{i:"npt:3/8:F"}, psrc:"decl", sym:"mixer", w:3.6, h:1.8 },
-  nozzle:{ name:"Effect nozzle", vendor:"brass flare/NPT fittings, open discharge", pn:"—", verified:true,
-    spec:"Vertical discharge. Orifice sized during commissioning.", rating:500, sym:"nozzle", w:1.6, h:2.2 },
-  pilot:{ name:"Pilot tip, steel wool pinhole", vendor:"custom fabrication", pn:"—", verified:false,
+  cu12:{ name:"Copper tube, 1/2 in OD", vendor:"soft copper refrigeration (ACR) coil + brass SAE flare nuts", pn:"—",
+    spec:"Poofer discharge stick. All joints SAE 45 deg flared. Compression and soldered joints prohibited on fuel lines.", rating:700, ports:{i:"flare:*:F",o:"flare:*:F"}, psrc:"decl", sym:"none", w:0, h:0 },
+  flare12npt12:{ name:"Adapter, 1/2 in male flare x 1/2 in MNPT (half union)", vendor:"Anderson Metals", pn:"04048-0808",
+    spec:"Brass SAE 45 deg half union (fig 48): 1/2 MNPT into the poof dump valve outlet, 1/2 flare cone out to the discharge tube's swivel nut. 48 series listed for fuel-gas service; confirm pressure rating on purchase.", rating:250, ports:{i:"npt:1/2:M",o:"flare:1/2:M"}, psrc:"anderson", sym:"hexAdapter", w:2.2, h:1.1 },
+  flare38npt34:{ name:"Adapter, 3/8 in male flare x 3/4 in FNPT", vendor:"Anderson Metals", pn:"04046-0612",
+    spec:"Brass SAE 45 deg flare x female pipe coupling (fig 406): the copper tube's swivel nut lands on the cone, 3/4 FNPT threads onto the mixer's male inlet.", rating:250, ports:{i:"flare:3/8:M",o:"npt:3/4:F"}, psrc:"anderson", sym:"hexAdapter", w:2.2, h:1.1 },
+  mixer:{ name:"LP air mixer valve, 3/4 in", vendor:"Stanbroil", pn:"—",
+    spec:"Brass venturi air mixer for liquid propane, rated 300,000 BTU/hr max, LP only. 3/4 in MNPT inlet, 3/4 in FNPT (or MNPT with included adapter) outlet on the burner side. Premixes air at the effect head; reduces sooting.", rating:100, ports:{i:"npt:3/4:M",o:"npt:3/4:F"}, psrc:"stanbroil", sym:"mixer", w:3.6, h:1.8 },
+  nozzle:{ name:"Open pipe discharge", vendor:"open end of the discharge pipe", pn:"—",
+    spec:"Vertical discharge from the open pipe end — no fabricated nozzle or orifice.", rating:500, sym:"nozzle", w:1.6, h:2.2 },
+  pilot:{ name:"Pilot tip, steel wool pinhole", vendor:"custom fabrication", pn:"—",
     spec:"1/4 in copper feed, pinhole orifice, stainless wool flame holder. CUSTOM COMPONENT — review design with FAST liaison; wind-resistant pilots and pilot supervision are inspection points.", rating:100, sym:"pilot", w:1.6, h:2.0 },
-  standby:{ name:"Standby tip, steel wool pinhole", vendor:"custom fabrication", pn:"—", verified:false,
-    spec:"1/4 in copper feed, pinhole orifice, stainless wool flame holder; several run continuously along each branch as standing flames. The tip mounted beside the main nozzle doubles as its ignition source. CUSTOM COMPONENT — review design with FAST liaison; wind performance is an inspection point.", rating:100, sym:"pilot", w:1.6, h:2.0 }
+  standby:{ name:"Pinpoint nozzle, crimped copper tip", vendor:"custom fabrication", pn:"—",
+    spec:"A 1 in stub of 1/4 in copper, end crimped around a wire that is then pulled out, leaving a pinhole orifice; stainless steel wool flame holder. Every 1/4 in rail branch ends in one of these tips, running continuously as standing flames; the tip beside the main nozzle doubles as its ignition source. CUSTOM COMPONENT — review design with FAST liaison; wind performance is an inspection point.", rating:100, sym:"pilot", w:1.6, h:2.0 }
 };
 
 /* ---------- SYSTEM DEFINITION ---------- */
@@ -183,11 +194,11 @@ let SYSTEM = {
       items:[
         {p:"tank100", tag:"TK-1/TK-2", xn:2},
         {j:"pol"},
-        {p:"polAdapter", tag:"F-1", note:"×2"},
+        {p:"polAdapter", tag:"F-1"},
         {j:"npt", size:"1/4", lr:"M>F"},
-        {p:"fnptFlare", note:"×2"},
+        {p:"fnptFlare"},
         {j:"flare", size:"3/8"},
-        {j:"hose", part:"hoseLP", label:"HS-1 ×2"},
+        {j:"hose", part:"hoseLP", label:"HS-1"},
         {j:"flare", size:"3/8", lr:"F<M"},
         {p:"flareTee", tag:"F-2", branch:{arrow:"in"}},
         {j:"flare", size:"3/8"},
@@ -197,9 +208,7 @@ let SYSTEM = {
         {j:"npt", size:"1/4", part:"nipple14"},
         {p:"nptTee", tag:"F-5", mount:{p:"gaugeHP", tag:"PI-1", note:"tank pressure"}},
         {j:"npt", size:"1/4", part:"nipple14"},
-        {p:"ell14"},
         {j:"turn"},
-        {j:"npt", size:"1/4", part:"nipple14"},
         {p:"nptTee", tag:"F-7", branch:{ref:"B"}},
         {j:"npt", size:"1/4", lr:"F<M"},
         {p:"flare14npt", rev:true},
@@ -217,6 +226,8 @@ let SYSTEM = {
       items:[
         {j:"off", ref:"A", dir:"in", label:"from L1"},
         {j:"npt", size:"1/4", part:"nipple14"},
+        {p:"nptTee", tag:"F-20", mount:{p:"relief", tag:"RV-2", note:"set 90 psi"}},
+        {j:"npt", size:"1/4", part:"nipple14"},
         {p:"manifold", tag:"MF-1"},
         {j:"off", ref:"C", dir:"out", fan:3, label:"to L3"}
       ]},
@@ -228,54 +239,84 @@ let SYSTEM = {
         {j:"flare", size:"3/8"},
         {j:"hose", part:"hoseLP", label:"HS-3"},
         {j:"flare", size:"3/8", lr:"F<M"},
-        {p:"flare14npt"},
+        {p:"flareTee", tag:"F-3", branch:{ref:"J"}},
+        {j:"flare", size:"3/8"},
+        {p:"flareNptF"},
         {j:"npt", size:"1/4", lr:"M>F"},
         {split:{
           tee:{p:"nptTee", tag:"F-10"},
           rejoin:{p:"nptTee", tag:"F-11"},
           a:[
-            {j:"npt", size:"1/4", part:"nipple14"},
-            {p:"sol14", tag:"SV-1", note:"jet bursts"},
-            {j:"npt", size:"1/4", part:"nipple14"}
+            {j:"npt", size:"1/4", part:"nipple14", chk:true},
+            {p:"sol14", tag:"SV-1", note:"rail flare"},
+            {j:"npt", size:"1/4", part:"nipple14", chk:true}
           ],
           b:[
             {j:"npt", size:"1/4", part:"nipple14"},
             {p:"needle", tag:"NV-1", note:"+ stepper (custom) · sets standing flame"},
-            {j:"npt", size:"1/4", part:"nipple14"}
+            {j:"npt", size:"1/4", lr:"F<M"},
+            {p:"flare14npt14"},
+            {j:"flare", size:"1/4"},
+            {j:"tube", part:"cu14", size:"1/4", label:"TB-10"},
+            {j:"flare", size:"1/4", lr:"F<M"},
+            {p:"flare14npt14", rev:true},
+            {j:"npt", size:"1/4", lr:"M>F"}
           ]}},
-        {j:"npt", size:"1/4", part:"nipple14"},
-        {p:"nptTee", tag:"F-3", branch:{ref:"P"}},
-        {j:"npt", size:"1/4", lr:"F<M"},
+        {j:"off", ref:"P", dir:"out", label:"to rail"}
+      ]},
+    { id:"L3b", title:"Jet nozzle", psi:"60 psi", op:60,
+      items:[
+        {j:"off", ref:"J", dir:"in"},
+        {j:"flare", size:"3/8"},
+        {p:"flareNptF"},
+        {j:"npt", size:"1/4", lr:"M>F"},
+        {p:"needle", tag:"NV-4", note:"jet metering"},
+        {j:"npt", size:"1/4", part:"nipple14", chk:true},
+        {p:"sol14", tag:"SV-3", note:"jet bursts"},
+        {j:"npt", size:"1/4", lr:"F<M", chk:true},
         {p:"flare14npt", rev:true},
         {j:"flare", size:"3/8"},
         {j:"tube", part:"cu38", size:"3/8", label:"TB-1"},
         {j:"flare", size:"3/8", lr:"F<M"},
-        {p:"flare38npt", tag:"F-4"},
-        {j:"npt", size:"3/8", lr:"M>F"},
+        {p:"flare38npt34", tag:"F-4"},
+        {j:"npt", size:"3/4"},
         {p:"mixer", tag:"AM-1"},
-        {j:"npt", size:"3/8", lr:"M>F"},
+        {j:"npt", size:"3/4"},
         {p:"nozzle", tag:"N-1", flame:true}
       ]},
-    { id:"L3a", title:"Standby rail (one of 3) — teed at F-3", psi:"60 psi", op:60,
+    { id:"L3a", title:"Standby rail (one of 3)", psi:"60 psi", op:60,
       items:[
-        {j:"off", ref:"P", dir:"in", label:"from L3 tee F-3"},
+        {j:"off", ref:"P", dir:"in"},
         {j:"npt", size:"1/4", lr:"F<M"},
         {p:"flare14npt", rev:true},
         {j:"flare", size:"3/8"},
         {j:"tube", part:"cu38", size:"3/8", label:"TB-2"},
         {j:"flare", size:"3/8", lr:"F<M"},
-        {p:"flare14npt"},
-        {j:"npt", size:"1/4", lr:"M>F"},
-        {p:"needle", tag:"NV-3", note:"rail metering"},
-        {j:"npt", size:"1/4", lr:"F<M"},
-        {p:"flare14npt14"},
+        {p:"flareTeeR3814", tag:"F-16", branch:{ref:"T"}},
+        {j:"flare", size:"3/8"},
+        {j:"tube", part:"cu38", size:"3/8", label:"TB-7"},
+        {j:"flare", size:"3/8", lr:"F<M"},
+        {p:"flareTeeR1414", tag:"F-17", branch:{ref:"T"}},
         {j:"flare", size:"1/4"},
-        {j:"tube", part:"cu14", size:"1/4", label:"TB-3"},
-        {p:"standby", tag:"SB-1", flame:true, xn:3, note:"always-lit tips · one ignites N-1 · count TBD"}
+        {j:"off", ref:"T", dir:"out", label:"3 identical tip runs"}
       ]},
-    { id:"L4", title:"Poofer supply — teed at F-7", psi:"tank pressure → 30 psi at PRV-2", op:235,
+    { id:"L3r", title:"Standby tip run (one of 3)", psi:"60 psi", op:60,
       items:[
-        {j:"off", ref:"B", dir:"in", label:"from F-7"},
+        {j:"off", ref:"T", dir:"in"},
+        {j:"tube", part:"cu14", size:"1/4", label:"TB-3"},
+        {j:"flare", size:"1/4", lr:"F<M"},
+        {p:"flareTee14", tag:"F-18", mount:{p:"standby", tag:"SB-1"}},
+        {j:"flare", size:"1/4"},
+        {j:"tube", part:"cu14", size:"1/4", label:"TB-8"},
+        {j:"flare", size:"1/4", lr:"F<M"},
+        {p:"flareTee14", tag:"F-19", mount:{p:"standby", tag:"SB-2"}},
+        {j:"flare", size:"1/4"},
+        {j:"tube", part:"cu14", size:"1/4", label:"TB-9"},
+        {p:"standby", tag:"SB-3", flame:true, note:"every 1/4 in branch ends in one of these · one ignites N-1"}
+      ]},
+    { id:"L4", title:"Poofer supply", psi:"tank pressure → 30 psi at PRV-2", op:235,
+      items:[
+        {j:"off", ref:"B", dir:"in"},
         {j:"npt", size:"1/4", lr:"F<M"},
         {p:"flare14npt", rev:true},
         {j:"flare", size:"3/8"},
@@ -289,25 +330,31 @@ let SYSTEM = {
     { id:"L4b", title:"Poofer accumulator & discharge", psi:"30 psi (accumulator MAOP 250 psi)", op:30,
       items:[
         {j:"off", ref:"E", dir:"in", label:"from PRV-2"},
+        {j:"npt", size:"1/4", lr:"F<M"},
+        {p:"flareNptF", rev:true},
+        {j:"flare", size:"3/8", lr:"F<M"},
+        {p:"flareTee", tag:"F-6", branch:{ref:"D"}},
+        {j:"flare", size:"3/8"},
+        {p:"flareNptF"},
+        {j:"npt", size:"1/4", lr:"M>F"},
+        {p:"check14", tag:"CV-1"},
         {j:"npt", size:"1/4", part:"nipple14"},
-        {p:"nptTee", tag:"F-6", branch:{ref:"D"}},
+        {p:"nptTee", tag:"F-15", mount:{p:"relief", tag:"RV-1", note:"set 75 psi"}},
         {j:"npt", size:"1/4", part:"nipple14"},
-        {p:"check14", tag:"CV-1", note:"one-way fill"},
+        {j:"riser", tee:{p:"nptTee", tag:"F-12", mount:{p:"accum", tag:"AC-1", via:"ngtAdapter"}}},
         {j:"npt", size:"1/4", part:"nipple14"},
-        {j:"riser", tee:{p:"nptTee", tag:"F-12", mount:{p:"accum", tag:"AC-1"}}},
-        {j:"npt", size:"1/4", part:"nipple14"},
-        {p:"ball14", tag:"V-3", note:"isolation valve"},
-        {j:"npt", size:"1/4 x 1/2", part:"nipple1412"},
+        {p:"ball14", tag:"V-3", note:"accumulator isolation"},
+        {j:"npt", size:"1/4 x 1/2", part:"nipple1412", chk:true},
         {p:"sol12", tag:"SV-2", note:"poof dump"},
-        {j:"npt", size:"1/2", lr:"M>F"},
+        {j:"npt", size:"1/2", lr:"F<M", chk:true},
+        {p:"flare12npt12"},
+        {j:"flare", size:"1/2"},
+        {j:"tube", part:"cu12", size:"1/2", label:"TB-6 × 10 ft"},
         {p:"nozzle", tag:"N-2", flame:true}
       ]},
-    { id:"L4a", title:"Poofer pilot — teed at F-6", psi:"30 psi", op:30,
+    { id:"L4a", title:"Poofer pilot", psi:"30 psi", op:30,
       items:[
-        {j:"off", ref:"D", dir:"in", label:"from F-6"},
-        {j:"npt", size:"1/4", lr:"F<M"},
-        {p:"flare14npt", rev:true},
-        {j:"flare", size:"3/8"},
+        {j:"off", ref:"D", dir:"in"},
         {j:"tube", part:"cu38", size:"3/8", label:"TB-4"},
         {j:"flare", size:"3/8", lr:"F<M"},
         {p:"flare14npt"},
@@ -328,15 +375,19 @@ let SYSTEM = {
    Cell widths grow to fit their widest label — labels can never collide. */
 const INK="#1F2933", INK2="#52606D", FLAME="#C6480A";
 const CL=112;
-const ROW={balloon:32, jTop:CL-26, jBot:CL+26, tag:CL+50, n1:CL+64, n2:CL+77};
-function frac(s){return String(s).replace(/\b1\/4\b/g,"¼").replace(/\b1\/2\b/g,"½").replace(/\b3\/4\b/g,"¾").replace(/\b1\/8\b/g,"⅛").replace(/\b3\/8\b/g,"⅜").replace(/\b5\/8\b/g,"⅝");}
+const ROW={balloon:32, jTop:CL-26, jBot:CL+26, tag:CL+50, n1:CL+64, n2:CL+77, n3:CL+90, n4:CL+103};
+function frac(s){return String(s);} // fractions written out ("3/8"), not glyphs ("⅜") — Marcus: readability
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 function txt(x,y,s,size,anchor,fill,w){return s?`<text x="${x}" y="${y}" font-size="${size||10}" text-anchor="${anchor||"middle"}" fill="${fill||INK}"${w?' font-weight="500"':''}>${esc(s)}</text>`:"";}
 function measure(s,size){return s?s.length*size*0.62:0;}
-function wrapNote(s){if(!s)return[];if(measure(s,9)<=200)return[s];
-  const t=s.split(" \u00b7 ");const half=measure(s,9)/2;const a=[],b=[];let len=0;
-  t.forEach(x=>{if(len<half){a.push(x);len+=measure(x,9)+10;}else b.push(x);});
-  return [a.join(" \u00b7 "),b.join(" \u00b7 ")].filter(Boolean);}
+/* break long strings at the separator nearest the midpoint: line breaks
+   are cheap (rows n1..n4), horizontal space is not */
+function wrap2(s,thr,f){f=f||9;if(!s)return[];if(measure(s,f)<=thr)return[s];
+  const re=/ \u00b7 |, | x (?=\d)/g;const mid=s.length/2;let m,best=-1,bd=1e9;
+  while((m=re.exec(s))){const cut=m.index+m[0].length;const d=Math.abs(cut-mid);
+    if(d<bd&&cut>0&&cut<s.length){bd=d;best=cut;}}
+  if(best<1)return[s];
+  return [s.slice(0,best).trimEnd(),s.slice(best).trimStart()].filter(Boolean);}
 
 /* ---------- SYMBOLS ----------
    Drawn centered at cx on the CL run line; white-filled bodies mask the line.
@@ -397,19 +448,24 @@ const SYM={
   mixer(cx,p){const w=p.w*S,h=20;
     return `<path d="M${cx-w/2} ${CL-h*0.22} L${cx-w*0.08} ${CL-h/2} H${cx+w*0.08} L${cx+w/2} ${CL-h*0.22} V${CL+h*0.22} L${cx+w*0.08} ${CL+h/2} H${cx-w*0.08} L${cx-w/2} ${CL+h*0.22} Z" fill="#fff" stroke="${INK}" stroke-width="1.4"/>
     <circle cx="${cx}" cy="${CL-h/2+2.5}" r="1.5" fill="${INK2}"/><circle cx="${cx+w*0.06}" cy="${CL+h/2-2.5}" r="1.5" fill="${INK2}"/>`;},
-  nozzle(cx,p){const w=p.w*S;
-    return `<path d="M${cx-w/2} ${CL+8} L${cx-w*0.16} ${CL-16} H${cx+w*0.16} L${cx+w/2} ${CL+8} Z" fill="#fff" stroke="${FLAME}" stroke-width="1.6"/>
-    <path d="M${cx-4} ${CL-18} Q${cx-7} ${CL-26} ${cx-1} ${CL-31} M${cx+2} ${CL-18} Q${cx+7} ${CL-24} ${cx+4} ${CL-32}" fill="none" stroke="${FLAME}" stroke-width="1.3"/>`;},
+  nozzle(cx,p){
+    // open pipe discharge: a plain open-ended pipe stub, flame out the top
+    return `<rect x="${cx-5}" y="${CL-14}" width="10" height="22" fill="#fff" stroke="none"/>
+    <path d="M${cx-5} ${CL-14} V${CL+8} H${cx+5} V${CL-14}" fill="none" stroke="${FLAME}" stroke-width="1.6"/>
+    <path d="M${cx-4} ${CL-17} Q${cx-7} ${CL-25} ${cx-1} ${CL-30} M${cx+2} ${CL-17} Q${cx+7} ${CL-23} ${cx+4} ${CL-31}" fill="none" stroke="${FLAME}" stroke-width="1.3"/>`;},
   pilot(cx,p){
     return `<circle cx="${cx}" cy="${CL}" r="9" fill="#fff" stroke="${FLAME}" stroke-width="1.4"/>
     <path d="M${cx-5} ${CL} q2.5 -3.5 5 0 q2.5 3.5 5 0" fill="none" stroke="${INK2}"/>
     <path d="M${cx-1} ${CL-9} Q${cx-4} ${CL-17} ${cx+1} ${CL-21}" fill="none" stroke="${FLAME}" stroke-width="1.3"/>`;},
-  ell(cx,p){
-    // 90\u00b0 elbow: an L-body whose ports face DOWN and RIGHT \u2014 the corner where
-    // the vertical supply stack turns into the horizontal run
-    return `<path d="M${cx-9} ${CL+18} V${CL} Q${cx-9} ${CL-9} ${cx} ${CL-9} H${cx+18} V${CL+9} H${cx+9} V${CL+18} Z" fill="#fff" stroke="${INK}" stroke-width="1.4"/>`;}
+  relief(cx,p){
+    // spring relief on a mount boss: poppet triangle held down by a spring,
+    // vent arrow to the side
+    return `<line x1="${cx}" y1="${CL}" x2="${cx}" y2="${CL-7}" stroke="${INK}" stroke-width="2"/>
+    <path d="M${cx-7} ${CL-21} H${cx+7} L${cx} ${CL-7} Z" fill="#fff" stroke="${INK}" stroke-width="1.4"/>
+    <path d="M${cx-5} ${CL-24} h10 m-10 -4 h10 m-10 -4 h10" stroke="${INK}" stroke-width="1.2" fill="none"/>
+    <path d="M${cx+6} ${CL-16} h9 m0 0 l-4 -3 m4 3 l-4 3" stroke="${INK}" fill="none"/>`;}
 };
-const AUTONOTE={ball:"",reg:"",gauge:"",manifold:"",sol:"",needle:"",check:"",mixer:"",nozzle:"",pilot:"",tank:"",hexAdapter:"",tee:"",ell:"",none:""}; // boilerplate lives in GENERAL NOTES, not on cells
+const AUTONOTE={ball:"",reg:"",gauge:"",manifold:"",sol:"",needle:"",check:"",mixer:"",nozzle:"",pilot:"",tank:"",hexAdapter:"",tee:"",relief:"",none:""}; // boilerplate lives in GENERAL NOTES, not on cells
 
 function jointMarker(it,cx){
   // a nipple joint (part on an npt joint) joins two FEMALE ports: hex body in
@@ -437,9 +493,9 @@ function jointMarker(it,cx){
    SHEET_W, looping back to the left margin; branch bands hang below their
    tees. TROW is the per-cell mini-grid (offsets from a tcell's data-y) used
    by the vertical discharge risers — the vertical analog of ROW. */
-const SHEET_W=2400;
+const SHEET_W=2900;
 const TRUNK={GAP:24, DROP_W:24}; // band stacking gap / reserved drop-corridor width
-const TROW={tag:-8, n1:6, n2:19, jTop:-3, jBot:10, balloon:3.5, balMain:-7.5, balMount:14.5};
+const TROW={tag:-8, n1:6, n2:19, n3:32, n4:45, jTop:-3, jBot:10, balloon:3.5, balMain:-7.5, balMount:14.5, balVia:37.5};
 
 /* ---------- CELLS & RENDER ---------- */
 let refIndex={}, refCounter=0;
@@ -449,6 +505,7 @@ function buildRefs(){refIndex={};refCounter=0;
   const reg=it=>{if(!it)return;
     if(it.p&&refIndex[it.p]===undefined){refCounter++;refIndex[it.p]=refCounter;}
     if(it.mount&&refIndex[it.mount.p]===undefined){refCounter++;refIndex[it.mount.p]=refCounter;}
+    if(it.mount&&it.mount.via&&PARTS[it.mount.via]&&refIndex[it.mount.via]===undefined){refCounter++;refIndex[it.mount.via]=refCounter;}
     if(it.part&&(it.j==="hose"||it.j==="tube"||it.j==="npt")&&refIndex[it.part]===undefined){refCounter++;refIndex[it.part]=refCounter;}
     if(it.j==="riser")reg(it.tee);
     if(it.split){reg(it.split.tee);reg(it.split.rejoin);(it.split.a||[]).forEach(reg);(it.split.b||[]).forEach(reg);}
@@ -476,48 +533,64 @@ function bandItems(L){return bandEntries(L).filter(e=>e.it).map(e=>e.it);}
    vert: flow-direction arrows in AUTONOTE turn upward on a discharge riser
    (vert==="up"); horizontal cells keep them pointing right. */
 function partText(it,vert){const p=PARTS[it.p];const m=it.mount?PARTS[it.mount.p]:null;
-  const tag=(it.tag?it.tag+(m&&it.mount.tag?"+"+it.mount.tag:"")+" \u2014 ":"")+p.name.split(",")[0]+(m?" + "+m.name.split(",")[0].toLowerCase():"");
+  // tees carry their exact type, everything else the short name; the thread
+  // designation and MANUFACTURER numbers stay in the schedule, not on the
+  // cell. Labels STACK on the note rows: name lines, the designation
+  // (SV-2, F-16, ...) on its OWN line, then notes — narrow beats wide
+  // (Marcus). Adapter bodies carry no name: the end-pair caption on the
+  // cell says everything; the balloon points at the schedule row.
+  const nm=p.sym==="tee"?p.name.replace(/ [FM]NPT\b/g,""):p.sym==="manifold"?p.name:p.name.split(",")[0]; // the cross carries its exact threads (Marcus)
+  const ids=it.tag?it.tag+(m&&it.mount.tag?"+"+it.mount.tag:""):"";
+  const nm2=p.sym==="hexAdapter"?"":nm+(m?" + "+m.name.split(",")[0].toLowerCase():"");
   const an=(AUTONOTE[p.sym]||"").replace(/\u2192/g,vert==="up"?"\u2191":vert?"\u2193":"\u2192");
-  const notes=wrapNote(frac([it.emergency?"EMERGENCY FUEL SHUT-OFF":"",an,it.note||"",m&&it.mount.note?it.mount.tag+": "+it.mount.note:""].filter(Boolean).join(" \u00b7 ")));
-  return {p,m,tag,notes};
+  const notes=wrap2(frac([it.emergency?"EMERGENCY FUEL SHUT-OFF":"",an,it.note||"",m&&it.mount.note?it.mount.tag+": "+it.mount.note:""].filter(Boolean).join(" \u00b7 ")),130,9);
+  const lines=wrap2(nm2,150,10).map(t=>({s:t,f:10,w:1}));
+  if(ids)lines.push({s:ids,f:10,w:1});
+  notes.forEach((t,i)=>lines.push({s:t,f:9,c:it.emergency&&i===0?FLAME:INK2}));
+  return {p,m,ids,nm2,lines,notes};
 }
 function jointText(it){let top="",bot="",wG=64;
   // direction/material boilerplate lives in GENERAL NOTES; glyphs encode it
-  if(it.j==="npt"){top=`${frac(it.size)}" NPT`;wG=it.part?60:44;}
+  if(it.j==="npt"){top=`${frac(it.size)}" NPT${it.chk?"*":""}`;wG=it.part?60:44;} // chk: thread per listing — gauge-check on receipt
   else if(it.j==="flare"){top=`${frac(it.size)}" flare`;wG=48;}
   else if(it.j==="pol"){top="CGA-510 POL";wG=64;}
-  else if(it.j==="hose"){top=`${it.label||"hose"}`;wG=110;}
-  else if(it.j==="tube"){top=`${it.label||"tube"}: ${frac(it.size)}" Cu`;wG=100;}
+  else if(it.j==="hose"){const hpt=it.part&&PARTS[it.part],hp=hpt&&hpt.ports?P(hpt.ports.i):null;
+    top=hp&&hp.sz?`${frac(hp.sz)}" LP-gas hose`:"hose";bot=it.label||"";wG=96;} // designation on its own row
+  else if(it.j==="tube"){top=`${frac(it.size)}" Cu`;bot=it.label||"";wG=64;}
   else if(it.j==="off"){bot=it.label||"";wG=72;}
   return {top,bot,wG};
 }
+/* stacked-label emitters — one line per grid row, from partText().lines */
+const ROWL=[ROW.tag,ROW.n1,ROW.n2,ROW.n3,ROW.n4];
+const TROWL=[TROW.tag,TROW.n1,TROW.n2,TROW.n3,TROW.n4];
+function linesW(lines){return Math.max(0,...lines.map(l=>measure(l.s,l.f)));}
+function drawLines(lines,x,anchor){return lines.slice(0,5).map((l,i)=>txt(x,ROWL[i],l.s,l.f,anchor,l.c||INK,l.w)).join("");}
+function drawLinesT(lines,x,yA){return lines.slice(0,5).map((l,i)=>txt(x,yA+TROWL[i],l.s,l.f,"start",l.c||INK,l.w)).join("");}
 function buildCell(it){
-  if(it.p){const {p,m,tag,notes}=partText(it);
+  if(it.p){const {p,m,lines}=partText(it);
     const xn=Math.min(Math.max(it.xn|0,1),6); // xn: repeated tips (standby rail) drawn side by side
     const wSym=((p.sym==="tank")?50:Math.max(p.w*S,30))+(xn-1)*22;
     // a cell hosting a MATCHED drop keeps the column under its glyph clear:
     // tag/notes move to the right of the symbol so the connector can descend
     // straight from the tee — the branch leaves AT the fitting, not past it
     if(it.branch&&it.branch.ref&&MATCHED.has(it.branch.ref)){
-      const textW=Math.max(measure(tag,10),...(notes.length?notes.map(n=>measure(n,9)):[0]),40);
+      const textW=Math.max(linesW(lines),40);
       const gh=Math.max(wSym/2,15);
       const w=Math.ceil(26+2*gh+12+textW+10);
-      return {w,cx:26+gh,draw(x){const cx=x+26+gh,tx=cx+gh+12;
+      return {w,cx:26+gh,draw(x){const cx=x+26+gh,tx=cx+gh+12,bx=m?cx-16:cx;
         let s=`<line x1="${x}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
         for(let k=0;k<xn;k++)s+=`<g transform="translate(${(k-(xn-1)/2)*22} 0)">${SYM[p.sym==="none"?"hexAdapter":p.sym](cx,p,it)}</g>`;
         if(m)s+=SYM[m.sym](cx,m,it.mount);
-        s+=`<line x1="${cx-16}" y1="${ROW.balloon+10}" x2="${cx-16}" y2="${CL-48}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
-        <circle cx="${cx-16}" cy="${ROW.balloon}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(cx-16,ROW.balloon+3.5,refIndex[it.p],10.5)}`;
+        s+=`<line x1="${bx}" y1="${ROW.balloon+10}" x2="${bx}" y2="${CL-48}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
+        <circle cx="${bx}" cy="${ROW.balloon}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(bx,ROW.balloon+3.5,refIndex[it.p],10.5)}`;
         if(m)s+=`<line x1="${cx+16}" y1="${ROW.balloon+10}" x2="${cx+16}" y2="${CL-48}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
         <circle cx="${cx+16}" cy="${ROW.balloon}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(cx+16,ROW.balloon+3.5,refIndex[it.mount.p],10.5)}`;
-        s+=txt(tx,ROW.tag,tag,10,"start",INK,1);
-        if(notes[0])s+=txt(tx,ROW.n1,notes[0],9,"start",it.emergency?FLAME:INK2);
-        if(notes[1])s+=txt(tx,ROW.n2,notes[1],9,"start",INK2);
+        s+=drawLines(lines,tx,"start");
         return s;}};
     }
-    const w=Math.max(wSym+18,measure(tag,10)+14,...(notes.length?notes.map(n=>measure(n,9)+12):[0]),46);
+    const w=Math.max(wSym+18,linesW(lines)+14,46);
     return {w,draw(x){const cx=x+w/2;
-      const bx=(it.branch||m)?cx-16:cx; // balloon shifts left so the branch line / mounted symbol stays clear
+      const bx=m?cx-16:cx; // only a mount needs the pair offset — branch-only cells keep the balloon centered on the glyph
       // a tee's boss must face what it serves: up toward a mount or an
       // unmatched branch stub, down only toward a matched drop connector
       const symIt=p.sym==="tee"&&(m||(it.branch&&!(it.branch.ref&&MATCHED.has(it.branch.ref))))?{...it,_bossUp:true}:it;
@@ -525,7 +598,9 @@ function buildCell(it){
       if(it.branch&&!(it.branch.ref&&MATCHED.has(it.branch.ref))){const b=it.branch;
         s+=`<line x1="${cx}" y1="${b.ref?CL-19.5:CL-44}" x2="${cx}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
         if(b.ref)s+=`<path d="M${cx-12} ${CL-39.5} h16 l8 10 l-8 10 h-16 Z" fill="#fff" stroke="${INK}" stroke-width="1.4"/>${txt(cx-1,ROW.jTop,b.ref,11)}`;
-        if(b.arrow==="in")s+=`<path d="M${cx-4} ${CL-16} l4 5 l4 -5" fill="none" stroke="${INK}" stroke-width="1.6"/>`;
+        // chevrons sit ABOVE the upward boss so its white body never hides them
+        if(b.arrow==="in")s+=`<path d="M${cx-4} ${CL-33} l4 5 l4 -5" fill="none" stroke="${INK}" stroke-width="1.6"/>`;
+        else if(b.arrow==="out"&&!b.ref)s+=`<path d="M${cx-4} ${CL-28} l4 -5 l4 5" fill="none" stroke="${INK}" stroke-width="1.6"/>`;
         else if(b.ref)s+=`<path d="M${cx-4} ${CL-9} l4 -5 l4 5" fill="none" stroke="${INK}" stroke-width="1.6"/>`;
       }
       for(let k=0;k<xn;k++)s+=`<g transform="translate(${(k-(xn-1)/2)*22} 0)">${SYM[p.sym==="none"?"hexAdapter":p.sym](cx,p,symIt)}</g>`;
@@ -541,9 +616,7 @@ function buildCell(it){
       <circle cx="${bx}" cy="${ROW.balloon}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(bx,ROW.balloon+3.5,refIndex[it.p],10.5)}`;
       if(m)s+=`<line x1="${cx+16}" y1="${ROW.balloon+10}" x2="${cx+16}" y2="${CL-48}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
       <circle cx="${cx+16}" cy="${ROW.balloon}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(cx+16,ROW.balloon+3.5,refIndex[it.mount.p],10.5)}`;
-      s+=txt(cx,ROW.tag,tag,10,"middle",INK,1);
-      if(notes[0])s+=txt(cx,ROW.n1,notes[0],9,"middle",it.emergency?FLAME:INK2);
-      if(notes[1])s+=txt(cx,ROW.n2,notes[1],9,"middle",INK2);
+      s+=drawLines(lines,cx,"middle");
       return s;}};
   }
   const {top,bot,wG}=jointText(it);
@@ -565,17 +638,15 @@ function buildCell(it){
 /* Text-free run glyphs (hose / tube / plain run + joint marker), shared by the
    horizontal band cells and the vertical risers (which rotate them). */
 function jointGlyph(it,x,w){const cx=x+w/2;
-  if(it.j==="hose")return `<line x1="${x}" y1="${CL}" x2="${x+16}" y2="${CL}" stroke="${INK}" stroke-width="2.4"/>
-      <rect x="${x+16}" y="${CL-4.5}" width="9" height="9" fill="#fff" stroke="${INK}"/>
-      <path d="M${x+25} ${CL} H${cx-14} l5 -8 6 16 5 -8 H${x+w-25}" fill="none" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
-      <rect x="${x+w-25}" y="${CL-4.5}" width="9" height="9" fill="#fff" stroke="${INK}"/>
-      <line x1="${x+w-16}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="2.4"/>`;
+  if(it.j==="hose")return `<line x1="${x}" y1="${CL}" x2="${cx-14}" y2="${CL}" stroke="${INK}" stroke-width="2.4"/>
+      <path d="M${cx-14} ${CL} l5 -8 6 16 5 -8" fill="none" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+      <line x1="${cx+2}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="2.4"/>`;
   if(it.j==="tube")return `<line x1="${x}" y1="${CL}" x2="${cx-14}" y2="${CL}" stroke="${INK}" stroke-width="1.6"/>
       <path d="M${cx-14} ${CL} l5 -8 6 16 5 -8" fill="none" stroke="${INK}" stroke-width="1.6"/>
       <line x1="${cx+2}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="1.6"/>`;
   return `<line x1="${x}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`+jointMarker(it,cx);
 }
-const STRIP_H=ROW.n2+16;
+const STRIP_H=ROW.n4+16;
 const PAR_DY=STRIP_H; // split (parallel-path) strip renders one full row grid below the host's
 
 /* ---------- DISCHARGE RISER ----------
@@ -586,20 +657,58 @@ const PAR_DY=STRIP_H; // split (parallel-path) strip renders one full row grid b
    rotatable symbols, turned so flow reads bottom → top. */
 const RISER={TEXT_DX:40, BAL_DX:-52.5, PAD:14, NOR:{tank:1,nozzle:1,pilot:1}};
 function riserCellH(it){
+  if(it.consol)return Math.max(100,consolLines(it.consol).length*13+22);
   if(it.p&&PARTS[it.p]){const p=PARTS[it.p];const wSym=(p.sym==="tank")?76:Math.max(p.w*S,30);
-    return Math.ceil(Math.max(wSym+16,46))+(it.mount?18:0);}
+    // stacked labels need vertical room too — a cell is at least tall enough
+    // that its text lines stay inside it
+    const nL=partText(it).lines.length;
+    return Math.ceil(Math.max(wSym+16,46,nL*13+22))+(it.mount?18:0);}
   return it.j==="hose"?110:it.j==="tube"?90:(it.j==="npt"&&it.part)?70:40;
 }
 function riserUpH(items){return items.reduce((a,it)=>a+riserCellH(it),0)+RISER.PAD;}
+/* vertical [joint][hex adapter][joint] triples consolidate exactly like the
+   horizontal band cells: one compact cell, markers tight against the body */
+function consolV(items){
+  const out=[];
+  for(let i=0;i<items.length;i++){
+    const a=items[i],ad=items[i+1],b2=items[i+2];
+    if(a&&a.j&&(a.j==="npt"||a.j==="flare"||a.j==="pol")&&!a.part&&
+       ad&&ad.p&&PARTS[ad.p]&&PARTS[ad.p].sym==="hexAdapter"&&!ad.branch&&!ad.mount&&
+       b2&&b2.j&&(b2.j==="npt"||b2.j==="flare"||b2.j==="pol")&&!b2.part){
+      out.push({consol:{j1:a,ad,j2:b2}});i+=2;
+    }else out.push(a);
+  }
+  return out;
+}
+function consolLines(c){
+  const {ids,notes}=partText(c.ad);
+  const lines=[{s:`${jointText(c.j1).top} \u25b8 ${jointText(c.j2).top}`,f:10,w:1}];
+  if(ids)lines.push({s:ids,f:10,w:1});
+  notes.forEach(t=>lines.push({s:t,f:9,c:INK2}));
+  return lines;
+}
+function consolGlyph(c){
+  const p=PARTS[c.ad.p],mo=Math.max(p.w*S,22)/2+18;
+  return jointMarker(c.j1,-mo)+SYM.hexAdapter(0,p,c.ad)+jointMarker(c.j2,mo);
+}
 function drawRiser(rit,rest,x0){
+  rest=consolV(rest);
   const rx=x0+66; // entry stub long enough that the base balloons (left of the run) clear the previous cell's text
   let inner=`<line x1="${x0}" y1="${CL}" x2="${rx}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
   let yB=CL,maxW=0;
   rest.forEach(it=>{
     const h=riserCellH(it),yA=yB-h/2,tx=rx+RISER.TEXT_DX;
     let s=`<g class="tcell" data-y="${yA}">`;
-    if(it.p&&PARTS[it.p]){
-      const {p,m,tag,notes}=partText(it,"up");
+    if(it.consol){
+      const lines=consolLines(it.consol);
+      s+=`<line x1="${rx}" y1="${yB-h}" x2="${rx}" y2="${yB}" stroke="${INK}" stroke-width="2"/>`;
+      s+=`<g transform="translate(${rx} ${yA}) rotate(-90) translate(0 ${-CL})">${consolGlyph(it.consol)}</g>`;
+      s+=`<line x1="${rx+RISER.BAL_DX+10}" y1="${yA}" x2="${rx-33}" y2="${yA}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
+      <circle cx="${rx+RISER.BAL_DX}" cy="${yA}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(rx+RISER.BAL_DX,yA+TROW.balloon,refIndex[it.consol.ad.p],10.5)}`;
+      s+=drawLinesT(lines,tx,yA);
+      maxW=Math.max(maxW,linesW(lines));
+    }else if(it.p&&PARTS[it.p]){
+      const {p,m,lines}=partText(it,"up");
       const key=p.sym==="none"?"hexAdapter":p.sym;
       // upright heads keep their own run stub so the line never crosses the flame
       s+=`<line x1="${rx}" y1="${RISER.NOR[key]?yA+8:yB-h}" x2="${rx}" y2="${yB}" stroke="${INK}" stroke-width="2"/>`;
@@ -607,10 +716,8 @@ function drawRiser(rit,rest,x0){
         :`<g transform="translate(${rx} ${yA}) rotate(-90) translate(0 ${-CL})">${SYM[key](0,p,it)}</g>`;
       s+=`<line x1="${rx+RISER.BAL_DX+10}" y1="${yA}" x2="${rx-33}" y2="${yA}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
       <circle cx="${rx+RISER.BAL_DX}" cy="${yA}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(rx+RISER.BAL_DX,yA+TROW.balloon,refIndex[it.p],10.5)}`;
-      s+=txt(tx,yA+TROW.tag,tag,10,"start",INK,1);
-      if(notes[0])s+=txt(tx,yA+TROW.n1,notes[0],9,"start",it.emergency?FLAME:INK2);
-      if(notes[1])s+=txt(tx,yA+TROW.n2,notes[1],9,"start",INK2);
-      maxW=Math.max(maxW,measure(tag,10),...(notes.length?notes.map(n=>measure(n,9)):[0]));
+      s+=drawLinesT(lines,tx,yA);
+      maxW=Math.max(maxW,linesW(lines));
     }else{
       const {top,bot}=jointText(it);
       s+=`<g transform="translate(${rx} ${yA}) rotate(-90) translate(0 ${-CL})">${jointGlyph(it,-h/2,h)}</g>`;
@@ -623,9 +730,13 @@ function drawRiser(rit,rest,x0){
   // base: run tee at the turn; the mounted vessel hangs below on the tee branch
   const tee=rit.tee;
   if(tee&&tee.p&&PARTS[tee.p]){
-    const {p,m,tag,notes}=partText(tee);
-    if(m)inner+=`<line x1="${rx}" y1="${CL}" x2="${rx}" y2="${CL+18}" stroke="${INK}" stroke-width="2"/>
-    <g transform="translate(${rx} 49)">${SYM[m.sym](0,m,tee.mount)}</g>`;
+    const {p,m,lines}=partText(tee);
+    // a mount may hang through a `via` adapter (the accumulator's NGT boss
+    // bushing) — drawn as a small hex on the hanger stub, with its own balloon
+    const via=m&&tee.mount.via&&PARTS[tee.mount.via]?PARTS[tee.mount.via]:null;
+    if(m)inner+=`<line x1="${rx}" y1="${CL}" x2="${rx}" y2="${CL+(via?22:18)}" stroke="${INK}" stroke-width="2"/>
+    ${via?`<g transform="translate(${rx} ${CL+11}) rotate(90) translate(0 ${-CL})">${SYM.hexAdapter(0,via,{})}</g>`:""}
+    <g transform="translate(${rx} ${via?53:49})">${SYM[m.sym](0,m,tee.mount)}</g>`;
     inner+=`<g transform="translate(${rx} ${CL}) rotate(90) translate(0 ${-CL})">${SYM[p.sym==="none"?"hexAdapter":p.sym](0,p,tee)}</g>`;
     const yT=CL+34,tx=rx+RISER.TEXT_DX;
     let s=`<g class="tcell" data-y="${yT}">`;
@@ -635,11 +746,11 @@ function drawRiser(rit,rest,x0){
     if(m){const bm=yT+TROW.balMount-3.5;
       s+=`<line x1="${rx+RISER.BAL_DX+10}" y1="${bm}" x2="${rx-27}" y2="${bm}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
       <circle cx="${rx+RISER.BAL_DX}" cy="${bm}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(rx+RISER.BAL_DX,bm+3.5,refIndex[tee.mount.p],10.5)}`;}
-    s+=txt(tx,yT+TROW.tag,tag,10,"start",INK,1);
-    if(notes[0])s+=txt(tx,yT+TROW.n1,notes[0],9,"start",INK2);
-    if(notes[1])s+=txt(tx,yT+TROW.n2,notes[1],9,"start",INK2);
+    if(via&&refIndex[tee.mount.via]!==undefined){const bv=yT+TROW.balVia-3.5;
+      s+=`<circle cx="${rx+RISER.BAL_DX}" cy="${bv}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(rx+RISER.BAL_DX,bv+3.5,refIndex[tee.mount.via],10.5)}`;}
+    s+=drawLinesT(lines,tx,yT);
     inner+=s+"</g>";
-    maxW=Math.max(maxW,measure(tag,10),...(notes.length?notes.map(n=>measure(n,9)):[0]));
+    maxW=Math.max(maxW,linesW(lines));
   }
   const upH=riserUpH(rest);
   return {inner,x:rx+RISER.TEXT_DX+maxW,top:CL-upH-4,up:Math.max(0,upH-CL+4)};
@@ -656,25 +767,47 @@ function drawRiser(rit,rest,x0){
    unmatched arrow-in feed arrives at a RIGHT boss (the second cylinder side). */
 function drawSupply(items,x0){
   const rx=x0+66;
-  const cells=items.slice();
+  let cells=items.slice();
   const corner=cells.length&&cells[cells.length-1].p&&PARTS[cells[cells.length-1].p]?cells.pop():null;
+  cells=consolV(cells);
   const CORNER_H=46;
   const totalH=cells.reduce((a,it)=>a+riserCellH(it),0)+(corner?CORNER_H:10);
+  // twin feed: two cylinders draw as two parallel chains — glyphs only on
+  // the second chain (labels and balloons once), which joins at the first
+  // arrow-in tee's boss. Detected, not declared: tank with xn>1 at the
+  // bottom + an arrow-in tee above it.
+  const TDX=58;
+  const tw=cells.length&&cells[0].p&&PARTS[cells[0].p]&&PARTS[cells[0].p].sym==="tank"&&(cells[0].xn|0)>1?
+    cells.findIndex(it=>it.p&&it.branch&&it.branch.arrow==="in"):-1;
+  const textDX=RISER.TEXT_DX+(tw>0?TDX:0);
   let yB=CL+totalH,maxW=0,inner="";
-  cells.forEach(it=>{
-    const h=riserCellH(it),yA=yB-h/2;let tx=rx+RISER.TEXT_DX;
+  cells.forEach((it,ci)=>{
+    const h=riserCellH(it),yA=yB-h/2;let tx=rx+textDX;
     let s=`<g class="tcell" data-y="${yA}">`;
-    if(it.p&&PARTS[it.p]){
-      const {p,m,tag,notes}=partText(it,"up");
+    if(it.consol){
+      const lines=consolLines(it.consol);
+      s+=`<line x1="${rx}" y1="${yB-h}" x2="${rx}" y2="${yB}" stroke="${INK}" stroke-width="2"/>`;
+      s+=`<g transform="translate(${rx} ${yA}) rotate(-90) translate(0 ${-CL})">${consolGlyph(it.consol)}</g>`;
+      if(ci<tw){
+        s+=`<line x1="${rx+TDX}" y1="${yB-h}" x2="${rx+TDX}" y2="${yB}" stroke="${INK}" stroke-width="2"/>`;
+        s+=`<g transform="translate(${rx+TDX} ${yA}) rotate(-90) translate(0 ${-CL})">${consolGlyph(it.consol)}</g>`;
+      }
+      s+=`<line x1="${rx+RISER.BAL_DX+10}" y1="${yA}" x2="${rx-33}" y2="${yA}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
+      <circle cx="${rx+RISER.BAL_DX}" cy="${yA}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(rx+RISER.BAL_DX,yA+TROW.balloon,refIndex[it.consol.ad.p],10.5)}`;
+      s+=drawLinesT(lines,tx,yA);
+      maxW=Math.max(maxW,linesW(lines));
+    }else if(it.p&&PARTS[it.p]){
+      const {p,m,lines}=partText(it,"up");
       const key=p.sym==="none"?"hexAdapter":p.sym;
       const xn=Math.min(Math.max(it.xn|0,1),6);
       const bossL=key==="tee"&&!!m, bossR=key==="tee"&&!m&&!!it.branch;
       if(key==="tank"){
         // cylinders feed from the TOP valve — no run line through the body;
-        // repeated copies stand beside the plumbed one
+        // the second cylinder starts the twin chain from its own collar
         s+=`<line x1="${rx}" y1="${yB-h}" x2="${rx}" y2="${yA-36}" stroke="${INK}" stroke-width="2"/>`;
-        for(let k=0;k<xn;k++)s+=`<g transform="translate(${rx+k*58} ${yA-CL})">${SYM.tank(0,p,it)}</g>`;
-        tx=rx+25+(xn-1)*58+14;
+        if(tw>0)s+=`<line x1="${rx+TDX}" y1="${yB-h}" x2="${rx+TDX}" y2="${yA-36}" stroke="${INK}" stroke-width="2"/>`;
+        for(let k=0;k<xn;k++)s+=`<g transform="translate(${rx+k*TDX} ${yA-CL})">${SYM.tank(0,p,it)}</g>`;
+        tx=rx+Math.max(textDX,25+(xn-1)*TDX+14);
       }else if(RISER.NOR[key]){
         s+=`<line x1="${rx}" y1="${yB-h}" x2="${rx}" y2="${yA+8}" stroke="${INK}" stroke-width="2"/>`;
         s+=`<g transform="translate(${rx} ${yA-CL})">${SYM[key](0,p,it)}</g>`;
@@ -682,11 +815,22 @@ function drawSupply(items,x0){
         s+=`<line x1="${rx}" y1="${yB-h}" x2="${rx}" y2="${yB}" stroke="${INK}" stroke-width="2"/>`;
         s+=`<g transform="translate(${rx} ${yA}) rotate(${bossL?90:-90}) translate(0 ${-CL})">${SYM[key](0,p,it)}</g>`;
       }
+      if(ci<tw&&key!=="tank"&&!RISER.NOR[key]){
+        // twin chain: same glyph again, no text, no balloon
+        s+=`<line x1="${rx+TDX}" y1="${yB-h}" x2="${rx+TDX}" y2="${yB}" stroke="${INK}" stroke-width="2"/>`;
+        s+=`<g transform="translate(${rx+TDX} ${yA}) rotate(-90) translate(0 ${-CL})">${SYM[key](0,p,it)}</g>`;
+      }
       if(bossR&&it.branch.arrow==="in"){
-        // unmatched feed (e.g. the second cylinder's hose) arrives at the boss
-        s+=`<line x1="${rx+22}" y1="${yA}" x2="${rx+44}" y2="${yA}" stroke="${INK}" stroke-width="2"/>
-        <path d="M${rx+36} ${yA-4.5} l-6 4.5 l6 4.5" fill="none" stroke="${INK}" stroke-width="1.6"/>`;
-        tx=rx+50;
+        if(ci===tw&&tw>0){
+          // the twin chain elbows into the boss — the joint it lands on is
+          // the mirror of the one drawn below the tee on the main chain
+          s+=`<path d="M${rx+TDX} ${yB} V${yA+8} Q${rx+TDX} ${yA} ${rx+TDX-8} ${yA} H${rx+22}" fill="none" stroke="${INK}" stroke-width="2"/>`;
+        }else{
+          // unmatched feed with nothing drawn: plain arrow at the boss
+          s+=`<line x1="${rx+22}" y1="${yA}" x2="${rx+44}" y2="${yA}" stroke="${INK}" stroke-width="2"/>
+          <path d="M${rx+36} ${yA-4.5} l-6 4.5 l6 4.5" fill="none" stroke="${INK}" stroke-width="1.6"/>`;
+          tx=rx+Math.max(textDX,50);
+        }
       }
       if(bossL&&m){
         // gauge upright on the boss tip, beside the run
@@ -700,35 +844,31 @@ function drawSupply(items,x0){
       s+=`<circle cx="${rx+RISER.BAL_DX}" cy="${by}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(rx+RISER.BAL_DX,by+3.5,refIndex[it.p],10.5)}`;
       if(m){const bm=yA+TROW.balMount-3.5;
         s+=`<circle cx="${rx+RISER.BAL_DX}" cy="${bm}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(rx+RISER.BAL_DX,bm+3.5,refIndex[it.mount.p],10.5)}`;}
-      s+=txt(tx,yA+TROW.tag,tag,10,"start",INK,1);
-      if(notes[0])s+=txt(tx,yA+TROW.n1,notes[0],9,"start",it.emergency?FLAME:INK2);
-      if(notes[1])s+=txt(tx,yA+TROW.n2,notes[1],9,"start",INK2);
-      maxW=Math.max(maxW,(tx-rx-RISER.TEXT_DX)+Math.max(measure(tag,10),...(notes.length?notes.map(n=>measure(n,9)):[0])));
+      s+=drawLinesT(lines,tx,yA);
+      maxW=Math.max(maxW,(tx-rx-textDX)+linesW(lines));
     }else{
       const {top,bot}=jointText(it);
       s+=`<g transform="translate(${rx} ${yA}) rotate(-90) translate(0 ${-CL})">${jointGlyph(it,-h/2,h)}</g>`;
+      if(ci<tw)s+=`<g transform="translate(${rx+TDX} ${yA}) rotate(-90) translate(0 ${-CL})">${jointGlyph(it,-h/2,h)}</g>`;
       s+=txt(tx,yA+TROW.jTop,top,10,"start");
       s+=txt(tx,yA+TROW.jBot,bot,9,"start",INK2);
       maxW=Math.max(maxW,measure(top,10),measure(bot,9));
     }
     inner+=s+"</g>";yB-=h;
   });
-  if(corner){const {tag,notes}=partText(corner);
-    maxW=Math.max(maxW,measure(tag,10),...(notes.length?notes.map(n=>measure(n,9)):[0]));}
-  const X=Math.ceil(rx+RISER.TEXT_DX+maxW)+10;
+  if(corner)maxW=Math.max(maxW,linesW(partText(corner).lines));
+  const X=Math.ceil(rx+textDX+maxW)+10;
   // the bend itself; the corner part's body masks it
   inner+=`<path d="M${rx} ${yB} V${CL+8} Q${rx} ${CL} ${rx+8} ${CL} H${X}" fill="none" stroke="${INK}" stroke-width="2"/>`;
   if(corner){
-    const {p,notes,tag}=partText(corner);
+    const {p,lines}=partText(corner);
     const key=p.sym==="none"?"hexAdapter":p.sym;
-    const yT=CL+24,tx=rx+RISER.TEXT_DX;
+    const yT=CL+24,tx=rx+textDX;
     inner+=`<g transform="translate(${rx} 0)">${SYM[key](0,p,corner)}</g>`;
     let s=`<g class="tcell" data-y="${yT}">`;
     s+=`<line x1="${rx+RISER.BAL_DX+10}" y1="${yT}" x2="${rx-14}" y2="${yT}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
     <circle cx="${rx+RISER.BAL_DX}" cy="${yT}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(rx+RISER.BAL_DX,yT+TROW.balloon,refIndex[corner.p],10.5)}`;
-    s+=txt(tx,yT+TROW.tag,tag,10,"start",INK,1);
-    if(notes[0])s+=txt(tx,yT+TROW.n1,notes[0],9,"start",INK2);
-    if(notes[1])s+=txt(tx,yT+TROW.n2,notes[1],9,"start",INK2);
+    s+=drawLinesT(lines,tx,yT);
     inner+=s+"</g>";
   }
   return {inner,x:X,down:Math.max(0,CL+totalH+12-STRIP_H),notch:X-5};
@@ -921,9 +1061,14 @@ function renderBandRows(L,availW){
        nx1&&nx1.it&&nx1.it.p&&PARTS[nx1.it.p]&&PARTS[nx1.it.p].sym==="hexAdapter"&&!nx1.it.branch&&!nx1.it.mount&&
        nx2&&nx2.it&&nx2.it.j&&(nx2.it.j==="npt"||nx2.it.j==="flare"||nx2.it.j==="pol")&&!nx2.it.part){
       const ad=nx1.it;
-      const {p,m,tag,notes}=partText(ad);
+      const {p,ids,notes}=partText(ad);
+      // adapter cell label: the end pair IS the name ("1/4" NPT ▸ 3/8" flare"),
+      // the designation stacks under it — no "Adapter" word anywhere
       const cap=`${jointText(it).top} ▸ ${jointText(nx2.it).top}`;
-      const w=Math.ceil(Math.max(100,measure(cap,10)+14,measure(tag,10)+14,...(notes.length?notes.map(n=>measure(n,9)+12):[0])));
+      const lines=[{s:cap,f:10,w:1}];
+      if(ids)lines.push({s:ids,f:10,w:1});
+      notes.forEach(t=>lines.push({s:t,f:9,c:INK2}));
+      const w=Math.ceil(Math.max(96,linesW(lines)+14));
       if(!fits(w))wrap();
       const x=row.x,cx=x+w/2;
       const mo=Math.max(p.w*S,22)/2+18; // markers clear the body, whatever its width
@@ -932,10 +1077,7 @@ function renderBandRows(L,availW){
       cs+=SYM.hexAdapter(cx,p,ad);
       cs+=`<line x1="${cx}" y1="${ROW.balloon+10}" x2="${cx}" y2="${CL-48}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
       <circle cx="${cx}" cy="${ROW.balloon}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(cx,ROW.balloon+3.5,refIndex[ad.p],10.5)}`;
-      cs+=txt(cx,ROW.jTop,cap,10);
-      cs+=txt(cx,ROW.tag,tag,10,"middle",INK,1);
-      if(notes[0])cs+=txt(cx,ROW.n1,notes[0],9,"middle",INK2);
-      if(notes[1])cs+=txt(cx,ROW.n2,notes[1],9,"middle",INK2);
+      cs+=drawLines(lines,cx,"middle");
       row.inner+=cs;row.x+=w;skip=2;return;
     }
     const c=buildCell(it);
@@ -1078,7 +1220,7 @@ function renderSchematic(){
     "◯ n — balloon: parts schedule ref · pentagon n — run continues at the matching pentagon",
     "trapezoid ▸ box — NPT, male into female · back-to-back pair — brass hex nipple joining two female ports",
     "cone ▸ nut — SAE 45° flare · 〰 with break — hose/tube run, length as required",
-    "GENERAL NOTES: flare joints SAE 45°, metal-to-metal, no sealant · NPT joints: PTFE gas tape · hoses: LP-gas, WP 350 psi, factory-crimped & marked · Cu tube: Type L soft, flared joints only · solenoids: 12 VDC, normally closed · ball valves: 1/4-turn lever · POL: CGA-510, LEFT-hand thread",
+    "GENERAL NOTES: flare joints SAE 45°, metal-to-metal, no sealant · NPT joints: PTFE gas tape · hoses: LP-gas, WP 350 psi, factory-crimped & marked · Cu tube: soft refrigeration (ACR) coil, flared joints only · solenoids: 12 VDC, normally closed · ball valves: 1/4-turn lever · POL: CGA-510, LEFT-hand thread · * = thread per listing, gauge-check on receipt (2W solenoids often G/BSPP)",
     "supply rises from the cylinders and turns at the corner elbow · main run flows left → right · branch lines drop below their tees · risers flow up",
     "dashed box — one numbered line · 'one of n' — built n times, drawn once",`<span style="color:${FLAME}">orange</span> — flame heads & marked emergency shut-offs`
   ].map(s=>`<span>${s}</span>`).join("");
@@ -1091,11 +1233,10 @@ function renderParts(){
   const rows=Object.keys(refIndex).sort((a,b)=>refIndex[a]-refIndex[b]).map(k=>{
     const p=PARTS[k];
     return `<tr><td class="mono">${refIndex[k]}</td><td><b>${p.name}</b><br><span style="color:var(--ink2)">${p.spec}</span></td>
-    <td class="mono">${p.vendor}</td><td class="mono">${p.pn}</td><td class="mono">${p.rating} psi</td>
-    <td>${p.verified?'<span class="chip c-ok">SPEC VERIFIED</span>':'<span class="chip c-rev">VERIFY PN</span>'}</td></tr>`;
+    <td class="mono">${p.vendor}</td><td class="mono">${p.pn}</td><td class="mono">${p.rating} psi</td></tr>`;
   }).join("");
   document.getElementById("partsTable").innerHTML=
-  `<tr><th>REF</th><th>COMPONENT & SPECIFICATION</th><th>VENDOR / CATALOG</th><th>PART NO.</th><th>RATING</th><th>STATUS</th></tr>${rows}`;
+  `<tr><th>REF</th><th>COMPONENT & SPECIFICATION</th><th>VENDOR / CATALOG</th><th>PART NO.</th><th>RATING</th></tr>${rows}`;
 }
 
 /* ---------- PORT LINTER ----------
@@ -1283,7 +1424,7 @@ function runChecks(){
     C.push({id:"FE-8",req:"Accumulators / pressure vessels designed, manufactured, and tested to ASME BPVC or DOT for the gas pressure in use; no uncertified welding or modification.",
       status:"rev",note:"AC-1 is an unmodified DOT LP cylinder, but its requalification stamp is expired and it cannot be restamped (service valve removed). Plan: during fitting replacement, visually inspect the interior for corrosion/damage and photo-document the condition for the FAST liaison. Working pressure (30 psi) is a small fraction of the 240 psi design service pressure. Fallback if not accepted: swap in an in-requalification cylinder."});
     C.push({id:"FE-9",req:"If supply pressure exceeds the vessel's MAOP, a regulator must sit between the fuel supply and the vessel.",
-      status:"ok",note:"PRV-2 (30 psi), fed at cylinder pressure from tee F-7, is the regulator between the fuel supply and AC-1; its regulated 30 psi output is far below the vessel's 250 psi MAOP. Note: MEGR-6120 regulators are UL-listed non-relief and PRV-2 is now the single barrier — external overpressure protection on the accumulator segment is recommended and flagged on the schematic."});
+      status:"ok",note:"PRV-2 (30 psi), fed at cylinder pressure from tee F-7, is the regulator between the fuel supply and AC-1; its regulated 30 psi output is far below the vessel's 250 psi MAOP. MEGR-6120 regulators are UL-listed non-relief, so RV-1 (ASME safety valve, set 75 psi, on tee F-15 downstream of CV-1) provides the external overpressure protection for the accumulator train; its media listing is air/inert gas — raise LP suitability with the FAST liaison."});
   }
   C.push({id:"DOC-1",req:"Submitted diagrams must show fuel flow from supply to effect head(s), every component in the path, and the locations of all shut-offs, regulators, pressure vessels, and ignition sources.",
     status:"ok",note:"This sheet traces supply → regulation → distribution → effect heads, standby tips, and pilots, with every valve, regulator, gauge, vessel, and ignition point ballooned and scheduled."});
@@ -1304,7 +1445,7 @@ function downloadSVG(){
   <rect x="1" y="1" width="${w-2}" height="${h-2}" fill="#fff" stroke="${INK}" stroke-width="2"/>
   <text x="20" y="30" font-size="16" fill="${INK}">${esc(SYSTEM.meta.project+" — LP-gas flame effect schematic · REV "+SYSTEM.meta.rev+" · "+SYSTEM.meta.date+" · FOR FAST REVIEW")}</text>
   <text x="20" y="46" font-size="11" fill="${INK2}">${esc("Schematic — not to scale. Supply rises from the cylinders; the main run flows left → right; branch lines drop below their tees; the run resumes at matching pentagons. Balloons key to parts schedule (see packet).")}</text>
-  <text x="20" y="62" font-size="11" fill="${INK2}">${esc("GENERAL NOTES: flare joints SAE 45°, metal-to-metal, no sealant · NPT joints: PTFE gas tape · hex nipples join female ports · hoses: LP-gas, WP 350 psi, factory-crimped & marked · Cu tube: Type L soft, flared joints only · solenoids: 12 VDC NC · ball valves: 1/4-turn · POL: CGA-510, LEFT-hand thread")}</text>
+  <text x="20" y="62" font-size="11" fill="${INK2}">${esc("GENERAL NOTES: flare joints SAE 45°, metal-to-metal, no sealant · NPT joints: PTFE gas tape · hex nipples join female ports · hoses: LP-gas, WP 350 psi, factory-crimped & marked · Cu tube: soft refrigeration (ACR) coil, flared joints only · solenoids: 12 VDC NC · ball valves: 1/4-turn · POL: CGA-510, LEFT-hand thread · * = thread per listing, gauge-check on receipt (2W solenoids often G/BSPP)")}</text>
   <g transform="translate(20 76)">${LAST_RENDER.inner}</g></svg>`;
   const a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob([svg],{type:"image/svg+xml"}));
