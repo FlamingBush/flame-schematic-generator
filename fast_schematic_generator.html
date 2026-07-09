@@ -45,7 +45,7 @@ td.mono,.mono{font-family:var(--mono);font-size:12px}
 .note{color:var(--ink2);font-size:12.5px;margin:10px 0}
 .legend{display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--mono);font-size:11.5px;color:var(--ink2);padding-bottom:12px}
 footer{padding:14px 22px;border-top:1.5px solid var(--ink);margin-top:12px;font-size:12px;color:var(--ink2)}
-.toolbar{max-width:1160px;margin:0 auto 40px;display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.toolbar{max-width:1160px;margin:0 auto 22px;display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}
 button{font-family:var(--mono);font-size:12.5px;background:var(--ink);color:#fff;border:none;padding:9px 16px;cursor:pointer;border-radius:3px}
 button.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--ink)}
 details{flex:1 1 100%;background:#fff;border:1.5px solid var(--ink);border-radius:3px}
@@ -58,6 +58,22 @@ textarea{width:100%;height:300px;border:none;border-top:1px solid var(--line);fo
 </style>
 </head>
 <body>
+
+<div class="toolbar">
+  <label style="display:block;padding:0 0 10px;font-size:12.5px;color:var(--ink2)">Diagram version
+    <select id="viewSel" onchange="setView(this.value)" style="margin-left:8px;font:inherit;padding:3px 6px">
+      <option value="external">External — SVG submission (self-identifying cells, no balloons)</option>
+      <option value="internal">Internal — PDF packet (balloons key to the parts schedule)</option>
+    </select>
+  </label>
+  <button onclick="downloadSVG()">Download schematic as SVG</button>
+  <button class="ghost" onclick="window.print()">Print / save PDF packet</button>
+  <details>
+    <summary>Edit system definition (JSON) — change parts, pressures, and line layout, then re-render</summary>
+    <textarea id="jsonBox" spellcheck="false"></textarea>
+    <div style="padding:10px 14px"><button onclick="applyJSON()">Re-render from JSON</button> <span class="mono" id="jsonMsg" style="color:var(--rev)"></span></div>
+  </details>
+</div>
 
 <div class="sheet" id="sheet">
   <div class="tblock">
@@ -91,22 +107,6 @@ textarea{width:100%;height:300px;border:none;border-top:1px solid var(--line);fo
   </footer>
 </div>
 
-<div class="toolbar">
-  <label style="display:block;padding:0 0 10px;font-size:12.5px;color:var(--ink2)">Diagram version
-    <select id="viewSel" onchange="setView(this.value)" style="margin-left:8px;font:inherit;padding:3px 6px">
-      <option value="external">External — SVG submission (self-identifying cells, no balloons)</option>
-      <option value="internal">Internal — PDF packet (balloons key to the parts schedule)</option>
-    </select>
-  </label>
-  <button onclick="downloadSVG()">Download schematic as SVG</button>
-  <button class="ghost" onclick="window.print()">Print / save PDF packet</button>
-  <details>
-    <summary>Edit system definition (JSON) — change parts, pressures, and line layout, then re-render</summary>
-    <textarea id="jsonBox" spellcheck="false"></textarea>
-    <div style="padding:10px 14px"><button onclick="applyJSON()">Re-render from JSON</button> <span class="mono" id="jsonMsg" style="color:var(--rev)"></span></div>
-  </details>
-</div>
-
 <script>
 "use strict";
 const S = 12; // base unit for symbol sizing (drawing proportions only, not dimensions)
@@ -124,11 +124,13 @@ let PARTS = {
     spec:"2-pc forged brass, quarter-turn lever, 600 psi WOG, rated for fuel gases (CSA).", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"apollo", sym:"ball", w:2.4, h:1.6 },
   hoseLP:{ name:"LP-gas hose assembly, 3/8 in", vendor:"Mr. Heater", pn:"F273702",
     spec:"Factory-crimped ends, 3/8 in SAE 45 deg female flare swivel both ends. WP 350 psi, continuously marked LP-GAS / 350 PSI by manufacturer. No hose clamps.", rating:350, ports:{i:"flare:3/8:F",o:"flare:3/8:F"}, psrc:"decl", sym:"none", w:0, h:0 },
-  polFlare:{ name:"Cylinder adapter, POL x 3/8 in male flare", vendor:"Anderson Fittings (Anderson Copper & Brass)", mfg:"Anderson Fittings", pn:"POL-U2-6",
-    spec:"Brass CA360/CA345. Male .880-14 LH POL thread into the cylinder valve, 3/8 in SAE 45 deg male flare cone out — the LP hose's female swivel lands straight on it, so no separate FNPT-to-flare adapter is bought. The catalog's POL section states the line is for making connections in LP gas systems. Confirm pressure rating on purchase.", rating:250, ports:{i:"pol::M",o:"flare:3/8:M"}, psrc:"andersonfittings", sym:"hexAdapter", w:2.4, h:1.1 },
+  polFlare:{ name:"Cylinder adapter, POL x 3/8 in male flare", vendor:"Marshall Excelsior (MEC)", mfg:"Marshall Excelsior", pn:"ME353",
+    spec:"Single-piece brass adapter, male hard-nose CGA-510 POL into the cylinder valve, 3/8 in SAE 45 deg MALE flare cone out — the LP hose's female swivel lands straight on it, so no separate FNPT-to-flare adapter is bought. MEC RV/LPG catalog p.28, section POL X MALE FLARE. Same maker as the MEGR-6120 regulators, stocked by every propane supplier; ME353-SN is the soft-nose variant for valves that need it. BEWARE: several retail listings call this fitting 'male inverted flare' — it is not, and inverted flare will not seal against a 45 deg swivel. Anderson Fittings POL-U2-6 is the same fitting. Confirm pressure rating on purchase.", rating:250, ports:{i:"pol::M",o:"flare:3/8:M"}, psrc:"mecrv", sym:"hexAdapter", w:2.4, h:1.1 },
+  teeStreet14:{ name:"Street tee, 1/4 in MNPT x 1/4 in FNPT x 1/4 in flare branch", vendor:"Anderson Fittings (Anderson Copper & Brass)", mfg:"Anderson Fittings", pn:"T4-4B",
+    spec:"Forged brass SAE 45 deg street tee: male NPT screws straight into the check valve's female outlet (no hex nipple), female NPT continues the run, and the branch is a 1/4 flare cone that takes the pilot's copper tube directly. Placed downstream of CV-1 and of the V-3 isolation valve, and upstream of the accumulator: on normal shutdown the accumulator bleeds down through the continuously-burning pilot while CV-1 blocks backflow toward the regulator, and closing V-3 cuts supply gas to the pilot and the accumulator together. Confirm pressure rating on purchase.", rating:500, ports:{i:"npt:1/4:M",o:"npt:1/4:F"}, branch:"flare:1/4:M", psrc:"andersonfittings", sym:"tee", w:2.0, h:1.6 },
   flareTeeFpt:{ name:"Flare tee, female branch, 3/8 in tube x 1/4 in FNPT", vendor:"Anderson Fittings (Anderson Copper & Brass)", mfg:"Anderson Fittings", pn:"TF1-6B",
-    spec:"Forged brass SAE 45 deg female branch tee: 3/8 flare cones across the run, 1/4 FNPT branch. A gauge or relief valve threads straight into the branch while the run stays flare — no hex nipples. Rated -65 to +250 F. Confirm pressure rating on purchase.", rating:500, ports:{i:"flare:3/8:M",o:"flare:3/8:M"}, branch:"npt:1/4:F", psrc:"andersonfittings", sym:"tee", w:2.0, h:1.6 },
-  flareTee:{ name:"Flare tee, 3/8 in tube (5/8-18 UNF)", vendor:"Anderson Metals", pn:"04044-06",
+    spec:"Forged brass SAE 45 deg female branch tee: 3/8 flare cones across the run, 1/4 FNPT branch. A gauge or relief valve threads straight into the branch while the run stays flare — no hex nipples. Rated -65 to +250 F. Stocked retail under the equivalent Fairview/Fasparts figure number 36-6B, whose SAE 45 flare line IS listed for LP-gas and natural gas service. Confirm pressure rating on purchase.", rating:500, ports:{i:"flare:3/8:M",o:"flare:3/8:M"}, branch:"npt:1/4:F", psrc:"andersonfittings", sym:"tee", w:2.0, h:1.6 },
+  flareTee:{ name:"Flare tee, 3/8 in tube", vendor:"Anderson Metals", pn:"04044-06",
     spec:"Forged brass SAE 45 deg flare union tee, catalog-listed for LP / natural gas service. Use the 04052-06 four-way flare cross for 3-tank supply. Confirm pressure rating on purchase.", rating:500, ports:{i:"flare:3/8:M",o:"flare:3/8:M"}, branch:"flare:3/8:M", psrc:"anderson", sym:"tee", w:2.0, h:1.6 },
   flareTee14:{ name:"Flare tee, 1/4 in tube", vendor:"Anderson Metals", pn:"04044-04",
     spec:"Forged brass SAE 45 deg flare union tee (fig 404); each branch port carries a pinpoint standby tip.", rating:500, ports:{i:"flare:1/4:M",o:"flare:1/4:M"}, branch:"flare:1/4:M", psrc:"anderson", sym:"tee", w:2.0, h:1.6 },
@@ -178,7 +180,7 @@ let PARTS = {
     spec:"Brass ASME 'UV' Section VIII Div. 1 safety valve, National Board certified, stainless disk and spring, factory set per tag: RV-1 75 psig (30 psi accumulator train), RV-2 90 psig (60 psi distribution). Both protect the ~100 psi solenoid listings if a regulator fails at cylinder inlet pressure. Manufacturer media rating is air/inert gas — no published LP-gas listing; confirm with FAST liaison. Aim discharges away from operators and ignition sources.", rating:350, ports:{i:"npt:1/4:M"}, psrc:"aquatrol", sym:"relief", w:2.0, h:2.6 },
   ngtAdapter:{ name:"Adapter, 3/4 in MNGT x 1/4 in MNPT", vendor:"custom fabrication", pn:"—",
     spec:"Machined steel double-male adapter: 3/4-14 NGT threads into the accumulator's existing valve boss (no welds or vessel modification), 1/4 MNPT up into the run tee. CUSTOM COMPONENT — review with FAST liaison.", rating:1000, ports:{i:"npt:1/4:M",o:"ngt:3/4:M"}, psrc:"decl", sym:"hexAdapter", w:1.8, h:1.1 },
-  accum:{ name:"Accumulator, DOT LP cylinder", vendor:"DOT 4BA240 cylinder", pn:"—",
+  accum:{ name:"Accumulator, DOT LP cylinder", vendor:"DOT 4BA240 cylinder", mfg:"DOT 4BA240", pn:"—",
     spec:"Service valve removed; plumbed via existing NGT opening — no welds or modifications to the vessel. Vessel hangs below a vertical run tee: fill enters the side branch, the vessel sits on the bottom run port, and discharge rises from the top run port. DOT requalification stamp is expired and the cylinder cannot be restamped (valve missing). Interior condition inspected and photo-documented for FAST review during fitting replacement. Supply regulated to 30 psi, far below the 240 psi design service pressure. See FE-8.", rating:250, sym:"tank", w:9, h:13 },
   cu38:{ name:"Copper tube, 3/8 in OD", vendor:"soft copper refrigeration (ACR) coil + brass SAE flare nuts", pn:"—",
     spec:"All joints SAE 45 deg flared. Compression and soldered joints prohibited on fuel lines.", rating:700, ports:{i:"flare:*:F",o:"flare:*:F"}, psrc:"decl", sym:"none", w:0, h:0 },
@@ -327,7 +329,7 @@ let SYSTEM = {
         {p:"flareTee14", tag:"F-19", mount:{p:"standby", tag:"SB-2"}},
         {j:"flare", size:"1/4"},
         {j:"tube", part:"cu14", size:"1/4", label:"TB-9"},
-        {p:"standby", tag:"SB-3", flame:true, note:"every 1/4 in branch ends in one of these · one ignites N-1"}
+        {p:"standby", tag:"SB-3", flame:true, note:"every 1/4 in branch ends in one of these · one lights the jet nozzle"}
       ]},
     { id:"L4", title:"Poofer supply", psi:"tank pressure → 30 psi at PRV-2", op:235,
       items:[
@@ -343,20 +345,16 @@ let SYSTEM = {
     { id:"L4b", title:"Poofer accumulator & discharge", psi:"30 psi (accumulator MAOP 250 psi)", op:30,
       items:[
         {j:"off", ref:"E", dir:"in", label:"from PRV-2"},
-        {j:"npt", size:"1/4", lr:"F<M"},
-        {p:"flareNptF", rev:true},
-        {j:"flare", size:"3/8", lr:"F<M"},
-        {p:"flareTeeR3814", tag:"F-6", branch:{ref:"D"}},
-        {j:"flare", size:"3/8"},
-        {p:"flareNptF"},
-        {j:"npt", size:"1/4", lr:"M>F"},
+        {j:"npt", size:"1/4", part:"nipple14"},
         {p:"check14", tag:"CV-1"},
+        {j:"npt", size:"1/4", part:"nipple14"},
+        {p:"ball14", tag:"V-3", emergency:true, note:"poofer isolation \u2014 cuts pilot and accumulator, marked"},
+        {j:"npt", size:"1/4", lr:"F<M"},
+        {p:"teeStreet14", tag:"F-6", branch:{ref:"D"}, note:"pilot bleed-down path"},
         {j:"npt", size:"1/4", part:"nipple14"},
         {p:"nptTee", tag:"F-15", mount:{p:"relief", tag:"RV-1", note:"set 75 psi"}},
         {j:"npt", size:"1/4", part:"nipple14"},
-        {j:"riser", tee:{p:"nptTee", tag:"F-12", mount:{p:"accum", tag:"AC-1", via:"ngtAdapter"}}},
-        {j:"npt", size:"1/4", part:"nipple14"},
-        {p:"ball14", tag:"V-3", note:"accumulator isolation"},
+        {j:"riser", tee:{p:"nptTee", tag:"F-12", mount:{p:"accum", tag:"AC-1", via:"ngtAdapter", note:"hangs on its existing NGT boss through a custom machined adapter \u2014 no welds, no vessel modification \u00b7 requal stamp expired: interior inspected and photographed for review"}}},
         {j:"npt", size:"1/4 x 1/2", part:"nipple1412", chk:true},
         {p:"sol12", tag:"SV-2", note:"poof dump"},
         {j:"npt", size:"1/2", lr:"F<M", chk:true},
@@ -554,7 +552,7 @@ function bandItems(L){return bandEntries(L).filter(e=>e.it).map(e=>e.it);}
    Everything downstream branches on INTERNAL(). */
 let VIEW="external";
 function INTERNAL(){return VIEW==="internal";}
-const PN_SYM=new Set(["ball","sol","needle","check","relief","reg","gauge"]);
+const PN_SYM=new Set(["sol","needle","check","relief","reg","gauge","tank"]);
 /* A bare catalog number identifies nothing — always name the manufacturer
    beside it (Marcus). Amazon listings carry an ASIN, not a manufacturer part
    number: label it, or "Beduan B08C2NLPR5" reads as a Beduan catalog number
@@ -562,8 +560,27 @@ const PN_SYM=new Set(["ball","sol","needle","check","relief","reg","gauge"]);
    SENCTRL gauges) still shows its make. */
 function pnNum(p){return p.pn&&p.pn!=="\u2014"?(p.asin?"ASIN "+p.pn:p.pn):"";}
 function pnText(p){return PN_SYM.has(p.sym)?[p.mfg||"",pnNum(p)].filter(Boolean).join(" "):"";}
-function ratingText(p){return p.rating==null?"no published rating":p.rating+" psi";}
+/* Solid-brass fittings — tees, the cross, adapters, nipples — have no seat,
+   seal, or diaphragm and are never the weak point on the line. A 500 / 1000 /
+   1200 psi number on those cells is noise (Marcus), so the drawing prints a
+   rating only where something can actually fail at pressure: valves, the
+   regulators, gauges, the mixer, and the vessels. The handmade tips and the
+   open pipe discharge are custom fabrications whose "rating" was never sourced
+   from anyone, so they print none either. PARTS[].rating still carries the
+   number for compliance row FE-2 to test against. */
+const NO_RATING_SYM=new Set(["tee","manifold","hexAdapter","none","nozzle","pilot"]);
+function ratingText(p){return NO_RATING_SYM.has(p.sym)?"":p.rating==null?"no published rating":p.rating+" psi";}
 function specLine(p){return [pnText(p),ratingText(p)].filter(Boolean).join(" \u00b7 ");}
+/* the external sheet keys nothing to an off-sheet schedule, so equipment
+   designations must not survive in band titles, run labels, or notes either */
+function deTag(s){
+  if(INTERNAL()||!s)return s;
+  return String(s)
+    .replace(/\s+at\s+[A-Z]{1,3}-\d+/g,"")
+    .replace(/^(?:from|to)\s+[A-Z]{1,3}-\d+$/i,"")
+    .replace(/^[A-Z]{1,3}-\d+\s*(?:\u00d7\s*)?/,"")
+    .trim();
+}
 /* Balloons key a cell to the parts schedule, so they exist ONLY in the internal
    packet — the external sheet is standalone and draws none. Two shapes: band
    cells hang one above the glyph on ROW.balloon; riser/stack cells sit left of
@@ -578,7 +595,7 @@ function balloonCol(cx,key){
 const LEG_ORANGE="orange — flame heads & marked emergency shut-offs";
 function legendLines(){return [
   INTERNAL()?"◯ n — balloon: parts schedule ref · pentagon n — run continues at the matching pentagon"
-            :"pentagon n — run continues at the matching pentagon · every component cell carries its pressure rating; valves, regulators and gauges also carry their manufacturer part number",
+            :"pentagon n — run continues at the matching pentagon · anything that can fail at pressure states its rating (solid-brass fittings need none); valves, regulators, gauges and vessels also state their manufacturer part number",
   "trapezoid ▸ box — NPT, male into female · back-to-back pair — brass hex nipple joining two female ports",
   "cone ▸ nut — SAE 45° flare · 〰 with break — hose/tube run, length as required",
   "GENERAL NOTES: flare joints SAE 45°, metal-to-metal, no sealant · NPT joints: PTFE gas tape · hex nipples join female ports · hoses: LP-gas, WP 350 psi, factory-crimped & marked · Cu tube: soft refrigeration (ACR) coil, flared joints only · solenoids: 12 VDC NC · ball valves: 1/4-turn lever · POL: CGA-510, LEFT-hand thread · * = thread per listing, gauge-check on receipt (2W solenoids often G/BSPP)",
@@ -588,7 +605,7 @@ function legendLines(){return [
 function sheetSubtitle(){return "Fuel flow shown supply → effect heads. Schematic representation — symbols and run lengths are not to scale. "+
   (INTERNAL()?"Balloon numbers key to the parts schedule.":"Every component is identified on the drawing; nothing refers to an off-sheet schedule.");}
 function svgSubtitle(){return "Schematic — not to scale. Supply rises from the cylinders; the main run flows left → right; branch lines drop below their tees; the run resumes at matching pentagons. "+
-  (INTERNAL()?"Balloons key to parts schedule (see packet).":"Each component carries its own part number and pressure rating.");}
+  (INTERNAL()?"Balloons key to parts schedule (see packet).":"Every component identifies itself on the drawing; nothing keys to an off-sheet schedule.");}
 function setView(v){VIEW=v==="internal"?"internal":"external";renderAll();}
 function balloonRow(cx,cy,leaderX,key){
   if(!INTERNAL()||refIndex[key]===undefined)return "";
@@ -610,8 +627,8 @@ function partText(it,vert){const p=PARTS[it.p];const m=it.mount?PARTS[it.mount.p
   const lines=wrap2(nm2,150,10).map(t=>({s:t,f:10,w:1}));
   if(INTERNAL()){if(ids)lines.push({s:ids,f:10,w:1});}
   else if(p.sym!=="hexAdapter"){
-    lines.push({s:specLine(p),f:9,c:INK2});
-    if(m)lines.push({s:specLine(m),f:9,c:INK2}); // a gauge on a reg names itself too
+    const sl=specLine(p); if(sl)lines.push({s:sl,f:9,c:INK2});
+    const ml=m?specLine(m):""; if(ml)lines.push({s:ml,f:9,c:INK2}); // a gauge on a reg names itself too
   }
   notes.forEach((t,i)=>lines.push({s:t,f:9,c:it.emergency&&i===0?FLAME:INK2}));
   return {p,m,ids,nm2,lines,notes};
@@ -622,9 +639,9 @@ function jointText(it){let top="",bot="",wG=64;
   else if(it.j==="flare"){top=`${frac(it.size)}" flare`;wG=48;}
   else if(it.j==="pol"){top="CGA-510 POL";wG=64;}
   else if(it.j==="hose"){const hpt=it.part&&PARTS[it.part],hp=hpt&&hpt.ports?P(hpt.ports.i):null;
-    top=hp&&hp.sz?`${frac(hp.sz)}" LP-gas hose`:"hose";bot=it.label||"";wG=96;} // designation on its own row
-  else if(it.j==="tube"){top=`${frac(it.size)}" Cu`;bot=it.label||"";wG=64;}
-  else if(it.j==="off"){bot=it.label||"";wG=72;}
+    top=hp&&hp.sz?`${frac(hp.sz)}" LP-gas hose`:"hose";bot=deTag(it.label||"");wG=96;} // designation on its own row
+  else if(it.j==="tube"){top=`${frac(it.size)}" Cu`;bot=deTag(it.label||"");wG=64;}
+  else if(it.j==="off"){bot=deTag(it.label||"");wG=72;}
   return {top,bot,wG};
 }
 /* stacked-label emitters — one line per grid row, from partText().lines */
@@ -999,7 +1016,7 @@ function deriveTree(){
    placeBand); splits and risers are atomic units that trigger a wrap when
    they don't fit. Segment boxes and seam titles are per-row; a line spanning
    a wrap gets a box on each row. */
-function bandTitleText(L){return `${L.id} — ${L.title} · ${L.psi}`;}
+function bandTitleText(L){return `${L.id} — ${L.title} · ${deTag(L.psi)}`;}
 function bandTitle(L){return txt(14,8,bandTitleText(L),10,"start",INK2);}
 function renderBandRows(L,availW){
   const entries=bandEntries(L);
@@ -1042,7 +1059,7 @@ function renderBandRows(L,availW){
     }
     const it=en.it;
     if(i===0&&it.j==="off"&&it.dir==="in"&&it.ref&&MATCHED.has(it.ref)){
-      const lbl=it.label||"";
+      const lbl=deTag(it.label||"");
       if(TREE.fan&&TREE.fan.has(it.ref)){
         // the run resumes here from the matching pentagon at the fan's end —
         // a drawn route back across the sheet would read as a second loop
@@ -1106,7 +1123,7 @@ function renderBandRows(L,availW){
       // across the sheet would read as a second loop-back
       const e=TREE.edges.find(x=>x.ref===it.ref&&x.kind==="end");
       const badge=e&&e.fan?"one of "+e.fan+" identical branches":"";
-      const lbl=it.label||"";
+      const lbl=deTag(it.label||"");
       const w=Math.max(96,measure(lbl,9)+16,(badge?measure(badge,9):0)+44);
       if(!fits(w))wrap();
       const x=row.x,hx=x+w-34;

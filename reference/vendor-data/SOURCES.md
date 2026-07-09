@@ -49,6 +49,14 @@ on a live fetch. The `.txt` files are pypdf extractions of the PDFs.
   Ground Plug valve lines (pp.132, 135) say "Use on fuel oil, water, gas, air,
   and LP gas". Anderson Metals lists the same figure numbers as 09110-04/-06
   but publishes neither gender nor rating.
+- `mecrv` → `mec-rv-lpg-catalog-2020.pdf` (+ .txt) — Marshall Excelsior 2020
+  RV / LP-gas parts & accessories catalog, via raymurray.com (marshallexcelsior.com
+  itself 403s). Grounds polFlare: p.28 section "POL X MALE FLARE", "ME353 Male
+  Hard Nose — 3/8"". This settles a live buying trap — several retail listings
+  describe ME353 as a "male inverted flare" fitting; the manufacturer's own
+  catalog files it under POL X MALE FLARE (SAE 45 deg), and an inverted flare
+  would not seal against the hose's 45 deg swivel. ME353-SN is the soft-nose
+  variant. Same manufacturer as the MEGR-6120 regulators.
 - `beduan` → `beduan-2w160-15.html` — mybeduan.com product page for the 1/2 in
   solenoid: "1/2\" female NPT port size, model designation 2W160-15".
   https://mybeduan.com/beduan-brass-electric-solenoid-valve-12-12v-air.html

@@ -201,9 +201,15 @@ console.log("LAYOUT INVARIANTS (internal view)");
     (svg.match(/h16 l8 10 l-8 10 h-16/g) || []).length === 6 && (svg.match(/>T</g) || []).length === 4);
   check("symbols are text-free (rotatable)", Object.keys(app.SYM).every(k => !/<text/.test(app.SYM[k](0, { w: 3, h: 3 }, {}))));
   check("no undefined/NaN in svg", !/undefined|NaN/.test(svg));
-  // V-1 (depot) and V-2 (main) are the marked emergency shut-offs; V-3 is a
-  // plain convenience valve for testing and must NOT carry the annotation
-  check("emergency shut-offs annotated (V-1, V-2 only)", (svg.match(/EMERGENCY FUEL SHUT-OFF/g) || []).length === 2);
+  // V-1 (depot), V-2 (main) and V-3 (poofer accumulator) are all marked
+  // emergency shut-offs. Tie the count to the data so flagging another valve
+  // can never silently go undrawn.
+  const flagged = app.SYSTEM.lines.flatMap(L => L.items).filter(it => it.emergency);
+  check("every emergency:true valve carries the orange callout, and only those",
+    flagged.length >= 3 && (svg.match(/EMERGENCY FUEL SHUT-OFF/g) || []).length === flagged.length,
+    `${flagged.length} flagged: ${flagged.map(f => f.tag).join(", ")}`);
+  check("the poofer accumulator ball valve is marked for e-stop",
+    flagged.some(f => f.tag === "V-3"));
   // FNPT-to-FNPT junctions (regs, ball valves, solenoids, NPT tees are all
   // female-ported) must show a hex nipple glyph, never a bare M-into-F marker
   // (the glyph's center hex body is the unique 6x12 white rect)
@@ -217,15 +223,15 @@ console.log("LAYOUT INVARIANTS (internal view)");
   // flow directions (flare▸NPT into valve bodies, NPT▸flare out of tees)
   check("adapter cells consolidated (end-pair caption, no 'Adapter' word)",
     (svg.match(/>[0-9]\/[0-9]&quot; flare ▸ [0-9]\/[0-9]&quot; NPT</g) || []).length >= 3 &&
-    (svg.match(/>[0-9]\/[0-9]&quot; NPT ▸ [0-9]\/[0-9]&quot; flare</g) || []).length >= 3 &&
+    (svg.match(/>[0-9]\/[0-9]&quot; NPT ▸ [0-9]\/[0-9]&quot; flare</g) || []).length >= 2 &&
     !/>Adapter[ <]/.test(svg));
   check("no fraction glyphs — sizes written out", !/[⅜¼½⅛⅝]/.test(svg));
   check("no 'teed at F-' or 'from F-' marks", !svg.includes("teed at F") && !svg.includes("from F-"));
   check("tees marked with their exact type, thread designation off the cells",
-    svg.includes("1/4 in + relief valve") && svg.includes(">F-7<") && svg.includes(">3/8 in tube (5/8-18 UNF)<") &&
+    svg.includes("1/4 in + relief valve") && svg.includes(">F-7<") && svg.includes(">Flare tee, 3/8 in tube<") &&
     !/Tee, 1\/4 in [FM]NPT/.test(svg));
   check("take-off tees are flare tees; designations on their own line, no mfr numbers",
-    svg.includes(">F-3<") && svg.includes(">F-6<") && (svg.match(/>Flare tee,</g) || []).length >= 3 &&
+    svg.includes(">F-3<") && svg.includes(">F-6<") && (svg.match(/>Flare tee[,<]/g) || []).length >= 3 &&
     svg.includes(">SV-2<") && !svg.includes("B07N6246YB") && !svg.includes("04044-06"));
   check("parallel metered path closes through a copper flare link",
     bandChunks("L3").includes(">TB-10<"));
@@ -513,8 +519,18 @@ console.log("VIEW MODES (internal packet vs external submission)");
     ext.includes("Marshall Excelsior MEGR-6120-60") &&
     ext.includes("Anderson Fittings 110SAE") &&
     ext.includes("Anderson Fittings 115SAE") &&
-    ext.includes("Apollo 94A-101-01") &&
-    ext.includes("Aquatrol 140A"));
+    ext.includes("Aquatrol 140A") &&
+    ext.includes("DOT 4BA240"));
+  // ball valves state a rating but no maker/number (Marcus) — the schedule keeps it
+  check("ball valves carry no part number on the drawing",
+    app.specLine(app.PARTS.ball14) === "600 psi" &&
+    !ext.includes("94A-101-01") && !ext.includes("Apollo"));
+  check("the schedule still records the ball valve's part number",
+    store["partsTable"].innerHTML.includes(">94A-101-01<"));
+  // the accumulator is the most unusual component: it must not be a bare tee
+  check("the accumulator states its DOT spec and how it is plumbed",
+    ext.includes("DOT 4BA240 · 250 psi") && ext.includes("NGT boss") &&
+    ext.includes("no welds") && ext.includes("requal stamp expired"));
   // an ASIN is a marketplace listing id, not a manufacturer part number —
   // "Beduan B08C2NLPR5" would read as a Beduan catalog number
   check("Amazon listing ids are labelled ASIN, not passed off as mfr numbers",
@@ -532,6 +548,31 @@ console.log("VIEW MODES (internal packet vs external submission)");
   check("external keeps fittings generic (no tee/adapter part numbers)",
     !ext.includes("04044-06") && !ext.includes("04059-060604") &&
     !ext.includes("06122-04") && !ext.includes("54048-0604"));
+
+  // NOTHING on the external sheet may key to an off-sheet schedule — not the
+  // cells, not the band titles ("... at PRV-1"), not the run labels (TB-13,
+  // HS-2), not the notes. CGA-510 is a thread standard, not a designation.
+  const tags = t => [...new Set((t.match(/\b[A-Z]{1,3}-\d+\b/g) || []).filter(x => x !== "CGA-510"))];
+  const extText = [...ext.matchAll(/<text[^>]*>([^<]*)<\/text>/g)].map(m => m[1]).join(" | ");
+  check("external carries no equipment designation anywhere", tags(extText).length === 0, tags(extText).join(", "));
+  check("external band titles drop the 'at PRV-1' reference",
+    ext.includes("tank pressure → 60 psi<") && !ext.includes("at PRV-1"));
+  check("external keeps the run's real information, drops its designation",
+    ext.includes(">10 ft<") && !ext.includes(">TB-6"));
+
+  // solid brass fittings have no seat, seal, or diaphragm: no psi on the cell
+  check("solid brass fittings print no rating",
+    ["flareTee", "flareTee14", "flareTeeFpt", "flareTeeR3814", "nptTee", "manifold", "flare14npt"]
+      .every(k => app.specLine(app.PARTS[k]) === ""));
+  check("custom fabrications print no invented rating",
+    ["nozzle", "pilot", "standby"].every(k => app.specLine(app.PARTS[k]) === ""));
+  // but anything that can actually fail at pressure still states its rating
+  check("valves, regulators and vessels still state their rating",
+    ext.includes("Beduan ASIN B08C2NLPR5 · 100 psi") &&
+    ext.includes("Marshall Excelsior MEGR-6120-60 · 250 psi") &&
+    ext.includes("Aquatrol 140A · 350 psi") && ext.includes(">250 psi<"));
+  check("FE-2 still tests fitting ratings from the data",
+    app.PARTS.flareTee.rating === 500 && app.PARTS.manifold.rating === 1200);
 
   // the external sheet must survive the same geometry invariants
   const eb = textBoxes(ext);
@@ -654,10 +695,26 @@ console.log("FLARE NEEDLE VALVES");
   check("NV-4 valve rating exceeds its 60 psi branch and RV-2's 90 psi relief",
     PARTS.needleFlare38.rating > opOf("L3b") && PARTS.needleFlare38.rating > 90);
 
-  // F-6 must reduce to 1/4 so the pilot branch leaves at tube size.
-  check("F-6 is a reducing tee with a 1/4 branch",
-    PARTS.flareTeeR3814.branch === "flare:1/4:M" &&
-    line("L4b").items.some(i => i.p === "flareTeeR3814" && i.tag === "F-6"));
+  // The pilot tee sits DOWNSTREAM of the check valve so the accumulator bleeds
+  // down through the continuously-burning pilot on normal shutdown, while CV-1
+  // still blocks backflow toward the regulator. A street tee (male NPT into the
+  // check valve's female outlet) does it without a hex nipple, and its branch is
+  // a flare cone so the pilot's copper tube lands on it directly.
+  const l4b = line("L4b").items;
+  const at = f => l4b.findIndex(f);
+  check("F-6 is a street tee with a 1/4 flare branch",
+    PARTS.teeStreet14.branch === "flare:1/4:M" &&
+    PARTS.teeStreet14.ports.i === "npt:1/4:M" && PARTS.teeStreet14.ports.o === "npt:1/4:F" &&
+    l4b.some(i => i.p === "teeStreet14" && i.tag === "F-6"));
+  check("the poofer pilot tees off DOWNSTREAM of the check valve",
+    at(i => i.tag === "CV-1") < at(i => i.branch && i.branch.ref === "D"));
+  check("the accumulator sits downstream of the pilot tee, so it can bleed back",
+    at(i => i.branch && i.branch.ref === "D") < at(i => i.j === "riser"));
+  check("the street tee needs no nipple into the check valve",
+    l4b[at(i => i.p === "teeStreet14") - 1].part === undefined);
+  // the reducing flare tee is still the rail take-off on L3a
+  check("the reducing flare tee still serves the standby rail",
+    line("L3a").items.some(i => i.p === "flareTeeR3814" && i.tag === "F-16"));
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);

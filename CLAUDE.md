@@ -236,11 +236,55 @@ correctly prints a rating and no number; that is data, not a bug.
   remaining half-union is where a flare run meets an FNPT valve body.
 - The Breezliy ASIN needle valve is GONE (NV-1 now takes 115SAE). The only
   parts still bought off a marketplace listing are the two Beduan solenoids.
+- WHERE TO BUY, checked 2026-07-09. Anderson Fittings is an OEM supplier (Marmon
+  / Berkshire Hathaway, Frankfort IL) — you buy through distributors, and its
+  figure numbers are industry-standard so several makers stamp them.
+  110SAE / 115SAE needle valves: BSP Company, Industrial Parts Fittings,
+  Installation Parts Supply (also 110SAE-LF lead-free); Midland/Anderson Metals
+  lists 110SAE too. TF1-6B female branch tee = Fairview/Fasparts `36-6B`, whose
+  SAE 45 flare line IS listed for LP-gas service. POL adapter: Marshall Excelsior
+  `ME353` (`psrc:"mecrv"`, MEC RV/LPG catalog p.28 "POL X MALE FLARE", "Male Hard
+  Nose 3/8"") — same maker as the MEGR-6120 regulators, stocked everywhere.
+  TRAP: many retail listings call ME353 a "male INVERTED flare" fitting. It is
+  not; MEC's own catalog puts it under POL X MALE FLARE, and an inverted flare
+  will not seal against a 45 deg swivel.
+- L4b's order is load-bearing and was arrived at deliberately:
+  `PRV-2 -> CV-1 -> V-3 -> F-6 (pilot tee) -> F-15 (relief) -> accumulator ->
+  SV-2 -> nozzle`. CV-1 blocks backflow toward the regulator. V-3 is an e-stop
+  (`emergency:true`) sitting UPSTREAM of the pilot tee, so closing it cuts supply
+  gas to the pilot and the accumulator together. The pilot tees off DOWNSTREAM of
+  CV-1 and UPSTREAM of the accumulator, so on a normal shutdown the accumulator
+  bleeds down through the continuously-burning pilot instead of sitting charged.
+  Move any one of those three and you break one of the other two properties.
+  F-6 is `teeStreet14` (Anderson T4-4B street tee): its male NPT screws straight
+  into CV-1's female outlet with no hex nipple, and its branch is a flare cone
+  that the pilot's copper tube lands on directly.
 - The check valve CV-1 STAYS. Marcus asked to remove it ("the regulator does
-  that"), then reversed. It sits downstream of the tee feeding the poofer pilot
-  branch, so it is the only thing isolating the accumulator from that branch;
-  the regulator alone does not cover it.
+  that"), then reversed.
 - "Continuous flame", never "standing flame".
+- The drawing prints a psi rating ONLY where something can fail at pressure.
+  Solid-brass fittings (`NO_RATING_SYM`: tees, the cross, adapters, nipples)
+  have no seat, seal, or diaphragm and print none — a 500/1000/1200 psi number
+  on those cells is noise (Marcus). Custom fabrications (the handmade tips, the
+  open pipe discharge) print none either: their "rating" was never sourced from
+  anyone. `PARTS[].rating` still carries every number for FE-2 to test against.
+- `PN_SYM` decides which cells print `mfg` + part number. BALL VALVES ARE NOT IN
+  IT (Marcus) — they show a rating only; the schedule still records the Apollo
+  number. Pressure VESSELS are: the accumulator prints "DOT 4BA240 · 250 psi"
+  plus a note naming the NGT boss, the no-welds constraint, and the expired
+  requal stamp. It is the most unusual component on the sheet and the external
+  drawing said almost nothing about it until Marcus caught that.
+- `deTag()` strips equipment designations from the EXTERNAL sheet — not just from
+  cells but from band titles ("... at PRV-1"), run labels (TB-13, HS-2), off-band
+  labels ("from MF-1"), and notes. The suite asserts the external SVG contains no
+  `[A-Z]{1,3}-\d+` token at all except `CGA-510`, a thread standard. That test
+  also caught a note referencing compliance row "FE-8", which lives only in the
+  HTML table — the same dangling-reference bug the balloons had.
+- "(5/8-18 UNF)" was removed from the flare tee's name: it is the flare-nut
+  thread for 3/8 tube, fully implied by "3/8 in tube", stated by NEITHER vaulted
+  catalog (the flare tables list tube OD only, "supplied less nuts"), and it was
+  the only thread callout in any part name.
+- The toolbar (view toggle, export buttons, JSON editor) sits ABOVE the sheet.
 - Compliance output is a self-review aid, not approval — the footer disclaimer
   and the FOR FAST REVIEW / NOT A BURN LICENSE stamp stay.
 - No localStorage/sessionStorage; state lives in the editable JSON box.
