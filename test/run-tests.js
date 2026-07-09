@@ -74,12 +74,11 @@ console.log("LAYOUT INVARIANTS");
   check("default system: root band carries supply, no orphans",
     !!app.TREE.root && app.TREE.orphans.length === 0 && svg.includes(`data-band="${app.TREE.root.id}"`));
 
-  // the main run folds horizontal with EXACTLY one loop-back (two rows) —
-  // branch bands never wrap, so no other loops may appear anywhere
+  // the supply stack absorbs the run's length: the default sheet fits in one
+  // row with NO fold. Over-long roots still serpentine exactly once — that
+  // path is exercised by the FORCED WRAP section below.
   const loops = [...svg.matchAll(/data-loop="[^"]*" data-y1="(-?[\d.]+)" data-y2="(-?[\d.]+)"/g)];
-  const cls = new Set([...svg.matchAll(/data-cl="(-?[\d.]+)"/g)].map(m => m[1]));
-  check("main run folds exactly once (one loop-back on the whole sheet)", loops.length === 1);
-  check("the loop-back joins two row centerlines", loops.every(m => cls.has(m[1]) && cls.has(m[2])));
+  check("default sheet needs no fold (supply stack absorbs the length)", loops.length === 0, loops.length + " loops");
   check("branch bands never wrap (no data-row outside the root)",
     [...svg.matchAll(/data-band="([^"]*)"[^>]*data-row=/g)].every(m => m[1] === app.TREE.root.id));
 
@@ -97,6 +96,34 @@ console.log("LAYOUT INVARIANTS");
   const l4band = bandChunks("L4");
   check("riser: L4 discharge turns upward (tcell mini-grid + rotate(-90) symbols)",
     l4band.includes('class="tcell"') && l4band.includes("rotate(-90)"));
+  // supply stack: L1 opens as a vertical bottom→top run — every stack cell is
+  // a tcell BELOW the band centerline, both cylinders are drawn (tank body
+  // rect rx="9"), and the corner elbow's L-body masks the bend
+  const l1band = bandChunks("L1");
+  const stackYs = [...l1band.matchAll(/class="tcell" data-y="(-?[\d.]+)"/g)].map(m => +m[1]);
+  check("supply stack: L1 opens vertical (tcell mini-grid below the centerline)",
+    stackYs.length >= 15 && stackYs.every(y => y > app.CL), `${stackYs.length} cells, min ${Math.min(...stackYs)}`);
+  check("supply stack: both cylinders drawn, corner elbow masks the bend",
+    (l1band.match(/rx="9"/g) || []).length === 2 && l1band.includes(`H18 V${app.CL + 9} H9`));
+  // the pocket beside the stack is real estate: branch bands tuck up into it
+  // instead of stacking below the whole stack depth, and the L1 box notches
+  // so they sit outside it
+  const bandY = id => { const m = svg.match(new RegExp(`data-band="${id}"[^>]*transform="translate\\((-?[\\d.]+) (-?[\\d.]+)\\)"`)); return m ? +m[2] : null; };
+  const stackBotAbs = bandY("L1") + Math.max(...stackYs);
+  check("branch bands tuck into the pocket beside the stack",
+    bandY("L4") !== null && bandY("L4") < stackBotAbs, `L4@${bandY("L4")} vs stack bottom ${stackBotAbs}`);
+  check("the stack segment's box notches (L-shape, not a full rectangle)",
+    (svg.match(/<path [^>]*stroke-dasharray="7 4"/g) || []).length === 1);
+  check("POL joint labeled on the supply stack", svg.includes(">CGA-510 POL<"));
+  check("note-only adapters are now drawn parts (all reach the schedule)",
+    ["fnptFlare", "flare14npt", "flare14npt14", "ell14", "cu14"].every(k => app.refIndex[k] !== undefined));
+  check("no adaptIn/adaptOut/branchAdapt remain in the default system",
+    !/adaptIn|adaptOut|branchAdapt/.test(JSON.stringify(app.SYSTEM)));
+  check("no port-role copy on the accumulator (the drawing carries it)", !svg.includes("fill in side"));
+  check("partless NPT glyph mirrors when the female port is upstream",
+    app.jointMarker({ j: "npt" }, 50).includes("scale(-1,1)") && !app.jointMarker({ j: "npt", lr: "M>F" }, 50).includes("scale(-1,1)"));
+  check("manifold outlets fan from the right face (run continues as one of 3)",
+    /x2="33" y2="101"/.test(app.SYM.manifold(0, { w: 4 }, {})) && /x2="33" y2="123"/.test(app.SYM.manifold(0, { w: 4 }, {})));
   const l3band = bandChunks("L3"), pcl = app.STRIP_H + app.CL;
   check("split: metered path strip renders below with down and up elbows",
     l3band.includes('data-par="L3"') && l3band.includes(`V${pcl - 8} Q`) && l3band.includes(`V${app.CL}"`));
@@ -156,9 +183,11 @@ console.log("LAYOUT INVARIANTS");
   check("hex nipples drawn at every female-to-female NPT junction",
     (svg.match(/width="6" height="12"/g) || []).length >= 11);
   // adapters consolidate: interface markers flank the hex body in ONE cell
-  // with a combined size caption instead of three spread-out cells
+  // with a combined size caption instead of three spread-out cells — in both
+  // flow directions (flare▸NPT into valve bodies, NPT▸flare out of tees)
   check("adapter cells consolidated (combined joint caption)",
-    (svg.match(/&quot; flare ▸ [⅜¼½⅛⅝]&quot; NPT</g) || []).length >= 3 && svg.includes("CGA-510 POL ▸ ⅜&quot; flare"));
+    (svg.match(/&quot; flare ▸ [⅜¼½⅛⅝]&quot; NPT</g) || []).length >= 3 &&
+    (svg.match(/&quot; NPT ▸ [⅜¼½⅛⅝]&quot; flare</g) || []).length >= 4);
   check("SV-3 removed — metered path is needle-only", !svg.includes("SV-3"));
   check("hose-to-regulator flare x NPT adapters drawn (F-13, F-14)",
     svg.includes("F-13") && svg.includes("F-14"));
@@ -225,6 +254,11 @@ console.log("MULTI-BRANCH & HOSTILE DATA");
   // line id with a double quote (attribute-injection regression)
   o.SYSTEM.lines.push({ id: 'Z"9', title: 'quoted "id" line', psi: "1 psi", op: 1,
     items: [{ p: "ball14", tag: "V-Q" }, { j: "off", ref: "QQ", dir: "out", label: "loose" }] });
+  // supply-stack marker in hostile spots: a bare turn and a stack-only line
+  o.SYSTEM.lines.push({ id: "T3", title: "Bare turn", psi: "1 psi", op: 1,
+    items: [{ j: "turn" }, { p: "pilot", tag: "PL-V" }] });
+  o.SYSTEM.lines.push({ id: "T4", title: "Stack-only line", psi: "1 psi", op: 1,
+    items: [{ p: "ball14", tag: "V-S" }, { j: "turn" }] });
   // tiny orphan band with a long title (canvas-width clipping regression)
   o.SYSTEM.lines.push({ id: "T1", title: "An intentionally very long orphan title to guard the canvas width computation against clipped band headings", psi: "1 psi", op: 1,
     items: [{ p: "pilot", tag: "PL-T" }] });
@@ -263,6 +297,26 @@ console.log("MULTI-BRANCH & HOSTILE DATA");
   check("hostile export: quoted attr intact", captured.svg.includes('data-band="Z&quot;9"'));
   const bad = collisions(textBoxes(svg));
   check("hostile render: zero text collisions", bad.length === 0, bad.slice(0, 3).join("; "));
+}
+console.log("FORCED WRAP");
+{
+  // the serpentine machinery must still work when a root outgrows one row —
+  // padded with valve/nipple pairs until it folds
+  const { store, app } = loadApp();
+  const o = JSON.parse(store["jsonBox"].value);
+  const L1 = o.SYSTEM.lines.find(L => L.id === "L1");
+  for (let i = 0; i < 8; i++)
+    L1.items.splice(L1.items.length - 1, 0, { j: "npt", size: "1/4", part: "nipple14" }, { p: "ball14", tag: "V-W" + i });
+  store["jsonBox"].value = JSON.stringify(o);
+  store["strips"].children.length = 0;
+  app.applyJSON();
+  const svg = store["strips"].children[0].innerHTML;
+  const loops = [...svg.matchAll(/data-loop="[^"]*" data-y1="(-?[\d.]+)" data-y2="(-?[\d.]+)"/g)];
+  const cls = new Set([...svg.matchAll(/data-cl="(-?[\d.]+)"/g)].map(m => m[1]));
+  check("over-long root still folds exactly once", loops.length === 1, loops.length + " loops");
+  check("the fold joins two row centerlines", loops.length === 1 && loops.every(m => cls.has(m[1]) && cls.has(m[2])));
+  check("stack and fold coexist without text collisions", collisions(textBoxes(svg)).length === 0,
+    collisions(textBoxes(svg)).slice(0, 3).join("; "));
 }
 {
   const { store, app } = loadApp();
@@ -338,6 +392,13 @@ console.log("PORT LINTER");
     L1.items[i] = { j: "npt", size: "1/4" };
   });
   check("catches a backwards thread-direction arrow", r5.issues.some(s => s.includes("male port is upstream")), r5.issues.join("; "));
+  // 6) a reversible adapter installed the wrong way round (rev flag dropped)
+  let r6 = seed(o => {
+    const L4 = o.SYSTEM.lines.find(L => L.id === "L4");
+    delete L4.items.find(it => it.p === "flare14npt" && it.rev).rev;
+  });
+  check("catches an adapter installed backwards (rev dropped)",
+    r6.issues.some(s => s.includes("NPT joint drawn on a flare end")), r6.issues.join("; "));
 }
 
 console.log("COMPLIANCE & PARTS TABLES");

@@ -20,14 +20,22 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
 2. `SYSTEM` — the system definition: `meta` + `lines[]`. Each line has an
    operating pressure `op` (used by compliance checks) and an ordered `items[]`
    sequence alternating components (`{p, tag, note, emergency, xn}`) and joints
-   (`{j: npt|flare|pol|hose|tube|off, ...}`). Two structured items exist:
+   (`{j: npt|flare|pol|hose|tube|off, ...}`). Three structured constructs:
    `{split:{tee, rejoin, a:[...], b:[...]}}` draws two parallel paths between
    two tees (path b on a full row grid one `PAR_DY` below, entered/left through
-   the same reserved corridors drops use), and `{j:"riser", tee:{...}}` turns
+   the same reserved corridors drops use); `{j:"riser", tee:{...}}` turns
    the band's remaining items into a vertical bottom→top discharge stack (TROW
    mini-grid, `rotate(-90)` symbols, tanks/heads stay upright; `bandUp()`
-   reserves the headroom above the strip). `xn:n` on a part draws n copies of
-   the symbol side by side (standby rail tips) under one balloon.
+   reserves the headroom above the strip); and `{j:"turn"}` marks the end of a
+   vertical SUPPLY STACK — every item before it renders bottom→top BELOW the
+   band centerline (`drawSupply`, same TROW mini-grid), the last part before
+   the marker sits at the corner masking the bend (the forged elbow), and the
+   band continues horizontally after. Cylinders in a stack connect through
+   their TOP valve only — never draw the run through a tank body. `xn:n` on a
+   part draws n copies of the symbol side by side (standby rail tips, the two
+   cylinders) under one balloon. `rev:true` on a part item installs the same
+   fitting in the opposite flow direction — the port linter swaps its `i`/`o`
+   ends and one schedule row serves both orientations.
 3. System tree (`deriveTree`) — the drawing is CONNECTED, not letter-matched.
    The existing `ref` fields are pure match keys: `branch:{ref}` on a tee pairs
    with a line whose first item is `{j:"off", dir:"in", ref}`. Every line is a
@@ -52,7 +60,15 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
    row gap (return line at the gap bottom, above the next row's riser
    headroom `row.up`); more folds were tried and made the sheet unreadable,
    and branch bands must NEVER wrap (Marcus: "don't mess with the bottom
-   bulk"). Branch bands hang BELOW the root block in reading order: last-row
+   bulk"). The default sheet no longer folds at all — the supply stack
+   absorbs the run's length (`row.down` grows the first row downward, like
+   `hasSplit`); the fold machinery stays covered by the FORCED WRAP test.
+   The area right of the stack is a POCKET, not dead space: branch bands
+   tuck up into it (`placeBand` starts drops below the STRIP content — drop
+   tees are always right of the stack — while absX-anchored placements, the
+   routed lanes and the fan band, still clear the stack itself), and the
+   stack segment's dashed box notches into an L (`notchX`) so the pocket
+   stays outside the box. Branch bands hang BELOW the root block in reading order: last-row
    drops descend straight under their tee (right-to-left so a later corridor
    passes left of every sibling); earlier-row drops jog left in their own row
    gap and ride a reserved left-margin lane down past the remaining rows
@@ -65,9 +81,16 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
    whatsoever — that is what makes them rotatable (`rotate(-90)` on risers;
    tanks and flame heads stay upright). Do not reintroduce ad-hoc text
    offsets or text inside `SYM` functions — captions route to the note rows
-   via `AUTONOTE` (whose flow arrows turn ↑ on risers). A gauge mounted on a
-   regulator attaches to the reg's gauge-port circle, offset from the run —
-   never draw it inline as if fuel flowed through it. VERBOSITY: cell
+   via `AUTONOTE` (whose flow arrows turn ↑ on risers). SYMBOL PHYSICS: never
+   show fuel entering or leaving where a part has no port. The tee boss faces
+   what it serves (`_bossUp` — up for mounts and unmatched branch stubs, down
+   only toward a matched drop connector, sideways in stacks); manifold
+   outlets fan from the right face and the continuing run is one of them; a
+   gauge mounted on a regulator attaches to the reg's gauge-port circle and
+   on a tee it sits on the boss, offset from the run — never draw it inline
+   as if fuel flowed through it. The partless NPT glyph mirrors so the male
+   taper always points from the male port into the female (`lr:"M>F"` male
+   upstream, default female upstream — matching the linter). VERBOSITY: cell
    captions carry only what is unique to the item — joint direction (glyphs
    encode it), hose/tube ratings, solenoid voltage, valve style, POL thread
    and the like live in the diagram-wide GENERAL NOTES (legend + export
@@ -83,7 +106,10 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
    (`"decl"` = declared from listing text, no fetchable catalog). Item-level
    `adaptIn`/`adaptOut`/`branchAdapt` (`"in>out"`) declare note-only adapter
    stacks; a drawn joint attaches to whichever side of such an adapter its
-   thread type matches. The walk covers the root band chain, sub-band chains,
+   thread type matches. The DEFAULT system uses none of these — every adapter
+   is a drawn part (they're purchases and must reach the schedule; Marcus:
+   "it's about what parts we have to buy"); the mechanism stays for
+   hostile/legacy data only. The walk covers the root band chain, sub-band chains,
    splits, risers, mounts, branch edges, and orphans; custom fabrications
    without ports are counted skipped, never failed; hostile data must not
    throw. Results surface as compliance row FIT-1 and the suite seeds the
