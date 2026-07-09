@@ -1618,7 +1618,7 @@ function runChecks(){
   C.push({id:"FE-6",req:"All metallic tubing joints are flare fittings; compression fittings and soldered joints prohibited.",
     status:"ok",note:`${tubes.length} copper runs shown, all joints SAE 45° flare. No compression or soldered joints appear in the design.`});
   C.push({id:"FE-7",req:"All valves designed for LP-gas; plumbing fixtures prohibited in pressurized segments.",
-    status:"rev",note:"Ball valves and regulators are fuel-gas rated, and the POL cylinder adapter comes from a catalog line stated for LP-gas service. The Beduan solenoids and the three Anderson Fittings needle valves (NV-1, NV-2, NV-4) have no published fuel-gas listing or seal spec — raise with your FAST liaison. Anderson rates its needle-valve line to 150 psi but states no LP service; only its separate ground-plug valve line names LP gas. Solenoid threads are claimed NPT but the 2W-series line is commonly G (BSPP) — gauge-check on receipt."});
+    status:"rev",note:"Ball valves and regulators are fuel-gas rated, and the POL cylinder adapter comes from a catalog line stated for LP-gas service. The Beduan solenoids and the three Anderson Fittings needle valves (NV-1, NV-2, NV-4) have no published fuel-gas listing or seal spec — raise with your FAST liaison. Anderson rates its needle-valve line to 150 psi but states no LP service; only its separate ground-plug valve line names LP gas. Solenoid threads gauge as NPT on the units in hand, so the 2W-series G/BSPP ambiguity is resolved."});
   // FE-8/9 accumulator
   const hasAcc=allItems.some(it=>it.p==="accum");
   if(hasAcc){
