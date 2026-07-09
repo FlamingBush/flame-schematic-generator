@@ -183,7 +183,7 @@ let PARTS = {
   pilot:{ name:"Pilot tip, steel wool pinhole", vendor:"custom fabrication", pn:"—",
     spec:"1/4 in copper feed, pinhole orifice, stainless wool flame holder. CUSTOM COMPONENT — review design with FAST liaison; wind-resistant pilots and pilot supervision are inspection points.", rating:100, sym:"pilot", w:1.6, h:2.0 },
   standby:{ name:"Pinpoint nozzle, crimped copper tip", vendor:"custom fabrication", pn:"—",
-    spec:"A 1 in stub of 1/4 in copper, end crimped around a wire that is then pulled out, leaving a pinhole orifice; stainless steel wool flame holder. Every 1/4 in rail branch ends in one of these tips, running continuously as standing flames; the tip beside the main nozzle doubles as its ignition source. CUSTOM COMPONENT — review design with FAST liaison; wind performance is an inspection point.", rating:100, sym:"pilot", w:1.6, h:2.0 }
+    spec:"A 1 in stub of 1/4 in copper, end crimped around a wire that is then pulled out, leaving a pinhole orifice; stainless steel wool flame holder. Every 1/4 in rail branch ends in one of these tips, running as continuous flames; the tip beside the main nozzle doubles as its ignition source. CUSTOM COMPONENT — review design with FAST liaison; wind performance is an inspection point.", rating:100, sym:"pilot", w:1.6, h:2.0 }
 };
 
 /* ---------- SYSTEM DEFINITION ---------- */
@@ -253,7 +253,7 @@ let SYSTEM = {
           ],
           b:[
             {j:"npt", size:"1/4", part:"nipple14"},
-            {p:"needle", tag:"NV-1", note:"+ stepper (custom) · sets standing flame"},
+            {p:"needle", tag:"NV-1", note:"+ stepper (custom) · sets continuous flame"},
             {j:"npt", size:"1/4", lr:"F<M"},
             {p:"flare14npt14"},
             {j:"flare", size:"1/4"},
