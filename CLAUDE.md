@@ -204,20 +204,38 @@ correctly prints a rating and no number; that is data, not a bug.
   54048-0606). Stanbroil 3/4 in LP air mixer confirmed 3/4 MNPT in / 3/4 FNPT
   out, 300k BTU max. Aquatrol series 140 ASME relief valves are air/inert-gas
   media only — LP suitability is a liaison flag, like the solenoids.
-  Anderson's straight Flare x Flare brass needle valves (09110-04 = cat.
-  110-SAE 1/4 x 1/4, 09110-06 = cat. 115-SAE 3/8 x 3/8) exist in the vaulted
-  catalog, but it publishes NO end gender and NO pressure rating for them; the
-  male-cone ends are a declared assumption and `rating` is `null`. Anderson
-  Metals is now MIDLAND INDUSTRIES: andersonmetals.com 403s to curl and
-  301-redirects there, Midland's needle-valve pages 404, and their
+  TWO DIFFERENT COMPANIES both stamp the legacy SAE figure numbers and both are
+  called "Anderson" — cite the one you took the spec from. `anderson` =
+  Anderson Metals Corp (Kansas City), which lists the needle valves as
+  09110-04/-06 but publishes NO gender and NO rating anywhere in its catalog.
+  `andersonfittings` = Anderson Copper & Brass Co (Oak Forest, IL), whose
+  catalog IS the source for the needle valves: p.130 "NEEDLE VALVE FLARE TO
+  FLARE" 110SAE / 115SAE with a drawing showing MALE cones both ends, and
+  p.129 "Pressure range up to 150 psi". Anderson Metals is now MIDLAND
+  INDUSTRIES: andersonmetals.com 403s to curl and 301-redirects there,
+  Midland's needle-valve pages 404, and their
   `cdn.midlandindustries.com/public/pdf/valves.pdf` is a BALL-valve catalog
   with zero needle content — don't re-download it.
 - If a run is already flare, fit a flare x flare valve rather than adapting to
-  NPT and back (Marcus: cheaper and simpler). Applied at NV-2 (F-6 became the
-  reducing tee 04059-060604 so branch D leaves at 1/4 — zero adapters) and at
-  NV-4 (one hex nipple removed). NOT at NV-1: it hangs off an NPT tee, so a
-  flare valve there would ADD an adapter. Two male flare cones cannot mate —
-  check the gender before assuming a swap saves a fitting.
+  NPT and back (Marcus: cheaper and simpler). The corollary is stronger: make
+  the TEES flare too and the adapters on both sides vanish. Two male flare
+  cones cannot mate, so a fitting-to-fitting flare junction always needs one
+  female swivel (`flareNptF` / cat. U5) or a length of tube between — check the
+  gender before assuming a swap saves anything.
+- Adapter/nipple purchases went 31 -> 22 by using the catalogs properly. The
+  three moves, in descending value: (1) `POL-U2-6` takes the cylinder straight
+  to a 3/8 male flare cone, so the hose swivel lands on it and both the old
+  POL-to-NPT adapter and the NPT-to-flare adapter are gone; (2) the split tees
+  F-10/F-11 became plain flare tees, which let NV-1 become a flare valve and
+  left its metered path (TB-10 -> NV-1 -> TB-12) with ZERO fittings, and let
+  L3a start on bare tube; (3) `TF1-6B`, a flare tee with a 1/4 FNPT branch,
+  carries the tank-pressure gauge while the run stays flare, so the supply
+  stack above V-1 needs no hex nipples. What is left is irreducible without
+  changing components: every remaining nipple joins two FEMALE NPT ports
+  (ball valves, solenoids, regulators, NPT tees are all FNPT), and every
+  remaining half-union is where a flare run meets an FNPT valve body.
+- The Breezliy ASIN needle valve is GONE (NV-1 now takes 115SAE). The only
+  parts still bought off a marketplace listing are the two Beduan solenoids.
 - The check valve CV-1 STAYS. Marcus asked to remove it ("the regulator does
   that"), then reversed. It sits downstream of the tee feeding the poofer pilot
   branch, so it is the only thing isolating the accumulator from that branch;

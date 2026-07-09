@@ -24,15 +24,31 @@ on a live fetch. The `.txt` files are pypdf extractions of the PDFs.
   (04059-060604 = 3/8 x 3/8 x 1/4, 04059-060404 = 3/8 x 1/4 x 1/4; the table
   header reads "Flare Three Ends / Read Sizes 1-2-3"), and the straight
   Flare x Flare brass needle valves (09110-04 = cat. 110-SAE 1/4 x 1/4,
-  09110-06 = cat. 115-SAE 3/8 x 3/8). NOTE the extracted text's layout:
+  09110-06 = cat. 115-SAE 3/8 x 3/8) — but see `andersonfittings` below, which
+  is where the needle valves' gender and rating actually come from. NOTE the
+  extracted text's layout:
   each figure name appears BEFORE its size table and the computer-number
   prefix (e.g. "06201-") AFTER it — verified against fig 122/123, and again
   against 09106- (Compression x Compression) / 09110- (Flare x Flare).
   CAVEAT: this catalog states NO pressure ratings and NO end genders
-  anywhere. The needle valves' male-cone ends are a declared assumption
-  (the norm for a valve inline in a tube run) and their pressure rating is
-  unknown — both are called out in the part's spec text and land the part
-  on compliance row FE-2 as REVIEW.
+  anywhere, which is why every part grounded on it alone carries "confirm
+  pressure rating on purchase" in its spec text.
+- `andersonfittings` → `anderson-fittings-catalog.pdf` (+ .txt) — Anderson
+  Fittings / Anderson Copper & Brass Company (Oak Forest, IL), 2011 master
+  catalog. Supplied by Marcus; no live URL. A DIFFERENT COMPANY from Anderson
+  Metals Corporation (Kansas City, MO) above — both stamp the same legacy SAE
+  figure numbers, so cite the one you actually took the spec from.
+  Grounds needleFlare14/38, p.130 "NEEDLE VALVE FLARE TO FLARE":
+  "110SAE 1/4X1/4", "115SAE 3/8X3/8". The page's drawing shows MALE flare cones
+  on both ends (identical to the flare end of the FLARE TO MPT valve above it,
+  and unlike the nuts on the COMPRESSION TO COMPRESSION valve below) — this is
+  what lets the copper tube's flare nuts land straight on the valve with no
+  adapter. The needle-valve section header, p.129, gives the rating:
+  "Brass construction ... Metal to metal seats ... Pressure range up to
+  150 psi". NOTE it names no LP-gas service; only the separate Special Duty /
+  Ground Plug valve lines (pp.132, 135) say "Use on fuel oil, water, gas, air,
+  and LP gas". Anderson Metals lists the same figure numbers as 09110-04/-06
+  but publishes neither gender nor rating.
 - `beduan` → `beduan-2w160-15.html` — mybeduan.com product page for the 1/2 in
   solenoid: "1/2\" female NPT port size, model designation 2W160-15".
   https://mybeduan.com/beduan-brass-electric-solenoid-valve-12-12v-air.html

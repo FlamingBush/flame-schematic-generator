@@ -1,0 +1,6889 @@
+INDUSTRIAL CATALOG NO. 1500
+Anderson Fittings Anderson Copper and Brass Company
+4325 FRONTAGE ROAD, OAK FOREST, ILLINOIS 60452
+(800) 323-5284 • (708) 535-9030 • FAX (708) 535-9038
+www.andersonfittings.com
+Anderson Copper and Brass Company warrants its products to be free of defects in
+material and workmanship. No warranty of merchantability or other warranty, express
+or implied is made.
+Liability for and the exclusive remedy for defective materials or workmanship is
+limited to the replacement or repair of defective products returned within 60 days after
+receipt. No allowance will be made for repairs performed by the Purchaser or on his
+order. Anderson Copper and Brass Company is not liable for consequential or other
+damages or any expense incurred through the use of its products.
+Published literature at the time of initial publication reflects all current design,
+dimensions and performance data. However, in keeping with our policy of upgrading
+products on an on-going basis, modifications may result in changes in design,
+dimensions and/or performance now shown in this catalog. Working pressures and
+other technical information has been prepared from sources deemed to be reliable
+but no responsibility can be assumed by Anderson Copper and Brass Company for
+the accuracy of this information under varied field conditions. It should be considered
+as a recommendation only and not a guarantee.
+1500-801
+
+Anderson Fittings Product Index
+1 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+TABLE OF CONTENTS
+PAGE
+REFERENCE DATA
+NUMBERING, SELECTION AND APPLICATIONS 2
+FITTINGS AND VALVES
+FLARE 9
+INVERTED FLARE 23
+COPPER AIR BRAKE 27
+NYLON AIR BRAKE 32
+POLY PUSH DOT 37
+AIR BRAKE HOSE ENDS 42
+ALIGN COMPRESSION 45
+COMPRESSION 51
+DOUBLE COMPRESSION 61
+POLY FIT 63
+POLY PUSH 68
+NICKEL POLY PUSH 73
+PLASTIC POLY PUSH 79
+DOUBLE BARB 92
+GRIP-ON 97
+PIPE 101
+GARDEN HOSE 112
+HOSE BARB 117
+NYLON HOSE BARB 123
+POL 125
+NEEDLE VALVES 128
+SPECIAL DUTY VALVES 131
+GROUND PLUG VALVES 134
+DRAIN AND TRUCK VALVES 137
+A-LIGN NEEDLE VALVES 143
+THERMOPLASTIC TUBING AND TOOLS
+POLYETHYLENE TUBING 144
+TUBING RACKS 145
+TOOLS 146
+CABINETS AND ASSORTMENTS
+CABINETS AND DRAWERS 148
+ASSORTMENTS AND KITS 150
+Anderson Fittings Numbering System
+Identification of Anderson Fittings
+2 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+Additionally shapes with an asterisk * following the part number will be supplied as a forging
+
+Anderson Fittings Assembly Instructions
+3 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+Thread Specifications
+Anderson Fittings Brass Fittings Selection & Application Guide
+4 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+Anderson Fittings SAE Page Reference
+5 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+PART NO. PAGE PART NO. PAGE PART NO. PAGE
+Raw material used in the manufacture of brass fittings:
+CA 345 ASTM B-453
+CA 377 ASTM B-124
+CA 360 ASTM B-16
+Reference listings to SAE products will meet functional
+requirements; construction may differ from specification.
+For further detail consult SAE handbook
+010202............................................11
+010302 ...........................................12
+010201 ...........................................12
+010203 ...........................................13
+010165 ...........................................13
+010110............................................14
+010111............................................14
+010167 ...........................................15
+010425 ...........................................16
+010401 ...............................16, 17, 21
+010424 ...........................................17
+010102 .....................................18, 22
+010101 ...............................18, 19, 22
+010105 ...........................................19
+010103 ......................................19,22
+010107 ...........................................20
+010106 ...........................................20
+010202 ...........................................21
+010166 ...........................................21
+040110............................................24
+040101 ...........................................24
+040401 ...........................................24
+040103 ...........................................25
+040102 ...........................................25
+040202 ...........................................25
+040203 ...........................................26
+040302 ...........................................26
+120115............................................28
+120111............................................28
+120101BA ......................................28
+120401BA ......................................28
+120201BA ......................................29
+120103BA ......................................29
+120102BA ......................................29
+120202BA ......................................30
+120203BA ......................................30
+120424BA ......................................30
+120425BA ......................................30
+120302 ...........................................31
+100115BA.......................................33
+100110BA.......................................33
+100101BA ......................................33
+100401BA ......................................34
+100201BA ......................................34
+100103BA ......................................34
+100102BA ......................................34
+100202BA ......................................35
+100203BA ......................................35
+100424BA ......................................35
+100425BA ......................................36
+060115............................................52
+060110............................................52
+060111............................................53
+060101BA ......................................53
+060401 ...........................................54
+060201 ...........................................54
+060103 .....................................54, 55
+060102BA ................................55, 56
+060202BA ......................................57
+060203BA ................................57, 58
+060425BA ......................................58
+130238 .........................................102
+130438 .........................................102
+130138 .........................................103
+130140 .........................................105
+130239 .........................................107
+130138 .........................................108
+130139 .........................................109
+130137 .................................109, 110
+130339..........................................110
+130424..........................................110
+130425..........................................111
+Anderson Fittings How to install Tubing
+6 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+Recommended Tubing Flare Dimensions
+
+Anderson Fittings Manufacturing Techniques
+7 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+Dry Seal pipe Threads
+
+Anderson Fittings Decimal and Metric Equivalents of Fractions
+8 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+CONSTRUCTION
+• Two piece – body and nut
+• Straights and shapes are manufactured from CA360, CA345 or CA377 brass
+• 45° flare
+• Heavy duty flare fittings are manufactured to SAE specifications
+ADVANTAGES
+• Low cost
+• Available with long or short nuts
+• Can be assembled and re-assembled repeatedly
+• Resists mechanical pull-out
+• Shapes are available as extrusions or forgings as indicated
+APPLICATION
+• Compatible with copper, brass, aluminum and steel hydraulic tubing that can be flared
+• Used on low, medium and high pressure lines under the most adverse conditions
+• Fair vibration resistance. The long nut offers greater support
+• Temperature range from –65° to +250° F.
+ORDERING INFORMATION
+• Flare tube fittings are supplied less nuts
+• Shapes which contain an “F” at the conclusion of the prefix are forged.
+For example: E1F-6B is forged
+• Nomenclature example:
+NOTE: Shapes with an asterisk (*) following the part number will be supplied as 
+forged pattern.
+E1F – 6B
+NOTES
+• Current price list represents in stock cataloged items.
+• Non-stock items and special parts are available on a quotation basis.
+• Configurations and dimensions are subject to change without notice.
+Anderson Fittings 45° Flare Fittings
+9 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+Type of fitting: Flare to MPT elbow
+Tube OD: (6/16) 3/8"
+Pipe thread: 1/4
+Anderson Fittings 45° Flare Fittings
+10 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+B1  BONNET
+PART O.D.
+NUMBER TUBE A
+B1-4 1/4 .35
+B1-6 3/8 .54
+B1-8 1/2 .65
+B1-10 5/8 .76
+B2  GASKET
+PART O.D.
+NUMBER TUBE A
+B2-4 1/4 .35
+B2-6 3/8 .54
+B2-8 1/2 .65
+B2-10 5/8 .76
+B2-12 3/4 .94
+C1  CROSS TUBE ALL ENDS
+PART O.D.
+NUMBER TUBE A B
+C1-4444* 1/4 .89 .89
+C1-6666* 3/8 1.00 1.00
+C1-8888* 1/2 1.43 1.43
+C1-101010* 5/8 1.12 1.12
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+C2  FEMALE CROSS TUBE TO FPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+C2-666C* 3/8 3/8 .54 1.04
+C2-666D* 3/8 1/2 .54 1.22
+C2-888D* 1/2 1/2 .65 1.22
+C2-888E* 1/2 3/4 .78 1.38
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+DE3  DROP EAR ELBOW TUBE TO FPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+DE3-6D* 3/8 1/2 1.23 1.38
+DE3-8D* 1/2 1/2 1.31 1.38
+DE3-10D* 5/8 1/2 1.37 1.38
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+
+E1  ELBOW TUBE TO MPT 49 SERIES REF SAE 010202
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+E1-2A* 1/8 1/8 .62 .68
+E1F-3A 3/16 1/8 .76 .76
+E1-3A 3/16 1/8 .75 .75
+E1-3B* 3/16 1/4 .80 .89
+E1F-4A 1/4 1/8 .81 .78
+E1-4A 1/4 1/8 .81 .78
+E1-4B 1/4 1/4 .91 .93
+E1F-4B 1/4 1/4 .81 .88
+E1-4C 1/4 3/8 .91 1.04
+E1F-4C 1/4 3/8 .97 .95
+E1-4D* 1/4 1/2 1.03 1.09
+E1F-5A 5/16 1/8 .93 .84
+E1-5A 5/16 1/8 .91 .84
+E1F-5B 5/16 1/4 .93 .88
+E1-5B 5/16 1/4 .91 1.04
+E1-5C* 5/16 3/8 .97 .91
+E1-6A* 3/8 1/8 .97 .91
+E1F-6B 3/8 1/4 .97 1.04
+E1-6B 3/8 1/4 .97 1.04
+E1F-6C 3/8 3/8 1.00 .91
+E1-6C 3/8 3/8 1.05 1.04
+E1-6D* 3/8 1/2 1.09 1.09
+E1-6E* 3/8 3/4 1.25 1.19
+E1F-8B 1/2 1/4 1.19 1.00
+E1-8B 1/2 1/4 1.16 1.09
+E1F-8C 1/2 3/8 1.19 1.00
+E1-8C 1/2 3/8 1.16 1.09
+E1F-8D 1/2 1/2 1.12 1.15
+E1-8D 1/2 1/2 1.16 1.25
+E1-8E* 1/2 3/4 1.41 1.25
+E1-10B* 5/8 1/4 1.58 1.54
+E1-10C 5/8 3/8 1.34 1.12
+E1F-10D 5/8 1/2 1.28 1.29
+E1-10D 5/8 1/2 1.34 1.22
+E1-10E* 5/8 3/4 1.38 1.31
+E1-12C* 3/4 3/8 1.62 1.44
+E1-12D* 3/4 1/2 1.66 1.50
+E1-12E* 3/4 3/4 1.66 1.62
+E1-14E* 7/8 3/4 1.69 1.78
+E1-16E* 1 3/4 1.93 2.04
+E1-16F* 1 1 1.93 1.77
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+Anderson Fittings 45° Flare Fittings
+11 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+B
+E1-45  ELBOW, 45° TUBE TO MPT 59 SERIES REF SAE 010302
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+E1-45-4A 1/4 1/8 .64 .67
+E1-45-4B 1/4 1/4 .86 .75
+E1-45-5A 5/16 1/8 .67 .78
+E1-45-5B 5/16 1/4 .86 .81
+E1-45-6B 3/8 1/4 .86 .89
+E1-45-6C 3/8 3/8 .86 .89
+E1-45-6D* 3/8 1/2 1.05 1.08
+E1-45-8C 1/2 3/8 1.10 1.10
+E1-45-8D 1/2 1/2 1.20 1.44
+E1-45-10C* 5/8 3/8 1.19 .97
+E1-45-10D 5/8 1/2 1.17 1.23
+E1-45-12D* 3/4 1/2 1.30 1.10
+E1-45-12E* 3/4 3/4 1.28 1.19
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+Anderson Fittings 45° Flare Fittings
+12 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+E2  ELBOW TUBE BOTH ENDS 55 SERIES REF SAE 010201
+PART O.D.
+NUMBER TUBE A B
+E2-2* 1/8 .63 .63
+E2-3* 3/16 .71 .71
+E2-4 1/4 .81 .81
+E2-5* 5/16 .94 .94
+E2F-6 3/8 1.00 1.00
+E2-6 3/8 1.06 1.06
+E2-8 1/2 1.22 1.22
+E2-10 5/8 1.41 1.41
+E2-12* 3/4 1.65 1.65
+E2-14* 7/8 1.87 1.87
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+ER2  ELBOW, REDUCING TUBE BOTH ENDS 55 SERIES REF SAE 010201
+PART O.D.
+NUMBER TUBE A B
+ER2-64* 3/8X1/4 1.00 .91
+ER2-84* 1/2X1/4 1.19 .98
+ER2-86 1/2X3/8 1.19 1.00
+ER2-106* 5/8X3/8 1.24 1.12
+ER2-108* 5/8X1/2 1.36 1.22
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+ES2  ELBOW TUBE TO SOLDER
+PART O.D.
+NUMBER TUBE A B
+ES2-44* 1/4X1/4 .81 .62
+ES2-66* 3/8X3/8 1.00 .72
+ES2-88* 1/2X1/2 .98 .81
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+A
+B
+A
+B
+E3  ELBOW TUBE TO FPT 50 SERIES REF SAE 010203
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+E3-3A* 3/16 1/8 .88 .48
+E3-4A* 1/4 1/8 1.00 .62
+E3-4B* 1/4 1/4 .97 .59
+E3-4C* 1/4 3/8 1.00 .75
+E3-5A* 5/16 1/8 1.02 .60
+E3-5B* 5/16 1/4 1.02 .67
+E3-6A* 3/8 1/8 1.06 .88
+E3F-6B 3/8 1/4 1.06 .59
+E3-6B 3/8 1/4 1.03 .69
+E3F-6C 3/8 3/8 1.06 .58
+E3-6C 3/8 3/8 1.03 .69
+E3-6D* 3/8 1/2 1.16 .66
+E3-6E* 3/8 3/4 1.28 .72
+E3-8B* 1/2 1/4 1.19 1.00
+E3F-8C 1/2 3/8 1.20 .65
+E3-8C 1/2 3/8 1.25 .70
+E3-8D* 1/2 1/2 1.28 .72
+E3-8E* 1/2 3/4 1.41 .72
+E3-10C* 5/8 3/8 1.34 1.22
+E3-10D* 5/8 1/2 1.38 .76
+E3-10E* 5/8 3/4 1.50 .76
+E3-12D* 3/4 1/2 1.64 1.31
+E3-12E* 3/4 3/4 1.84 1.15
+E3-14E* 7/8 3/4 1.88 1.12
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+Anderson Fittings 45° Flare Fittings
+13 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+E4  ELBOW TUBE TO FEMALE FLARE USE WITH B2- COPPER GASKET
+PART O.D.
+NUMBER TUBE A B
+E4-44* 1/4X1/4 .96 .72
+E4-66* 3/8X3/8 1.05 .80
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+ES4  ELBOW FLARE TO FLARE SWIVEL
+PART O.D.
+NUMBER TUBE A B
+ES4-44* 1/4X1/4 .81 1.15
+ES4-66* 3/8X3/8 1.05 1.34
+ES4-88* 1/2X1/2 1.26 1.54
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+K1  CYLINDER VALVE ADAPTER REF SAE 010165
+PART O.D. PIPE
+NUMBER TUBE THREAD A HEX
+K1-G GASKET
+K1-1 1/4 3/4 1.12 1-1/8
+K1-8 1/4 1/2 1.12 1-1/4
+A
+B
+Anderson Fittings 45° Flare Fittings
+14 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+41AS  MACHINED NUT SAE STANDARD REF SAE 010110
+PART O.D.
+NUMBER TUBE A HEX
+41AS-6 3/8 1.00 3/4
+41AS-8 1/2 1.12 7/8
+41AS-10 5/8 1.31 1-1/16
+NSE1  MACHINED NUT EXTRA SHORT
+PART O.D.
+NUMBER TUBE A HEX
+NSE1-4 1/4 .50 9/16
+NSE1-6 3/8 .69 3/4
+NSE1-8 1/2 .81 7/8
+N1  MACHINED NUT SHORT 41 SERIES
+PART O.D.
+NUMBER TUBE A HEX
+N1-2 1/8 .50 3/8
+N1-3 3/16 .62 7/16
+N1-4 1/4 .75 9/16
+N1-5 5/16 .88 5/8
+N1-6 3/8 .88 3/4
+N1-64 3/8X1/4 .88 3/4
+N1-7 7/16 1.06 13/16
+N1-8 1/2 1.00 7/8
+N1-86 1/2X3/8 1.00 7/8
+N1-10 5/8 1.00 1
+N1-108 5/8X1/2 1.00 1
+N1-12 3/4 1.50 1-1/4
+N1-14 7/8 1.18 1-3/8
+N1-16 1 1.81 1-5/8
+N2  MACHINED NUT LONG REF SAE 010111
+PART O.D.
+NUMBER TUBE A HEX
+N2-2 1/8 .75 3/8
+N2-3 3/16 .81 7/16
+N2-4 1/4 .94 9/16
+N2-5 5/16 1.12 5/8
+N2-6 3/8 1.31 3/4
+N2-8 1/2 1.62 7/8
+N2-10 5/8 1.88 1-1/16
+N2-12 3/4 2.19 1-1/4
+
+N4  FORGED NUT LONG REF SAE 010167
+PART O.D.
+NUMBER TUBE A HEX
+N4-4 1/4 .94 3/4
+N4-6 3/8 1.06 7/8
+N4-8 1/2 1.19 1
+N4-10 5/8 1.44 1-1/8
+N4-108 5/8X1/2 1.44 1-1/8
+N4-12 3/4 1.75 1-3/8
+Anderson Fittings 45° Flare Fittings
+15 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+NS4  FORGED NUT SHORT
+PART O.D.
+NUMBER TUBE A HEX
+NS4-3 3/16 .68 1/2
+NS4-4 1/4 .60 5/8
+NS4-5 5/16 .63 3/4
+NS4-6 3/8 .70 13/16
+NS4-8 1/2 .82 15/16
+NS4-10 5/8 .95 1-1/16
+NS4-12 3/4 1.13 1-3/8
+NS4-14 7/8 1.18 1-5/8
+NSR4  FORGED NUT SHORT, REDUCING
+PART O.D.
+NUMBER TUBE A HEX
+NSR4-64 3/8X1/4 .70 13/16
+NSR4-65 3/8X5/16 .70 13/16
+NSR4-86 1/2X3/8 .82 15/16
+NSR4-106 5/8X3/8 .95 1-1/8
+NSR4-108 5/8X1/2 .95 1-1/8
+N5  CAP 40 SERIES
+PART O.D.
+NUMBER TUBE A HEX
+N5-3 3/16 .47 1/2
+N5-4 1/4 .47 1/2
+N5-5 5/16 .62 5/8
+N5-6 3/8 .72 11/16
+N5-8 1/2 .69 13/16
+N5-10 5/8 .81 15/16
+N5-12 3/4 1.19 1-3/8
+P2  PLUG 39 SERIES
+PART O.D.
+NUMBER TUBE A HEX
+P2-3 3/16 .60 1/2
+P2-4 1/4 .69 7/16
+P2-5 5/16 .78 1/2
+P2-6 3/8 .88 5/8
+P2-8 1/2 1.00 3/4
+P2-10 5/8 1.19 7/8
+P2-12 3/4 1.31 1-1/16
+
+T1  MALE BRANCH TEE TUBE TO TUBE TO MPT 45 SERIES REF SAE 010425
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+T1-2A* 1/8 1/8 .60 .67
+T1-3A* 3/16 1/8 .74 .77
+T1F-4A 1/4 1/8 .78 .76
+T1-4A 1/4 1/8 .81 .82
+T1-4B* 1/4 1/4 .88 .88
+T1-4C* 1/4 3/8 .93 .98
+T1-5A* 5/16 1/8 .90 .79
+T1-5B* 5/16 1/4 .95 .93
+T1-6A* 3/8 1/8 1.00 .88
+T1-6B 3/8 1/4 1.00 .93
+T1-6C 3/8 3/8 1.00 .98
+T1-6D* 3/8 1/2 1.14 1.20
+T1-8C* 1/2 3/8 1.19 1.13
+T1-8D 1/2 1/2 1.22 1.23
+T1-10C* 5/8 3/8 1.38 1.23
+T1-10D* 5/8 1/2 1.41 1.28
+T1-12D* 3/4 1/2 1.62 1.60
+T1-12E* 3/4 3/4 1.66 1.42
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+Anderson Fittings 45° Flare Fittings
+16 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+TF1  FEMALE BRANCH TEE TUBE TO TUBE TO FPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+TF1-4A* 1/4 1/8 .96 .68
+TF1-4B* 1/4 1/4 1.00 .75
+TF1-6B* 3/8 1/4 1.06 .75
+TF1-6C* 3/8 3/8 1.06 .65
+TF1-6D* 3/8 1/2 1.16 .68
+TF1-8C* 1/2 3/8 1.22 .60
+TF1-8D* 1/2 1/2 1.22 .66
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+T2  TEE TUBE ALL ENDS 44 SERIES REF SAE 010401
+PART O.D.
+NUMBER TUBE A B
+T2-2* 1/8 .71 .71
+T2-3* 3/16 .76 .76
+T2F-4 1/4 .78 .78
+T2-4 1/4 .86 .86
+T2-5* 5/16 .94 .94
+T2F-6 3/8 1.00 1.00
+T2-6 3/8 .98 .98
+T2-8 1/2` 1.16 1.16
+T2-10 5/8 1.41 1.41
+T2-12* 3/4 1.62 1.62
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+
+TR2  TEE, REDUCING FLARE ALL ENDS 44 SERIES REF SAE 010401
+O.D.
+PART TUBE
+NUMBER 1     2     3 A B C
+TR2-446* 1/4X1/4X3/8 .91 1.00 .91
+TR2-464* 1/4X3/8X1/4 .86 1.00 1.00
+TR2-466* 1/4X3/8X3/8 .98 .98 .84
+TR2-664 3/8X3/8X1/4 1.00 .88 1.00
+TR2-668* 3/8X3/8X1/2 1.00 1.19 1.00
+TR2-6610* 3/8X3/8X5/8 1.25 1.44 1.25
+TR2-686* 3/8X1/2X3/8 1.05 1.16 1.05
+TR2-6106* 3/8X5/8X3/8 1.22 1.16 1.02
+TR2-868* 1/2X3/8X1/2 1.13 1.10 1.13
+TR2-884* 1/2X1/2X1/4 1.14 .98 1.14
+TR2-886 1/2X1/2X3/8 1.20 1.08 1.20
+TR2-8810* 1/2X1/2X5/8 1.28 1.40 1.28
+TR2-10106* 5/8X5/8X3/8 1.38 1.16 1.38
+TR2-10108 5/8X5/8X1/2 1.38 1.28 1.38
+TR2-10810* 5/8X1/2X5/8 1.44 1.40 1.25
+Read dimensions 1 & 2 across run, 3 is branch
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+Anderson Fittings 45° Flare Fittings
+17 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+T3  MALE RUN TEE TUBE TO MPT TO TUBE 51 SERIES REF SAE 010424
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+T3-3A* 3/16 1/8 .80 .75 .80
+T3-4A* 1/4 1/8 .80 .75 .80
+T3-4B* 1/4 1/4 .88 .88 .88
+T3-4C* 1/4 3/8 .88 1.10 .88
+T3-5A* 5/16 1/8 .90 .78 .90
+T3-5B* 5/16 1/4 .94 .96 .94
+T3-6A* 3/8 1/8 1.00 .88 1.00
+T3-6B* 3/8 1/4 1.02 .90 1.02
+T3-6C 3/8 3/8 1.02 1.10 1.02
+T3-6D* 3/8 1/2 1.12 1.22 1.12
+T3-8C* 1/2 3/8 1.16 1.10 1.16
+T3-8D* 1/2 1/2 1.20 1.20 1.20
+T3-10D* 5/8 1/2 1.40 1.32 1.40
+T3-12D* 3/4 1/2 1.64 1.58 1.64
+T3-12E* 3/4 3/4 1.62 1.43 1.62
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+TF3  FEMALE RUN TEE TUBE TO FPT TO TUBE
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+TF3-6C* 3/8 3/8 .92 .70
+TF3-6D* 3/8 1/2 .92 .76
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+
+T4  STREET TEE MPT TO FPT TO TUBE
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+T4-4A* 1/4 1/8 .88 .80
+T4-4B* 1/4 1/4 .88 .80
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+Anderson Fittings 45° Flare Fittings
+18 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+U1  CONNECTOR TUBE TO MPT 48 SERIES REF SAE 010102
+PART O.D. PIPE
+NUMBER TUBE THREAD A HEX
+U1-2A 1/8 1/8 .92 7/16
+U1-3A 3/16 1/8 1.00 7/16
+U1-4A 1/4 1/8 1.06 7/16
+U1-4B 1/4 1/4 1.12 9/16
+U1-4C 1/4 3/8 1.31 11/16
+U1-4D 1/4 1/2 1.31 7/8
+U1-5A 5/16 1/8 1.31 1/2
+U1-5B 5/16 1/4 1.22 9/16
+U1-5C 5/16 3/8 1.31 11/16
+U1-6A 3/8 1/8 1.25 5/8
+U1-6B 3/8 1/4 1.31 5/8
+U1-6C 3/8 3/8 1.38 11/16
+U1-6D 3/8 1/2 1.44 7/8
+U1-6E 3/8 3/4 1.56 1-1/16
+U1-8B 1/2 1/4 1.50 3/4
+U1-8C 1/2 3/8 1.50 3/4
+U1-8D 1/2 1/2 1.56 7/8
+U1-8E 1/2 3/4 1.68 1-1/16
+U1-10B 5/8 1/4 1.95 7/8
+U1-10C 5/8 3/8 1.62 7/8
+U1-10D 5/8 1/2 1.75 7/8
+U1-10E 5/8 3/4 1.81 1-1/16
+U1-12D 3/4 1/2 2.00 1-1/16
+U1-12E 3/4 3/4 1.97 1-1/16
+U1-14E 7/8 3/4 2.27 1-3/16
+U2  UNION TUBE BOTH ENDS 42 SERIES REF SAE 010101
+PART O.D.
+NUMBER TUBE A HEX
+U2-2 1/8 .91 7/16
+U2-3 3/16 1.00 7/16
+U2-4 1/4 1.19 7/16
+U2-5 5/16 1.34 1/2
+U2-6 3/8 1.50 5/8
+U2-8 1/2 1.81 3/4
+U2-10 5/8 2.06 7/8
+U2-12 3/4 2.44 1-1/16
+U2-14 7/8 2.72 1-3/16
+
+UR2  UNION, REDUCING TUBE BOTH ENDS 42 SERIES REF SAE 010101
+PART O.D.
+NUMBER TUBE A HEX
+UR2-64 3/8X1/4 1.38 5/8
+UR2-65 3/8X5/16 1.42 11/16
+UR2-84 1/2X1/4 1.50 3/4
+UR2-86 1/2X3/8 1.62 3/4
+UR2-106 5/8X3/8 1.81 7/8
+UR2-108 5/8X1/2 1.94 7/8
+UR2-128 3/4X1/2 2.19 1-1/16
+UR2-1210 3/4X5/8 2.19 1-1/16
+Anderson Fittings 45° Flare Fittings
+19 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+UR3  REDUCER FEMALE TO MALE FLARE USE WITH B2-COPPER GASKET REF SAE 010105
+O.D. O.D. 
+TUBE TUBE
+PART FEMALE MALE
+NUMBER FLARE FLARE A HEX
+UR3-46 1/4 3/8 1.12 5/8
+UR3-64 3/8 1/4 1.22 13/16
+UR3-68 3/8 1/2 1.41 13/16
+UR3-86 1/2 3/8 1.44 15/16
+UR3-810 1/2 5/8 1.62 15/16
+UR3-108 5/8 1/2 1.68 1-1/16
+U3  ADAPTER TUBE TO FPT 46 SERIES REF SAE 010103
+PART O.D. PIPE
+NUMBER TUBE THREAD A HEX
+U3-3A 3/16 1/8 .97 9/16
+U3-4A 1/4 1/8 1.00 1/2
+U3-4B 1/4 1/4 1.06 5/8
+U3-4C 1/4 3/8 1.18 3/4
+U3-5A 5/16 1/8 1.06 9/16
+U3-5B 5/16 1/4 1.28 11/16
+U3-6A 3/8 1/8 1.09 5/8
+U3-6B 3/8 1/4 1.09 5/8
+U3-6C 3/8 3/8 1.22 13/16
+U3-6D 3/8 1/2 1.31 15/16
+U3-6E 3/8 3/4 1.31 1-1/8
+U3-8B 1/2 1/4 1.34 13/16
+U3-8C 1/2 3/8 1.34 13/16
+U3-8D 1/2 1/2 1.44 15/16
+U3-8E 1/2 3/4 1.41 1-1/8
+U3-10C 5/8 3/8 1.12 7/8
+U3-10D 5/8 1/2 1.50 15/16
+U3-10E 5/8 3/4 1.53 1-1/8
+U3-12D 3/4 1/2 1.75 1-1/8
+U3-12E 3/4 3/4 1.88 1-1/4
+U3-14E 7/8 3/4 1.94 1-15/16
+
+US3  CONNECTOR FLARE TO SOLDER
+PART O.D. 
+NUMBER TUBE SOLDER A HEX
+US3-44 1/4 1/4 1.00 7/16
+US3-46 1/4 3/8 1.00 1/2
+US3-66 3/8 3/8 1.25 5/8
+US3-88 1/2 1/2 1.50 3/4
+US3-1010 5/8 5/8 1.75 7/8
+US3-1214 3/4 7/8 1.97 1-1/16
+Anderson Fittings 45° Flare Fittings
+20 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+U4  CONNECTOR FLARE BOTH ENDS USE WITH B2-COPPER GASKET REF SAE 010107
+PART O.D. 
+NUMBER TUBE A HEX
+U4-4 1/4 1.00 5/8
+U4-6 3/8 1.25 13/16
+U4-8 1/2 1.44 15/16
+U5  ADAPTER FEMALE FLARE TO MPT USE WITH B2-COPPER GASKET REF SAE 010106
+PART O.D. PIPE
+NUMBER TUBE THREAD A HEX
+U5-4A 1/4 1/8 .88 5/8
+U5-4B 1/4 1/4 1.01 5/8
+U5-6B 3/8 1/4 1.28 13/16
+U5-8C 1/2 3/8 1.38 15/16
+US4  SWIVEL CONNECTOR FLARE BOTH ENDS
+PART O.D. 
+NUMBER TUBE A
+US4-4 1/4X1/4 1.50
+US4-5 5/16X5/16 1.52
+US4-6 3/8X3/8 1.55
+US4-64 3/8X1/4 1.48
+US4-8 1/2X1/2 1.85
+US4-86 1/2X3/8 1.73
+US4-10 5/8X5/8 2.15
+US4-108 5/8X1/2 1.96
+US4-12 3/4X3/4 2.50
+J  TUBE STRAP
+PART O.D. 
+NUMBER TUBE
+J-6 3/8
+J-8 1/2
+J-10 5/8
+
+OTS  TUBE STRAP
+PART O.D. 
+NUMBER TUBE
+OTS-4 1/4
+OTS-6 3/8
+OTS-8 1/2
+Anderson Fittings 45° Heavy Duty Flare 
+21 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+TS  TUBE STRAP
+PART O.D. 
+NUMBER TUBE
+TS-6 3/8
+TS-8 1/2
+RE1  ELBOW FLARE TO MPT REF SAE 010202
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+RE1-4A* 1/4 1/8 .82 .78
+RE1-4B* 1/4 1/4 .91 .94
+RE1-4C* 1/4 3/8 .94 1.03
+RE1-5A* 5/16 1/8 .91 .78
+RE1-5B* 5/16 1/4 .97 .94
+RE1-6A* 3/8 1/8 1.03 .91
+RE1-6B* 3/8 1/4 1.00 1.06
+RE1-6C* 3/8 3/8 1.06 1.09
+RE1-6D* 3/8 1/2 1.16 1.28
+RE1-8B* 1/2 1/4 1.25 1.19
+RE1-8C* 1/2 3/8 1.22 1.12
+RE1-8D* 1/2 1/2 1.28 1.38
+RE1-8E* 1/2 3/4 1.41 1.41
+RE1-10C* 5/8 3/8 1.41 1.25
+RE1-10D* 5/8 1/2 1.41 1.38
+RE1-10E* 5/8 3/4 1.47 1.50
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+RNS4  FORGED FLARE NUT REF SAE 010166
+PART O.D. 
+NUMBER TUBE A HEX
+RNS4-4 1/4 .62 3/4
+RNS4-6 3/8 .72 7/8
+RNS4-8 1/2 .86 1
+RNS4-10 5/8 .98 1-1/8
+RNS4-12 3/4 1.12 1-3/8
+RT2  TEE TUBE ALL ENDS REF SAE 010401
+PART O.D. 
+NUMBER TUBE A B
+RT2-4* 1/4 .88 .88
+RT2-6* 3/8 1.06 1.06
+RT2-8* 1/2 1.22 1.22
+RT2-10* 5/8 1.41 1.41
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+
+RU1  CONNECTOR TUBE TO MPT REF SAE 010102
+PART O.D. PIPE
+NUMBER TUBE THREAD A HEX
+RU1-4A 1/4 1/8 1.06 7/16
+RU1-4B 1/4 1/4 1.25 9/16
+RU1-4C 1/4 3/8 1.31 11/16
+RU1-4D 1/4 1/2 1.56 7/8
+RU1-5A 5/16 1/8 1.16 1/2
+RU1-5B 5/16 1/4 1.34 9/16
+RU1-6A 3/8 1/8 1.25 5/8
+RU1-6B 3/8 1/4 1.44 5/8
+RU1-6C 3/8 3/8 1.44 11/16
+RU1-6D 3/8 1/2 1.69 7/8
+RU1-6E 3/8 3/4 1.81 1-1/16
+RU1-8B 1/2 1/4 1.62 3/4
+RU1-8C 1/2 3/8 1.62 3/4
+RU1-8D 1/2 1/2 1.88 7/8
+RU1-8E 1/2 3/4 1.94 1-1/16
+RU1-10C 5/8 3/8 1.81 7/8
+RU1-10D 5/8 1/2 2.00 7/8
+RU1-10E 5/8 3/4 2.06 1-1/16
+Anderson Fittings 45° Heavy Duty Flare 
+22 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+RU2  UNION TUBE BOTH ENDS REF SAE 010101
+PART O.D. 
+NUMBER TUBE A HEX
+RU2-4 1/4 1.19 7/16
+RU2-6 3/8 1.50 5/8
+RU2-8 1/2 1.81 3/4
+RU2-10 5/8 2.12 7/8
+RU2-12 3/4 2.44 1-1/16
+RUR2  UNION, REDUCING TUBE BOTH ENDS REF SAE 010101
+PART O.D. 
+NUMBER TUBE A HEX
+RUR2-64 3/8X1/4 1.38 5/8
+RUR2-86 1/2X3/8 1.69 3/4
+RUR2-106 5/8X3/8 1.89 7/8
+RUR2-108 5/8X1/2 2.00 7/8
+RU3  ADAPTER TUBE TO FPT REF SAE 010103
+PART O.D. PIPE
+NUMBER TUBE THREAD A HEX
+RU3-4A 1/4 1/8 1.03 9/16
+RU3-4B 1/4 1/4 1.25 11/16
+RU3-6B 3/8 1/4 1.31 13/16
+RU3-6C 3/8 3/8 1.38 13/16
+RU3-6D 3/8 1/2 1.62 1
+RU3-8C 1/2 3/8 1.50 13/16
+RU3-8D 1/2 1/2 1.75 1
+RU3-10D 5/8 1/2 1.81 1
+RU3-10E 5/8 3/4 1.91 1-1/4
+
+CONSTRUCTION
+• Two piece – body and nut
+• Straights and shapes are manufactured from CA360 or CA345 brass except for steel nuts as indi-
+cated
+ADVANTAGES
+• Low cost
+• Can be assembled and disassembled repeatedly
+• Resists mechanical pull-out
+• Seats and threads are recessed and protected from damage
+• Short bodies and nuts allow a compact installation
+APPLICATIONS
+• Compatible with copper, brass, aluminum and steel hydraulic tubing that can be flared
+• Used on low, medium or high pressure lines
+• Fair vibration resistance
+• Temperature range from –65° to +250° F.
+ORDERING INFORMATION
+• Inverted flare fittings are supplied less nuts
+• Nomenclature example:
+48I – 6A
+NOTES
+• Current price list represents in stock cataloged items.
+• Non-stock items and special parts are available on a quotation basis.
+• Configurations and dimensions are subject to change without notice.
+Anderson Fittings Inverted Flare
+23 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+Type of fitting: Tube to male pipe
+Tube OD: (6/16) 3/8"
+Pipe thread: 1/8
+41IB  NUT, BRASS REF SAE 040110
+PART O.D. 
+NUMBER TUBE A HEX
+41IB-2 1/8 .52 5/16
+41IB-3 3/16 .56 3/8
+41IB-4 1/4 .56 7/16
+41IB-5 5/16 .62 1/2
+41IB-6 3/8 .66 5/8
+41IB-8 1/2 .74 3/4
+41IB-10 5/8 .81 7/8
+Anderson Fittings Inverted Flare Tube Fittings
+24 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+41IS  NUT, STEEL REF SAE 040110
+PART O.D. 
+NUMBER TUBE A HEX
+41IS-2 1/8 .52 5/16
+41IS-3 3/16 .52 3/8
+41IS-4 1/4 .56 7/16
+41IS-5 5/16 .62 1/2
+41IS-6 3/8 .66 5/8
+41IS-8 1/2 .74 3/4
+41IS-10 5/8 .80 7/8
+41IS-12 3/4 .88 1-1/16
+41IP PLUG
+PART O.D. 
+NUMBER TUBE A HEX
+41IP-3 3/16 .50 3/8
+41IP-4 1/4 .56 7/16
+41IP-5 5/16 .62 1/2
+41IP-6 3/8 .67 5/8
+42I  UNION TUBE BOTH ENDS REF SAE 040101
+PART O.D. 
+NUMBER TUBE A HEX
+42I-2 1/8 .60 13/32
+42I-3 3/16 .63 15/32
+42I-4 1/4 .63 17/32
+42I-5 5/16 .71 19/32
+42I-6 3/8 .81 3/4
+42I-8 1/2 .92 29/32
+44I  TEE TUBE ALL ENDS REF SAE 040401
+PART O.D. 
+NUMBER TUBE A B C
+44I-3 3/16 1.10 .55 .39
+44I-4 1/4 1.12 .56 .42
+44I-5 5/16 1.26 .63 .45
+44I-6 3/8 1.48 .74 .56
+44I-8 1/2 1.76 .88 .60
+
+46I  ADAPTER TUBE TO FPT REF SAE 040103
+PART O.D. PIPE
+NUMBER TUBE THREAD A HEX
+46I-3A 3/16 1/8 .76 1/2
+46I-4A 1/4 1/8 .71 17/32
+46I-5A 5/16 1/8 .79 19/32
+46I-6B 3/8 1/4 1.04 3/4
+46I-8C 1/2 3/8 1.10 29/32
+Anderson Fittings Inverted Flare Tube Fittings
+25 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+48I  CONNECTOR TUBE TO MPT REF SAE 040102
+PART O.D. PIPE
+NUMBER TUBE THREAD A HEX
+48I-2A 1/8 1/8 .63 13/32
+48I-3A 3/16 1/8 .70 15/32
+48I-4A 1/4 1/8 .74 17/32
+48I-4B 1/4 1/4 .89 5/16
+48I-5A 5/16 1/8 .79 19/32
+48I-5B 5/16 1/4 .98 19/32
+48I-6A 3/8 1/8 .86 3/4
+48I-6B 3/8 1/4 1.03 3/4
+48I-6C 3/8 3/8 1.03 3/4
+48I-8B 1/2 1/4 1.07 29/32
+48I-8C 1/2 3/8 1.07 29/32
+48I-8D 1/2 1/2 1.26 29/32
+48I-10D 5/8 1/2 1.32 1-1/16
+49I  ELBOW, 90° TUBE TO MPT REF SAE 040202
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+49I-2A 1/8 1/8 .79 .58 .27
+49I-3A 3/16 1/8 .85 .61 .27
+49I-4A 1/4 1/8 .92 .65 .33
+49I-4B 1/4 1/4 1.10 .83 .28
+49I-5A 5/16 1/8 .95 .68 .48
+49I-5B 5/16 1/4 1.16 .86 .45
+49I-6A 3/8 1/8 1.13 .75 .53
+49I-6B 3/8 1/4 1.26 .92 .45
+49I-6C 3/8 3/8 1.32 .94 .50
+49I-8B 1/2 1/4 1.48 1.02 .55
+49I-8C 1/2 3/8 1.42 .99 .53
+49I-8D 1/2 1/2 1.67 1.22 .66
+49I-10D 5/8 1/2 1.82 1.25 .67
+
+50I  ELBOW TUBE TO FPT REF SAE 040203
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+50I-4A 1/4 1/8 .53 .53
+50I-6B 3/8 1/4 .67 .68
+Anderson Fittings Inverted Flare Tube Fittings
+26 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+94I  ELBOW, 45° TUBE TO MPT REF SAE 040302
+FLOW
+PART O.D. PIPE DIAMETER
+NUMBER TUBE THREAD A B
+94I-3A 3/16 1/8 .88 .125
+94I-4A 1/4 1/8 .94 .187
+94I-5A 5/16 1/8 1.00 .220
+94I-5B 5/16 1/4 1.16 .220
+94I-6B 3/8 1/4 1.34 .283
+94I-8C 1/2 3/8 1.44 .375
+
+Anderson Fittings Copper Tube Air Brake
+27 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Three piece – body, nut and sleeve
+• Straights and shapes are manufactured from CA360 or CA345 brass
+• May also be used for nylon tubing by using the insert, sleeve and nut from the NAB line.
+ADVANTAGES
+• No special tubing preparation
+• Ease of assembly
+APPLICATIONS
+• Meets DOT and SAE standards
+• For copper tubing air brake systems
+• Working pressures up to 400 p;si. Temperature range of —65° to +250° F.
+• Fair vibration resistance
+ORDERING INFORMATION
+• Fitting is supplied as an assembly, including the body, nut and sleeve. If body only is desired, place
+the letter “B” in front of the part number.
+• To order fittings with Vibraseal, add “VS” to prefix. Example: VS268A-6B
+• Nomenclature example:
+268A – 6B
+NOTES
+• Current price list represents in stock cataloged items.
+• Non-stock items and special parts are available on a quotation basis.
+• Configurations and dimensions are subject to change without notice.
+Type of fitting: Copper AB connector
+Tube OD: (6/16) 3/8"
+Pipe thread: 1/4
+260A SLEEVE REF SAE 120115
+PART O.D. 
+NUMBER TUBE A
+260A-4 1/4 .25
+260A-6 3/8 .31
+260A-8 1/2 .38
+260A-10 5/8 .44
+260A-12 3/4 .50
+Anderson Fittings Copper Tube Air Brake
+28 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+261A NUT REF SAE 120111
+PART O.D. 
+NUMBER TUBE A HEX
+261A-4 1/4 .75 9/16
+261A-6 3/8 1.13 5/8
+261A-8 1/2 1.25 1-3/16
+261A-10 5/8 1.38 15/16
+261A-12 3/4 1.56 1-1/8
+262A UNION, TUBE BOTH ENDS REF SAE 120101BA
+PART O.D. 
+NUMBER TUBE A B HEX
+262A-4 1/4 2.05 .87 7/16
+262A-6 3/8 2.94 1.12 9.16
+262A-8 1/2 3.21 1.33 11/16
+262A-10 5/8 3.57 1.45 13/16
+262A-12 3/4 4.12 1.62 1
+262BH  BULKHEAD UNION, TUBE BOTH ENDS
+PART O.D. 
+NUMBER TUBE A B
+262BH-6 3/8 3.1 1.62
+262BH-8 1/2 3.80 1.88
+264A TEE, TUBE ALL ENDS REF SAE 120401BA
+PART O.D. 
+NUMBER TUBE A B C
+264A-44 1/4 2.44 1.22 .63
+264A-66 3/8 3.48 1.74 .83
+264A-88 1/2 3.82 1.91 .97
+264A-1010 5/8 4.38 2.19 1.13
+
+265A ELBOW, TUBE BOTH ENDS REF SAE 120201BA
+PART O.D. 
+NUMBER TUBE A B
+265A-44 1/4 1.25 .66
+265A-66 3/8 1.71 .80
+265A-88 1/2 1.91 .97
+265A-1010 5/8 2.22 1.09
+Anderson Fittings Copper Tube Air Brake
+29 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+266A ADAPTER, TUBE TO FPT REF SAE 120103BA
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+266A-4A 1/4 1/8 1.44 .85 9/16
+266A-4B 1/4 1/4 1.67 1.08 11/16
+266A-6A 3/8 1/8 1.81 .90 9/16
+266A-6B 3/8 1/4 2.10 1.19 11/16
+266A-6C 3/8 3/8 2.10 1.19 7/8
+266A-8C 1/2 3/8 2.22 1.28 7/8
+266A-8D 1/2 1/2 2.35 1.45 1-1/16
+266A-10D 5/8 1/2 2.57 1.51 1-1/16
+268A CONNECTOR, TUBE TO MPT REF SAE 120102BA
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+268A-4A 1/4 1/8 1.51 .92 7/16
+268A-4B 1/4 1/4 1.72 1.13 9/16
+268A-4C 1/4 3/8 1.71 1.13 11/16
+268A-6A 3/8 1/8 1.94 1.03 9/16
+268A-6B 3/8 1/4 2.15 1.24 9/16
+268A-6C 3/8 3/8 2.15 1.24 11/16
+268A-6D 3/8 1/2 2.37 1.46 7/8
+268A-8B 1/2 1/4 2.30 1.36 11/16
+268A-8C 1/2 3/8 2.30 1.36 11/16
+268A-8D 1/2 1/2 2.49 1.55 7/8
+268A-10C 5/8 3/8 2.48 1.42 13/16
+268A-10D 5/8 1/2 2.67 1.61 7/8
+268A-12D 3/4 1/2 2.91 1.71 1
+268A-12E 3/4 3/4 2.97 1.72 1-1/16
+
+269A ELBOW TUBE TO MPT REF SAE 120202BA
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+269A-4A 1/4 1/8 1.22 .63 .67
+269A-4B 1/4 1/4 1.34 .75 .93
+269A-4C 1/4 3/8 1.72 1.13 1.13
+269A-6A 3/8 1/8 1.74 .83 .88
+269A-6B 3/8 1/4 1.74 .83 .96
+269A-6C 3/8 3/8 1.85 .94 1.10
+269A-6D 3/8 1/2 1.91 1.00 1.28
+269A-8B 1/2 1/4 1.91 .97 1.10
+269A-8C 1/2 3/8 1.88 .94 1.10
+269A-8D 1/2 1/2 2.01 1.07 1.25
+269A-10C 5/8 3/8 2.19 1.13 1.13
+269A-10D 5/8 1/2 2.19 1.13 1.25
+269A-12D 3/4 1/2 2.45 1.20 1.34
+Anderson Fittings Copper Tube Air Brake
+30 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+270A ELBOW, 90° TUBE TO FPT REF SAE 120203BA
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+270A-4A 1/4 1/8 1.27 .69 .52
+270A-6A 3/8 1/8 1.72 .83 .59
+270A-6B 3/8 1/4 1.81 .90 .81
+270A-6C 3/8 3/8 1.85 .98 .86
+270A-8C 1/2 3/8 1.98 1.04 .83
+270A-8D 1/2 1/2 2.08 1.14 1.19
+270A-10D 5/8 1/2 2.29 1.23 1.19
+271A MALE RUN TEE, TUBE TO MPT TO TUBE REF SAE 120424BA
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+271A-4A 1/4 1/8 1.20 .63 .70
+271A-4B 1/4 1/4 1.25 .83 .93
+271A-6B 3/8 1/4 1.68 .83 .93
+271A-6C 3/8 3/8 1.70 .89 1.66
+271A-8C 1/2 3/8 1.90 .97 1.16
+271A-8D 1/2 1/2 1.94 1.03 1.90
+272A MALE BRANCH TEE, TUBE TO TUBE TO MPT REF SAE 120425BA
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+272A-4A 1/4 1/8 1.20 .63 .76
+272A-4B 1/4 1/4 1.25 .69 .86
+272A-6A 3/8 1/8 1.62 .83 .81
+272A-6B 3/8 1/4 1.68 .83 .93
+272A-6C 3/8 3/8 1.72 .86 1.10
+272A-8C 1/2 3/8 1.91 .97 1.10
+272A-8D 1/2 1/2 2.00 1.00 1.10
+
+279A ELBOW, 45° TUBE TO MPT REF SAE 120302BA
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+279A-4A 1/4 1/8 1.20 .61 .86
+279A-4B 1/4 1/4 1.18 .60 .85
+279A-6A 3/8 1/8 1.63 .61 .86
+279A-6B 3/8 1/4 1.63 .72 .86
+279A-6C 3/8 3/8 1.60 .69 .91
+279A-6D 3/8 1/2 1.67 .78 1.16
+279A-8C 1/2 3/8 1.79 .85 .95
+279A-8D 1/2 1/2 1.83 .87 1.16
+279A-10D 5/8 1/2 2.00 .94 1.17
+Anderson Fittings Copper Tube Air Brake
+31 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+Anderson Fittings Nylon Tube Air Brake
+32 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Three piece assembly – body, nut and sleeve with pressed-in insert
+• Straights and shapes are manufactured from CA360 or CA345 brass
+ADVANTAGES
+• No special tubing preparation
+• Ease of assembly
+APPLICATIONS
+• Meets specifications and standards of SAE and DOT FMVSS 571.106 air brake specifications
+• Used with J844 Type A and B nylon tubing
+• Used in air brake and air accessory systems
+• Working pressures up to 150 psi, temperature range of –40° to 200° F.
+• Excellent vibration resistance
+ORDERING INFORMATION
+• Fitting is supplied as an assembly, including the body, nut and sleeve with pressed-in insert.
+• Nomenclature example:
+68NAB – 6C
+NOTES
+• Current price list represents in stock cataloged items.
+• Non-stock items and special parts are available on a quotation basis.
+• Configurations and dimensions are subject to change without notice.
+Type of fitting: Nylon airbrake connector
+Tube OD: (6/16) 3/8"
+Pipe thread: 3/8"
+59A INSERT
+PART O.D. 
+NUMBER TUBE A
+59A-4 1/4 .51
+59A-6 3/8 .64
+59A-8 1/2 .81
+59A-10 5/8 .86
+59A-12 3/4 1.06
+Anderson Fittings Nylon Tube Air Brake
+33 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+60NAB  SLEEVE REF SAE 100115BA
+PART O.D. 
+NUMBER TUBE A
+60NAB-4 1/4 .31
+60NAB-6 3/8 .39
+60NAB-8 1/2 .43
+60NAB-10 5/8 .44
+60NAB-12 3/4 .54
+61NAB  NUT REF SAE 100110BA
+PART O.D. 
+NUMBER TUBE A HEX
+61NAB-4 1/4 .45 9/16
+61NAB-6 3/8 .56 5/8
+61NAB-8 1/2 .66 13/16
+61NAB-10 5/8 .74 15/16
+61NAB-12 3/4 .81 1-1/8
+62NABH  BULKHEAD UNION, TUBE BOTH ENDS
+PART O.D. 
+NUMBER TUBE A B HEX
+62NABH-6 3/8 2.90 1.10 9/16
+62NABH-8 1/2 3.20 1.27 11/16
+62NAB  UNION, TUBE BOTH ENDS REF SAE 100101BA
+PART O.D. 
+NUMBER TUBE A B HEX
+62NAB-4 1/4 1.45 .87 7/16
+62NAB-6 3/8 1.80 1.12 9/16
+62NAB-8 1/2 2.03 1.33 11/16
+62NAB-10 5/8 2.29 1.45 13/16
+62NAB-12 3/4 2.62 1.62 1
+
+64NAB  TEE, TUBE ALL ENDS REF SAE 100401BA
+PART O.D. 
+NUMBER TUBE A B C
+64NAB-4 1/4 1.84 .63 .92
+64NAB-6 3/8 2.34 .83 1.17
+64NAB-8 1/2 2.64 .97 1.32
+64NAB-10 5/8 3.10 1.13 1.55
+Anderson Fittings Nylon Tube Air Brake
+34 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+65NAB  ELBOW, TUBE BOTH ENDS REF SAE 100201BA
+PART O.D. 
+NUMBER TUBE A B
+65NAB-4 1/4 1.00 .62
+65NAB-6 3/8 1.14 .80
+65NAB-8 1/2 1.32 .97
+65NAB-10 5/8 1.60 1.09
+66NAB  ADAPTER, TUBE TO FPT REF SAE 100103BA
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+66NAB-4A 1/4 1/8 1.18 .85 9/16
+66NAB-4B 1/4 1/4 1.40 1.06 11/16
+66NAB-6A 3/8 1/8 1.50 1.00 9/16
+66NAB-6B 3/8 1/4 1.60 1.18 11/16
+66NAB-6C 3/8 3/8 1.71 1.18 7/8
+66NAB-8C 1/2 3/8 1.80 1.27 7/8
+66NAB-8D 1/2 1/2 1.89 1.44 1-1/16
+68NAB  CONNECTOR, TUBE TO MPT REF SAE 100102BA
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+68NAB-4A 1/4 1/8 1.21 .92 7/16
+68NAB-4B 1/4 1/4 1.42 1.13 9/16
+68NAB-4C 1/4 3/8 1.46 1.13 11/16
+68NAB-6A 3/8 1/8 1.37 1.03 9/16
+68NAB-6B 3/8 1/4 1.58 1.24 9/16
+68NAB-6C 3/8 3/8 1.58 1.24 11/16
+68NAB-6D 3/8 1/2 1.80 1.46 7/8
+68NAB-8B 1/2 1/4 1.71 1.36 11/16
+68NAB-8C 1/2 3/8 1.71 1.36 11/16
+68NAB-8D 1/2 1/2 1.90 1.55 7/8
+68NAB-10C 5/8 3/8 1.84 1.42 13/16
+68NAB-10D 5/8 1/2 2.03 1.61 7/8
+68NAB-12D 3/4 1/2 2.21 1.71 1
+68NAB-12E 3/4 3/4 2.22 1.72 1-1/16
+
+69NAB  ELBOW, 90° TUBE TO MPT REF SAE 100202BA
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+69NAB-4A 1/4 1/8 .92 .63 .67
+69NAB-4B 1/4 1/4 1.04 .75 .93
+69NAB-4C 1/4 3/8 1.16 .73 .86
+69NAB-6A 3/8 1/8 1.17 .83 .88
+69NAB-6B 3/8 1/4 1.17 .83 .96
+69NAB-6C 3/8 3/8 1.28 .94 1.10
+69NAB-6D 3/8 1/2 1.34 1.00 1.28
+69NAB-8B 1/2 1/4 1.32 .97 1.10
+69NAB-8C 1/2 3/8 1.29 .94 1.10
+69NAB-8D 1/2 1/2 1.42 1.07 1.25
+69NAB-10C 5/8 3/8 1.55 1.13 1.13
+69NAB-10D 5/8 1/2 1.55 1.13 1.28
+69NAB-12D 3/4 1/2 1.70 1.20 1.34
+Anderson Fittings Nylon Tube Air Brake
+35 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+70NAB  ELBOW, TUBE TO FPT REF SAE 100203BA
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+70NAB-4A 1/4 1/8 1.02 .68 .53
+70NAB-6A 3/8 1/8 1.30 .83 .59
+70NAB-6B 3/8 1/4 1.81 .90 .81
+70NAB-6C 3/8 3/8 1.89 .98 .86
+70NAB-8C 1/2 3/8 1.60 1.03 .82
+70NAB-8D 1/2 1/2 1.60 1.13 1.01
+71NAB  MALE RUN TEE, TUBE TO MPT TO TUBE REF SAE 100424BA
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+71NAB-4A 1/4 1/8 .95 .63 .70
+71NAB-4B 1/4 1/4 1.00 .68 .87
+71NAB-6B 3/8 1/4 1.25 .83 .93
+71NAB-6C 3/8 3/8 1.30 .89 1.10
+71NAB-8C 1/2 3/8 1.46 .97 1.10
+71NAB-8D 1/2 1/2 1.56 1.03 1.18
+
+72NAB  MALE BRANCH TEE, TUBE TO TUBE TO MPT REF SAE 100425BA
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+72NAB-4A 1/4 1/8 1.84 .63 .70
+72NAB-4B 1/4 1/4 .92 .66 .64
+72NAB-6A 3/8 1/8 2.20 .72 .75
+72NAB-6B 3/8 1/4 2.34 .83 .93
+72NAB-6C 3/8 3/8 2.61 .84 .91
+72NAB-8C 1/2 3/8 2.64 .97 1.10
+72NAB-8D 1/2 1/2 2.84 1.07 1.25
+72NAB-10D 5/8 1/2 3.04 1.10 1.28
+Anderson Fittings Nylon Tube Air Brake
+36 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+79NAB  ELBOW, 45° TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+79NAB-4A 1/4 1/8 .88 .50 .67
+79NAB-4B 1/4 1/4 1.05 .65 .84
+79NAB-6A 3/8 1/8 1.14 .65 .78
+79NAB-6B 3/8 1/4 1.06 .72 .86
+79NAB-6C 3/8 3/8 1.03 .69 .91
+79NAB-6D 3/8 1/2 1.44 .88 1.00
+79NAB-8B 1/2 1/4 1.30 .84 .94
+79NAB-8C 1/2 3/8 1.30 .84 .94
+79NAB-8D 1/2 1/2 1.20 .85 .98
+79NAB-10D 5/8 1/2 1.36 .94 1.17
+
+Anderson Fittings Poly-Push Dot Fittings
+37 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Body is brass construction, locking teeth and release collar manufactured to one piece construction
+• Straights and shapes manufactured from CA360, CA345 or CA 377 brass
+• “O” ring seal manufactured from BUNA-N (Nitrile)
+• Tube support insert
+ADVANTAGES
+• No special tubing preparation necessary
+• No special tools needed for assembly
+• Can be assembled and disassembled repeatedly
+• Automatic locking and sealing up to maximum working Pressure of tubing
+• Elbows and tees available wtih 360° swivel
+• Release collar allows instant removal of tubing
+APPLICATIONS
+• Compatible with high quality polyethylene, nylon, polyurethane (90° durometer and over), 
+polybutylene and other soft metal tubing
+• For use in instrumentation, automation and signal circuits
+• Pressures and temperatures are governed by the parameters of the tubing involved
+• Excellent vibration characteristics
+• Meets D.O.T. FMVSS 571.106 Air Brake Performance Specifications
+NOTES
+• Current price list represents in stock cataloged items.
+• Non-stock items and special parts are available on a quotation basis.
+• Configurations and dimensions are subject to change without notice.
+
+262PPDOT  STRAIGHT UNION, TUBE TO TUBE
+PART O.D. 
+NUMBER TUBE A B C
+262PPDOT-4 1/4 1.732 1.575 7/16
+262PPDOT-6 3/8 1.732 1.575 9/16
+262PPDOT-8 1/2 1.89 1.732 11/16
+262PPDOT-10 5/8 2.10 1.90 .87
+Anderson Fittings Poly-Push Dot Fittings
+38 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+262BHPPDOT  BULKHEAD UNION, TUBE TO TUBE
+PART O.D. 
+NUMBER TUBE A B C
+262BHPPDOT-4 1/4 1.85 1.69 11/16
+262BHPPDOT-6 3/8 1.85 1.69 13/16
+262BHPPDOT-8 1/2 1.90 1.75 15/16
+262BHPPDOT-10 5/8 1.92 1.85 1-1/8
+E
+THREAD
+C
+HEX
+D MAX
+BULKHEAD
+A
+B
+264PPDOT  UNION TEE, TUBE TO TUBE TO TUBE
+PART O.D. 
+NUMBER TUBE A B C
+264PPDOT-4 1/4 1.004 .925 3/8
+264PPDOT-6 3/8 1.063 .984 1/2
+264PPDOT-8 1/2 1.240 1.161 5/8
+265PPDOT  ELBOW, TUBE TO TUBE 
+PART O.D. 
+NUMBER TUBE A B C HEX
+265PPDOT-4 1/4 1.01 .91 1.24 3/8
+265PPDOT-6 3/8 1.08 .98 1.38 1/2
+265PPDOT-8 1/2 1.25 1.15 1.60 5/8
+A
+B
+D
+C HEX
+266PPDOT  FEMALE ADAPTER, TUBE TO FPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+266PPDOT-4A 1/4 1/8 1.300 1.200 9/16
+266PPDOT-4B 1/4 1/4 1.496 1.417 3/4
+266PPDOT-6B 3/8 1/4 1.496 1.417 3/4
+266PPDOT-6C 3/8 3/8 1.496 1.417 7/8
+266PPDOT-8C 1/2 3/8 1.61 1.51 7/8
+266PPDOT-8D 1/2 1/2 1.811 1.732 1-1/8
+
+Anderson Fittings Poly-Push Dot Fittings
+39 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+268PPDOT  MALE ADAPTER, TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+268PPDOT-4A 1/4 1/8 1.004 .925 7/16
+268PPDOT-4B 1/4 1/4 1.035 .957 9/16
+268PPDOT-4C 1/4 3/8 1.12 1.02 11/16
+268PPDOT-6A 3/8 1/8 1.28 1.18 9/16
+268PPDOT-6B 3/8 1/4 1.181 1.102 9/16
+268PPDOT-6C 3/8 3/8 1.102 1.024 11/16
+268PPDOT-8B 1/2 1/4 1.46 1.36 11/16
+268PPDOT-8C 1/2 3/8 1.260 1.181 11/16
+268PPDOT-8D 1/2 1/2 1.220 1.142 7/8
+268PPDOT-10C 5/8 3/8 1.44 1.34 7/8
+268PPDOT-10D 5/8 1/2 1.68 1.58 7/8
+269PPDOT  MALE ELBOW, TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C HEX
+269PPDOT-4A 1/4 1/8 .984 .906 .748 3/8
+269PPDOT-4B 1/4 1/4 1.024 .945 .945 7/16
+269PPDOT-4C 1/4 3/8 1.10 1.00 .98 1/2
+269PPDOT-6A 3/8 1/8 1.08 .98 .80 1/2
+269PPDOT-6B 3/8 1/4 1.063 .984 .945 1/2
+269PPDOT-6C 3/8 3/8 1.083 1.004 .984 1/2
+269PPDOT-6D 3/8 1/2 1.14 1.04 1.19 5/8
+269PPDOT-8B 1/2 1/4 1.25 1.15 1.05 5/8
+269PPDOT-8C 1/2 3/8 1.181 1.102 1.043 11/16
+269PPDOT-8D 1/2 1/2 1.220 1.142 1.142 11/16
+269PPDOT-10C 5/8 3/8 1.27 1.17 1.13 3/4
+269PPDOT-10D 5/8 1/2 1.30 1.20 1.28 11/16
+269PPSDOT  360° SWIVEL ELBOW, TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C HEX
+269PPSDOT-4A 1/4 1/8 .984 .905 1.130 7/16
+269PPSDOT-4B 1/4 1/4 .984 .905 1.327 9/16
+269PPSDOT-4C 1/4 3/8 1.08 .98 1.14 1/2
+269PPSDOT-6A 3/8 1/8 1.08 .98 1.08 1/2
+269PPSDOT-6B 3/8 1/4 1.043 .965 1.445 9/16
+269PPSDOT-6C 3/8 3/8 1.043 .965 1.465 11/16
+269PPSDOT-6D 3/8 1/2 1.08 .98 1.52 1/2
+269PPSDOT-8B 1/2 1/4 1.26 1.16 1.26 5/8
+269PPSDOT-8C 1/2 3/8 1.220 1.142 1.681 11/16
+269PPSDOT-8D 1/2 1/2 1.220 1.142 1.317 7/8
+
+Anderson Fittings Poly-Push Dot Fittings
+40 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+270PPDOT  FEMALE ELBOW, TUBE TO FPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C HEX
+270PPDOT-4A 1/4 1/8 1.024 .945 .748 3/8
+270PPDOT-4B 1/4 1/4 1.024 .945 .945 7/16
+270PPDOT-6B 3/8 1/4 1.063 .984 .945 1/2
+270PPDOT-6C 3/8 3/8 1.063 .984 .906 5/8
+270PPDOT-8D 1/2 1/2 1.24 1.14 1.21 5/8
+271PPSDOT  MALE SWIVEL RUN TEE, TUBE TO MPT TO TUBE
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C HEX
+271PPSDOT-4A 1/4 1/8 1.004 .925 1.228 7/16
+271PPSDOT-4B 1/4 1/4 1.004 .925 1.425 9/16
+271PPSDOT-6B 3/8 1/4 1.063 .984 1.504 9/16
+271PPSDOT-6C 3/8 3/8 1.063 .984 1.524 11/16
+271PPSDOT-8C 1/2 3/8 1.193 1.114 1.650 11/16
+271PPSDOT-8D 1/2 1/2 1.24 1.14 1.61 7/8
+272PPSDOT  MALE SWIVEL BRANCH TEE, TUBE TO TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C HEX
+272PPSDOT-4A 1/4 1/8 1.004 .925 1.130 7/16
+272PPSDOT-4B 1/4 1/4 1.004 .925 1.327 9/16
+272PPSDOT-6A 3/8 1/8 1.09 .99 1.16 7/16
+272PPSDOT-6B 3/8 1/4 1.043 .965 1.445 9/16
+272PPSDOT-6C 3/8 3/8 1.043 .965 1.465 11/16
+272PPSDOT-8B 1/2 1/4 1.26 1.16 1.26 9/16
+272PPSDOT-8C 1/2 3/8 1.200 1.122 1.680 11/16
+272PPSDOT-8D 1/2 1/2 1.26 1.16 1.64 7/8
+279PPDOT  45° MALE ELBOW
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C HEX
+279PPDOT-4A 1/4 1/8 .83 .89 .99 3/8
+279PPDOT-4B 1/4 1/4 .91 .89 .99 3/8
+279PPDOT-6A 3/8 1/8 .75 .89 .99 1/2
+279PPDOT-6B 3/8 1/4 .95 .98 1.08 1/2
+279PPDOT-6C 3/8 3/8 .89 .98 1.08 1/2
+279PPDOT-8B 1/2 1/4 .98 1.12 1.22 5/8
+279PPDOT-8C 1/2 3/8 1.05 1.10 1.20 5/8
+279PPDOT-8D 1/2 1/2 1.13 1.09 1.19 5/8
+279PPDOT-10D 5/8 1/2 1.12 1.12 1.22 11/16
+D
+ACROSS
+FLATS
+PIPE
+THREAD
+C
+B
+45˚
+A
+Anderson Fittings
+41 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+NOTES 
+Anderson Fittings Air Brake Hose Ends
+42 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Three piece – body, nut and serrated sleeve
+• Manufactured from CA360 brass rod
+ADVANTAGES
+• Easy to assemble and dis-assemble
+• No special hose preparation
+• With or without spring guard
+APPLICATIONS
+• For air brake systems
+• Pressure rating – 125 PSI
+• Meets SAE and DOT specifications
+• Used with SAE J1402 Air Brake Hose
+ORDERING INFORMATION
+• Fittings are supplied as assemblies consisting of body, nut and sleeve
+ASSEMBLY
+• Slide nut onto the hose
+• Slide the tapered end of the sleeve onto the hose facing the fitting
+• Insert hose completely into the fitting until it bottoms
+• Nut is tightened until making contact with the body
+• Do not reuse sleeves. Bodies and nuts should always be re-inspected
+NOTES
+• Current price list represents in stock cataloged items.
+• Configurations and dimensions are subject to change without notice
+
+360A HOSE SLEEVE
+PART
+NUMBER HOSE A
+360A-6 3/8 .69
+360A-8 1/2 .69
+Anderson Fittings Air Brake Hose Ends
+43 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+361A HOSE NUT
+PART
+NUMBER HOSE A HEX
+361A-6 3/8 1.18 13/16
+361A-8 1/2 1.125 1-1/4
+371A HOSE NUT WITH SPRING GUARD
+PART
+NUMBER HOSE HEX
+371A-6 3/8 13/16
+371A-8 1/2 1-1/4
+362A UNION
+PART
+NUMBER HOSE A
+362A-6 3/8 2.95
+362A-8 1/2 2.96
+368A HOSE CONNECTOR ASSEMBLY
+PART PIPE
+NUMBER HOSE THREAD A HEX
+368A-6B 3/8 1/4 2.25 1
+368A-6C 3/8 3/8 2.38 1
+368A-6D 3/8 1/2 2.44 1
+368A-8C 1/2 3/8 2.24 1-1/8
+368A-8D 1/2 1/2 2.40 1-1/8
+378A HOSE CONNECTOR ASSEMBLY WITH SPRING GUARD
+PART PIPE
+NUMBER HOSE THREAD A HEX
+378A-6B 3/8 1/4 4.75 1
+378A-6C 3/8 3/8 4.75 1
+378A-6D 3/8 1/2 4.88 1
+378A-8C 1/2 3/8 5.12 1-1/8
+378A-8D 1/2 1/2 4.88 1-1/8
+
+388A ADAPTER
+PART STRAIGHT PIPE
+NUMBER THREAD THREAD A B HEX
+388A-12B 3/4-20 1/4 1.06 .31 3/4
+388A-12C 3/4-20 3/8 1.12 .31 3/4
+388A-14C 7/8-20 3/8 1.19 .44 7/8
+388A-14D 7/8-20 1/2 1.38 .50 7/8
+Anderson Fittings Air Brake Hose Ends
+44 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+129A BULKHEAD ADAPTER FPT TO FPT
+PART STRAIGHT PIPE
+NUMBER THREAD THREAD A
+129A-A 5/8-18 1/8 FPT 1.50
+129AS-B 3/4-16 1/4 FPT .92
+129A-B 3/4-16 1/4 FPT 1.50
+129A-C 1-14 3/8 FPT 1.32
+129A-D 1 1/8-14 1/2 FPT 1.50
+
+Anderson Fittings A-Lign Fittings
+45 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Two piece – body and nut with captive sleeve
+• Straights and shapes are manufactured from CA360, CA345 or CA377 brass
+ADVANTAGES
+• Bodies are interchangeable with standard compression fittings
+• No flaring, soldering or other special tubing preparation
+• Low cost
+• Wide range of styles and sizes
+• Assembly is easier and quicker than standard compression
+APPLICATIONS
+• Compatible with copper, brass, aluminum and thermoplastic tubing.
+(Thermoplastic tubing requires the use of a brass insert.)
+• Pressures exceed those of standard compression fittings
+• Fair vibration resistance
+ORDERING INFORMATION
+• Fittings are supplied as assemblies consisting of the body and the nut with captive sleeve
+• Nomenclature example:
+NOTE: Shapes with an asterisk (*) following the part number will be supplied as 
+forged pattern.
+968A – 8C
+NOTES
+• Current price list represents in stock cataloged items.
+• Non-stock items and special parts are available on a quotation basis.
+• Configurations and dimensions are subject to change without notice.
+Type of fitting: A-Lign male connector
+Tube OD: (8/16) 1/2"
+Pipe thread: 3/8"
+961A NUT WITH CAPTIVE SLEEVE
+PART O.D. 
+NUMBER TUBE A
+961A-2 1/8 .38
+961A-3 3/16 .41
+961A-4 1/4 .44
+961A-5 5/16 .44
+961A-6 3/8 .47
+961A-8 1/2 .56
+961A-10 5/8 .56
+961A-12 3/4 .68
+Anderson Fittings A-Lign Fittings
+46 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+962A UNION TUBE BOTH ENDS
+PART O.D. 
+NUMBER TUBE A B HEX
+962A-22 1/8 1.06 .66 5/16
+962A-33 3/16 1.23 .75 3/8
+962A-42 1/4X1/8 1.30 .80 7/16
+962A-44 1/4 1.21 .81 1/2
+962A-55 5/16 1.38 .88 1/2
+962A-64 3/8X1/4 1.46 .91 9/16
+962A-66 3/8 1.54 .97 9/16
+962A-86 1/2X3/8 1.82 1.03 11/16
+962A-88 1/2 1.90 1.09 11/16
+962A-1010 5/8 1.90 1.09 13/16
+962A-106 5/8X3/8 1.88 1.03 13/16
+962A-108 5/8X1/2 1.90 1.09 13/16
+962BH  BULKHEAD UNION TUBE BOTH ENDS
+PART O.D. 
+NUMBER TUBE A B HEX
+962BH-4 1/4 2.23 1.75 9/16
+962BH-6 3/8 2.40 1.80 5/8
+962ATS  UNION, TUBE BOTH ENDS, DRILLED THRU
+PART O.D. 
+NUMBER TUBE A B HEX
+962ATS-44 1/4 1.21 .81 7/16
+962ATS-66 3/8 1.54 .97 9/16
+962ATS-88 1/2 1.90 1.06 11/16
+962ATS-1010 5/8 1.90 1.09 13/16
+963A CHECK VALVE TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+963A-4A 1/4 1/8 1.10 .88 7/16
+963A-6B 3/8 1/4 1.44 1.16 9/16
+
+Anderson Fittings A-Lign Fittings
+47 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+964A TEE TUBE ALL ENDS
+PART O.D. 
+NUMBER TUBE A B
+964A-22* 1/8 .82 .62
+964A-33* 3/16 .84 .60
+964A-44 1/4 .86 .62
+964A-55 5/16 1.00 .73
+964A-66 3/8 .99 .73
+964A-88 1/2 1.33 .93
+964A-1010 5/8 1.48 1.06
+964A-1212* 3/4 1.69 1.25
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+965A ELBOW, TUBE BOTH ENDS
+PART O.D. 
+NUMBER TUBE A B
+965A-22* 1/8 .82 .62
+965A-33* 3/16 .87 .63
+965A-44 1/4 .76 .52
+965A-55* 5/16 .91 .65
+965A-66 3/8 1.03 .75
+965A-88 1/2 1.28 .88
+965A-1010 5/8 1.08 1.06
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+966A ADAPTER, TUBE TO FPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+966A-2A 1/8 1/8 .95 .75 9/16
+966A-3A 3/16 1/8 1.02 .78 9/16
+966A-3B 3/16 1/4 1.20 .96 11/16
+966A-4A 1/4 1/8 .94 .70 1/2
+966A-4B 1/4 1/4 1.12 .88 5/8
+966A-4C 1/4 3/8 1.24 1.00 3/4
+966A-5A 5/16 1/8 1.07 .81 1/2
+966A-5B 5/16 1/4 1.17 .91 5/8
+966A-6A 3/8 1/8 1.09 .81 9/16
+966A-6B 3/8 1/4 1.22 .94 5/8
+966A-6C 3/8 3/8 1.28 1.00 13/16
+966A-6D 3/8 1/2 1.34 1.03 7/8
+966A-8C 1/2 3/8 1.48 1.06 13/16
+966A-8D 1/2 1/2 1.48 1.05 7/8
+966A-8E 1/2 3/4 1.50 1.25 1-1/8
+966A-10C 5/8 3/8 1.54 1.06 13/16
+966A-10D 5/8 1/2 1.54 1.06 7/8
+966A-10E 5/8 3/4 1.64 1.16 1-1/8
+
+Anderson Fittings A-Lign Fittings
+48 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+966AS  FAUCET ADAPTER, TUBE TO SOLDER
+PART O.D. 
+NUMBER TUBE A B HEX
+966AS-610 3/8X5/8 1.32 .94 3/4
+968A CONNECTOR, TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+968A-2A 1/8 1/8 .98 .78 7/16
+968A-3A 3/16 1/8 1.08 .84 7/16
+968A-3B 3/16 1/4 1.27 1.03 9/16
+968A-4A 1/4 1/8 1.12 .88 7/16
+968A-4B 1/4 1/4 1.21 .97 9/16
+968A-4C 1/4 3/8 1.27 1.03 11/16
+968A-4D 1/4 1/2 1.27 1.00 13/16
+968A-5A 5/16 1/8 1.18 .91 1/2
+968A-5B 5/16 1/4 1.23 .97 9/16
+968A-6A 3/8 1/8 1.22 .94 9/16
+968A-6B 3/8 1/4 1.31 1.07 9/16
+968A-6C 3/8 3/8 1.39 1.09 11/16
+968A-6D 3/8 1/2 1.32 1.06 13/16
+968A-6E 3/8 3/4 1.59 1.31 1-1/16
+968A-8B 1/2 1/4 1.49 1.09 11/16
+968A-8C 1/2 3/8 1.54 1.16 11/16
+968A-8D 1/2 1/2 1.49 1.09 13/16
+968A-8E 1/2 3/4 1.78 1.38 1-1/16
+968A-10C 5/8 3/8 1.54 1.12 13/16
+968A-10D 5/8 1/2 1.54 1.12 13/16
+968A-10E 5/8 3/4 1.80 1.38 1-1/16
+968A-12E 3/4 3/4 1.95 1.50 1-1/16
+96945A ELBOW, 45° TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+96945A-4A* 1/4 1/8 .90 .66 .56
+96945A-6B* 3/8 1/4 .90 .62 .84
+96945A-8C* 1/2 3/8 1.14 .78 .88
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+
+Anderson Fittings A-Lign Fittings
+49 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+969A ELBOW, 90° TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+969A-2A 1/8 1/8 .79 .59 .72
+969A-3A 3/16 1/8 .86 .62 .72
+969A-4A 1/4 1/8 .86 .62 .75
+969A-4B 1/4 1/4 .85 .61 .81
+969A-4C 1/4 3/8 .86 .62 .89
+969A-5A 5/16 1/8 .85 .59 .68
+969A-5B 5/16 1/4 .92 .66 .84
+969A-6A 3/8 1/8 1.08 .80 .66
+969A-6B 3/8 1/4 1.08 .80 .93
+969A-6C 3/8 3/8 1.05 .77 .93
+969A-6D 3/8 1/2 1.16 .88 1.12
+969A-8B 1/2 1/4 1.25 .88 1.03
+969A-8C 1/2 3/8 1.25 .88 1.03
+969A-8D 1/2 1/2 1.32 .94 1.12
+969A-10C 5/8 3/8 1.41 1.06 1.12
+969A-10D 5/8 1/2 1.41 1.06 1.16
+969A-12D* 3/4 1/2 1.64 1.16 1.18
+969A-12E* 3/4 3/4 1.76 1.28 1.31
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+970A ELBOW, 90° TUBE TO FPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+970A-3A* 3/16 1/8 1.26 .98 .57
+970A-4A 1/4 1/8 .92 .68 .47
+970A-4B* 1/4 1/4 .99 .75 .59
+970A-5A* 5/16 1/8 1.33 1.20 .82
+970A-5B* 5/16 1/4 1.43 1.15 .50
+970A-6B* 3/8 1/4 1.13 .78 .59
+970A-6C 3/8 3/8 1.56 1.26 .61
+970A-6D 3/8 1/2 1.32 .97 .66
+970A-8C* 1/2 3/8 1.53 1.19 .66
+970A-8D* 1/2 1/2 1.89 1.53 .70
+970A-10D* 5/8 1/2 1.41 1.03 .76
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+971A MALE RUN TEE, TUBE TO MPT TO TUBE
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+971A-4A* 1/4 1/8 .89 .64 .61
+971A-4B* 1/4 1/4 1.02 .68 .68
+971A-5A* 5/16 1/8 1.00 .73 .72
+971A-6B* 3/8 1/4 1.13 .78 .78
+971A-6C* 3/8 3/8 1.16 .81 .88
+971A-8C* 1/2 3/8 1.27 .91 .97
+971A-8D* 1/2 1/2 1.32 .97 .97
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+
+Anderson Fittings A-Lign Fittings
+50 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+972A MALE BRANCH TEE, TUBE TO TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+972A-4A 1/4 1/8 .92 .63 .75
+972A-5A* 5/16 1/8 .98 .75 .74
+972A-6B 3/8 1/4 1.10 .78 .85
+972A-6C* 3/8 3/8 1.10 .78 .96
+972A-8C* 1/2 3/8 1.31 .94 1.13
+972A-8D* 1/2 1/2 1.33 .92 1.20
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+976A STREET TEE, FPT TO MPT TO TUBE
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+976A-2A* 1/8 1/8 .85 .61 .48
+976A-4A* 1/4 1/8 .85 .57 .45
+976A-6B* 3/8 1/4 1.09 .82 .98
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+
+Anderson Fittings Compression Fittings
+51 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Three piece unit: body, nut and sleeve
+• Straights and shapes manufactured from CA360, CA345 or CA377 brass
+ADVANTAGES
+• No flaring, soldering or other special tubing preparation required.
+• Low cost
+• Wide range of styles and sizes
+• Easy assembly
+APPLICATION
+• Compatible with copper, brass, aluminum and thermoplastic tubing.
+(Thermoplastic tubing requires the use of a brass insert for support.)
+• Low pressure air, oil and water up to a maximum pressure of 400 psi.
+• Fair vibration resistance. The long nut can be used for greater vibration application.
+ORDERING INFORMATION
+• Fitting is supplied as an assembly. If the body only is desired, use the prefix “B”.
+• Nomenclature example:
+68A – 6C
+NOTES
+• Current price list represents in stock cataloged items.
+• Non-stock items and special parts are available on a quotation basis.
+• Configurations and dimensions are subject to change without notice.
+Type of fitting – Male connector
+Tube OD size: 6/16 = 3/8
+Pipe thread: 3/8
+
+Anderson Fittings Compression Fittings
+52 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+60AE  BRASS INSERT FOR USE WITH SOFT TUBING.
+PART O.D. 
+NUMBER TUBE A
+60AE-4 1/4 .65
+60AE-5 5/16 .50
+60AE-6 3/8 .54
+60AE-8 1/2 .72
+60AE-10 5/8 .62
+60A SLEEVE REF SAE 060115
+PART O.D. 
+NUMBER TUBE A B
+60A-2 1/8 .19 .19
+60A-3 3/16 .22 .27
+60A-4 1/4 .25 .27
+60A-5 5/16 .25 .34
+60A-6 3/8 .25 .41
+60A-7 7/16 .31 .54
+60A-8 1/2 .32 .60
+60AH-8 1/2 .38 .60
+60A-10 5/8 .32 .72
+60AH-10 5/8 .38 .72
+60A-12 3/4 .44 .88
+60A-14 7/8 .41 1.00
+60AP DELRIN SLEEVE
+PART O.D. 
+NUMBER TUBE A
+60AP-4 1/4 .19
+60AP-5 5/16 .19
+60AP-6 3/8 .19
+60AP-8 1/2 .22
+60AP-10 5/8 .22
+61A NUT REF SAE 060110
+PART O.D. 
+NUMBER TUBE A HEX
+61A-2 1/8 .38 3/8
+61A-3 3/16 .41 7/16
+61A-4 1/4 .44 1/2
+61A-5 5/16 .44 9/16
+61A-6 3/8 .47 5/8
+61A-7 7/16 .50 11/16
+61A-8 1/2 .56 3/4
+61AH-8 1/2 .62 13/16
+61A-10 5/8 .56 7/8
+61AH-10 5/8 .62 15/16
+61A-12 3/4 .68 1-1/8
+61A-14 7/8 .62 1-1/4
+
+Anderson Fittings Compression Fittings
+53 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+161A NUT, LONG REF SAE 060111
+PART O.D. 
+NUMBER TUBE A HEX
+161A-2 1/8 .50 3/8
+161A-3 3/16 .44 7/16
+161A-4 1/4 .75 1/2
+161A-5 5/16 .84 9/16
+161A-6 3/8 .97 5/8
+161A-8 1/2 1.06 13/16
+161A-10 5/8 1.19 15/16
+161A-12 3/4 1.38 1-3/16
+62A UNION TUBE BOTH ENDS REF SAE 060101BA
+PART O.D. 
+NUMBER TUBE A B HEX
+62A-22 1/8 1.06 .66 5/16
+62A-33 3/16 1.23 .75 3/8
+62A-42 1/4X1/8 1.30 .80 7/16
+62A-43 1/4X3/16 1.05 .75 7/16
+62A-44 1/4 1.21 .81 7/16
+62A-54 5/16X1/4 1.31 .81 1/2
+62A-55 5/16 1.38 .88 1/2
+62A-64 3/8X1/4 1.46 .91 9/16
+62A-65 3/8X5/16 1.46 .91 9/16
+62A-66 3/8 1.54 .97 9/16
+62A-77 7/16 1.70 1.04 5/8
+62A-86 1/2X3/8 1.82 1.03 11/16
+62A-88 1/2 1.90 1.06 11/16
+62A-106 5/8X3/8 1.88 1.03 13/16
+62A-108 5/8X1/2 1.90 1.09 13/16
+62A-1010 5/8 1.90 1.09 13/16
+62A-1212 3/4 2.30 1.44 1
+62A-1414 7/8 2.03 1.19 1-1/8
+62BH  BULKHEAD UNION TUBE BOTH ENDS
+PART O.D. 
+NUMBER TUBE A B HEX
+62BH-4 1/4 2.23 1.75 9/16
+62BH-6 3/8 2.40 1.80 5/8
+62ATS  UNION, DRILLED THRU TUBE BOTH ENDS
+PART O.D. 
+NUMBER TUBE A B HEX
+62ATS-44 1/4 1.21 .81 7/16
+62ATS-66 3/8 1.54 .97 9/16
+62ATS-88 1/2 1.90 1.06 11/16
+62ATS-1010 5/8 1.90 1.09 13/16
+
+Anderson Fittings Compression Fittings
+54 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+63A CHECK VALVE TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+63A-4A 1/4 1/8 1.10 .88 7/16
+63A-6B 3/8 1/4 1.44 1.16 9/16
+64A TEE, TUBE ALL ENDS REF SAE 060401
+PART O.D. 
+NUMBER TUBE A B
+64A-22* 1/8 .82 .62
+64A-33* 3/16 .84 .60
+64A-44 1/4 .86 .62
+64AF-44 1/4 .86 .62
+64A-55 5/16 1.00 .73
+64A-664 3/8X1/4 .98 .68
+64A-66 3/8 .99 .73
+64AF-66 3/8 1.06 .74
+64A-88 1/2 1.33 .93
+64AF-88 1/2 1.27 .96
+64A-1010 5/8 1.48 1.06
+64A-1212* 3/4 1.69 1.25
+64A-1414* 7/8 1.70 1.30
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+65A ELBOW, TUBE BOTH ENDS REF SAE 060201
+PART O.D. 
+NUMBER TUBE A B
+65A-22* 1/8 .82 .62
+65A-33* 3/16 .87 .63
+65A-44 1/4 .76 .52
+65AF-44 1/4 .84 .60
+65A-55* 5/16 .91 .65
+65A-64* 3/8x1/4 .95 .68
+65A-66 3/8 1.03 .75
+65AF-66 3/8 1.03 .75
+65A-88 1/2 1.28 .88
+65A-86* 1/2x3/8 1.50 1.30
+65A-1010 5/8 1.48 1.06
+65A-106* 5/8x3/8 1.40 1.20
+65A-108* 5/8x1/2 1.40 1.20
+65A-1212* 3/4 1.62 1.18
+65A-1414* 7/8 1.78 1.38
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+66A ADAPTER, TUBE TO FPT REF SAE 060103
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+66A-2A 1/8 1/8 .95 .75 9/16
+66A-3A 3/16 1/8 1.02 .78 9/16
+66A-3B 3/16 1/4 1.20 .96 11/16
+
+Anderson Fittings Compression Fittings
+55 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+66A ADAPTER, TUBE TO FPT CONTINUED REF SAE 060103
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+66A-4A 1/4 1/8 .94 .70 1/2
+66A-4B 1/4 1/4 1.12 .88 5/8
+66A-4C 1/4 3/8 1.24 1.00 3/4
+66A-4D 1/4 1/2 1.27 1.03 7/8
+66A-5A 5/16 1/8 1.07 .81 1/2
+66A-5B 5/16 1/4 1.17 .91 5/8
+66A-5C 5/16 3/8 1.30 1.10 3/4
+66A-6A 3/8 1/8 1.09 .81 9/16
+66A-6B 3/8 1/4 1.22 .94 5/8
+66A-6C 3/8 3/8 1.28 1.00 13/16
+66A-6D 3/8 1/2 1.34 1.03 7/8
+66A-6E 3/8 3/4 1.50 1.25 1-1/8
+66A-8B 1/2 1/4 1.49 1.09 11/16
+66A-8C 1/2 3/8 1.48 1.06 13/16
+66A-8D 1/2 1/2 1.48 1.05 7/8
+66A-8E 1/2 3/4 1.50 1.25 1-1/8
+66A-10C 5/8 3/8 1.54 1.06 13/16
+66A-10D 5/8 1/2 1.54 1.06 7/8
+66A-10E 5/8 3/4 1.64 1.16 1-1/8
+66A-12D 3/4 1/2 1.73 1.26 7/8
+66A-12E 3/4 3/4 1.82 1.28 13/16
+66A-14E 7/8 3/4 1.65 1.25 1-1/8
+66AS  FAUCET ADAPTER, TUBE TO SOLDER
+PART O.D. 
+NUMBER TUBE A B HEX
+66AS-610 3/8X5/8 1.32 .94 3/4
+66ATS  ADAPTER, DRILLED THRU TUBE TO FPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+66ATS-6D 3/8 1/2 1.34 1.03 7/8
+66ATS-8D 1/2 1/2 1.48 1.05 7/8
+68A CONNECTOR, TUBE TO MPT REF SAE 060102BA
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+68A-2A 1/8 1/8 .98 .78 7/16
+68A-3A 3/16 1/8 1.08 .84 7/16
+68A-3B 3/16 1/4 1.27 1.03 9/16
+68A-4A 1/4 1/8 1.12 .88 9/16
+68A-4B 1/4 1/4 1.21 .97 9/16
+68A-4C 1/4 3/8 1.27 1.03 11/16
+
+Anderson Fittings Compression Fittings
+56 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+68A CONNECTOR, TUBE TO MPT CONTINUED REF SAE 060102BA
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+68A-4D 1/4 1/2 1.27 1.00 13/16
+68A-5A 5/16 1/8 1.18 .91 1/2
+68A-5B 5/16 1/4 1.23 .97 9/16
+68A-5C 5/16 3/8 1.33 1.06 11/16
+68A-6A 3/8 1/8 1.22 .94 9/16
+68A-6B 3/8 1/4 1.31 1.03 9/16
+68A-6C 3/8 3/8 1.39 1.09 11/16
+68A-6D 3/8 1/2 1.32 1.06 13/16
+68A-6E 3/8 3/4 1.59 1.31 1-1/16
+68A-7B 7/16 1/4 1.39 1.06 5/8
+68A-7C 7/16 3/8 1.45 1.12 11/16
+68A-8B 1/2 1/4 1.49 1.09 11/16
+68A-8C 1/2 3/8 1.54 1.16 11/16
+68A-8D 1/2 1/2 1.49 1.09 13/16
+68A-8E 1/2 3/4 1.78 1.38 1-1/16
+68A-10C 5/8 3/8 1.54 1.12 13/16
+68A-10D 5/8 1/2 1.54 1.12 13/16
+68A-10E 5/8 3/4 1.80 1.38 1-1/16
+68A-12D 3/4 1/2 1.89 1.44 1
+68A-12E 3/4 3/4 1.95 1.50 1-1/16
+68A-14D 7/8 1/2 1.67 1.25 1-1/8
+68A-14E 7/8 3/4 1.67 1.25 1-1/8
+68ATS  CONNECTOR, DRILLED THRU TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+68ATS-2A 1/8 1/8 .98 .78 7/16
+68ATS-3A 3/16 1/8 1.08 .84 7/16
+68ATS-4A 1/4 1/8 1.12 .88 7/16
+68ATS-4B 1/4 1/4 1.21 .97 9/16
+68ATS-5B 5/16 1/4 1.23 .97 9/16
+68ATS-6B 3/8 1/4 1.31 1.03 9/16
+68ATS-6C 3/8 3/8 1.39 1.09 11/16
+68ATS-6D 3/8 1/2 1.32 1.06 13/16
+68ATS-8C 1/2 3/8 1.54 1.16 11/16
+68ATS-8D 1/2 1/2 1.49 1.09 13/16
+68ATS-10D 5/8 1/2 1.54 1.12 13/16
+68ATS-10E 5/8 3/4 1.80 1.38 1-1/16
+6945A ELBOW, 45° TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+6945A-4A* 1/4 1/8 .90 .66 .56
+6945A-6B* 3/8 1/4 .90 .62 .84
+6945A-8C* 1/2 3/8 1.14 .78 .88
+6945A-10D* 5/8 1/2 1.28 .95 1.10
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+
+Anderson Fittings Compression Fittings
+57 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+69A ELBOW, 90° TUBE TO MPT REF SAE 060202BA
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+69A-2A 1/8 1/8 .79 .59 .72
+69A-3A 3/16 1/8 .86 .62 .72
+69AF-3A 3/16 1/8 .86 .62 .72
+69A-3B* 3/16 1/4 .83 .59 .81
+69A-4A 1/4 1/8 .86 .62 .75
+69AF-4A 1/4 1/8 .86 .62 .75
+69A-4B 1/4 1/4 .85 .61 .81
+69AF-4B 1/4 1/4 .86 .62 .81
+69A-4C 1/4 3/8 .86 .62 .89
+69A-4D* 1/4 1/2 1.07 .81 1.14
+69A-5A 5/16 1/8 .85 .59 .68
+69AF-5A 5/16 1/8 .94 .66 .73
+69A-5B 5/16 1/4 .92 .66 .84
+69AF-5B 5/16 1/4 .92 .66 .81
+69A-5C* 5/16 3/8 .98 .72 .91
+69A-6A 3/8 1/8 1.08 .80 .66
+69A-6B 3/8 1/4 1.08 .80 .93
+69AF-6B 3/8 1/4 1.12 .84 .73
+69A-6C 3/8 3/8 1.05 .77 .93
+69AF-6C 3/8 3/8 1.06 .78 .91
+69A-6D 3/8 1/2 1.16 .88 1.12
+69A-6E* 3/8 3/4 1.30 1.00 1.30
+69A-7B* 7/16 1/4 1.19 .85 1.00
+69A-8B 1/2 1/4 1.25 .88 1.03
+69A-8C 1/2 3/8 1.25 .88 1.03
+69AF-8C 1/2 3/8 1.25 .88 1.03
+69A-8D 1/2 1/2 1.32 .94 1.12
+69A-8E* 1/2 3/4 1.45 1.13 1.26
+69A-10C 5/8 3/8 1.41 1.06 1.12
+69A-10D 5/8 1/2 1.41 1.06 1.16
+69A-10E* 5/8 3/4 1.45 1.16 1.26
+69A-12D* 3/4 1/2 1.64 1.16 1.18
+69A-12E* 3/4 3/4 1.76 1.28 1.31
+69A-14E* 7/8 3/4 1.85 1.25 1.38
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+70A ELBOW, 90° TUBE TO FPT REF SAE 060203BA
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+70A-2A* 1/8 1/8 1.16 .94 .54
+70A-3A* 3/16 1/8 1.26 .98 .57
+70A-4A 1/4 1/8 .92 .68 .47
+70A-4B* 1/4 1/4 .99 .75 .59
+70A-4C* 1/4 3/8 1.10 .88 .54
+70A-5A* 5/16 1/8 1.33 1.20 .82
+70A-5B* 5/16 1/4 1.43 1.15 .50
+70A-6A* 3/8 1/8 1.10 .75 .84
+70A-6B* 3/8 1/4 1.13 .78 .59
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+
+Anderson Fittings Compression Fittings
+58 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+70A ELBOW, 90° TUBE TO FPT CONTINUED REF SAE 060203BA
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+70A-6C 3/8 3/8 1.56 1.26 .61
+70A-6D 3/8 1/2 1.32 .97 .66
+70A-8B* 1/2 1/4 1.82 1.49 .68
+70A-8C* 1/2 3/8 1.53 1.19 .66
+70A-8D* 1/2 1/2 1.89 1.53 .70
+70A-8E* 1/2 3/4 1.89 1.53 .78
+70A-10C* 5/8 3/8 1.70 1.20 .80
+70A-10D* 5/8 1/2 1.41 1.03 .76
+70A-10E* 5/8 3/4 2.12 1.85 .78
+70A-12D* 3/4 1/2 2.29 1.80 1.24
+70A-12E* 3/4 3/4 2.36 1.87 .92
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+71A MALE RUN TEE, TUBE TO MPT TO TUBE
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+71A-2A* 1/8 1/8 .86 .66 .66
+71A-3A* 3/16 1/8 .88 .63 .61
+71A-4A* 1/4 1/8 .89 .64 .61
+71A-4B* 1/4 1/4 1.02 .68 .68
+71A-5A* 5/16 1/8 1.00 .73 .72
+71A-5B* 5/16 1/4 1.00 .80 .70
+71A-6A* 3/8 1/8 1.06 .75 .81
+71A-6B* 3/8 1/4 1.13 .78 .78
+71A-6C* 3/8 3/8 1.16 .81 .88
+71A-8C* 1/2 3/8 1.27 .91 .97
+71A-8D* 1/2 1/2 1.32 .97 .97
+71A-10D* 5/8 1/2 1.52 1.08 1.09
+71A-12D* 3/4 1/2 1.65 1.18 1.21
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+72A MALE BRANCH TEE, TUBE TO TUBE TO MPT REF SAE 060425BA
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+72A-2A* 1/8 1/8 .83 .61 .65
+72A-3A* 3/16 1/8 .89 .63 .70
+72A-4A 1/4 1/8 .92 .63 .75
+72A-4B 1/4 1/4 .98 .68 .87
+72A-5A* 5/16 1/8 .98 .75 .74
+72A-5B* 5/16 1/4 1.05 .75 .88
+72A-6A* 3/8 1/8 1.05 .75 .73
+72A-6B 3/8 1/4 1.10 .78 .85
+72A-6C* 3/8 3/8 1.10 .78 .96
+72A-8C* 1/2 3/8 1.31 .94 1.13
+72A-8D* 1/2 1/2 1.33 .97 1.20
+72A-10D* 5/8 1/2 1.42 1.05 1.31
+72A-12D* 3/4 1/2 1.72 1.23 1.32
+72A-12E* 3/4 3/4 1.72 1.25 1.50
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+
+Anderson Fittings Compression Fittings
+59 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+76A STREET TEE, FPT TO MPT TO TUBE
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+76A-2A* 1/8 1/8 .85 .61 .48
+76A-4A* 1/4 1/8 .85 .57 .45
+76A-4B* 1/4 1/4 .98 .71 .98
+76A-6B* 3/8 1/4 1.09 .82 .98
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+77A FEMALE BRANCH TEE, TUBE TO FPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+77A-4A* 1/4 1/8 1.70 1.56
+77A-4B* 1/4 1/4 1.70 1.57
+77A-6A* 3/8 1/8 1.75 1.50
+77A-6B* 3/8 1/4 1.90 1.60
+77A-6C* 3/8 3/8 1.90 1.60
+77A-8A* 1/2 1/8 2.20 1.90
+77A-10A* 5/8 1/8 2.50 2.13
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+81LB  CONTROL NUT
+PART O.D. 
+NUMBER TUBE A HEX
+81LB-4 1/4 .62 7/16
+N5CT  COMPRESSION CAP
+PART
+NUMBER SIZE A HEX
+N5CT-4 1/4 .438 1/2
+N5CT-6 3/8 .468 5/8
+N5CT-8 1/2 .562 3/4
+N5CT-10 5/8 .563 7/8
+U144  ADAPTER, MALE FLARE X MALE COMPRESSION
+PART
+NUMBER SIZE A HEX
+U144-CC 1/4X1/4 .990 7/16
+U5CC  ADAPTER, FEMALE FLARE X MALE COMPRESSION
+PART
+NUMBER SIZE A HEX
+U5CC-44 1/4X1/4 .875 9/16
+U5CC-46 1/4X3/8 .81 9/16
+U6C-CL ADAPTER, MALE COMPRESSION TO CLOSET
+PART
+NUMBER SIZE A HEX
+U6C-CL-6 3/8 1.063 1-1/16
+
+Anderson Fittings Compression Fittings
+60 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+U6CC  ADAPTER, MALE COMPRESSION TO FEMALE COMPRESSION
+PART
+NUMBER SIZE A HEX
+U6CC-46 1/4X3/8 .88 5/8
+U6CC-67 3/8X7/16 .94 13/16
+U6CC-68 3/8X1/2 .94 13/16
+U6CF  ADAPTER, MALE COMPRESSION TO FAUCET
+PART
+NUMBER SIZE A HEX
+U6CF-6 3/8 1.03 7/8
+U6C-FF  ADAPTER, MALE COMPRESSION X FINE THREAD FEMALE FLARE
+PART
+NUMBER SIZE A HEX
+U6C-FF-46 1/4X3/8 .88 5/8
+U6C-FF-66 3/8X3/8 .94 5/8
+U6C-FF-68 3/8X1/2 .94 1-3/16
+U6FC  ADAPTER, IPS MALE TO FEMALE COMPRESSION
+PART
+NUMBER SIZE A HEX
+U6FC-MP-68 1/2X3/8 1.16 13/16
+U6FC-MP-88 1/2X1/2 1.19 13/16
+
+Anderson Fittings Double Compression
+61 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Two piece, body and nut
+• Straights and shapes are manufactured from CA360, CA345 or CA377 brass
+ADVANTAGES
+• No special tubing preparation 
+• Compact assembly
+• Low cost
+• Ease of assembly
+APPLICATIONS
+• Compatible with soft metal tubing.
+• Low to medium pressure
+• Fair vibration resistance
+• Compression type of fitting, nut tightens inside of the fitting, resulting in a compact assembly
+ORDERING INFORMATION
+• Threaded sleeve (double compression) fittings are sold less the nuts
+• Nomenclature example:
+188A – 2A
+NOTES
+• Current price list represents in stock cataloged items.
+• Non-stock items and special parts are available on a quotation basis.
+• Configurations and dimensions are subject to change without notice.
+Type of fitting: Tube to male pipe
+Tube OD: (2/16) 1/8"
+Pipe thread: 1/8"
+
+Anderson Fittings Double Compression Fittings
+62 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+181A NUT
+PART O.D. 
+NUMBER TUBE A HEX
+181A-2 1/8 .50 5/16
+181A-3 3/16 .53 3/8
+181A-4 1/4 .56 7/16
+181A-5 5/16 .60 1/2
+181A-6 3/8 .60 9/16
+188A CONNECTOR, TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A HEX
+188A-2A 1/8 1/8 .63 7/16
+188A-3A 3/16 1/8 .67 7/16
+188A-4A 1/4 1/8 .75 1/2
+188A-5A 5/16 1/8 .88 9/16
+188A-6B 3/8 1/4 .81 5/8
+189A ELBOW, TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+189A-2A 1/8 1/8 .62 .68
+189A-3A 3/16 1/8 .63 .75
+189A-4A 1/4 1/8 .66 .75
+189A-5A 5/16 1/8 .68 .78
+
+Anderson Fittings Poly-Fit Fittings
+63 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Three piece – body, nut and sleeve
+• Straights and shapes are manufactured from CA360 or CA345 brass
+• Sleeves are acetal copolymer or brass
+ADVANTAGES
+• Pre-assembled fittings speeds installation
+• No special tube preparation necessary
+• Can be assembled and diassembled repeatedly
+• POLY-FIT nuts rotate around the sleeve during tightening, preventing the twisting of the tubing
+APPLICATIONS
+• Compatible with high quality thermoplastic, nylon and soft metal tubing. Brass sleeve and nut 
+combination are recommended for use with nylon or metal tubing.
+• For use in instrumentation, automation and signal circuits
+• Pressures and temperatures are governed by the parameters of the tubing involved.
+• Excellent vibration characteristics
+ORDERING INFORMATION
+• Fittings are supplied as an assembly, including the body, nut and sleeve
+• Nomenclature example:
+269PF – 4A
+NOTES
+• Current price list represents in stock cataloged items.
+• Non-stock items and special parts are available on a quotation basis.
+• Configurations and dimensions are subject to change without notice.
+Type of fitting: Male Poly-Fit Elbow
+Tube OD: (4/16) 1/4"
+Pipe thread: 1/8"
+
+Anderson Fittings Poly-Fit Fittings
+64 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+260PF  PLASTIC SLEEVE
+PART O.D. 
+NUMBER TUBE A
+260PF-4 1/4 .32
+260PF-5 5/16 .35
+260PF-6 3/8 .36
+260PF-8 1/2 .41
+260PFB  BRASS SLEEVE
+PART O.D. 
+NUMBER TUBE A
+260PFB-2 1/8 .36
+260PFB-4 1/4 .27
+260PFB-5 5/16 .27
+260PFB-6 3/8 .30
+260PFB-8 1/2 .36
+261PFN  BRASS NUT ONLY
+PART O.D. 
+NUMBER TUBE A HEX
+261PFN-2 1/8 .38 3/8
+261PFN-4 1/4 .34 7/16
+261PFN-5 5/16 .34 1/2
+261PFN-6 3/8 .38 9/16
+261PFN-8 1/2 .42 13/16
+261PF  NUT AND PLASTIC SLEEVE ASSEMBLY
+PART O.D. 
+NUMBER TUBE A HEX
+261PF-4 1/4 .34 7/16
+261PF-5 5/16 .34 1/2
+261PF-6 3/8 .38 9/16
+261PF-8 1/2 .42 13/16
+261PFB  NUT AND BRASS SLEEVE ASSEMBLY
+PART O.D. 
+NUMBER TUBE A HEX
+261PFB-2 1/8 .38 3/8
+261PFB-4 1/4 .34 7/16
+261PFB-5 5/16 .34 1/2
+261PFB-6 3/8 .38 9/16
+261PFB-8 1/2 .42 13/16
+256PF  REDUCING UNION, TUBE TO TUBE
+PART O.D. 
+NUMBER TUBE A B HEX
+256PF-64 3/8X1/4 1.19 .72 1/2
+
+Anderson Fittings Poly-Fit Fittings
+65 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+262PF  UNION, TUBE TO TUBE
+PART O.D. 
+NUMBER TUBE A B HEX
+262PF-2 1/8 1.16 .66 5/16
+262PF-4 1/4 1.13 .69 3/8
+262PF-5 5/16 1.16 .69 7/16
+262PF-6 3/8 1.22 .72 1/2
+262PF-8 1/2 1.34 .84 11/16
+262PFC  UNION, POLY-FIT TO COMPRESSION
+PART O.D. 
+NUMBER TUBE A B HEX
+262PFC-4 1/4 1.25 .75 7/16
+262PFC-6 3/8 1.40 .84 9/16
+264PF  TEE, TUBE ALL ENDS
+PART O.D. 
+NUMBER TUBE A B HEX
+264PF-2 1/8 .88 .63 5/16
+264PF-4 1/4 .84 .63 3/8
+264PF-5 5/16 .86 .63 3/8
+264PF-6 3/8 .90 .66 7/16
+264PF-8 1/2 1.06 .81 5/8
+266PF  ADAPTER, TUBE TO FPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+266PF-2A 1/8 1/8 1.03 .75 9/16
+266PF-4A 1/4 1/8 .97 .75 1/2
+266PF-4B 1/4 1/4 1.16 .94 5/8
+266PF-5A 5/16 1/8 1.00 .75 1/2
+266PF-6B 3/8 1/4 1.19 .94 5/8
+266PF-8C 1/2 3/8 1.25 1.00 13/16
+268PF  CONNECTOR, TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+268PF-2A 1/8 1/8 1.08 .80 7/16
+268PF-2X1032 1/8 10-32 .84 .59 3/8
+268PF-4A 1/4 1/8 1.03 .81 7/16
+268PF-4X1032 1/4 10-32 .97 .75 3/8
+268PF-4B 1/4 1/4 1.19 1.00 9/16
+268PF-4C 1/4 3/8 1.25 1.03 11/16
+268PF-5A 5/16 1/8 1.05 .81 7/16
+268PF-5B 5/16 1/4 1.23 1.00 9/16
+268PF-6A 3/8 1/8 1.09 .84 1/2
+
+Anderson Fittings Poly-Fit Fittings
+66 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+269PF  ELBOW, TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+269PF-2A 1/8 1/8 .88 .62 .69
+269PF-4A 1/4 1/8 .84 .63 .75
+269PF-4B 1/4 1/4 .88 .66 .94
+269PF-4C 1/4 3/8 .97 .75 1.03
+269PF-5A 5/16 1/8 .86 .63 .75
+269PF-6A 3/8 1/8 .88 .63 .75
+269PF-6B 3/8 1/4 .97 .72 .94
+269PF-6C 3/8 3/8 1.03 .78 1.03
+269PF-8C 1/2 3/8 1.03 .78 1.16
+270PF  ELBOW, TUBE TO FPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+270PF-2A 1/8 1/8 .97 .69 .55
+270PF-4A 1/4 1/8 .91 .62 .75
+270PF-4B 1/4 1/4 .94 .72 .88
+270PF-6B 3/8 1/4 .97 .72 .88
+270PF-8C 1/2 3/8 1.15 .90 .94
+271PF  MALE RUN TEE, TUBE TO MPT TO TUBE
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+271PF-2A 1/8 1/8 .90 .62 .69
+271PF-4A 1/4 1/8 .84 .62 .75
+271PF-4B 1/4 1/4 .87 .65 .94
+271PF-5A 5/16 1/8 .86 .67 .75
+271PF-6B 3/8 1/4 .91 .66 .94
+271PF-8C 1/2 3/8 1.06 .81 1.06
+268PF  CONNECTOR, TUBE TO MPT CONTINUED
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+268PF-6B 3/8 1/4 1.28 1.03 9/16
+268PF-6C 3/8 3/8 1.28 1.03 11/16
+268PF-8C 1/2 3/8 1.34 1.09 11/16
+268PF-8D 1/2 1/2 1.62 1.03 11/16
+272PF  MALE BRANCH TEE, TUBE TO TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+272PF-2A 1/8 1/8 .90 .62 .69
+272PF-4A 1/4 1/8 .84 .62 .75
+272PF-4B 1/4 1/4 .87 .66 .94
+272PF-5A 5/16 1/8 .86 .62 .75
+272PF-6A 3/8 1/8 .87 .62 .75
+272PF-6B 3/8 1/4 .90 .66 .94
+272PF-8C 1/2 3/8 1.06 .81 1.06
+
+Anderson Fittings Poly-Fit Fittings
+67 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+277PF  FEMALE BRANCH TEE TUBE TO TUBE TO FPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+277PF-4A 1/4 1/8 .88 .66 .94
+277PF-4B 1/4 1/4 1.08 .84 1.15
+277PF-4C 1/4 3/8 1.08 .84 1.25
+282PF  BULKHEAD UNION TUBE TO TUBE
+PART O.D. 
+NUMBER TUBE A B HEX
+282PF-4 1/4 1.68 1.25 9/16
+282PF-6 3/8 1.81 1.31 5/8
+282PF-8 1/2 2.06 1.56 5/8
+282PFT  BULKHEAD UNION STRAIGHT THRU
+PART O.D. 
+NUMBER TUBE A B HEX
+282PFT-4 1/4 1.22 1.00 9/16
+282PFT-6 3/8 1.31 1.06 11/16
+311PF NEEDLE VALVE,  TUBE TO MPT STRAIGHT
+PART O.D. PIPE
+NUMBER TUBE THEAD A B
+311PF-4A 1/4 1/8 1.25 .94
+311PF-4B 1/4 1/4 1.25 .94
+311PF-6B 3/8 1/4 1.65 1.31
+312PF NEEDLE VALVE,  TUBE TO MPT ANGLE
+PART O.D. PIPE
+NUMBER TUBE THEAD A B
+312PF-4A 1/4 1/8 1.00 1.15
+312PF-6B 3/8 1/4 1.09 1.44
+
+Anderson Fittings Poly-Push Fittings
+68 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Body, locking teeth and release collar are incorporated into the one piece construction
+• Straights and shapes are manufactured from CA360, CA345  or CA377 brass
+• Bottom “O” Ring is made from Buna N
+ADVANTAGES
+• No special tube preparation necessary
+• No special tools needed for assembly
+• Can be assembled and disassembled repeatedly
+• Automatic locking and sealing up to maximum working Pressure of tubing
+• Elbow and tees available with 360° swivel
+• Release collar allows instant removal of tubing
+APPLICATIONS
+• Compatible with high quality thermoplastic and nylon tubing
+• For use in instrumentation, automation and signal circuits
+• Pressures and temperatures are governed by the parameters of the tubing involved.
+• Excellent vibration characteristics
+NOTES
+• Current price list represents in stock cataloged items.
+• Non-stock items and special parts are available on a quotation basis.
+• Configurations and dimensions are subject to change without notice.
+
+262PP STRAIGHT UNION, TUBE TO TUBE
+PART O.D. 
+NUMBER TUBE A B
+262PP-2 1/8 1.31 1.06
+262PP-2.5 5/32 1.31 1.06
+262PP-4 1/4 1.65 1.37
+262PP-5 5/16 1.76 .56
+262PP-6 3/8 1.65 1.38
+262PP-8 1/2 1.85 1.58
+Anderson Fittings Poly-Push Fittings
+69 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+264PP UNION TEE, TUBE TO TUBE TO TUBE
+PART O.D. 
+NUMBER TUBE A B
+264PP-2 1/8 .77 .65
+264PP-2.5 5/32 .79 .66
+264PP-4 1/4 1.02 .88
+264PP-5 5/16 1.07 1.07
+264PP-6 3/8 1.08 .94
+264PP-8 1/2 1.16 1.02
+265PP UNION ELBOW, TUBE TO TUBE
+PART O.D. 
+NUMBER TUBE A B
+265PP-2.5 5/32 .79 .65
+265PP-4 1/4 1.02 .89
+265PP-5 5/16 1.03 1.03
+265PP-6 3/8 1.10 .96
+265PP-8 1/2 1.16 1.02
+266PP FEMALE ADAPTER, TUBE TO FPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+266PP-2A 1/8 1/8 1.07 .95 9/16
+266PP-2.5A 5/32 1/8 1.07 .95 9/16
+266PP-4A 1/4 1/8 1.26 1.12 9/16
+266PP-4B 1/4 1/4 1.45 1.31 3/4
+266PP-6B 3/8 1/4 1.45 1.31 3/4
+266PP-6C 3/8 3/8 1.45 1.31 7/8
+268PP MALE CONNECTOR, TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+268PP-2X 1/8 1/16 .80 .72 3/8
+268PP-2A 1/8 1/8 .73 .61 3/8
+268PP-2.5A 5/32 1/8 .79 .66 7/16
+268PP-2.5B 5/32 1/4 .97 .84 9/16
+268PP-4X 1/4 1/16 1.32 .36 1/2
+268PP-4A 1/4 1/8 1.06 .92 7/16
+268PP-4B 1/4 1/4 1.06 .92 9/16
+
+268PP MALE CONNECTOR, TUBE TO MPT CONTINUED
+PART O.D. PIPE
+NUMBER TUBE THREAD A B HEX
+268PP-4C 1/4 3/8 1.06 .92 11/16
+268PP-5A 5/16 1/8 1.36 .36 9/16
+268PP-5B 5/16 1/4 1.25 .50 9/16
+268PP-6A 3/8 1/8 1.22 1.08 9/16
+268PP-6B 3/8 1/4 1.20 1.06 9/16
+268PP-6C 3/8 3/8 1.08 .94 11/16
+268PP-6D 3/8 1/2 1.06 .92 7/8
+268PP-8C 1/2 3/8 1.31 1.18 11/16
+268PP-8D 1/2 1/2 1.16 1.02 7/8
+Anderson Fittings Poly-Push Fittings
+70 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+269PP MALE ELBOW, TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+269PP-2X 1/8 1/16 .92 .36 .78
+269PP-2A 1/8 1/8 .77 .65 .68
+269PP-2.5A 5/32 1/8 .79 .66 .68
+269PP-2.5B 5/32 1/4 .92 .50 .87
+269PP-4A 1/4 1/8 1.02 .88 .69
+269PP-4B 1/4 1/4 1.02 .88 .94
+269PP-5A 5/16 1/8 1.03 .36 .90
+269PP-5B 5/16 1/4 1.03 .50 .96
+269PP-6B 3/8 1/4 1.08 .94 .94
+269PP-6C 3/8 3/8 1.10 .96 .98
+269PP-8C 1/2 3/8 1.16 1.02 1.04
+269PP-8D 1/2 1/2 1.16 1.02 1.29
+269PPS  360° SWIVEL ELBOW, TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+269PPS-2A 1/8 1/8 .77 .65 1.05
+269PPS-2.5A 5/32 1/8 .79 .66 .87
+269PPS-4A 1/4 1/8 1.02 .88 1.13
+269PPS-4B 1/4 1/4 1.02 .88 1.32
+269PPS-4C 1/4 3/8 1.02 .88 1.32
+269PPS-6B 3/8 1/4 1.08 .94 1.44
+269PPS-6C 3/8 3/8 1.08 .94 1.46
+269PPS-8C 1/2 3/8 1.18 1.04 1.68
+269PPS-8D 1/2 1/2 1.18 1.04 1.19
+270PP FEMALE ELBOW, TUBE TO FPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+270PP-2.5A 5/32 1/8 .93 .75 .600
+270PP-4A 1/4 1/8 1.04 .90 .748
+270PP-6B 3/8 1/4 1.12 .98 .945
+
+271PPS  MALE SWIVEL RUN TEE, TUBE TO MPT TO TUBE
+PART O.D. PIPE
+NUMBER TUBE THREAD A B D
+271PPS-2.5A 5/32 1/8 .77 .65 1.15
+271PPS-4A 1/4 1/8 1.04 .90 1.13
+271PPS-4B 1/4 1/4 1.04 .90 1.32
+271PPS-5A 5/16 1/8 1.03 .33 1.05
+271PPS-6B 3/8 1/4 1.08 .94 1.46
+271PPS-6C 3/8 3/8 1.08 .94 1.46
+271PPS-8C 1/2 3/8 1.18 1.04 1.68
+271PPS-8D 1/2 1/2 1.18 1.04 1.91
+Anderson Fittings Poly-Push Fittings
+71 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+272PPS  MALE SWIVEL BRANCH TEE, TUBE TO TUBE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+272PPS-2.5A 5/32 1/8 .79 .66 1.15
+272PPS-4A 1/4 1/8 1.04 .90 1.13
+272PPS-4B 1/4 1/4 1.04 .90 1.32
+272PPS-5A 5/16 1/8 1.03 .36 1.05
+272PPS-6B 3/8 1/4 1.10 .96 1.44
+272PPS-8C 1/2 3/8 1.18 1.04 1.68
+272PPS-8D 1/2 1/2 1.18 1.04 1.91
+280PP BANJO ELBOW WITH UNF THREAD
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+280PP-2X1032 1/8 10-32 .98 .28 .24
+280PP-2.5X10 5/32 10-32 .58 .28 .24
+281PP BANJO TEE WITH UNF THREAD
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+281PP-2X1032 1/8 10-32 .98 .28 .24
+281PP-2.5X10 5/32 10-32 .98 .28 .24
+282PP MANIFOLD
+PART
+NUMBER PORT X PORT Y A B C
+282PP-44 1/4 1/4 3.77 2.85 3/4
+282PP-42.5 1/4 5/32 3.77 2.85 3/4
+282PP-64 3/8 1/4 4.48 3.35 1
+
+283PP BULKHEAD UNION
+PART O.D. 
+NUMBER TUBE A B C HEX
+283PP-2 1/8 1.39 1.14 .50 5/8
+283PP-2.5 5/32 1.37 1.12 .50 5/8
+283PP-4 1/4 1.96 1.69 .88 11/16
+283PP-5 5/16 .78 1.78 .88 7/8
+283PP-6 3/8 1.96 1.69 .88 13/16
+283PP-8 1/2 2.02 1.75 .75 15/16
+Anderson Fittings Poly-Push Fittings
+72 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+284PP PLUG
+PART O.D. 
+NUMBER TUBE A B
+284PP-2 1/8 1.12 .354
+284PP-2.5 5/32 1.16 .315
+284PP-4 1/4 1.39 .433
+284PP-5 5/16 1.55 .435
+284PP-6 3/8 1.39 .551
+284PP-8 1/2 1.49 .689
+285PP KNURLED MALE CONNECTOR
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+285PP-2X1032 1/8 10-32 .99 .15
+285PP-2.5X10 5/32 10-32 .99 .15
+285PP-4X1032 1/4 10-32 1.25 .15
+285PP UNION REDUCER, TUBE TO TUBE
+PART O.D. 
+NUMBER TUBE A
+286PP-42 1/4X1/8 1.96
+286PP-62 3/8X1/8 2.13
+286PP-42.5 1/4X5/32 1.96
+286PP-52.5 5/16X5/32 1.96
+286PP-62.5 3/8X5/32 2.13
+286PP-54 5/16X1/4 1.96
+286PP-64 3/8X1/4 2.13
+286PP-65 3/8X5/16 2.13
+286PP-84 1/2X1/4 2.25
+286PP-86 1/2X3/8 2.45
+
+Anderson Fittings Nickel Plated Poly Push Fittings
+73 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Body, locking mechanism and release ring are incorporated into one piece construction
+• Straight and shape bodies manufactured from CA360, CA345 or CA377 brass bright nickel plate
+• Thrust ring or button is plastic, sleeve brass nickel plated, gripper collett stainless steel, safety ring
+PA66, lip seal and thread seal NBR70
+• Stainless steel collet design ensures excellent clamping capabilities with nylon, polyethelene and
+polyurethane tubing.
+ADVANTAGES
+• Straights manufactured with an internal hex allowing for ease of installation in restricted spaces.
+• No special tube preparation necessary.
+• Automatic locking and sealing up to maximum working pressure of tubing.
+• Can be assembled and disassembled repeatedly.
+• Elbows and tees available with 360° swivel
+• Offers superior vibration and high impact characteristics
+APPLICA
+TIONS
+• Compatible with polyethelene, polyurethane and nylon tubing 
+(Best results use 95 Durometer tubing)
+• Used in both pressure and vacuum applications
+• Pressures and temperatures are governed by the parameters of the tubing used, limited to 0-250
+psi, vacuum and 0°-160°F
+NOTES
+• Current price list represents in stock cataloged items.
+• Non-stock items and special parts are available on a quotation basis.
+• Configurations and dimensions are subject to change without notice.
+
+262PPNI  STRAIGHT UNION NICKEL PLATED
+PART O.D. 
+NUMBER TUBE A B
+262PPNI-2 1/8 .335 1.063
+262PPNI-2.5 5/32 .406 1.201
+262PPNI-4 1/4 .492 1.378
+262PPNI-5 5/16 .571 1.417
+262PPNI-6 3/8 .689 1.693
+262PPNI-8 1/2 .807 1.929
+Anderson Fittings Nickel Plated Poly Push Fittings
+74 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+264PPNI  UNION TEE NICKEL PLATED
+PART O.D. 
+NUMBER TUBE A B C
+264PPNI-2 1/8 1.339 .669 .354
+264PPNI-2.5 5/32 1.339 .669 .354
+264PPNI-4 1/4 1.654 .827 .433
+264PPNI-5 5/16 1.772 .886 .512
+264PPNI-6 3/8 2.087 1.043 .630
+264PPNI-8 1/2 2.402 1.201 .748
+265PPNI  UNION ELBOW NICKEL PLATED
+PART O.D. 
+NUMBER TUBE A B
+265PPNI-2 1/8 .669 .354
+265PPNI-2.5 5/32 .669 .354
+265PPNI-4 1/4 .827 .433
+265PPNI-5 5/16 .886 .512
+265PPNI-6 3/8 1.043 .630
+265PPNI-8 1/2 1.201 .748
+266PPNI  FEMALE ADAPTER NICKEL PLATED
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+266PPNI-2A 1/8 1/8 .354 .925 .512
+266PPNI-2B 1/8 1/4 .512 1.142 .630
+266PPNI-2.5A 5/32 1/8 .354 .965 .512
+266PPNI-2.5B 5/32 1/4 .512 1.181 .630
+266PPNI-4A 1/4 1/8 .354 1.063 .512
+266PPNI-4B 1/4 1/4 .512 1.26 .630
+266PPNI-6B 3/8 1/4 .512 1.378 .709
+266PPNI-6C 3/8 3/8 .512 1.378 .787
+268PPNI  MALE CONNECTOR NICKEL PLATED
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+268PPNI-2A 1/8 1/8 .335 .768 .433
+268PPNI-2B 1/8 1/4 .512 .965 .551
+268PPNI-2.5A 5/32 1/8 .335 .826 .433
+268PPNI-2.5B 5/32 1/4 .512 .984 .551
+
+268PPNI  MALE CONNECTOR NICKEL PLATED CONTINUED
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+268PPNI-4A 1/4 1/8 .335 .984 .512
+268PPNI-4B 1/4 1/4 .512 .984 .551
+268PPNI-4C 1/4 3/8 .512 .984 .709
+268PPNI-5A 5/16 1/8 .335 .984 .551
+268PPNI-5B 5/16 1/4 .512 1.082 .551
+268PPNI-5C 5/16 3/8 .512 1.082 .709
+268PPNI-6A 3/8 1/8 .335 1.378 .669
+268PPNI-6B 3/8 1/4 .512 1.319 .669
+268PPNI-6C 3/8 3/8 .512 1.319 .709
+268PPNI-6D 3/8 1/2 .669 1.319 .866
+268PPNI-8B 1/2 1/4 .512 1.535 .787
+268PPNI-8C 1/2 3/8 .512 1.417 .787
+268PPNI-8D 1/2 1/2 .669 1.575 .866
+Anderson Fittings Nickel Plated Poly Push Fittings
+75 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+268PPNI  MALE CONNECTOR NICKEL PLATED
+PART O.D. 
+NUMBER TUBE UNF A B C
+268PPNI-2x1032 1/8 10/32 .197 .748 .315
+268PPNI-2.5x1032 5/32 10/32 .197 .827 .394
+268PPNI-4x1032 1/4 10/32 .197 .966 .512
+269PPNI  MALE ELBOW NICKEL PLATED
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+269PPNI-4A 1/4 1/8 .335 .827 .728
+269PPNI-4B 1/4 1/4 .512 .827 .905
+269PPNI-6B 3/8 1/4 .512 1.043 1.043
+269PPNI-6C 3/8 3/8 .512 1.043 1.004
+269PPSNI  MALE SWIVEL ELBOW NICKEL PLATED
+PART O.D. PIPE
+NUMBER TUBE THREAD ABCDE
+269PPSNI-2A 1/8 1/8 .335 .669 .906 .354 .512
+269PPSNI-2B 1/8 1/4 .512 .669 1.181 .354 .591
+269PPSNI-2.5A 5/32 1/8 .335 .669 .906 .354 .512
+269PPSNI-2.5B 5/32 1/4 .512 .669 1.181 .354 .591
+269PPSNI-4A 1/4 1/8 .335 .827 .984 .433 .512
+269PPSNI-4B 1/4 1/4 .512 .827 1.22 .433 .591
+269PPSNI-4C 1/4 3/8 .512 .827 1.28 .433 .709
+269PPSNI-5A 5/16 1/8 .335 .886 1.043 .512 .512
+269PPSNI-5B 5/16 1/4 .512 .886 1.26 .512 .591
+269PPSNI-5C 5/16 3/8 .512 .886 1.28 .512 .709
+269PPSNI-6A 3/8 1/8 .335 1.043 1.142 .630 .512
+269PPSNI-6B 3/8 1/4 .512 1.043 1.339 .630 .591
+269PPSNI-6C 3/8 3/8 .512 1.043 1.358 .630 .709
+269PPSNI-6D 3/8 1/2 .669 1.043 1.614 .630 .866
+
+269PPSNI  MALE SWIVEL ELBOW NICKEL PLATED CONTINUED
+PART O.D. PIPE
+NUMBER TUBE THREAD ABCDE
+269PPSNI-8B 1/2 1/4 .512 1.201 1.476 .748 .591
+269PPSNI-8C 1/2 3/8 .512 1.201 1.476 .748 .709
+269PPSNI-8D 1/2 1/2 .669 1.201 1.732 .748 .866
+269PPSNI  MALE SWIVEL ELBOW NICKEL PLATED
+PART O.D. 
+NUMBER TUBE UNF ABCDE
+269PPSNI-2X1032 1/8 10/32 .197 .669 .787 .354 .315
+269PPSNI-2.5X1032 5/32 10/32 .197 .669 .787 .354 .315
+269PPSNI-4X1032 1/4 10/32 .197 .827 .866 .433 .315
+Anderson Fittings Nickel Plated Poly Push Fittings
+76 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+271PPSNI  MALE SWIVEL RUN TEE NICKEL PLATED
+PART O.D. PIPE
+NUMBER TUBE THREAD ABCDE
+271PPSNI-2A 1/8 1/8 .335 .669 .906 .354 .512
+271PPSNI-2B 1/8 1/4 .335 .669 1.181 .354 .591
+271PPSNI-2.5A 5/32 1/8 .335 .669 .906 .354 .512
+271PPSNI-4A 1/4 1/8 .335 .827 .984 .433 .512
+271PPSNI-4B 1/4 1/4 .512 .827 1.22 .433 .591
+271PPSNI-6B 3/8 1/4 .512 1.043 1.339 .630 .591
+271PPSNI-6C 3/8 3/8 .512 1.043 1.358 .630 .709
+271PPSNI-6D 3/8 1/2 .669 1.043 1.614 .630 .866
+271PPSNI-8B 1/2 1/4 .512 1.201 1.476 .748 .591
+271PPSNI-8C 1/2 3/8 .512 1.201 1.476 .748 .709
+271PPSNI-8D 1/2 1/2 .669 1.201 1.732 .748 .866
+271PPSNI  MALE SWIVEL RUN TEE NICKEL PLATED
+PART O.D. 
+NUMBER TUBE UNF ABCDE
+271PPSNI-2X1032 1/8 10/32 .197 .669 .787 .354 .315
+271PPSNI-2.5X1032 5/32 10/32 .197 .669 .787 .354 .315
+272PPSNI  MALE SWIVEL BRANCH TEE NICKEL PLATED
+PART O.D. PIPE
+NUMBER TUBE THREAD ABCDE
+272PPSNI-2A 1/8 1/8 .295 1.339 .906 .354 .512
+272PPSNI-2B 1/8 1/4 .512 1.339 1.181 .354 .591
+272PPSNI-2.5A 5/32 1/8 .295 1.339 .906 .354 .512
+272PPSNI-2.5B 5/32 1/4 .512 1.339 1.181 .354 .591
+272PPSNI-4A 1/4 1/8 .295 1.654 .984 .433 .512
+
+272PPSNI  MALE SWIVEL BRANCH TEE NICKEL PLATED CONTINUED
+PART O.D. PIPE
+NUMBER TUBE THREAD ABCDE
+272PPSNI-4B 1/4 1/4 .512 1.654 1.22 .433 .591
+272PPSNI-6B 3/8 1/4 .512 2.087 1.339 .630 .591
+272PPSNI-6C 3/8 3/8 .512 2.087 1.358 .630 .709
+272PPSNI-6D 3/8 1/2 .669 2.087 1.614 .630 .866
+272PPSNI-8B 1/2 1/4 .512 2.402 1.476 .748 .591
+272PPSNI-8C 1/2 3/8 .512 2.402 1.476 .748 .709
+272PPSNI-8D 1/2 1/2 .669 2.402 1.732 .748 .866
+Anderson Fittings Nickel Plated Poly Push Fittings
+77 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+272PPSNI  MALE SWIVEL BRANCH TEE NICKEL PLATED 
+PART O.D. 
+NUMBER TUBE UNF ABCDE
+272PPSNI-2X1032 1/8 10/32 .197 1.339 .787 .354 .315
+272PPSNI-2.5X1032 5/32 10/32 .197 1.339 .787 .354 .315
+283PPNI  BULKHEAD CONNECTOR NICKEL PLATED
+PART O.D. 
+NUMBER TUBE A B C
+283PPNI-2 1/8 1.063 .551 .197
+283PPNI-2.5 5/32 1.240 .669 .276
+283PPNI-4 1/4 1.378 .669 .374
+283PPNI-5 5/16 1.457 .748 .413
+283PPNI-6 3/8 1.693 .945 .492
+283PPNI-8 1/2 1.890 1.024 .650
+286PPNI  UNION REDUCER NICKEL PLATED
+PART (A) (B)
+NUMBER O.D. TUBE O.D. TUBE C
+286PPNI-42 1/4 1/8 1.142
+286PPNI-4-2.5 1/4 5/32 1.181
+286PPNI-64 3/8 1/4 1.496
+286PPNI-84 1/2 1/4 1.693
+286PPNI-86 1/2 3/8 1.693
+953PPNI  FLOW CONTROL VALVE NICKEL PLATED
+PART O.D. 
+NUMBER TUBE ABCDE
+953PPNI-2A 1/8 1/8 .217 .827 1.181 .551
+953PPNI-4A 1/4 1/8 .217 .866 1.181 .551
+953PPNI-4B 1/4 1/4 .276 .984 1.417 .669
+• Flow control with push in banjo body, controlled flow out brass nickel plated body, for 
+filtered air to 145 psi
+
+300PPNI  MINI BALL VALVE, FEMALE NPTF, CHROME PLATED
+PART PIPE PIPE
+NUMBER THREAD THREAD ORIFICE A B C
+300PPNI-2A 1/8 1/8 .217 1.476 .748 .827
+300PPNI-4B 1/4 1/4 .217 1.811 .748 .827
+300PPNI-6C 3/8 3/8 .315 1.909 .748 .866
+300PPNI-8D 1/2 1/2 .394 2.441 1.024 1.201
+310PPNI  MINI BALL VALVE, MALE NPTF TO FEMALE NPTF, CHROME PLATED
+PART PIPE PIPE
+NUMBER THREAD THREAD ORIFICE A B C D E
+310PPNI-2A 1/8 1/8 .217 .551 .335 1.457 .827 .748
+310PPNI-4B 1/4 1/4 .217 .551 .512 1.811 .827 .748
+310PPNI-6C 3/8 3/8 .315 .709 .512 1.87 .866 .748
+310PPNI-8D 1/2 1/2 .394 .866 .669 2.362 1.024 1.201
+*Mini ball valve used with air, oil, water and gas to 250 psi, chrome plated brass, teflon ball seat, 
+chrome plated brass ball
+Anderson Fittings Nickel Plated Poly Push Fittings
+78 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+958PPNI  FLOW CONTROL VALVE NICKEL PLATED
+PART O.D. (A)
+NUMBER TUBE PIPE B C-MIN. D-MAX. E
+958PPNI-2A 1/8 1/8 .217 1.614 1.83 .551
+958PPNI-4A 1/4 1/8 .217 1.614 1.83 .551
+958PPNI-4B 1/4 1/4 .276 1.85 2.086 .669
+• Flow control with poly push banjo body & knob, controlled flow out brass nickel plated 
+body, for filtered air to 145 psi
+
+Anderson Fittings Plastic Poly Push
+79 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Fitting is of three piece construction, body, collet and o-ring preassembed
+• Material acetal copolymer or polypropylene
+• O-ring manufactured from nitrile rubber or EPDM
+• Collets are produced with stainless steel locking teeth
+Maximum Pressures & Temperatures Maximum Torque
+ADVANTAGES
+• FDA Compliant and NSF 51 listed non toxic material
+• Wide variety of sizes to meet a broad range of applications
+• Easy to install – no tools required
+• Easy to disconnect and reuse
+• Elbows and tees available with 360 degree swivel
+• color coded clips allow color coding independent runs or lines
+Chart on Adaptability
+• Examine the possible combinations for new design
+• Unlike some products disassembly and reuse is readily accomplished
+APPLICA
+TIONS
+• Water conditioning, filtration, reverse osmosis, soft drink, beer and condiment dispensing equipment
+where metal contamination can be present.
+• Industrial applications include low pressure pneumatic, hydraulic and vacuum lines commonly used
+in packaging systems, robotics, machine tools, agricultural spraying, car and industrial wash sys-
+tems and air logic systems.
+standards 5/32” 3/16” 1/4” 5/16” 3/8” 1/2”
+Items 4mm 5mm 6mm 8mm 10mm 12mm
+Water Pressure(psi) 230 170
+Temperatures -20° F(-29°C)~+185°F(85°C)
+Threads 1/8”, 1/4” 3/8”, 1/2”
+Maximum 1.5N • M 3.0 N • M
+Torque 15kgf • cm 30kgf • cm
+
+462  STRAIGHT UNION
+ACETAL POLYPROPYLENE
+PART PART O.D. 
+NUMBER NUMBER TUBE A B C
+462ACT-2.5 5/32 1.352 .512 .512
+462ACT-3 3/16 1.352 .512 .512
+462ACT-4 462PRY-4 1/4 1.406 .591 .591
+462ACT-45 1/4 X 5/16 1.617 .697 .697
+462ACT-5 5/16 1.620 .697 .697
+462ACT-53 5/16 X 3/16 1.648 .697 .512
+462ACT-6 462PRY-6 3/8 1.647 .783 .783
+462ACT-63 3/8 X 3/16 1.661 .783 .512
+462ACT-64 3/8 X 1/4 1.624 .783 .783
+462ACT-65 3/8 X 5/16 1.627 .783 .783
+462ACT-8 462PRY-8 1/2 1.973 .906 .906
+462ACT-85 1/2 X 5/16 1.926 .906 .906
+462ACT-86 1/2 X 3/8 1.947 .906 .906
+464  UNION TEE
+ACETAL POLYPROPYLENE
+PART PART O.D. 
+NUMBER NUMBER TUBE RUN ABCDEF
+464ACT-2.5 5/32 5/32 1.366 .939 .683 .683 .512 .512
+464ACT-3 3/16 3/16 1.366 .939 .683 .683 .512 .512
+464ACT-4 464PRY-4 1/4 1/4 1.551 1.075 .785 .776 .594 .594
+464ACT-5 5/16 5/16 1.636 1.169 .82 .817 .697 .697
+464ACT-6 464PRY-6 3/8 3/8 1.972 1.374 .986 .986 .776 .776
+464ACT-664 3/8 1/4 1.972 1.350 .951 .986 .776 .594
+464ACT-8 464PRY-8 1/2 1/2 2.355 1.636 1.183 1.177 .906 .906
+464ACT-886 1/2 3/8 2.355 1.602 1.15 1.177 .906 .776
+465  UNION ELBOW
+ACETAL POLYPROPYLENE
+PART PART O.D. 
+NUMBER NUMBER TUBE ABCDEF
+465ACT-2.5 5/32 1.908 1.908 1.388 1.388 1.040 1.040
+465ACT-3 3/16 1.908 1.908 1.388 1.388 1.040 1.040
+465ACT-4 465PRY-4 1/4 2.182 2.182 1.502 1.502 1.20 1.20
+465ACT-5 5/16 2.392 2.392 1.684 1.684 1.416 1.416
+465ACT-52.5 5/16 X 5/32 2.204 2.411 1.684 1.699 1.424 1.034
+465ACT-53 5/16 X 3/16 2.204 2.411 1.684 1.699 1.424 1.040
+465ACT-54 5/16 X 1/4 2.392 2.38 1.684 1.672 1.416 1.416
+465ACT-6 465PRY-6 3/8 2.811 2.811 2.027 2.027 1.568 1.568
+465ACT-63 3/8 X 3/16 2.294 2.524 1.774 1.728 1.592 1.038
+465ACT-64 3/8 X 1/4 2.485 2.686 1.885 1.86 1.592 1.200
+465ACT-65 3/8 X 5/16 2.811 2.775 2.027 1.991 1.568 1.568
+465ACT-8 465PRY-8 1/2 3.376 3.308 2.468 2.400 1.816 1.816
+465ACT-86 1/2 X 3/8 3.376 3.308 2.468 2.400 1.816 1.816
+Anderson Fittings Plastic Poly Push
+80 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+465  UNION ELBOW STEM
+ACETAL POLYPROPYLENE
+PART PART O.D. O.D. 
+NUMBER NUMBER TUBE STEM ABCDE
+465ACTS-2.5 5/32 5/32 .886 .512 .413 .618 .157
+465ACTS-3 3/16 3/16 .886 .516 .403 .625 .187
+465ACTS-4 1/4 1/4 .954 .591 .374 .719 .250
+465ACTS-46 1/4 3/8 1.069 .694 .492 .976 .381
+465ACTS-5 5/16 5/16 .954 .591 .374 .719 .250
+465ACTS-56 5/16 3/8 1.069 .694 .492 .976 .381
+465ACTS-6 3/8 3/8 1.300 .783 .584 .901 .375
+465ACTS-8 1/2 1/2 1.537 .898 .734 .996 .500
+466  FEMALE ADAPTER
+ACETAL POLYPROPYLENE
+PART PART O.D. PIPE
+NUMBER NUMBER TUBE THREAD ABCD
+466ACT-4A 466PRY-4A 1/4 1/8 1.220 .591 .748 .453
+466ACT-4B 466PRY-4B 1/4 1/4 1.220 .591 .748 .453
+466ACT-6A 466PRY-6A 3/8 1/8 1.398 .783 .744 .508
+466ACT-6B 466PRY-6B 3/8 1/4 1.398 .783 .744 .508
+466  FEMALE ADAPTER, UNS THREAD, FAUCET ADAPTER
+ACETAL
+PART O.D. UNS
+NUMBER TUBE THREAD ABCD
+466ACT-46 1/4 7/16-24 1.220 .591 .748 .453
+466ACT-66 3/8 7/16-24 1.398 .783 .744 .508
+468  MALE CONNECTOR
+ACETAL POLYPROPYLENE
+PART PART O.D. PIPE
+NUMBER NUMBER TUBE THREAD ABCDE
+468ACT-2.5A 5/32 1/8 .917 .512 .545 .232 .323
+468ACT-2.5B 5/32 1/4 1.128 .512 .656 .234 .531
+468ACT-3A 3/16 1/8 .969 .512 .545 .236 .374
+468ACT-4A 468PRY-4A 1/4 1/8 1.027 .591 .661 .231 .406
+468ACT-4B 468PRY-4B 1/4 1/4 1.107 .591 .656 .234 .494
+468ACT-4C 1/4 3/8 1.006 .591 .787 .236 .474
+468ACT-4D 1/4 1/2 1.301 .783 .972 .238 .646
+468ACT-5A 5/16 1/8 1.045 .697 .785 .236 .374
+468ACT-5B 5/16 1/4 1.039 .697 .785 .233 .489
+468ACT-5C 5/16 3/8 1.024 .697 .787 .233 .474
+468ACT-6A 3/8 1/8 1.214 .783 .786 .233 .374
+468ACT-6B 468PRY-6B 3/8 1/4 1.329 .783 .786 .233 .489
+468ACT-6C 468PRY-6C 3/8 3/8 1.137 .783 .969 .233 .467
+468ACT-6D 3/8 1/2 1.321 .783 .969 .238 .646
+468ACT-8C 1/2 3/8 1.364 .906 .969 .238 .656
+468ACT-8D 1/2 1/2 1.354 .906 .969 .238 .646
+Anderson Fittings Plastic Poly Push
+81 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+469  MALE ELBOW
+ACETAL POLYPROPYLENE
+PART PART O.D. PIPE
+NUMBER NUMBER TUBE THREAD ABCDE
+469ACT-4A 469PRY-4A 1/4 1/8 .9724 .5906 .7874 .3937 .7756
+469ACT-4B 469PRY-4B 1/4 1/4 1.0421 .5906 .9370 .4409 .9724
+469ACT-4C 469PRY-4C 1/4 3/8 1.1378 .5906 .8661 .4740 .7756
+469ACT-6B 469PRY-6B 3/8 1/4 1.2539 .7835 .9429 .4409 .9882
+469ACT-6C 469PRY-6C 3/8 3/8 1.3224 .7835 .9413 .4740 .9882
+469  360° SWIVEL ELBOW
+ACETAL
+PART O.D. PIPE
+NUMBER TUBE THREAD ABCDE
+469ACTS-2.5A 5/32 1/8 .939 1.205 .512 .550 .385
+469ACTS-2.5B 5/32 1/4 .939 1.207 .512 .644 .524
+469ACTS-3A 3/16 1/8 .939 1.205 .511 .550 .385
+469ACTS-4A 1/4 1/8 1.074 1.350 .591 .550 .385
+469ACTS-4B 1/4 1/4 1.074 1.341 .591 .644 .524
+469ACTS-5A 5/16 1/8 1.177 1.437 .697 .550 .385
+469ACTS-5B 5/16 1/4 1.177 1.439 .697 .644 .524
+469ACTS-5C 5/16 3/8 1.177 1.435 .697 .771 .551
+469ACTS-6B 3/8 1/4 1.383 1.651 .772 .644 .524
+469ACTS-6C 3/8 3/8 1.383 1.647 .772 .771 .551
+469ACTS-8C 1/2 3/8 1.661 1.925 .894 .771 .551
+469ACTS-8D 1/2 1/2 1.661 1.924 .894 .955 .740
+471  MALE SWIVEL RUN TEE
+ACETAL
+PART O.D. PIPE
+NUMBER TUBE THREAD ABCD
+471ACTS-2.5A 5/32 1/8 1.632 .958 .385 .550
+471ACTS-2.5B 5/32 1/4 1.632 1.006 .524 .644
+471ACTS-3A 3/16 1/8 1.632 .957 .385 .547
+471ACTS-4A 1/4 1/8 1.817 1.051 .385 .547
+471ACTS-4B 1/4 1/4 1.817 1.110 .524 .644
+471ACTS-5A 5/16 1/8 1.902 1.094 .385 .547
+471ACTS-5B 5/16 1/4 1.902 1.142 .524 .644
+471ACTS-5C 5/16 3/8 1.898 1.206 .551 .771
+471ACTS-6B 3/8 1/4 2.24 1.309 .524 .644
+471ACTS-6C 3/8 3/8 2.235 1.372 .551 .771
+471ACTS-8C 1/2 3/8 2.617 1.569 .551 .771
+471ACTS-8D 1/2 1/2 2.617 1.661 .740 .955
+Anderson Fittings Plastic Poly Push
+82 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+472  MALE SWIVEL BRANCH TEE
+ACETAL
+PART O.D. PIPE
+NUMBER TUBE THREAD ABCDE
+472ACTS-2.5A 5/32 1/8 1.366 1.205 .385 .550 .512
+472ACTS-2.5B 5/32 1/4 1.366 1.207 .524 .644 .512
+472ACTS-3A 3/16 1/8 1.366 1.205 .385 .547 .512
+472ACTS-4A 1/4 1/8 1.551 1.341 .385 .547 .594
+472ACTS-4B 1/4 1/4 1.551 1.341 .524 .644 .594
+472ACTS-5A 5/16 1/8 1.636 1.434 .385 .547 .697
+472ACTS-5B 5/16 1/4 1.636 1.432 .524 .644 .697
+472ACTS-5C 5/16 3/8 1.636 1.431 .551 .771 .697
+472ACTS-6B 3/8 1/4 1.972 1.642 .524 .644 .776
+472ACTS-6C 3/8 3/8 1.972 1.636 .551 .771 .776
+472ACTS-8C 1/2 3/8 2.355 1.898 .551 .771 .906
+472ACTS-8D 1/2 1/2 2.355 1.898 .74 .955 .906
+473  CROSS
+ACETAL
+PART O.D. 
+NUMBER TUBE A B C
+473ACT-2.5 5/32 1.366 1.366 .512
+473ACT-4 1/4 1.643 1.643 .591
+473ACT-5 5/16 1.657 1.657 .693
+473ACT-6 3/8 1.983 1.983 .783
+473ACT-8 1/2 2.313 2.313 .906
+483  BULKHEAD UNION
+ACETAL
+PART O.D. 
+NUMBER TUBE ABCDE
+483ACT-2.5 5/32 1.546 1.160 .63 .791 .886
+483ACT-3 3/16 1.546 1.160 .63 .791 .886
+483ACT-4 1/4 1.531 1.152 .63 .791 .886
+483ACT-5 5/16 1.550 1.129 .787 .957 1.043
+483ACT-6 3/8 1.567 1.15 .787 .957 1.043
+483ACT-64 3/8 X 1/4 1.567 1.15 .787 .957 1.043
+483ACT-8 1/2 1.898 1.376 1.051 1.203 1.484
+484  PLUG
+ACETAL
+PART O.D. 
+NUMBER STEM ABCD
+484ACT-2.5 5/32 .764 .496 .118 .156
+484ACT-3 3/16 .764 .496 .118 .187
+484ACT-4 1/4 .866 .587 .157 .250
+484ACT-5 5/16 .907 .677 .157 .313
+484ACT-6 3/8 1.04 .756 .157 .374
+484ACT-8 1/2 1.179 .819 .157 .500
+Anderson Fittings Plastic Poly Push
+83 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+486ACT  UNION REDUCER
+ACETAL POLYPROPYLENE
+PART PART O.D. O.D. 
+NUMBER NUMBER STEM TUBE ABCD
+486ACT-53 5/16 3/16 1.464 .724 .141 .313
+486ACT-54 5/16 1/4 1.464 .709 .141 .313
+486ACT-63 3/8 3/16 1.394 .49 .512 .376
+486ACT-64 486PRY-64 3/8 1/4 1.565 .732 .591 .374
+486ACT-65 3/8 5/16 1.602 .709 .697 .376
+486ACT-85 1/2 5/16 1.573 .551 .697 .499
+486ACT-86 486PRY-86 1/2 3/8 1.908 .875 .783 .499
+487  TUBE END STOP
+ACETAL
+PART O.D. 
+NUMBER TUBE A B
+487ACT-4 1/4 .882 .591
+487ACT-5 5/16 .907 .697
+487ACT-6 3/8 1.043 .783
+487ACT-8 1/2 1.274 .906
+488  STEM ADAPTER
+ACETAL POLYPROPYLENE
+PART PART O.D. PIPE
+NUMBER NUMBER TUBE THREAD ABCDEF
+488ACT-2.5A 5/32 1/8 1.29 .266 .385 .157 .089 .550
+488ACT-2.5B 5/32 1/4 1.42 .268 .524 .157 .087 .644
+488ACT-3A 3/16 1/8 1.299 .266 .385 .189 .108 .547
+488ACT-4A 488PRY-4A 1/4 1/8 1.335 .256 .385 .251 .175 .550
+488ACT-4B 488PRY-4B 1/4 1/4 1.502 .256 .551 .251 .175 .644
+488ACT-5A 5/16 1/8 1.365 .260 .385 .314 .197 .550
+488ACT-5B 5/16 1/4 1.547 .260 .551 .314 .197 .649
+488ACT-5C 5/16 3/8 1.547 .264 .551 .314 .197 .771
+488ACT-6B 488PRY-6B 3/8 1/4 1.678 .260 .551 .381 .256 .650
+488ACT-6C 488PRY-6C 3/8 3/8 1.691 .262 .551 .381 .252 .771
+488ACT-8C 488PRY-8C 1/2 3/8 1.897 .262 .551 .500 .366 .949
+488ACT-8D 488PRY-8D 1/2 1/2 2.00 .262 .740 .500 .360 .947
+489  TUBE BARB CONNECTOR
+ACETAL
+PART O.D. I.D.
+NUMBER STEM TUBE ABCDEF
+489ACT-43 1/4 3/16 1.521 .709 .694 .250 .169 .449
+489ACT-44 1/4 1/4 1.521 .709 .694 .250 .169 .449
+489ACT-45 1/4 5/16 1.521 .709 .694 .250 .169 .449
+489ACT-53 5/16 3/16 1.563 .709 .736 .314 .189 .449
+489ACT-54 5/16 1/4 1.563 .709 .736 .314 .189 .465
+489ACT-55 5/16 5/16 1.563 .709 .736 .314 .189 .488
+489ACT-56 5/16 3/8 1.626 .772 .736 .314 .189 .583
+489ACT-64 3/8 1/4 1.704 .709 .878 .375 .252 .614
+489ACT-65 3/8 5/16 1.704 .709 .878 .375 .252 .614
+Anderson Fittings Plastic Poly Push
+84 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+489  TUBE BARB CONNECTOR CONTINUED
+ACETAL
+PART O.D. I.D.
+NUMBER STEM TUBE ABCDEF
+489ACT-66 3/8 3/8 1.767 .772 .878 .375 .252 .583
+489ACT-68 3/8 1/2 1.767 .772 .878 .375 .252 .819
+489ACT-86 1/2 3/8 1.887 .772 .998 .500 .374 .736
+489ACT-88 1/2 1/2 1.887 .772 .998 .500 .374 .819
+490  TUBE ELBOW BARB CONNECTOR
+ACETAL
+PART O.D. I.D.
+NUMBER STEM TUBE ABCDEF
+490ACT-44 1/4 1/4 1.110 1.096 .709 .694 .250 .169
+490ACT-45 1/4 5/16 1.189 1.175 .709 .694 .250 .169
+490ACT-54 5/16 1/4 1.110 1.137 .709 .736 .314 .189
+490ACT-55 5/16 5/16 1.189 1.216 .709 .736 .314 .189
+490ACT-64 3/8 1/4 1.110 1.279 .709 .878 .375 .252
+490ACT-65 3/8 5/16 1.189 1.358 .709 .878 .375 .252
+491  U BEND
+ACETAL
+PART O.D.
+NUMBER TUBE ABCD
+491ACT-4 1/4 1.354 1.181 .669 .591
+491ACT-5 5/16 1.436 1.358 .768 .679
+491ACT-6 3/8 1.594 1.559 .866 .780
+491ACT-8 1/2 1.864 1.795 .984 .898
+492  TWO WAY DIVIDER
+ACETAL
+PART TUBE TUBE TUBE
+NUMBER IN OUT OUT A B C
+492ACT-2.5 5/32 5/32 5/32 1.36 1.03 .516
+492ACT-4 1/4 1/4 1/4 1.554 1.181 .591
+492ACT-5 5/16 5/16 5/16 1.711 1.358 .679
+492ACT-65 3/8 5/16 5/16 1.803 1.369 .768
+492ACT-6 3/8 3/8 3/8 1.902 1.559 .78
+492ACT-8 1/2 1/2 1/2 2.26 1.808 .906
+493  THREE WAY DIVIDER
+ACETAL
+PART O.D.
+NUMBER TUBE ABCD
+493ACT-64 3/8 X 1/4 2.299 2.00 .783 .591
+493ACT-86 1/2 X 3/8 2.829 2.636 .787 .906
+494  OFFSET CONNECTOR
+ACETAL
+PART O.D.
+NUMBER TUBE ABCDE
+494ACT-64 3/8 X 1/4 1.487 1.024 5.315 .783 .591
+494ACT-85 1/2 X 5/16 1.726 1.170 5.315 .906 .697
+Anderson Fittings Plastic Poly Push
+85 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+Anderson Fittings Plastic Poly Push
+86 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONTROL VALVES
+FEATURES:
+• DURABLE AND RESISTANT TO PRESSURE
+• MINUTE REGULATION WITH GRADUAL FLOW CONTROL
+• UNIFORM FLOW THROUGH USE OF LOCK NUT
+• OPENING AND CLOSING ARE POSSIBLE
+NOTE:
+• FOR APPLICATIONS OTHER THAN FOOD BEVERAGE AND WATER REFER TO CHEMICAL PROPERTY.
+• DO NOT APPLY EXCESSIVE VIBRATION, ROTATION, BODY PULLING OR TWISTING TO THE FITTING AS THE VALVE
+BODY MAY INCUR DAMAGE OR COLLETS MAY DISLOCATE.
+CV462  CONTROL VALVE UNION ELBOW 
+PART O.D.
+NUMBER TUBE ABCDE
+CV462ACT-4 1/4 1.685 1.300 .843 1.005 .591
+CV462ACT-6 3/8 1.989 1.533 .994 1.149 .783
+CV465  CONTROL VALVE ELBOW UNION
+PART O.D.
+NUMBER TUBE ABCDE
+CV465ACT-4 1/4 1.134 1.864 .839 1.015 .591
+CV466  CONTROL VALVE FEMALE ADAPTER
+PART O.D. PIPE
+NUMBER TUBE THREAD ABCDE
+CV466ACT-4B 1/4 1/4 1.208 1.689 .839 .955 .591
+CV466ACT-6C 3/8 3/8 1.454 2.065 1.047 1.133 .783
+Metallic body
+(BRASS)
+Resin Body
+(POM,PP)
+O-Ring
+Packing(NBR)
+CAP(POM, PP)
+Perfect Sealing ColletTUBE
+CV468  CONTROL VALVE MALE CONNECTOR
+PART O.D. PIPE
+NUMBER TUBE THREAD ABCDE
+CV468ACT-4B 1/4 1/4 1.839 1.381 .839 .998 .591
+CV468ACT-6C 3/8 3/8 2.163 1.793 1.004 1.159 .783
+HAND VALVES
+FEATURES:
+• EASY OPENING AND CLOSING
+• PARTIAL FLOW CONTROL (HIGH, MEDIUM, LOW)
+NOTE:
+• FOR APPLICATIONS OTHER THAN FOOD BEVERAGE AND WATER REFER TO CHEMICAL PROPERTY.
+• DO NOT APPLY EXCESSIVE VIBRATION, ROTATION, BODY PULLING OR TWISTING TO THE FITTING AS THE VALVE
+BODY MAY INCUR DAMAGE OR COLLETS MAY DISLOCATE.
+HV462  HAND VALVE UNION CONNECTOR
+PART O.D.
+NUMBER TUBE ABCD
+HV462ACT-4 1/4 1.882 1.483 .591 .591
+HV462ACT-6 3/8 2.163 1.793 .783 .783
+HV466  HAND VALVE FEMALE ADAPTER
+PART O.D. PIPE
+NUMBER TUBE THREAD ABCD
+HV466ACT-4B 1/4 1/4 1.892 1.963 1.357 .591
+HV466ACT-6C 3/8 3/8 2.295 2.183 1.649 .783
+HV468  HAND VALVE MALE CONNECTOR
+PART O.D. PIPE
+NUMBER TUBE THREAD ABCD
+HV468ACT-4B 1/4 1/4 2.201 1.484 .591 .669
+HV468ACT-6C 3/8 3/8 2.472 1.703 .783 .748
+Anderson Fittings Plastic Poly Push
+87 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+Handle (POM,PP)
+Cap (POM,PP)
+Cock Stop
+O-Ring(NBR)
+Shaft(POM, PP)
+Body (POM, PP)
+Collet
+CHECK VALVES
+FEATURES:
+• USED TO PREVENT REVERSE FLOW
+• MINIMIZED SIZE FOR TIGHT INSTALLATIONS
+NOTE:
+• FOR APPLICATIONS OTHER THAN FOOD BEVERAGE AND WATER REFER TO CHEMICAL PROPERTY.
+• DO NOT APPLY EXCESSIVE VIBRATION, ROTATION, BODY PULLING OR TWISTING TO THE FITTING AS THE VALVE
+BODY MAY INCUR DAMAGE OR COLLETS MAY DISLOCATE.
+CKV462  CHECK VALVE
+PART O.D.
+NUMBER TUBE A B C
+CKV462ACT-4 1/4 1.406 .591 .591
+CKV462ACT-6 3/8 1.627 .783 .783
+CARTRIDGES
+FEATURES:
+• BRASS AND STAINLESS 
+CARTRIDGES OFFER A METHOD OF INTEGRATING QUICK 
+CONNECT TECHNOLOGY INTO COMPONENTS MADE BY A WIDE VARIETY OF METALS
+BCAR  BRASS CARTRIDGE
+PART O.D.
+NUMBER TUBE
+BCAR-2.5 5/32
+BCAR-3 3/16
+BCAR-4 1/4
+BCAR-5 5/16
+BCAR-6 3/8
+BCAR-8 1/2
+SCAR  STAINLESS CARTRIDGE
+PART O.D.
+NUMBER TUBE
+SCAR-2.5 5/32
+SCAR-3 3/16
+SCAR-4 14
+SCAR-5 5/16
+SCAR-6 3/8
+SCAR-8 1/2
+Anderson Fittings Plastic Poly Push
+88 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+WATER FILTERS
+FEATURES:
+• OFFERS PUREST WATER WITH SUPERB DURABILITY
+• UNIVERSALLY COMPATABLE WITH OTHER MANUFACTURERS
+• COVER IS SEPARATE FROM THE BODY PROMOTING EASE OF CLEANING
+NOTE:
+• FOR APPLICATIONS OTHER THAN FOOD BEVERAGE AND WATER REFER TO CHEMICAL PROPERTY.
+• DO NOT APPLY EXCESSIVE VIBRATION, ROTATION, BODY PULLING OR TWISTING TO THE FITTING AS THE VALVE
+BODY MAY INCUR DAMAGE OR COLLETS MAY DISLOCATE.
+WFACT  WATER FILTER
+PART
+NUMBER IN OUT A B
+WFACT-4 1/4 1/4 2.297 2.772
+WFACT-54 5/16 1/4 2.248 2.874
+WFACT-5 5/16 5/16 2.248 2.874
+WFACT-64 3/8 1/4 2.303 2.874
+WFACT-65 3/8 5/16 2.303 2.874
+WFACT-6 3/8 3/8 2.314 2.874
+LOCKING CLIPS
+FEATURES:
+• OFFERS A FIRMER AND MORE SECURE TIGHTENING
+• ATTACHING AND DETACHING EASILY ACCOMPLISHED WITH PROTRUSION
+• OFFERED IN COLORS BLACK (BK), RED (RD), YELLOW (YW), GRAY (GY), BLUE (BL), AND GREEN (GN).
+WHEN ORDERING DESIGNATE COLOR FOLLOWING PART NUMBER. 
+EXAMPLE: 1/4 LOCKING CLIP YELLOW ORDER AS AFLOC-4-YW
+AFLOC  LOCKING CLIP
+PART O.D.
+NUMBER TUBE A B C
+AFLOC-4 1/4 .528 .508 .058
+AFLOC-5 5/16 .559 .543 .052
+AFLOC-6 3/8 .634 .598 .067
+AFLOC-8 1/2 .732 .689 .100
+Anderson Fittings Plastic Poly Push
+89 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+FLOW BEND CLIPS
+FEATURES:
+• HOLDS TUBE FIRMLY IN PLACE
+• PREVENTS SEPARATION AND MAINTAINS ALIGNMENT
+• MAINTAINS A SMOOTH CURVE WHEN TUBE IS BENT
+• MAY BE AFFIXED WITH BOLTS
+AFBC  FLOW BEND CLIP
+PART O.D.
+NUMBER TUBE A B C
+AFBC-5 5/16 1.42 1.42 .130
+AFBC-6 3/8 1.81 1.81 .130
+Anderson Fittings Plastic Poly Push
+90 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+NOTES 
+Anderson Fittings
+91 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+Anderson Fittings Double Barb
+92 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Straights and shapes are manufactured from CA 360 or CA 345
+• One piece, double barb design
+ADVANTAGES
+• Economical, push-on design
+• Quick installation, no tube preparation
+• Double barbs provide positive connection
+• Excellent vibration characteristics
+• Low cost, compact size
+APPLICA
+TIONS
+• Use with high quality polyethylene tubing
+• Use in low pressure instrumentation, automation and control circuits; vacuum and pneumatic circuits
+• Temperature range depending on tubing
+• Pressure will meet that of the tubing
+ORDERING INFORMA
+TION
+• Order by part number as indicated in the catalog
+• Nomenclature example:
+68DB – 4A
+NOTES
+• Current price list represents in stock cataloged items.
+• Non-stock items and special parts are available on a quotation basis.
+• Configurations and dimensions are subject to change without notice.
+Type of fitting - double barb male connector
+Tube OD = 1/4”
+Pipe thread = 1/8”
+Anderson Fittings Double Barb
+93 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+62DB  UNION
+PART O.D. I.D.
+NUMBER TUBE TUBE A B
+62DB-2.5 5/32 .096 .60 .29
+62DB-4 1/4 .170 .85 .40
+62DB-42.5 1/4X5/32 .170X.076 .72 .41
+62DB-46 1/4X3/8 .170X.250 .89 .40
+62DB-48 1/4X1/2 .170X.375 1.07 .40
+62DB-6 3/8 .250 .95 .45
+62DB-68 3/8X1/2 .250X.375 1.07 .45
+62DB-8 1/2 .375 1.21 .56
+62DBC  COMPRESSION UNION
+PART O.D. I.D.
+NUMBER TUBE TUBE A B
+62DBC-4 1/4 .170 1.14 .42
+62DBC-6 3/8 .250 1.43 .63
+62DBH  BULKHEAD UNION
+PART O.D. I.D. PIPE
+NUMBER TUBE TUBE THREAD A B C
+62DBH-4 1/4 .170 5/16-24 STRAIGHT 1.39 .79 .210
+62DBH-6 3/8 .250 3/8-24 STRAIGHT 1.62 1.02 .375
+62DBHC  BULKHEAD COMPRESSION UNION
+PART O.D. I.D. PIPE
+NUMBER TUBE TUBE THREAD A B C
+62DBHC-44 1/4 .170 5/16-24 STRAIGHT 1.50 .77 .218
+62DBHC-66 3/8 .250 3/8-24 STRAIGHT 1.83 1.01 .375
+64DB  TEE UNION
+PART O.D. I.D.
+NUMBER TUBE TUBE A B
+64DB-2.5 5/32 .096 1.01 .51
+64DB-4 1/4 .170 1.24 .64
+64DB-44-2.5 1/4X5/32 .170X.096 1.24 .64
+64DB-6 3/8 .250 1.37 .70
+64DB-66-2.5 3/8X5/32 .250X.096 1.37 .70
+64DB-664 3/8X1/4 .250X.170 1.37 .70
+64DB-8 1/2 .375 1.64 .82
+64DB-884 1/2X1/4 .375X.170 1.63 .82
+64DB-886 1/2X3/8 .375X.250 1.63 .82
+
+65DB  ELBOW UNION
+PART O.D. I.D.
+NUMBER TUBE TUBE A
+65DB-2.5 5/32 .096 .51
+65DB-4 1/4 .170 .62
+65DB-6 3/8 .250 .70
+65DB-8 1/2 .375 .82
+66DB  FEMALE CONNECTOR
+PART O.D. I.D. PIPE
+NUMBER TUBE TUBE THREAD A HEX
+66DB-4A 1/4 .170 1/8 .92 1/2
+66DB-6A 3/8 .250 1/8 .94 1/2
+66DB-6B 3/8 .250 1/4 1.07 11/16
+67DB  MALE CONNECTOR WITH BUNA N GASKET
+PART O.D. I.D. PIPE
+NUMBER TUBE TUBE THREAD A HEX
+67DB-2X1032 1/8 .062 10/32 STRAIGHT . 62 1/4
+67DB-4X1032 1/4 .125 10/32 STRAIGHT .75 1/4
+68DB  MALE CONNECTOR
+PART O.D. I.D. PIPE
+NUMBER TUBE TUBE THREAD A HEX
+68DB-2.5A 5/32 .096 1/8 .85 7/16
+68DB-4X 1/4 .170 1/16 .94 11/32
+68DB-4A 1/4 .170 1/8 .98 7/16
+68DB-4B 1/4 .170 1/4 1.10 9/16
+68DB-6A 3/8 .250 1/8 1.10 7/16
+68DB-6B 3/8 .250 1/4 1.12 9/16
+68DB-8C 1/2 .375 3/8 1.27 11/16
+69DB  MALE ELBOW
+PART O.D. I.D. PIPE
+NUMBER TUBE TUBE THREAD A B
+69DB-2.5A 5/32 .096 1/8 .57 .64
+69DB-4X 1/4 .170 1/16 .63 .61
+69DB-4A 1/4 .170 1/8 .70 .64
+69DB-4B 1/4 .170 1/4 .73 .73
+69DB-6A 3/8 .250 1/8 .71 .71
+69DB-6B 3/8 .250 1/4 .74 .74
+69DB-8C 1/2 .375 3/8 .95 .82
+Anderson Fittings Double Barb
+94 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+70DB  FEMALE ELBOW 
+PART O.D. I.D. PIPE
+NUMBER TUBE TUBE THREAD A B C
+70DB-4A 1/4 .170 1/8 .92 .67 .45
+70DB-6B 3/8 .250 1/4 1.13 .79 .64
+71DB  MALE RUN TEE 
+PART O.D. I.D. PIPE
+NUMBER TUBE TUBE THREAD A B C
+71DB-4A 1/4 .170 1/8 1.29 .70 .67
+71DB-6A 3/8 .250 1/8 1.39 .70 .70
+71DB-6B 3/8 .250 1/4 1.45 .76 .76
+72DB  MALE BRANCH TEE 
+PART O.D. I.D. PIPE
+NUMBER TUBE TUBE THREAD A B C
+72DB-4X 1/4 .170 1/16 1.34 .67 .66
+72DB-4A 1/4 .170 1/8 1.39 .70 .67
+72DB-6A 3/8 .250 1/8 1.39 .70 .70
+72DB-6B 3/8 .250 1/4 1.51 .76 .76
+72DBC  COMPRESSION TEE 
+PART O.D. I.D.
+NUMBER TUBE TUBE A B C
+72DBC-44 1/4X1/4 .170 .74 .55 .75
+72DBC-664 3/8X3/8X1/4 .170 .88 .55 .81
+76DB  GAUGE TEE
+PART O.D. I.D. PIPE
+NUMBER TUBE TUBE THREAD A B C
+76DB-4A 1/4 .170 1/8 1.92 .67 .45
+Anderson Fittings Double Barb
+95 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+77DB  FEMALE BRANCH TEE 
+PART O.D. I.D. PIPE
+NUMBER TUBE TUBE THREAD A B C
+77DB-2.5A 5/32 .096 1/8 1.05 .44 .45
+77DB-4A 1/4 .170 1/8 1.35 .68 .50
+83DB  SOLDER CONNECTOR
+PART O.D. I.D.
+NUMBER TUBE TUBE A B
+83DB-44 1/4 .170 .92 .24
+84DB  PLUG
+PART O.D. I.D.
+NUMBER TUBE TUBE A B C
+84DB-2 1/8 .062 .50 .35 .25
+84DB-4 1/4 .170 .57 .42 .28
+84DB-6 3/8 .250 .69 .45 .38
+84DB-8 1/2 .377 .82 .57 .56
+Anderson Fittings Double Barb
+96 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+Anderson Fittings Grip-On Fittings
+97 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Manufactured from CA 360 or CA 345 brass
+• Hose protection cap is plastic
+ADVANTAGES
+• Low cost
+• Ease of Assembly – push on design
+APPLICATIONS
+• Use with thermoplastic or rubber push-on style hose
+• Excellent vibration characteristics
+ORDERING INFORMATION
+• Fittings are supplied as indicated in the catalog
+• Nomenclature example:
+308 – 66
+NOTES
+• Current price list represents in stock cataloged items.
+• Non-stock items and special parts are available on a quotation basis.
+• Configurations and dimensions are subject to change without notice.
+Type of fitting: Hose barb x 37° swivel
+Hose ID: 3/8
+Female: 37° female flare
+301  HOSE TO MPT
+PART I.D. PIPE
+NUMBER HOSE THREAD A B HEX
+301-42 1/4 1/8 1.47 .66 7/16
+301-44 1/4 1/4 1.67 .84 9/16
+301-46 1/4 3/8 1.61 .77 9/16
+301-52 5/16 1/8 1.42 .77 7/16
+301-62 3/8 1/8 1.60 .92 9/16
+301-64 3/8 1/4 1.69 .87 9/16
+301-66 3/8 3/8 1.73 .91 11/16
+301-68 3/8 1/2 2.03 1.13 7/8
+301-84 1/2 1/4 1.93 .88 5/8
+301-86 1/2 3/8 1.86 .91 11/16
+301-88 1/2 1/2 2.09 1.14 7/8
+301-812 1/2 3/4 2.07 1.02 1-1/16
+301-108 5/8 1/2 2.55 1.14 7/8
+301-1212 3/4 3/4 2.72 1.27 1-1/16
+302  HOSE TO 45° SAE MALE
+PART I.D. FLARE
+NUMBER HOSE THREAD A B HEX
+302-44 1/4 1/4 1.56 .75 7/16
+302-45 1/4 5/16 1.66 .84 1/2
+302-66 3/8 3/8 1.75 .94 5/8
+302-88 1/2 1/2 1.94 1.00 3/4
+303  RIGID TUBE SHANK
+PART I.D. I.D.
+NUMBER HOSE TUBE A B
+303-43 1/4 3/16 1.94 1.12
+303-44 1/4 1/4 2.00 1.19
+303-45 1/4 5/16 2.03 1.22
+303-66 3/8 3/8 2.16 1.34
+303-88 1/2 1/2 2.44 1.48
+303-1010 5/8 5/8 2.61 1.54
+304  HOSE SPLICER
+PART I.D.
+NUMBER HOSE A
+304-44 1/4 1.87
+304-55 5/16 1.73
+304-66 3/8 1.91
+304-88 1/2 2.22
+304-1010 5/8 2.75
+304-1212 3/4 3.21
+Anderson Fittings Grip-On Fittings
+98 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+305  HOSE TO INVERTED FLARE, SWIVEL
+PART I.D. INV FLARE
+NUMBER HOSE THREAD A B HEX
+305-43 1/4 3/16 1.69 .87 3/8
+305-44 1/4 1/4 1.72 .91 7/16
+305-45 1/4 5/16 1.78 .97 1/2
+305-55 5/16 5/16 1.58 .77 1/2
+305-66 3/8 3/8 2.00 1.19 5/8
+305-88 1/2 1/2 2.23 1.28 3/4
+305-1010 5/8 5/8 2.50 1.35 7/8
+306  HOSE TO INVERTED FLARE
+PART I.D. INV FLARE
+NUMBER HOSE THREAD A B HEX
+306-43 1/4 3/16 1.25 .44 7/16
+306-44 1/4 1/4 1.25 .44 1/2
+306-45 1/4 5/16 1.28 .47 9/16
+306-66 3/8 3/8 1.39 .53 3/4
+306-88 1/2 1/2 1.41 .51 7/8
+307  HOSE TO FEMALE 45° FLARE, SWIVEL
+PART I.D. FLARE
+NUMBER HOSE THREAD A B HEX
+307-46 1/4 3/8 1.60 .77 3/4
+307-66 3/8 3/8 1.61 .80 3/4
+307-1212 3/4 3/4 2.33 1.09 1-1/4
+308  HOSE TO JIC FEMALE, SWIVEL
+PART I.D. 37° FLARE
+NUMBER HOSE THREAD A B HEX
+308-66 3/8 3/8 1.55 .76 3/4
+308-88 1/2 1/2 2.01 .96 7/8
+308-1212 3/4 3/4 2.55 1.09 1-1/4
+309  HOSE TO DUAL ANGLE, SWIVEL, 45°/37°
+PART I.D. FLARE
+NUMBER HOSE THREAD A B HEX
+309-44 1/4 1/4 1.50 .69 9/16
+309-45 1/4 5/16 1.56 .75 5/8
+309-55 5/16 5/16 1.60 .77 5/8
+309-68 3/8 1/2 1.82 .92 7/8
+309-88 1/2 1/2 1.77 .81 7/8
+309-1010 5/8 5/8 2.33 .87 1
+Anderson Fittings Grip-On Fittings
+99 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+3099  HOSE TO FPT
+PART I.D. PIPE
+NUMBER HOSE THREAD A HEX
+3099-42 1/4 1/8 1.39 7/16
+3099-44 1/4 1/4 1.56 3/4
+3099-64 3/8 1/4 1.82 7/8
+3099-66 3/8 3/8 2.16 1-1/8
+3099-86 1/2 3/8
+3099-88 1/2 1/2
+310  HOSE TO JIC MALE 37°
+PART I.D. 37° FLARE
+NUMBER HOSE THREAD A HEX
+310-44 1/4 1/4 1.57 1/2
+310-45 1/4 5/16 1.60 9/16
+310-66 3/8 3/8 1.78 5/8
+Anderson Fittings Grip-On Fittings
+100 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+Anderson Fittings Brass Pipe Fittings
+101 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Straights and shapes are manufactured from CA360, CA345 or CA377 brass
+ADVANTAGES
+• Large range of styles and sizes
+• Some shapes are offered in either extruded or forged patterns
+APPLICATIONS
+• Use with brass, copper or iron pipe
+• Use in low and medium pressure lines
+• Fair vibration resistance
+• Temperature range of -65° to +250° F.
+ORDERING INFORMA
+TION
+• Order by part number as indicated in the catalog
+• Shapes that include “F” in the part number, for example, 101AF-A, are forgings
+• Nomenclature example:
+100A – BA
+Note: Shapes with an asterisk (*) folllowing the part number will be supplied as forged pattern.
+NOTES
+• Current price list represents in stock cataloged items.
+• Non-stock items and special parts are available on a quotation basis.
+• configurations and dimenstions are subject to change without notice.
+Type of fitting: Elbow, female pipe
+Pipe thread = 1/4”
+Pipe thread = 1/8”
+100A ELBOW FPT TO FPT REF SAE 130238
+PART PIPE
+NUMBER THREAD A B
+100A-A 1/8 .59 .59
+100AF-A 1/8 .58 .58
+100A-B 1/4 .78 .78
+100AF-B 1/4 .72 .72
+100A-BA 1/4X1/8 .72 .72
+100A-C 3/8 .84 .84
+100A-CB 3/8X1/4 .84 .84
+100AF-CB 3/8X1/4 .81 .81
+100AF-C 3/8 .81 .81
+100A-D 1/2 .84 .84
+100AF-D 1/2 1.00 1.00
+100A-DC 1/2X3/8 1.00 1.00
+100AF-DC 1/2X3/8 1.00 1.00
+100A-E 3/4 1.18 1.18
+100AF-E 3/4 1.10 1.10
+100-45A ELBOW 45° FPT TO FPT
+PART PIPE
+NUMBER THREAD A B
+100-45A-A 1/8 .46 .46
+100-45A-B 1/4 .64 .64
+100-45A-C 3/8 .61 .61
+101A TEE FPT ALL ENDS REF SAE 130438
+PART PIPE
+NUMBER THREAD A B
+101A-A 1/8 .56 .56
+101AF-A 1/8 .56 .56
+101A-B 1/4 .75 .75
+101AF-B 1/4 .72 .72
+101A-BBA 1/4X1/4X1/8 .69 .69
+101A-C 3/8 .84 .84
+101AF-C 3/8 .84 .84
+101AF-CCB 3/8X3/8X1/4 .80 .85
+101A-D 1/2 1.09 1.09
+101AF-D 1/2 .98 .98
+101A-DDC 1/2X1/2X3/8 1.00 1.00
+101A-E 3/4 1.18 1.18
+101AF-E 3/4 1.13 1.13
+Anderson Fittings Brass Pipe Fittings
+102 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+102A CROSS FPT ALL ENDS
+PART PIPE
+NUMBER THREAD A
+102A-A 1/8 .65
+102AF-A 1/8 .52
+102A-B 1/4 .78
+102AF-B 1/4 .66
+102A-C 3/8 .98
+102AF-C 3/8 .82
+102A-D* 1/2 1.08
+102A-E* 3/4 1.18
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+103A COUPLING FPT TO FPT
+PART PIPE
+NUMBER THREAD A HEX
+103A-A 1/8 .75 1/2
+103A-B 1/4 .88 5/8
+103A-C 3/8 1.00 13/16
+103A-D 1/2 1.19 15/16
+103A-E 3/4 1.19 1-1/4
+103AH  COUPLING FPT TO FPT REF SAE 130138
+PART PIPE
+NUMBER THREAD A HEX
+103AH-A 1/8 .75 9/16
+103AH-B 1/4 1.12 3/4
+103AH-C 3/8 1.12 7/8
+103AH-D 1/2 1.50 1-1/16
+103AH-E 3/4 1.53 1-3/8
+104A GROUND JOINT UNION FPT TO FPT
+PART PIPE
+NUMBER THREAD A HEX
+104A-A 1/8 1.19 9/16
+104A-B 1/4 1.22 11/16
+104A-C 3/8 1.72 11/16
+104A-D 1/2 1.78 15/16
+104A-E 3/4 1.88 1-1/4
+108A CAP
+PART PIPE
+NUMBER THREAD A HEX
+108A-A 1/8 .47 9/16
+108A-B 1/4 .59 11/16
+108A-C 3/8 .69 13/16
+108A-D 1/2 .78 15/16
+108A-E 3/4 .94 1-1/4
+Anderson Fittings Brass Pipe Fittings
+103 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+109A SQUARE HEAD PLUG CORED
+PART PIPE
+NUMBER THREAD A
+109A-A* 1/8 .58
+109A-B* 1/4 .70
+109A-C* 3/8 .73
+109A-D 1/2 .93
+109A-E 3/4 1.00
+109A-F 1 1.20
+*SUPPLIED AS SOLID
+109AS  SQUARE HEAD PLUG SOLID
+PART PIPE
+NUMBER THREAD A
+109A-D 1/2 .93
+109A-E 3/4 1.00
+109A-F 1 1.20
+109CS  COUNTER-SUNK PLUG
+PART PIPE
+NUMBER THREAD A
+109CS-A 1/8 .30
+109CS-B 1/4 .45
+109CS-C 3/8 .45
+109CS-D 1/2 .60
+109CS-E 3/4 .55
+110FB  FACE BUSHING
+PART PIPE
+NUMBER THREAD A
+110FB-CB 3/8X1/4 .50
+110FB-DB 1/2X1/4 .53
+110FB-DC 1/2X3/8 .53
+110FB-ED 3/4X1/2 .55
+110A HEX BUSHING
+PART PIPE
+NUMBER THREAD A HEX
+110A-BA 1/4X1/8 .62 9/16
+110A-CA 3/8X1/8 .69 11/16
+110A-CB 3/8X1/4 .69 11/16
+110A-DA 1/2X1/8 .81 13/16
+110A-DB 1/2X1/4 .81 13/16
+110A-DC 1/2X3/8 .81 13/16
+110A-EA 3/4X1/8 .94 1-1/16
+110A-EB 3/4X1/4 .94 1-1/16
+110A-EC 3/4X3/8 .94 1-1/16
+110A-ED 3/4X1/2 .94 1-1/16
+110A-FB 1X1/4 1.12 1-3/8
+Anderson Fittings Brass Pipe Fittings
+104 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+110A HEX BUSHING CONTINUED
+PART PIPE
+NUMBER THREAD A HEX
+110A-FC 1X3/8 1.12 1-3/8
+110A-FD 1X1/2 1.12 1-3/8
+110A-FE 1X3/4 1.12 1-3/8
+110AH  HEX BUSHING REF SAE 130140
+PART PIPE
+NUMBER THREAD A HEX
+110AH-BA 1/4X1/8 .75 9/16
+110AH-CA 3/8X1/8 .75 11/16
+110AH-CB 3/8X1/4 .75 3/4
+110AH-DA 1/2X1/8 1.00 7/8
+110AH-DB 1/2X1/4 1.00 7/8
+110AH-DC 1/2X3/8 1.00 7/8
+110AH-EA 3/4X1/8 1.00 1-1/8
+110AH-EB 3/4X1/4 1.00 1-1/8
+110AH-EC 3/4X3/8 1.00 1-1/8
+110AH-ED 3/4X1/2 1.00 1-1/8
+111A LOCK NUT
+PART PIPE
+NUMBER THREAD THICKNESS HEX
+111A-A 1/8 .19 11/16
+111A-B 1/4 .25 7/8
+111A-C 3/8 .31 1
+111A-D 1/2 .25 1-1/8
+111A-E 3/4 .33 1-1/2
+112A CLOSE NIPPLE
+PART PIPE
+NUMBER THREAD A
+112A-A 1/8 .75
+112A-B 1/4 .88
+112A-C 3/8 1.00
+112A-D 1/2 1.12
+112A-E 3/4 1.31
+112A-F 1 1.31
+113A LONG NIPPLE (YELLOW)
+PART PIPE
+NUMBER THREAD A
+113A-A15 1/8 1-1/2
+113A-B15 1/4 1-1/2
+113A-C15 3/8 1-1/2
+113A-D15 1/2 1-1/2
+113A-E15 3/4 1-1/2
+Anderson Fittings Brass Pipe Fittings
+105 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+113A LONG NIPPLE (YELLOW) CONTINUED
+PART PIPE
+NUMBER THREAD A
+113A-A2 1/8 2
+113A-B2 1/4 2
+113A-C2 3/8 2
+113A-D2 1/2 2
+113A-E2 3/4 2
+113RB  LONG NIPPLE (RED)
+PART PIPE
+NUMBER THREAD A
+113RB-A25 1/8 2-1/2
+113RB-B25 1/4 2-1/2
+113RB-C25 3/8 2-1/2
+113RB-D25 1/2 2-1/2
+113RB-E25 3/4 2-1/2
+113RB-A3 1/8 3
+113RB-B3 1/4 3
+113RB-C3 3/8 3
+113RB-D3 1/2 3
+113RB-E3 3/4 3
+113RB-A35 1/8 3-1/2
+113RB-B35 1/4 3-1/2
+113RB-C35 3/8 3-1/2
+113RB-D35 1/2 3-1/2
+113RB-E35 3/4 3-1/2
+113RB-A4 1/8 4
+113RB-B4 1/4 4
+113RB-C4 3/8 4
+113RB-D4 1/2 4
+113RB-E4 3/4 4
+113RB-A45 1/8 4-1/2
+113RB-B45 1/4 4-1/2
+113RB-C45 3/8 4-1/2
+113RB-D45 1/2 4-1/2
+113RB-E45 3/4 4-1/2
+113RB-A5 1/8 5
+113RB-B5 1/4 5
+113RB-C5 3/8 5
+113RB-D5 1/2 5
+113RB-E5 3/4 5
+113RB-A55 1/8 5-1/2
+113RB-B55 1/4 5-1/2
+113RB-C55 3/8 5-1/2
+113RB-D55 1/2 5-1/2
+113RB-E55 3/4 5-1/2
+Anderson Fittings Brass Pipe Fittings
+106 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+113RB  LONG NIPPLE (RED) CONTINUED
+PART PIPE
+NUMBER THREAD A
+113RB-A6 1/8 6
+113RB-B6 1/4 6
+113RB-C6 3/8 6
+113RB-D6 1/2 6
+113RB-E6 3/4 6
+113RB-A7 1/8 7
+113RB-B7 1/4 7
+113RB-C7 3/8 7
+113RB-D7 1/2 7
+113RB-E7 3/4 7
+116A STREET ELBOW REF SAE 130239
+PART PIPE
+NUMBER THREAD A B
+116A-A 1/8 .62 .35
+116AF-A 1/8 .81 .56
+116A-AMB 1/8 .50 .36
+116A-B 1/4 .78 .43
+116AF-B 1/4 .86 .44
+116A-C 3/8 1.00 .89
+116AF-C 3/8 .98 .68
+116A-D 1/2 1.25 1.03
+116AF-D 1/2 1.43 .94
+116A-E 3/4 1.40 1.08
+116AF-E 3/4 1.50 .91
+116AL STREET ELBOW LONG PATTERN
+PART PIPE
+NUMBER THREAD A B
+116AL-A 1/8 .80 .46
+116AL-B 1/4 1.10 .68
+116AL-C 3/8 1.29 .95
+116AM  MALE ELBOW
+PART PIPE
+NUMBER THREAD A B
+116AM-A 1/8 .69 .69
+116AMF-A 1/8 .71 .71
+116AM-B 1/4 .88 .88
+116AMF-B 1/4 1.09 1.09
+116AM-BA 1/4X1/8 .77 .95
+116AMF-BA 1/4X1/8 1.09 .71
+116AM-C 3/8 1.06 1.06
+116AM-CB 3/8X1/4 .92 .92
+116AM-D 1/2 1.40 1.40
+116AMF-D 1/2 1.41 1.41
+116AM-DC 1/2X3/8 1.02 1.12
+Anderson Fittings Brass Pipe Fittings
+107 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+117A SLOTTED PLUG
+PART PIPE
+NUMBER THREAD A
+117A-A 1/8 .30
+117A-B 1/4 .45
+117A-C 3/8 .45
+119A REDUCER FPT TO FPT
+PART PIPE
+NUMBER THREAD A HEX
+119A-BA 1/4X1/8 .94 5/8
+119A-CA 3/8X1/8 1.00 3/4
+119A-CB 3/8X1/4 1.00 13/16
+119A-DA 1/2X1/8 1.19 15/16
+119A-DB 1/2X1/4 1.19 15/16
+119A-DC 1/2X3/8 1.19 15/16
+119A-ED 3/4X1/2 1.19 1-1/4
+119HA REDUCER FPT TO FPT REF SAE 130138
+PART PIPE
+NUMBER THREAD A HEX
+119AH-BA 1/4X1/8 .96 3/4
+119AH-CB 3/8X1/4 1.16 7/8
+119AH-DB 1/2X1/4 1.38 1-1/16
+119AH-DC 1/2X3/8 1.38 1-1/16
+120A ADAPTER FPT TO MPT
+PART PIPE
+NUMBER THREAD A HEX
+120A-AA 1/8X1/8 .88 1/2
+120A-BA 1/4X1/8 .94 5/8
+120A-BB 1/4X1/4 1.00 5/8
+120A-CA 3/8X1/8 1.00 3/4
+120A-CB 3/8X1/4 1.12 13/16
+120A-CC 3/8X3/8 1.12 13/16
+120A-DB 1/2X1/4 1.19 15/16
+120A-DC 1/2X3/8 1.19 15/16
+120A-DD 1/2X1/2 1.31 15/16
+120A-ED 3/4X1/2 1.22 1-1/4
+Anderson Fittings Brass Pipe Fittings
+108 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+120AH  ADAPTER FPT TO MPT REF SAE 130139
+PART PIPE
+NUMBER THREAD A HEX
+120AH-AA 1/8X1/8 .87 9/16
+120AH-BA 1/4X1/8 1.06 3/4
+120AH-BB 1/4X1/4 1.06 3/4
+120AH-CB 3/8X1/4 1.25 7/8
+120AH-CC 3/8X3/8 1.25 7/8
+120AH-DB 1/2X1/4 1.46 1-1/16
+120AH-DC 1/2X3/8 1.46 1-1/16
+120AH-DD 1/2X1/2 1.65 1-1/16
+121A HEX HEAD PLUG CORED
+PART PIPE
+NUMBER THREAD A HEX
+121A-A 1/8 .56 7/16
+121A-B 1/4 .62 9/16
+121A-C 3/8 .72 11/16
+121A-D 1/2 .81 7/8
+121A-E 3/4 .84 1-1/16
+121A-F 1 1.12 1-3/16
+121AS  HEX HEAD PLUG SOLID
+PART PIPE
+NUMBER THREAD A HEX
+121AS-A 1/8 .56 7/16
+121AS-B 1/4 .62 9/16
+121AS-C 3/8 .72 11/16
+121AS-D 1/2 .81 7/8
+121AS-E 3/4 .94 1-1/16
+122A HEX NIPPLE
+PART PIPE
+NUMBER THREAD A HEX
+122A-A 1/8 .91 7/16
+122A-B 1/4 1.12 9/16
+122A-C 3/8 1.25 11/16
+122A-D 1/2 1.50 7/8
+122A-E 3/4 1.56 1-1/16
+122AH  HEX NIPPLE REF SAE 130137
+PART PIPE
+NUMBER THREAD A HEX
+122AH-A 1/8 .97 7/16
+122AH-B 1/4 1.37 9/16
+122AH-C 3/8 1.40 11/16
+122AH-D 1/2 1.81 7/8
+122AH-E 3/4 1.96 1-1/8
+Anderson Fittings Brass Pipe Fittings
+109 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+123A HEX REDUCING NIPPLE
+PART PIPE
+NUMBER THREAD A HEX
+123A-BA 1/4X1/8 1.00 9/16
+123A-CA 3/8X1/8 1.11 11/16
+123A-CB 3/8X1/4 1.19 11/16
+123A-DB 1/2X1/4 1.34 7/8
+123A-DC 1/2X3/8 1.41 7/8
+123A-ED 3/4X1/2 1.50 1-1/16
+123AH  HEX REDUCING NIPPLE REF SAE 130137
+PART PIPE
+NUMBER THREAD A HEX
+123AH-BA 1/4X1/8 1.18 9/16
+123AH-CA 3/8X1/8 1.21 11/16
+123AH-CB 3/8X1/4 1.40 11/16
+123AH-DB 1/2X1/4 1.62 7/8
+123AH-DC 1/2X3/8 1.62 7/8
+124A STREET ELBOW 45° REF SAE 130339
+PART PIPE
+NUMBER THREAD A B
+124A-A 1/8 .38 .50
+124A-B 1/4 .74 .55
+124A-C 3/8 .78 .56
+124A-D 1/2 .98 .74
+127A STREET TEE FPT TO MPT TO FPT REF SAE 130424
+PART PIPE
+NUMBER THREAD A B
+127A-A 1/8 .55 .56
+127A-B 1/4 .78 .91
+127A-C 3/8 .84 1.03
+127A-D 1/2 1.16 1.16
+127S  STREET TEE FPT TO MPT TO MPT
+PART PIPE
+NUMBER THREAD A B
+127S-A* 1/8 .60 .88
+127S-B* 1/4 .87 .86
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+Anderson Fittings Brass Pipe Fittings
+110 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+T9  BRANCH TEE FPT TO FPT TO MPT REF SAE 130425
+PART PIPE
+NUMBER THREAD A B
+T9-222* 1/8 .62 .31
+T9-444* 1/4 1.50 .75
+T9-666* 3/8 1.60 .80
+T9-888* 1/2 2.14 1.07
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+128A REDUCING ELBOW
+PART PIPE
+NUMBER THREAD A B
+128A-BA 1/4X1/8 .70 .53
+128A-CB* 3/8X1/4 .93 .58
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+129A BULKHEAD MPT TO FPT
+FEMALE
+PART PIPE STRAIGHT
+NUMBER THREAD A THREAD
+129A-A 1/8 1.50 5/8-18
+129AS-B 1/4 .92 3/4-16
+129A-B 1/4 1.50 3/4-16
+129A-C 3/8 1.32 1-14
+129A-D 1/2 1.50 1 1/8-14
+Anderson Fittings Brass Pipe Fittings
+111 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+Anderson Fittings Garden Hose Fittings
+112 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Manufactured from CA360 or CA345 brass
+ADVANTAGES
+• Used in low pressure garden hose applications
+• Barb fittings are intended for use with a hose clamp or ferrule.
+ORDERING INFORMATION
+• Order by desired part number
+• Nomenclature example:
+19A – 12D
+NOTES
+• Current price list represents in stock cataloged items.
+• Non-stock items and special parts are available on a quotation basis.
+• configurations and dimenstions are subject to change without notice.
+Fitting type: Male hose to male pipe
+Hose size: (12/16th) 3/4
+Pipe thread = 1/2
+W1  WATER INLET ASSEMBLY GH SWIVEL TO MPT
+PART HOSE PIPE
+NUMBER THREAD THREAD A
+W1-B 3/4 1/4 1.40
+W1-C 3/4 3/8 1.52
+W1  WATER INLET ASSEMBLY GH SWIVEL TO FLARE
+PART HOSE FLARE
+NUMBER THREAD THREAD A
+W1-6 3/4 3/8 1.25
+W1-8 3/4 1/2 1.34
+GHN1 & GHN1H  GARDEN HOSE NUT
+PART HOSE
+NUMBER THREAD A HEX
+GHN1 3/4 .50 (ROUND 1-3/16)
+GHN1H 3/4 .63 (HEX) 1-1/4
+GHN5 & GHN5H  GARDEN HOSE CAP
+PART HOSE PIPE
+NUMBER THREAD THREAD A HEX
+GHN5 3/4 – .63 (ROUND 1-3/16)
+GHN5-TA 3/4 1/8 .63 (ROUND 1-3/16)
+GHN5H 3/4 _ .50 (HEX) 1-1/4
+5A FEMALE HOSE TO FEMALE PIPE
+PART HOSE PIPE
+NUMBER THREAD THREAD A HEX
+5A-12D 3/4 1/2 1.13 1-1/8
+5A-12E 3/4 3/4 1.13 1-1/8
+5AS  FEMALE HOSE TO FEMALE PIPE,SWIVEL
+PART HOSE PIPE
+NUMBER THREAD THREAD A HEX
+5AS-12D 3/4 1/2 1.22 1
+5AS-12E 3/4 3/4 1.32 1-3/16
+Anderson Fittings Garden Hose Fittings
+113 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+18A MALE HOSE TO FEMALE PIPE
+PART HOSE PIPE
+NUMBER THREAD THREAD A HEX
+18A-12B 3/4 1/4 .75 1-1/16
+18A-12C 3/4 3/8 .75 1-1/16
+18A-12D 3/4 1/2 .72 1-1/16
+18A-12E 3/4 3/4 1.22 1-1/8
+19A MALE HOSE TO MALE PIPE
+PART HOSE PIPE
+NUMBER THREAD THREAD A HEX
+19A-12C 3/4 3/8 1.18 1-1/16
+19A-12D 3/4 1/2 1.18 1-1/16
+19AF-12DE* 3/4 3/4 1.25 1-1/16
+*TAPPED 1/2 FPT
+20A FEMALE HOSE TO MALE PIPE
+PART HOSE PIPE
+NUMBER THREAD THREAD A HEX
+20A-12D 3/4 1/2 1.12 1-1/18
+20A-12E 3/4 3/4 1.31 1-3/16
+21A HOSE WYE
+PART HOSE
+NUMBER THREAD
+21A-12 3/4
+22A FEMALE HOSE TO FEMALE HOSE
+PART HOSE
+NUMBER THREAD A HEX
+22A-12 3/4X3/4 1.25 1-1/4
+22AS  FEMALE HOSE TO FEMALE HOSE, SWIVEL
+PART HOSE
+NUMBER THREAD A
+22AS-12E 3/4X3/4 1.21
+Anderson Fittings Garden Hose Fittings
+114 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+23A MALE HOSE TO MALE HOSE
+PART HOSE
+NUMBER THREAD A HEX
+23A-12 3/4X3/4 1.18 1-1/16
+ECD-D  PANEL MOUNT DRAIN COOLER FITTING
+PART PIPE
+NUMBER THREAD A HEX
+ECD-D 1/2 FPT .91 1-3/16
+46WH  FLARE TO FEMALE HOSE
+PART HOSE
+NUMBER FLARE THREAD A HEX
+46WH-612 3/8 3/4 1.31 1-3/16
+46WH-812 1/2 3/4 1.41 1-3/16
+48WH  FLARE TO MALE HOSE
+PART HOSE
+NUMBER FLARE THREAD A HEX
+48WH-612 3/8 3/4 1.44 27/32
+48WH-812 1/2 3/4 1.63 27/32
+201GH  HOSE BARB TO MALE GARDEN HOSE
+PART GARDEN HOSE HOSE
+NUMBER THREAD I.D. A HEX
+STANDARD
+201GH-8E 3/4 1/2 1.72 1-1/16
+201GH-10E 3/4 5/8 1.72 1-1/16
+201GH-12E 3/4 3/4 1.72 1-1/16
+LONG
+201GH-8EX 3/4 1/2 1.93 1-1/16
+201GH-10EX 3/4 5/8 1.93 1-1/16
+201GH-12EX 3/4 3/4 1.93 1-1/16
+Anderson Fittings Garden Hose Fittings
+115 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+GARDEN HOSE ASSEMBLIES AVAILABLE WITH HEX NUTS
+202GHS  HOSE BARB TO HOSE BARB, SWIVEL EXTRA LONG LENGTHS AVAILABLE BY SPECIAL ORDER
+PART HOSE
+NUMBER I.D. A
+STANDARD
+202GHS-88 1/2 3.00
+202GHS-1010 5/8 3.00
+202GHS-1212 3/4 3.00
+LONG
+202GHS-8X 1/2 3.48
+202GHS-10X 5/8 3.48
+202GHS-12X 3/4 3.48
+GARDEN HOSE ASSEMBLIES AVAILABLE WITH HEX NUTS
+209GHS  HOSE BARB TO FEMALE GARDEN HOSE, SWIVEL EXTRA LONG LENGTHS AVAILABLE BY SPECIAL ORDER
+PART GARDEN HOSE HOSE
+NUMBER THREAD I.D. A
+STANDARD
+209GHS-8E 3/4 1/2 1.52
+209GHS-10E 3/4 5/8 1.52
+209GHS-12E 3/4 3/4 1.52
+LONG
+209GHS-8EX 3/4 1/2 1.87
+209GHS-10EX 3/4 5/8 1.87
+209GHS-12EX 3/4 3/4 1.87
+GHW (WASHER) 3/4
+Anderson Fittings Garden Hose Fittings
+116 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+Anderson Fittings Hose Barb
+117 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Straights and shapes are manufactured from CA360, CA345 or CA377 brass
+ADVANTAGES
+• Low cost
+• Push-on design
+APPLICATIONS
+• Use with thermoplastic or rubber hose and tubing
+• Intended for use with a hose clamp or crimped type ferrule
+• Pressure will meet that of the plastic tubing or 150 psi.
+• Excellent vibration characteristics
+ORDERING INFORMA
+TION
+• Fittings are supplied as indicated in the catalog
+• Nomenclature example:
+209A – 3A
+NOTES
+• Current price list represents in stock cataloged items.
+• Non-stock items and special parts are available on a quotation basis.
+• Configurations and dimensions are subject to change without notice.
+Type of fitting: Hose to female pipe
+Hose ID: 3/16”
+Pipe thread = 1/8”
+201A HOSE BARB TO MPT (STANDARD)
+PART HOSE PIPE
+NUMBER I.D. THREAD A B HEX
+201A-2A 1/8 1/8 1.06 .56 7/16
+201A-3A 3/16 1/8 1.26 .57 7/16
+201A-3B 3/16 1/4 1.37 .64 9/16
+201A-4A 1/4 1/8 1.32 .57 7/16
+201A-4B 1/4 1/4 1.63 .66 9/16
+201A-4C 1/4 3/8 1.72 .75 11/16
+201A-4D 1/4 1/2 1.78 .81 7/8
+201A-5A 5/16 1/8 1.55 .57 7/16
+201A-5B 5/16 1/4 1.63 .65 9/16
+201A-5C 5/16 3/8 1.72 .75 11/16
+201A-6A 3/8 1/8 1.55 .57 7/16
+201A-6B 3/8 1/4 1.63 .65 9/16
+201A-6C 3/8 3/8 1.72 .75 11/16
+201A-6D 3/8 1/2 1.78 .81 7/8
+201A-6E 3/8 3/4 1.91 .97 1-1/16
+201A-8B 1/2 1/4 1.64 .66 9/16
+201A-8C 1/2 3/8 1.72 .75 11/16
+201A-8D 1/2 1/2 1.79 .81 7/8
+201A-8E 1/2 3/4 1.92 .94 1-1/16
+201A-10C 5/8 3/8 1.72 .75 11/16
+201A-10D 5/8 1/2 1.78 .81 7/8
+201A-10E 5/8 3/4 1.92 .94 1-1/16
+201A-12D 3/4 1/2 1.78 .81 7/8
+201A-12E 3/4 3/4 1.92 .94 1-1/16
+201A-16E 1 3/4 2.15 1.00 1-1/16
+201A-16F 1 1 2.48 1.32 1-3/8
+201AH  HOSE BARB TO MPT (LONG)
+PART HOSE PIPE
+NUMBER I.D. THREAD A B HEX
+201AH-2B 1/8 1/4 1.28 .78 9/16
+201AH-3B 3/16 1/4 1.47 .78 9/16
+201AH-4A 1/4 1/8 1.55 .57 7/16
+201AH-4B 1/4 1/4 1.76 .78 9/16
+201AH-4C 1/4 3/8 1.76 .78 11/16
+201AH-5A 5/16 1/8 1.55 .57 7/16
+201AH-5B 5/16 1/4 1.76 .78 9/16
+201AH-5C 5/16 3/8 1.76 .78 11/16
+201AH-6A 3/8 1/8 1.57 .59 1/2
+201AH-6B 3/8 1/4 1.76 .78 9/16
+201AH-6C 3/8 3/8 1.76 .78 11/16
+201AH-6D 3/8 1/2 1.98 1.00 7/8
+201AH-8B 1/2 1/4 1.76 .78 9/16
+Anderson Fittings Hose Barb
+118 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+201AH  HOSE BARB TO MPT (LONG) CONTINUED
+PART HOSE PIPE
+NUMBER I.D. THREAD A B HEX
+201AH-8C 1/2 3/8 1.76 .78 11/16
+201AH-8D 1/2 1/2 1.98 1.00 7/8
+201AH-8E 1/2 3/4 1.98 1.00 1-1/16
+201AH-10C 5/8 3/8 1.76 .78 11/16
+201AH-10D 5/8 1/2 1.97 .98 7/8
+201AH-10E 5/8 3/4 1.98 .97 1-1/16
+201AH-12D 3/4 1/2 2.19 1.00 7/8
+201AH-12E 3/4 3/4 2.20 1.00 1-1/16
+201AH-16E 1 3/4 2.16 1.00 1-1/16
+209A HOSE BARB TO FPT
+PART HOSE PIPE
+NUMBER I.D. THREAD A B HEX
+209A-2A 1/8 1/8 1.00 .50 1/2
+209A-3A 3/16 1/8 1.29 .50 1/2
+209A-3B 3/16 1/4 1.35 .56 5/8
+209A-4A 1/4 1/8 1.25 .50 1/2
+209A-4B 1/4 1/4 1.31 .56 5/8
+209A-4C 1/4 3/8 1.38 .63 3/4
+209A-5A 5/16 1/8 1.54 .56 1/2
+209A-5B 5/16 1/4 1.53 .56 5/8
+209A-5C 5/16 3/8 1.60 .62 3/4
+209A-6A 3/8 1/8 1.53 .56 1/2
+209A-6B 3/8 1/4 1.53 .56 5/8
+209A-6C 3/8 3/8 1.60 .63 3/4
+209A-6D 3/8 1/2 1.66 .69 7/8
+209A-8B 1/2 1/4 1.53 .56 5/8
+209A-8C 1/2 3/8 1.59 .62 3/4
+209A-8D 1/2 1/2 1.66 .69 7/8
+209AS  HOSE BARB TO SWIVEL BALL END (FEMALE STRAIGHT MECHANICAL)
+PART HOSE PIPE
+NUMBER I.D. THREAD A HEX
+209AS-2A 1/8 1/8 1.50 5/8
+209AS-3A 3/16 1/8 1.50 5/8
+209AS-3B 3/16 1/4 1.40 5/8
+209AS-4A 1/4 1/8 1.50 1/2
+209AS-4B 1/4 1/4 1.28 5/8
+209AS-4C 1/4 3/8 1.50 3/4
+209AS-5B 5/16 1/4 1.50 5/8
+209AS-6B 3/8 1/4 1.53 5/8
+209AS-6C 3/8 3/8 1.50 3/4
+209AS-8C 1/2 3/8 1.56 3/4
+209AS-8D 1/2 1/2 1.50 29/32
+209AS-12E 3/4 3/4 2.00 1-3/8
+Anderson Fittings Hose Barb
+119 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+122AS  SWIVEL BALL ADAPTER
+PART MALE PIPE
+NUMBER N.P.S.M. THREAD A HEX
+122AS-4A 1/4 1/8 .91 9/16
+122AS-4B 1/4 1/4 1.02 9/16
+122AS-6B 3/8 1/4 1.02 11/16
+122AS-6C 3/8 3/8 1.09 11/16
+122AS-8C 1/2 3/8 1.19 27/32
+122AS-8D 1/2 1/2 1.39 27/32
+209ASF  HOSE BARB TO FEMALE FLARE SWIVEL
+PART HOSE FEMALE
+NUMBER I.D. FLARE A B HEX
+209ASF-34 3/16 1/4 1.48 .75 7/16
+209ASF-44 1/4 1/4 1.57 .56 9/16
+209ASF-45 1/4 5/16 1.57 .56 9/16
+209ASF-46 1/4 3/8 1.62 .59 3/4
+209ASF-55 5/16 5/16 1.59 .62 5/8
+209ASF-66 3/8 3/8 1.75 .97 3/4
+209ASF-68 3/8 1/2 1.69 .72 15/16
+209ASF-88 1/2 1/2 1.69 .72 15/16
+HE1  ELBOW, 90° HOSE TO MPT
+PART HOSE PIPE
+NUMBER I.D. THREAD A B
+HE1-4A* 1/4 1/8 1.00 .81
+HE1-4B* 1/4 1/4 1.00 .88
+HE1-4C* 1/4 3/8 1.08 .97
+HE1-5A* 5/16 1/8 1.01 .81
+HE1-5B* 5/16 1/4 1.01 .88
+HE1-5C* 5/16 3/8 1.09 .92
+HE1-6A* 3/8 1/8 1.01 .81
+HE1-6B* 3/8 1/4 1.04 .86
+HE1-6C* 3/8 3/8 1.08 .94
+HE1-6D* 3/8 1/2 1.12 1.10
+HE1-8B* 1/2 1/4 1.08 1.08
+HE1-8C* 1/2 3/8 1.08 1.08
+HE1-8D* 1/2 1/2 1.16 1.16
+HE1-10C* 5/8 3/8 1.13 1.15
+HE1-10D* 5/8 1/2 1.21 1.22
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+Anderson Fittings Hose Barb
+120 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+HE1-45  ELBOW, 45° HOSE TO MPT
+PART HOSE PIPE
+NUMBER I.D. THREAD A B
+HE1-45-4A* 1/4 1/8 .96 .64
+HE1-45-5A* 5/16 1/8 .98 .64
+HE1-45-5B* 5/16 1/4 .91 .84
+HE1-45-6A* 3/8 1/8 .89 .64
+HE1-45-6B* 3/8 1/4 .89 .86
+HE1-45-6C* 3/8 3/8 .94 .90
+HE1-45-8B* 1/2 1/4 .96 .84
+HE1-45-8C* 1/2 3/8 .96 .86
+HE1-45-10C* 5/8 3/8 .98 .87
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+HBT2  HOSE BARB TEE
+PART HOSE
+NUMBER I.D. A
+HBT2-4* 1/4 2.00
+HBT2-5* 5/16 2.00
+HBT2-6* 3/8 2.00
+ITEMS FOLLOWED BY AN ASTERISK (*) WILL BE SUPPLIED AS A FORGING
+HM  HOSE MENDER HOSE TO HOSE
+PART HOSE
+NUMBER I.D. A HEX
+HM-2 1/8 1.09 3/8
+HM-3 3/16 1.65 3/8
+HM-4 1/4 2.03 3/8
+HM-5 5/16 2.13 1/2
+HM-6 3/8 2.13 9/16
+HM-8 1/2 2.13 11/16
+HM-10 5/8 2.03 3/4
+HM-12 3/4 2.03 7/8
+201BF  HOSE TO MALE FLARE 
+PART HOSE MALE
+NUMBER I.D. FLARE A B HEX
+201BF-33 3/16 3/16 1.50 .75 7/16
+201BF-44 1/4 1/4 1.75 .75 1/2
+201BF-45 1/4 5/16 1.75 .75 1/2
+201BF-46 1/4 3/8 1.84 .87 5/8
+201BF-55 5/16 5/16 1.84 .87 5/8
+201BF-66 3/8 3/8 1.84 .87 5/8
+201BF-68 3/8 1/2 1.97 .97 3/4
+201BF-88 1/2 1/2 1.95 .92 7/8
+Anderson Fittings Hose Barb
+121 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+209RWA WELDING ADAPTER HOSE TO 9/16-18 RH
+PART HOSE
+NUMBER I.D. THREAD A HEX
+209RWA-3 3/16 9/16-18 RH 1.39 11/16
+209RWA-4 1/4 9/16-18 RH 1.58 11/16
+209RWA-5 5/16 9/16-18 RH 1.58 11/16
+209RWA-6 3/8 9/16-18 RH 1.58 11/16
+FOR OXYGEN LINES
+122RWA WELDING ADAPTER RIGHT HAND THREAD
+PART
+NUMBER PIPE THREAD A HEX
+122RWA-B 1/4 9/16-18 RH 1.22 5/8
+122RWA-C 3/8 9/16-18 RH 1.34 11/16
+FOR OXYGEN LINES
+209LWA WELDING ADAPTER HOSE TO 9/16-18 LH
+PART HOSE
+NUMBER I.D. THREAD A HEX
+209LWA-3 3/16 9/16-18 LH 1.39 11/16
+209LWA-4 1/4 9/16-18 LH 1.58 11/16
+209LWA-5 5/16 9/16-18 LH 1.58 11/16
+209LWA-6 3/8 9/16-18 LH 1.58 11/16
+FOR ACETYLENE LINES
+122LWA WELDING ADAPTER LEFT HAND THREAD
+PART
+NUMBER PIPE THREAD A HEX
+122LWA-B 1/4 9/16-18 LH 1.22 5/8
+122LWA-C 3/8 9/16-18 LH 1.34 11/16
+FOR ACETYLENE LINES
+201AB  BEADED HOSE BARB TO MPT
+PART HOSE PIPE
+NUMBER I.D. THREAD A B HEX
+201AB-4A 1/4 1/8 1.07 .57 7/16
+201AB-4B 1/4 1/4 1.28 .78 9.16
+201AB-5B 5/16 1/4 1.47 .78 9/16
+201AB-6B 3/8 1/4 1.59 .78 9/16
+201AB-6C 3/8 3/8 1.59 .78 11/16
+201AB-8B 1/2 1/4 1.50 .72 5/8
+201AB-10D 5/8 1/2 1.88 1.00 7/8
+Anderson Fittings Hose Barb
+122 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+201NY NYLON HOSE BARB TO MPT
+PART HOSE PIPE
+NUMBER I.D. THREAD
+201NY-4B 1/4 1/4
+201NY-6B 3/8 1/4
+Anderson Fittings Nylon Hose Barb
+123 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+209NY NYLON HOSE BARB TO FPT
+PART HOSE PIPE
+NUMBER I.D. THREAD
+209NY-4B 1/4 1/4
+209NY-6B 3/8 1/4
+HM  NYLON HOSE MENDER
+PART HOSE
+NUMBER I.D.
+HMNY-4 1/4
+HMNY-6 3/8
+HMNY-64 3/8X1/4
+
+NOTES 
+Anderson Fittings
+124 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+Anderson Fittings POL Fittings
+125 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Manufactured from CA360, CA345 brass
+APPLICATIONS
+• Use for making connections in LP gas systems
+ORDERING INFORMATION
+• Order by part number as shown in the catalog
+NOTES
+• Current price list represents in stock cataloged items.
+• Non-stock items and special parts are available on a quotation basis.
+• Configurations and dimensions are subject to change without notice.
+
+POL-LN  NUT, 1-1/8” HEX
+PART EXTERNAL
+NUMBER THREAD A HEX
+POL-LN .880-14 LH 1.12 1-1/8
+POL-N  NUT, 7/8” HEX
+PART EXTERNAL
+NUMBER THREAD A HEX
+POL-N .880-14 LH 1.00 7/8
+POL-LTP & POL-LTPH  ADAPTER, 2-9/16”
+PART PIPE
+NUMBER THREAD A
+POL-LTP* 1/4 2.34
+POL-LTPH 1/4 2.34
+*WITH WRENCH FLATS
+POL-N5  CAP
+PART INTERNAL
+NUMBER THREAD A HEX
+POL-N5 .880-14 LH 1.12 5/8
+POL-P2  PLUG
+PART EXTERNAL
+NUMBER THREAD A HEX
+POL-P2 .880-14 LH 1.34 7/8
+POL-U2  POL TO SAE FLARE
+PART O.D. EXTERNAL
+NUMBER FLARE THREAD A HEX
+POL-U2-6 3/8 .880-14 LH 1.97 7/8
+POL-U2-8 1/2 .880-14 LH 2.09 7/8
+POL-U2-10 5/8 .880-14 LH 2.22 7/8
+Anderson Fittings POL Fittings
+126 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+POL-U3  POL TO FPT
+PART EXTERNAL PIPE
+NUMBER THREAD THREAD A HEX
+POL-U3B .880-14 LH 1/4 FPT 1.34 7/8
+POL-SN  SMALL NUT FOR 1/4” TUBING
+PART EXTERNAL
+NUMBER THREAD A HEX
+POL-SN .880-14 LH 1.00 7/8
+POL-STP TAIL PIECE FOR 1/4” TUBING
+PART
+NUMBER A
+POL-STP .68
+Anderson Fittings POL Fittings
+127 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+Anderson Fittings Needle Valves
+128 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Brass construction. Most valves are made from extruded bodies.
+• Metal to metal seats
+ADVANTAGES
+• Use with copper, aluminum, steel and plastic tubing as applicable
+• Excellent for general service with metering capabilities
+• Pressure range up to 150 psi
+ORDERING INFORMA
+TION
+• Order using indicated part number
+• Part number indicates style and size
+• Compression valves are complete with nuts and sleeves
+NOTES
+• Current price list represents in stock cataloged items.
+• Non-stock items and special parts are available on a quotation basis.
+• Configurations and dimensions are subject to change without notice.
+
+NEEDLE VALVE  FPT TO FPT
+PART PIPE
+NUMBER THREAD A B
+31NV 1/8X1/8 1.60 1.25
+32NV 1/4X1/4 1.80 1.82
+NEEDLE VALVE  COMPRESSION TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+103CC 1/4 1/8 1.80 .80
+103-4CC 1/4 1/4 2.10 .90
+203CC 5/16 1/8 1.80 .90
+303ACC 3/8 1/8 2.20 1.00
+303CC 3/8 1/4 2.20 1.00
+NEEDLE VALVE  FPT TO MPT
+PART PIPE
+NUMBER THREAD A B
+48NV 1/8X1/8 1.30 1.25
+49NV 1/4X1/4 1.86 1.87
+NEEDLE VALVE  COMPRESSION TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+101CP 1/4 1/8 1.50 1.50
+101CP-4 1/4 1/4 1.40 1.60
+102CP 5/16 1/8 1.50 1.50
+143CP 3/8 1/4 1.80 1.80
+NEEDLE VALVE  FLARE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+103SAE 1/4 1/8 1.80 .73
+203SAE 5/16 1/8 1.32 .78
+204SAE 5/16 1/4 1.54 .84
+303SAE 3/8 1/4 1.54 .91
+Anderson Fittings Needle Valves
+129 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+NEEDLE VALVE  FLARE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+104SAE 1/4 1/8 1.30 1.30
+105SAE 1/4 1/4 1.62 1.30
+106SAE 5/16 1/8 1.36 1.45
+108SAE 3/8 1/4 1.70 1.70
+NEEDLE VALVE  FLARE TO FLARE
+PART O.D.
+NUMBER TUBE A B
+110SAE 1/4X1/4 1.30 1.50
+115SAE 3/8X3/8 1.70 1.88
+NEEDLE VALVE  MPT TO MPT
+PART PIPE
+NUMBER THREAD A B
+108MP 1/8X1/8 1.60 1.25
+110MP 1/4X1/4 1.92 1.65
+NEEDLE VALVE  COMPRESSION TO COMPRESSION
+PART O.D.
+NUMBER TUBE A B
+106CC 1/4X1/4 1.30 1.80
+107CC 5/16X5/16 1.20 1.70
+113CC 3/8X3/8 1.90 1.80
+Anderson Fittings Needle Valves
+130 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+Anderson Fittings Special Duty Valves
+131 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Forged bodies, solid bottom, spring loaded top
+• Neoprene “O” ring seal, steel cad plated handles
+• Individually ground plugs
+• Valves are packed with a non-drying, synthetic grease
+APPLICA
+TIONS
+• Use with copper, aluminum, steel and plastic tubing where applicable.
+• Used for low pressure applicaitons whre a quick on and off operation is desired with a generous flow
+• 30 psi
+• Solid bottom and O ring seal prevents leakage to and from the atmosphere
+• Use on fuel oil, water, gas, air, and LP gas
+ORDERING INFORMA
+TION
+• Order using indicated part number
+• Part number indicates style and size
+• Compression valves are complete with nuts and sleeves
+NOTES
+• Current price list represents in stock cataloged items.
+• Non-stock items and special parts are available on a quotation basis.
+• Configurations and dimensions are subject to change without notice.
+
+SPECIAL DUTY VALVE  COMPRESSION TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+227CSD 1/4 1/4 2.09 1.71
+57CSD 3/8 1/4 2.31 1.71
+557CSD 3/8 3/8 2.36 1.71
+SPECIAL DUTY VALVE  FLARE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+227SD 1/4 1/4 2.11 1.72
+57SD 3/8 1/4 2.21 1.72
+557SD 3/8 3/8 2.26 1.71
+67SD 1/2 3/8 2.39 1.71
+SPECIAL DUTY VALVE  COMPRESSION TO COMPRESSION
+PART O.D.
+NUMBER TUBE A B
+58CSD 3/8X3/8 1.65 1.71
+68CSD 1/2X1/2 2.54 1.71
+SPECIAL DUTY VALVE  FLARE TO FLARE
+PART O.D.
+NUMBER TUBE A B
+28SD 1/4X1/4 1.86 1.71
+58SD 3/8X3/8 2.12 1.71
+68SD 1/2X1/2 2.23 1.71
+SPECIAL DUTY VALVE  FPT TO FPT
+PART PIPE
+NUMBER THREAD A B
+32SD 1/4X1/4 2.09 1.71
+40SD 3/8X3/8 2.56 1.71
+SPECIAL DUTY VALVE  MPT TO MPT
+PART PIPE
+NUMBER THREAD A B
+77SD 1/4X1/4 2.10 1.71
+Anderson Fittings Special Duty Valves
+132 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+SPECIAL DUTY VALVE  FPT TO MPT
+PART PIPE
+NUMBER THREAD A B
+103SD-2 1/8X1/8 2.00 1.71
+103SD-4 1/4X1/4 2.21 1.71
+103SD-6 3/8X3/8 2.52 1.71
+FOUR WAY VALVE  FPT ALL ENDS
+PART STEM PIPE
+NUMBER LENGTH THREAD A B C
+114SD 1-3/8” 1/4 2.08 .94 3.30
+115SD 3-3/4” 1/4 2.08 .94 5.72
+THREE WAY VALVE  FPT ALL ENDS
+PART PIPE
+NUMBER THREAD A B C
+108SD-2 1/8 2.13 .75 3.00
+108SD-4 1/4 2.13 .75 3.00
+108SD-6 3/8 2.13 .75 3.00
+Anderson Fittings Special Duty Valves
+133 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+Anderson Fittings Ground Plug Valves
+134 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Ground plug valves are manufactured with forged or cast brass bodies
+• Handles are an integral part of the plug
+ADVANTAGES
+• Use with copper, aluminum, steel and plastic tubing where applicable
+• Used for low pressure applications where a quick on and off operation is desired
+• Designed to withstand 30 psi working pressure
+ORDERING INFORMA
+TION
+• Order using indicated part number
+• Part number indicates style and size
+• Compression valves are complete with nut and sleeve
+NOTES
+• Current price list represents in stock cataloged items.
+• Non-stock items and special parts are available on a quotation basis.
+• Configurations and dimensions are subject to change without notice.
+
+VALVE  COMPRESSION TO MALE PIPE
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+27CC 1/4 1/8 1.80 1.84
+227CC 1/4 1/4 1.87 1.84
+57CC 3/8 1/4 1.88 1.63
+557CC 3/8 3/8 2.02 2.14
+VALVE  FLARE TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+27SAE 1/4 1/8 2.04 1.68
+227SAE 1/4 1/4 1.95 1.84
+57SAE 3/8 1/4 2.11 1.60
+557SAE 3/8 3/8 2.21 2.10
+67SAE 1/2 3/8 2.35 2.10
+VALVE  COMPRESSION TO COMPRESSION
+PART O.D.
+NUMBER TUBE A B
+28CC 1/4 2.11 1.67
+30CC 5/16 2.12 1.79
+58CC 3/8 2.23 1.65
+68CC 1/2 2.78 2.10
+VALVE  FLARE TO FLARE
+PART O.D.
+NUMBER TUBE A B
+28SAE 1/4 1.90 1.86
+30SAE 5/16 1.94 1.79
+58SAE 3/8 2.13 2.31
+68SAE 1/2 2.44 2.33
+VALVE  MPT TO MPT
+PART PIPE
+NUMBER THREAD A B
+76PC 1/8X1/8 1.75 1.50
+77PC 1/4X1/4 1.94 1.62
+78PC 3/8X3/8 2.54 1.80
+Anderson Fittings Ground Plug Valves
+135 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+VALVE  FPT TO FPT
+PART PIPE
+NUMBER THREAD A B
+31PC 1/8X1/8 1.46 1.68
+32PC 1/4X1/4 1.71 1.62
+40PC 3/8X3/8 1.63 1.88
+80PC 1/2X1/2 2.04 2.75
+120PC 3/4X3/4 2.39 3.22
+VALVE  FPT TO MPT
+PART PIPE
+NUMBER THREAD A B
+48PC 1/8X1/8 1.72 1.62
+49PC 1/4X1/4 1.84 1.62
+50PC 3/8X3/8 1.32 2.30
+VALVE  FLARE TO FPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+161SAE 3/8 1/2 2.28 2.33
+163SAE 3/8 3/8 2.21 2.21
+164SAE 1/2 1/2 2.36 2.30
+166SAE 1/2 3/4 2.42 2.06
+167SAE 5/8 3/4 2.50 2.10
+VALVE  SPACE HEATER, 9/16-24 THREAD TO FPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+161CT 3/8 1/2 2.21 1.51
+PILOT VALVE 90° COMPRESSION TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+89CCB 1/4 1/8 1.14 1.54
+THREE WAY VALVE  COMPRESSION TO MPT TO COMPRESSION
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+60CC 1/4X1/4 1/8 2.28 1.53
+Anderson Fittings Ground Plug Valves
+136 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+Anderson Fittings Special Service, Drain and Truck Valves
+137 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Brass bodies and cad plated steel handles as applicable
+• Metal to metal seat
+• internal and external seats as indicated
+APPLICA
+TIONS
+• Use with copper, aluminum, steel, hose or plastic tubing where applicable.
+• Used for low pressures
+• Excellent where a quick on and off feature is desired
+• Accurate machining and adequate wall thicknesses make these drain cocks highly dependable
+ORDERING INFORMA
+TION
+• Order using indicated part number
+• Part number indicates style and size
+• Compression valves are complete with nut and sleeve
+NOTES
+• Current price list represents in stock cataloged items
+• Non-stock items and special parts are available on a quotation basis
+• Configurations and dimensions are subject to change without notice
+
+NEEDLE DRAIN COCK  TO MPT
+PART PIPE
+NUMBER THREAD A B
+200D 1/8 1.31 .96
+201D 1/4 1.66 1.24
+202D 3/8 1.30 1.12
+NEEDLE DRAIN COCK  WITH HOSE BIBB
+PART PIPE
+NUMBER HOSE THREAD A B
+201DH 3/8 1/4 1.28 .94
+NEEDLE DRAIN COCK  INTERNAL SEAT
+PART PIPE
+NUMBER THREAD A B
+300D 1/8 1.25 .73
+301D 1/4 1.25 .73
+NEEDLE DRAIN COCK  EXTERNAL SEAT
+PART PIPE
+NUMBER THREAD A B
+320D 1/8 .88 .54
+321D 1/4 1.06 .68
+322D 3/8 1.25 .79
+NEEDLE DRAIN COCK  WITH EXTENSION EXTERNAL SEAT
+PART PIPE
+NUMBER THREAD A
+421D 1/4 1.50
+T HANDLE DRAIN VALVE
+PART PIPE
+NUMBER THREAD A B
+37D 1/8 1.79 1.40
+38D 1/4 1.92 1.54
+Anderson Fittings Special Service, Drain and Truck Valves
+138 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+DRAIN VALVE,  LEVER HANDLE
+PART PIPE
+NUMBER THREAD A B
+41D 1/8 1.79 1.43
+42D 1/4 1.84 1.50
+43D 3/8 2.18 1.75
+44D 1/2 2.12 1.99
+DRAIN VALVE  WITH FIXED CABLE
+PART O.D. PIPE
+NUMBER TUBE THREAD
+327-4 1/4 48” CABLE
+327-5 1/4 60” CABLE
+SELF TAPPING VALVE  WITH SADDLE
+CLAMP FOR USE WITH 3/8 O.D. THROUGH 1.315 O.D. TUBE OR PIPE
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+104HV-ST 1/4 1/8 1.80 2.35 .95
+SADDLE VALVE  WITH BRASS OR STEEL SADDLE
+CLAMP FOR USE WITH 3/8 O.D. THROUGH 1.315 O.D. TUBE OR PIPE
+PART O.D. PIPE
+NUMBER TUBE THREAD A B C
+104HV-B 1/4 1/8 1.94 1.69 1.05
+104HV-S 1/4 1/8 2.03 2.38 1.03
+204HV-B 5/16 1/8 2.03 1.69 1.04
+BRASS SADDLE ONLY TAPPED 1/8 FPT
+PART PIPE
+NUMBER THREAD A B
+109SC-B 1/8 2.05 1.00
+EVAPORATIVE COOLER VALVE  TAPPED 1/8”
+PART PIPE
+NUMBER HOSE THREAD
+EV-12A 3/4 1/8
+Anderson Fittings Special Service, Drain and Truck Valves
+139 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+BARREL FAUCET  SELF CLOSING
+ZINC BODY, NYLON SEAT
+PART PIPE
+NUMBER THREAD
+G261 3/4
+HOSE VALVE  TO MPT
+PART I.D. PIPE
+NUMBER HOSE THREAD
+HV1-6C 3/8 3/8
+HV1-8C 1/2 3/8
+HV1-10C 5/8 3/8
+HV1-10D 5/8 1/2
+HV1-12C 3/4 3/8
+HV1-12D 3/4 1/2
+HOSE VALVE  TO MPT WITH PIN HANDLE
+PART I.D. PIPE
+NUMBER HOSE THREAD
+HV1-PH-10C 5/8 3/8
+HOSE BARB VALVE  TO MPT, PIN HANDLE
+PART I.D. PIPE
+NUMBER HOSE THREAD
+HBPHV-6C 3/8 3/8
+HOSE BARB VALVE  TO MPT, ROUND HANDLE
+PART I.D. PIPE
+NUMBER HOSE THREAD
+HBV-6C 3/8 3/8
+Anderson Fittings Special Service, Drain and Truck Valves
+140 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+OIL TANK VALVE  FLARE TO MPT
+PART O.D. PIPE
+NUMBER PIPE THREAD A B C
+5818X8 3/8 1/2 1.12 1.94 2.63
+5818X12 3/8 3/4 1.12 1.99 2.72
+3416X12 1/2 3/4 1.25 2.56 3.31
+OIL TANK VALVE  COMPRESSION TO MPT
+PART O.D. PIPE
+NUMBER PIPE THREAD A B C
+5818CCX8 3/8 1/2 .94 1.88 2.56
+5818CCX12 3/8 3/4 .94 1.94 2.63
+OIL TANK VALVE  MPT TO FPT
+PART MALE FEMALE
+NUMBER PIPE PIPE A B
+1W-66 3/8 3/8 2.75 1.17
+1W-86 1/2 3/8 2.75 1.17
+1W-88 1/2 1/2 2.75 1.17
+OIL TANK VALVE  MPT TO MPT WITH 3-1/2” EXTENSION
+PART MALE FEMALE
+NUMBER PIPE PIPE A B
+2W-68 1/2 3/8 2.75 1.17
+TRUCK VALVE  FLARE TO MPT, 90°
+PART I.D. PIPE
+NUMBER HOSE THREAD
+5818PHX6X90 3/8 3/8
+TRUCK VALVE  FLARE TO MPT, 90°
+PART I.D. PIPE
+NUMBER HOSE THREAD
+7814X8X90 5/8 1/2
+Anderson Fittings Special Service, Drain and Truck Valves
+141 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+TRUCK VALVE  MPT TO FLARE
+PART I.D. PIPE
+NUMBER HOSE THREAD
+7814X8X90X1 5/8 1/2
+TRUCK VALVE  TUBE WITH SUPPORT TO MPT
+PART PIPE
+NUMBER TUBE THREAD
+408NAB-8D 1/2 1/2
+TRUCK VALVE  MPT TO TUBE WITH SUPPORT
+PART PIPE
+NUMBER TUBE THREAD
+410NAB-8D 1/2 1/2
+Anderson Fittings Special Service, Drain and Truck Valves
+142 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+NEEDLE VALVE  A-LIGN TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+9101CP 1/4 1/8 1.50 1.50
+9102CP 5/16 1/8 1.50 1.50
+9143CP 3/8 1/4 1.80 1.80
+NEEDLE VALVE  A-LIGN TO A-LIGN 
+PART O.D.
+NUMBER TUBE A B
+9106CC 1/4 1.30 1.80
+9107CC 5/16 1.20 1.70
+9113CC 3/8 1.90 1.80
+NEEDLE VALVE  A-LIGN TO MPT
+PART O.D. PIPE
+NUMBER TUBE THREAD A B
+9103CC 1/4 1/8 1.80 .80
+9203CC 5/16 1/8 1.80 .90
+9303CC 3/8 1/4 2.20 1.00
+Anderson Fittings A-Lign Needle Valves
+143 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+Anderson Fittings Thermoplastic Tubing
+144 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CHARACTERISTICS – POLYETHYLENE TUBING
+• Low density polyethylene tubing has a wide range of uses in industrial and agricultural applications
+in pneumatic lines, instrumentation systems and water lines.
+• Good chemical resistance to alkali, dilute acids, solvents, ammonia gas, ammonium hydroxide and
+calcium salts.
+• Virgin materials are used in manufacture, Approved by FDA.
+• Natural color supplied as standard. Black is recommended to improve durability in sunlight
+(ultraviolet radiation). Other colors are available.
+POLYETHYLENE TUBING
+31440 500’ Reel 1/4 .040 .170 300 1” 1.1
+31562 500’ Reel 5/16 .062 .188 375 1-1/8” 2.0
+31662 500’ Reel 3/8 .062 .250 200 1-1/4” 2.5
+30862 100’ Coil 1/2 .062 .375 225 2-1/2” 3.5
+Colors: Above part numbers are supplied as natural (white). Additional colors are available by adding a
+suffix for the required color. Black (BK), Red (RD), Green (GN), Yellow (YW), Blue (BL).
+Example: 31440RD is a 1/4 O.D. 500” Reel Red.
+PART
+NUMBER LENGTH O.D. WALL I.D.
+MN. BURST
+PRESSURE 
+AT 70°
+MIN.
+BEND
+RADIUS
+WEIGHT
+POUNDS
+PER 100’
+Anderson Fittings Tubing Racks
+145 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+Racks hold up to 10 tubes in an orderly fashion. Frequently used on instrumentation panels where
+space is normally limited. Provides ease of maintenance and identification, constructed from
+polyethylene, rack can be easily cut to accommodate required number of tubes.
+PART NUMBER
+AFTR 1404 For 1/4 O.D. Tubing Lips fasten rack to base with screws
+also offers longitudinal grooves for
+channel mounts
+AFTR 1606 For 3/8 O.D. Tubing Lips fasten rack to base with screws
+also offers longitudinal grooves for
+channel mounts
+AFTR 2404 For 1/4 O.D. Tubing For less than 10 tubes, rack is cut
+two positions beyond last clip
+desired.
+AFTR 2608 For 1/2 O.D. Tubing Holds up to 6 tubes with lips and
+grooves
+
+Anderson Fittings Tools and Accessories
+146 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+CONSTRUCTION
+• Precision engineered tubing tools
+• Individually packaged as indicated
+• Designed for years of rugged service
+APPLICA
+TIONS
+• For every cutting or flaring requirement
+ORDERING INFORMATION
+• Order using indicated part number
+NOTES
+• Current price list represents in stock catalogued items
+• Configurations and dimensions are subject to change without notice
+
+AF20274
+HEAVY DUTY TUBE CUTTER
+1/8 - 1-1/8 O.D. TUBE CUTTER (4 - 28 mm, 1/8 - 1 nom)
+The Heavy Duty pattern cutter employs interchangeable cutter
+and constructor wheels making them the most versatile for
+copper, brass, aluminum, steel and stainless steel tube work.
+Other features include enclosed feed protecting the screw
+from dirt and damage/flare cut-off grooved rollers minimizing
+tube waste/spare wheel under the foldaway reamer/satin
+finished nickel-chrome plated rugged aluminum alloy body
+with a “balanced feel.”
+Anderson Fittings Tools and Accessories
+147 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+AF20307
+TUBE CUTTER
+A razor sharp blade easily cuts plastic tubing and other types
+of non-wire reinforced hose.
+AF21200
+PLIER / CLAMPING TYPE
+3/16, 1/4, 5/16, 3/8, 1/2, 5/8 O.D.
+SINGLE FLARING TOOL (1/8, 1/4, 3/8, 1/2 nom)
+The Plier clamping type 45° flaring tool is a one piece unit
+featuring rotating hex hardened steel die blocks to securely
+clamp 6 o.d. tube size (3/16 - 5/8). A heavy duty tool for soft
+copper, aluminum, brass and steel tube which has gained
+popularity in the automotive and plumbing trades. Tool is
+finished in black with plastic handle grips.)
+STPE 1
+TUBE SET HEIGHT GAUGE
+STEP 2
+PREFORM DOUBLE FLARE
+STEP 3
+COMPLETE FLARE
+The FC-1 Telescoping Fitting Cabinet contains 54 tilt bin drawers which attach to a sturdy steel framework and
+acrylic base.
+Its rugged construction will withstand the punishment of a repair shop or production operation.
+In a retail environment, its attractive style will help increase sales as a point-of-purchase display.
+Cabinet dimensions are 24” wide x 16” deep x 54” high.
+Anderson Fittings Brass Fitting Cabinet
+148 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+
+Anderson Fittings Brass Fitting Drawer Compartments are designed with portability in mind. Their sturdy steel
+construction with durable plastic compartments make storage convenient and repairs easily accomplished.
+Refer to pages 153-154 for Assortments.
+Ander Fit-KIT
+Anderson Fittings Brass Fitting Drawer Compartments
+149 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+DS16C
+Measures 13-3/4L x 9-3/4W x 2-1/4D
+DL20C
+Measures 18-1/2L x 12-1/4W x 3-1/8D
+DL16C
+Measures 18-1/4L x 12W x 3-1/8D
+NOT PICTURED
+Anderson Fittings Brass Fitting Assortments
+FA-1 Assortment
+This assortment contains 108 of the most popular flare,
+compression, pipe and inverted flare fittings in the
+product offering. (Designed for use with (2) FC-1 tilt
+bin fitting cabinets which must be ordered as
+separate items).
+FA-4 Assortment
+This assortment contains 105 of the fastest moving
+flare and compression fittings in the product offering. It
+is ideally set up for the repair shop or initial distribution
+stock. (Designed for use with (2) FC-1 tilt bin fitting
+cabinets which must be ordered as separate items.)
+100A-A 10
+100A-B 5
+100A-C 10
+101A-A 10
+101A-B 10
+101A-C 5
+103A-A 5
+103A-B 5
+103A-C 5
+109A-A 25
+109A-B 25
+109A-C 10
+110A-BA 25
+110A-CA 10
+110A-CB 10
+110A-DB 10
+110A-DC 10
+112A-A 10
+112A-B 10
+112A-C 5
+119A-BA 10
+119A-CB 5
+120A-AA 5
+120A-BA 10
+120A-CB 5
+122A-A 10
+122A-B 10
+122A-C 5
+320D 10
+321D 10
+41IB-4 25
+48I-4A 25
+481-5A 25
+48I-6B 10
+48I-8C 5
+60A-2 100
+60A-3 100
+60A-4 100
+60A-5 100
+60A-6 100
+60A-8 100
+60A-10 100
+61A-2 25
+61A-3 50
+61A-4 50
+61A-5 50
+61A-6 50
+61A-8 50
+61A-10 50
+62A-44 25
+62A-66 25
+62A-1010 10
+64A-44 10
+64A-66 10
+66A-4A 10
+66A-B 10
+68A-2A 10
+68A-3A 10
+68A-4A 10
+68A-4B 10
+68A-5A 10
+68A-6B 10
+68A-6C 10
+68A-6D 10
+68A-10D 10
+68A-14E 5
+69A-6C 10
+69A-10D 10
+E1-4A 10
+E1-5A 10
+E1-6B 10
+E1-6C 10
+E2-6 5
+E3-6C 10
+E3-6D 5
+E3-8D 5
+N1-4 25
+N1-5 25
+N1-6 25
+N1-8 25
+N1-10 25
+N5-4 10
+N5-6 10
+N5-8 10
+N5-10 5
+P2-4 10
+P2-6 10
+P2-8 10
+P2-10 5
+T2-4 10
+T2-6 10
+U1-4A 10
+U1-4B 10
+U1-6B 10
+U1-6C 10
+U1-6D 10
+U1-8D 10
+U1-10D 10
+U2-6 10
+U2-8 10
+U3-6C 10
+U3-6D 10
+U3-8D 10
+U3-10D 10
+US4-4 5
+US4-6 5
+US4-8 5
+US4-10 5
+E1-4A 10
+E1-4B 10
+E1-5A 10
+E1-6B 10
+E1-6C 10
+E1-6D 5
+E2-6 5
+E2-8 5
+E3-6C 10
+E3-6D 5
+E3-8D 5
+N1-4 25
+N1-5 25
+N1-6 25
+N1-8 25
+N1-10 25
+N5-4 10
+N5-6 10
+N5-8 10
+N5-10 5
+P2-4 10
+P2-6 10
+P2-8 10
+P2-10 5
+T2-4 10
+T2-6 10
+T2-8 5
+T2-10 5
+U1-4A 10
+U1-4B 10
+U1-6B 10
+U1-6C 10
+U1-6D 10
+U1-8C 10
+U1-8D 10
+U1-8E 5
+U1-10D 10
+U2-4 10
+U2-6 10
+U2-8 10
+U2-10 5
+U3-6B 10
+U3-6C 10
+U3-6D 10
+U3-8C 10
+U3-8D 10
+U3-10D 10
+US4-4 5
+US4-6 5
+US4-8 5
+US4-10 5
+60A-2 100
+60A-3 100
+60A-4 100
+60A-5 100
+60A-6 100
+60A-8 100
+60A-10 100
+60A-12 50
+60A-14 50
+61A-2 25
+61A-3 50
+61A-4 50
+61A-5 50
+61A-6 50
+61A-8 50
+61A-10 50
+61A-12 10
+61A-14 10
+62A-22 10
+62A-33 10
+62A-44 25
+62A-55 10
+62A-66 25
+62A-88 10
+62A-1010 10
+64A-44 10
+64A-66 10
+64A-88 5
+65A-44 10
+65A-66 10
+65A-88 5
+66A-6D 10
+66A-8D 10
+68A-2A 10
+68A-3A 10
+68A-4A 10
+68A-4B 10
+68A-5A 10
+68A-6B 10
+68A-6C 10
+68A-6D 10
+68A-8C 10
+68A-8D 10
+68A-10D 10
+68A-14E 5
+69A-4A 10
+69A-4B 10
+69A-6B 10
+69A-6C 10
+69A-8C 10
+69A-8D 10
+69A-10D 10
+72A-4A 10
+72A-6B 10
+PART NO. QTY. PART NO. QTY. PART NO. QTY. PART NO. QTY. PART NO. QTY. PART NO. QTY.
+150 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+Anderson Fittings Brass Fitting Assortments
+151 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+FA-5 Assortment
+This assortment contains 51 of the
+fastest moving flare items in the
+product offering in sizes ranging from
+1/4 OD through 5/8 OD. (Designed
+for use with (1) FC-1 tilt bin fitting
+cabinet which must be ordered as
+a separate item).
+E1-4A 10
+E1-4B 10
+E1-5A 10
+E1-6B 10
+E1-6C 10
+E1-6D 10
+E2-6 5
+E2-8 5
+E3-6C 10
+E3-6D 5
+E3-8D 5
+N1-4 25
+N1-5 25
+N1-6 25
+N1-8 25
+N1-10 25
+N5-4 10
+N5-6 10
+N5-8 10
+N5-10 5
+P2-4 10
+P2-6 10
+P2-8 10
+P2-10 5
+T2-4 10
+T2-6 10
+PART NO. QTY. PART NO. QTY.
+T2-8 5
+T2-10 5
+U1-4A 10
+U1-4B 10
+U1-6B 10
+U1-6C 10
+U1-6D 10
+U1-8C 10
+U1-8D 10
+U1-8E 5
+U1-10D 10
+U2-4 10
+U2-6 10
+U2-8 10
+U2-10 5
+U3-6B 10
+U3-6C 10
+U3-6D 10
+U3-8C 10
+U3-8D 10
+U3-10D 10
+US4-4 5
+US4-6 5
+US4-8 5
+US4-10 5
+FA-6 Assortment
+This assortment contains 54 of the
+most popular moving compression
+fittings in the product offering in sizes
+1/8 OD through 7/8 OD. (Designed
+for use with (1) FC-1 tilt bin fitting
+cabinet which must be ordered as
+a separate item).
+FA-7GH Assortment
+Garden hose assortment contains
+the most popular fittings required for
+hose repair. (Designed for use with
+(1) FC-1 tilt bin fitting cabinet
+which must be ordered as a
+separate item).
+60A-2 100
+60A-3 100
+60A-4 100
+60A-5 100
+60A-6 100
+60A-8 100
+60A-10 100
+60A-12 50
+60A-14 50
+61A-2 50
+61A-3 50
+61A-4 50
+61A-5 50
+61A-6 50
+61A-8 50
+61A-10 50
+61A-12 10
+61A-14 10
+62A-22 10
+62A-33 10
+62A-44 25
+62A-55 10
+62A-66 25
+62A-88 10
+62A-1010 10
+64A-44 10
+64A-66 10
+PART NO. QTY. PART NO. QTY.
+64A-88 5
+65A-44 10
+65A-66 10
+65A-88 5
+66A-6D 10
+66A-8D 10
+68A-2A 10
+68A-3A 10
+68A-4A 10
+68A-4B 10
+68A-5A 10
+68A-6B 10
+68A-6C 10
+68A-6D 10
+68A-8C 10
+68A-8D 10
+68A-10D 10
+68A-14E 5
+69A-4A 10
+69A-4B 10
+69A-6B 10
+69A-6C 10
+69A-8C 10
+69A-8D 10
+69A-10D 10
+72A-4A 10
+72A-6B 10
+GHN1 10
+GHN1-H 5
+GHN5 10
+GHN5-H 5
+GHN5-TA 5
+GH-W 30
+5A-12D 10
+5A-12E 10
+5AS-12D 20
+5AS-12E 20
+18A-12D 10
+18A-12E 10
+19A-12C 5
+19A-12D 20
+19AF-12DE 20
+20A-12D 10
+20A-12E 10
+21A-12 5
+22A-12 10
+22AS-12E 20
+23A-12 10
+PART NO. QTY. PART NO. QTY.
+201GH-8E 10
+201GH-10E 10
+201GH-12E 10
+202GHS-88 5
+202GHS-1010 5
+202GHS-1212 5
+209GHS-8E 10
+209GHS-10E 10
+209GHS-12E 10
+201GH-8EX 5
+201GH-10EX 5
+201GH-12EX 5
+209GHS-8EX 5
+209GHS-10EX 5
+209GHS-12EX 3
+W1-B 5
+W1-C 5
+W1-6 5
+W1-8 5
+ECD-D 5
+Anderson Fittings Brass Fitting Assortments
+152 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+FA-1-3A Assortment
+Ideally suited for the small parts jobber in the farm and
+automotive market, this assortment contains the most
+popular hose barbs, drain cocks, pipe fittings and
+inverted flares in the product offering. (Designed for
+use with (1) FC-1 tilt bin fitting cabinets which must
+be ordered as separate items).
+FA-8BP Assortment
+This pipe fitting assortment will serve the needs of the
+plumber, containing 105 of the fastest moving tees,
+unions, couplings, adapters, bushings, nipples and
+plugs to make any repair easy. (Designed for use with
+(2) FC-1 tilt bin fitting cabinets which must be
+ordered as a separate item.)
+100A-A 10
+101A-A 10
+101A-B 10
+103A-A 5
+103A-B 5
+109A-A 25
+109A-B 25
+109A-C 10
+109A-D 5
+110A-BA 25
+110A-CB 10
+110A-DB 10
+110A-DC 10
+112A-A 10
+112A-B 10
+112A-C 5
+113A-A15 10
+113A-A2 10
+113A-B15 10
+113A-B2 10
+116A-A 5
+116A-B 5
+116A-C 5
+121A-A 25
+121A-B 25
+121A-C 10
+201A-4A 25
+201A-5A 25
+201A-5B 25
+201A-6A 10
+201A-6B 25
+201D 5
+320D 10
+321D 10
+41IB-4 25
+41IB-6 25
+41IP-4 10
+41IS-4 25
+41IS-6 25
+42I-4 10
+42I-6 10
+48I-4A 10
+48I-4B 10
+48I-5A 25
+48I-5B 10
+48I-6B 10
+49I-4A 10
+49I-5A 10
+49I-5B 10
+94I-4A 5
+HEI-4A 5
+HEI-5B 5
+HEI-6A 5
+HEI-6B 5
+100A-A 10
+100A-B 5
+100A-C 10
+100A-D 5
+100A-E 5
+101A-A 10
+101A-B 10
+101A-C 5
+101A-D 5
+101A-E 5
+102A-A 5
+102A-B 5
+102A-C 5
+102A-D 5
+103A-A 5
+103A-B 5
+103A-C 5
+103A-D 5
+103A-E 2
+108A-A 10
+108A-B 10
+108A-C 10
+108A-D 5
+108A-E 5
+109A-A 25
+109A-B 25
+109A-C 10
+109A-D 5
+109A-E 5
+110A-BA 25
+110A-CA 10
+110A-CB 10
+110A-DA 10
+110A-DB 10
+110A-DC 10
+110A-EA 5
+110A-EB 5
+110A-EC 5
+110A-ED 5
+110A-FB 5
+110A-FC 5
+110A-FD 5
+110A-FE 5
+111A-A 10
+111A-B 10
+111A-C 5
+111A-D 5
+112A-A 10
+112A-B 10
+112A-C 5
+112A-D 5
+112A-E 5
+113A-A15 10
+113A-A2 10
+113A-B15 10
+113A-B2 10
+113A-C15 5
+113A-C2 10
+113A-D15 10
+113A-D2 10
+113A-E15 5
+113A-E2 5
+116A-A 5
+116A-B 5
+116A-C 5
+116A-D 5
+116A-E 2
+119A-BA 10
+119A-CA 5
+119A-CB 5
+119A-DB 5
+119A-DC 5
+119A-ED 2
+120A-AA 10
+120A-BA 10
+120A-CA 5
+120A-CB 5
+120A-CC 5
+120A-DB 5
+120A-DC 5
+120A-ED 2
+121A-A 25
+121A-B 25
+121A-C 10
+121A-D 5
+121A-E 5
+122A-A 10
+122A-B 10
+122A-C 5
+122A-D 5
+122A-E 5
+123A-BA 10
+123A-CA 5
+123A-CB 5
+123A-DB 5
+123A-DC 5
+123A-ED 2
+124A-A 10
+124A-B 10
+124A-C 5
+124A-D 5
+127A-A 10
+127A-B 5
+127A-C 5
+127A-D 5
+PART NO. QTY. PART NO. QTY. PART NO. QTY. PART NO. QTY. PART NO. QTY. PART NO. QTY.
+152 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+FA-9HB Assortment
+Contains the most popular moving hose barbs, grip-on barbs and double
+barbs in the product offering. (Designed for use with (1) FC-1 tilt bin
+fitting cabinet which must be ordered as separate item).
+201A-4A 25
+201A-4B 25
+201A-5B 25
+201A-6B 25
+201A-6C 10
+201A-6D 5
+201A-8C 10
+201A-8D 5
+201A-10D 5
+201A-12D 5
+201A-12E 5
+209A-4A 25
+209A-4B 10
+209A-5A 10
+209A-5B 10
+209A-6A 10
+209A-6B 10
+209A-6C 10
+209A-8C 10
+209A-8D 5
+HM-4 10
+HM-5 5
+HM-6 5
+HM-8 5
+209ASF-44 10
+209ASF-46 10
+209ASF-66 10
+HE1-4A 5
+HE1-6B 5
+HE1-8C 5
+HE1-10D 5
+HBT2-4 5
+HBT2-6 5
+301-42 10
+301-44 10
+301-64 10
+304-44 10
+304-66 5
+304-88 5
+309-44 10
+309-68 5
+309-88 10
+62DB-4 10
+62DB-6 10
+64DB-4 5
+64DB-6 5
+65DB-4 5
+65DB-6 5
+68DB-4A 10
+68DB-6B 10
+69DB-4A 10
+69DB-6B 10
+72DB-4A 25
+72DB-6B 5
+PART NO. QTY. PART NO. QTY.
+Anderson Fittings Brass Fitting Assortments
+153 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+FA-52NAB
+Contains a wide variety of dot approved airbrake fittings
+for use with nylon tubing. Sizes range from 1/4”-3/4”.
+Ideally suited for service work required in repair shops
+and in fleets. (Designed for use with (1) FC-1 tilt bin
+fitting cabinet which must be ordered as a separate
+item.) For further detail on nylon air brake fittings see
+catalog pages 32-37.
+FA-52CAB
+Contains a wide variety of dot approved airbrake fittings
+for use with copper tubing. Sizes range from 1/4”-3/4”.
+Service work will be readily accomplished with this
+offering. (Designed for use with (1) FC-1 tilt bin
+fitting cabinet which must be ordered as a separate
+item.) For further detail on copper air brake fittings see
+catalog pages 27-31.
+60NAB-4 25
+60NAB-6 25
+60NAB-8 25
+60NAB-10 10
+60NAB-12 5
+61NAB-4 25
+61NAB-6 25
+61NAB-8 25
+61NAB-10 10
+61NAB-12 5
+62NAB-4 10
+62NAB-6 5
+62NAB-8 2
+62NAB-10 2
+62NAB-12 2
+64NAB-4 10
+64NAB-6 5
+64NAB-8 2
+66NAB-6A 5
+66NAB-6B 5
+66NAB-6C 5
+68NAB-4A 10
+68NAB-4B 10
+68NAB-6B 5
+68NAB-6C 5
+68NAB-6D 5
+68NAB-8C 2
+68NAB-8D 2
+68NAB-10C 2
+68NAB-10D 2
+69NAB-4A 10
+69NAB-4B 10
+69NAB-6A 5
+69NAB-6B 5
+69NAB-6C 5
+Anderson Fittings Brass Fitting Assortments
+154 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+69NAB-6D 5
+69NAB-8C 2
+69NAB-8D 2
+69NAB-10C 2
+69NAB-10D 2
+70NAB-6B 5
+70NAB-6C 5
+70NAB-6D 5
+71NAB-6B 5
+71NAB-6C 5
+71NAB-8C 2
+72NAB-6B 5
+72NAB-6C 5
+72NAB-8C 2
+72NAB-8D 2
+79NAB-6B 5
+79NAB-6C 5
+260A-4 25
+260A-6 25
+260A-8 25
+260A-10 10
+260A-12 5
+261A-4 25
+261A-6 25
+261A-8 25
+261A-10 10
+261A-12 5
+262A-4 10
+262A-6 5
+262A-8 2
+262A-10 2
+262A-12 2
+264A-44        10
+264A-66          5
+264A-88          2
+266A-6A 5
+266A-6B 5
+266A-6C 5
+268A-4A 10
+268A-4B 10
+268A-6B 5
+268A-6C 5
+268A-6D 5
+268A-8C 2
+268A-8D 2
+268A-10C 2
+268A-10D 2
+269A-4A 10
+269A-4B 10
+269A-6A 5
+269A-6B 5
+269A-6C 5
+269A-6D 5
+269A-8C 2
+269A-8D 2
+269A-10C 2
+269A-10D 2
+270A-6B 5
+270A-6C 5
+270A-8D 5
+271A-6B 5
+271A-6C 5
+271A-8C 2
+272A-6B 5
+272A-6C 5
+272A-8C 2
+272A-8D 2
+279A-6B 5
+279A-6C 5
+PART NO. QTY. PART NO. QTY. PART NO. QTY. PART NO. QTY. PART NO. QTY. PART NO. QTY.
+Anderson Fittings Assortments
+155 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+FA-NAB-20
+Contains 20 of the fastest moving
+nylon air brake fittings. For further
+detail on nylon air brake fittings see
+catalog pages 32-36. Includes
+DL20C Compartment.
+60NAB-4 10
+60NAB-6 10
+60NAB-8 5
+61NAB-4 10
+61NAB-6 10
+61NAB-8 5
+62NAB-4 5
+62NAB-6 2
+62NAB-8 2
+64NAB-4 2
+PART NO. QTY. PART NO. QTY.
+64NAB-6 2
+64NAB-8 1
+68NAB-4A 5
+68NAB-4B 5
+68NAB-6B 5
+68NAB-6C 5
+69NAB-4A 5
+69NAB-4B 5
+69NAB-6B 2
+69NAB-6C 2
+FA-NAB-16
+Contains 16 of the fastest moving
+nylon air brake fittings. For further
+detail on nylon air brake fittings see
+catalog pages 32-36. Includes
+DL16C Compartment.
+60NAB-4 10
+60NAB-6 10
+61NAB-4 10
+61NAB-6 10
+62NAB-4 5
+62NAB-6 2
+64NAB-4 2
+PART NO. QTY. PART NO. QTY.
+68NAB-4B 5
+68NAB-6B 5
+68NAB-6C 5
+69NAB-4A 5
+69NAB-4B 5
+69NAB-6B 2
+69NAB-6C 2
+FA-CAB-20
+Contains 20 of the fastest moving
+copper air brake fittings. For further
+detail on copper air brake fittings see
+catalog pages 27-31. Includes
+DL20C Compartment.
+260A-4 10
+260A-6 10
+260A-8 5
+261A-4 10
+261A-6 10
+261A-8 5
+262A-4 5
+262A-6 2
+262A-8 2
+264A-A4 2
+PART NO. QTY. PART NO. QTY.
+264A-66             2
+264A-88             1
+268A-4A 5
+268A-4B 5
+268A-6B 5
+268A-6C 5
+269A-4A 5
+269A-4B 5
+269A-6B 2
+269A-6C 2
+FA-NIPAC-20
+Contains 20 of the fastest moving
+nickel poly push fittings. For further
+detail on nickel poly push fittings see
+catalog pages 73-78. Includes
+DL20C Compartment.
+262PPNI-4 5
+262PPNI-6 5
+262PPNI-8 2
+264PPNI-4 5
+264PPNI-6 5
+264PPNI-8 2
+266PPNI-4B 5
+266PPNI-6B 5
+268PPNI-4A 5
+268PPNI-4B 5
+PART NO. QTY. PART NO. QTY.
+268PPNI-6B 5
+268PPNI-6C 5
+268PPNI-8C 2
+269PPSNI-4A 5
+269PPSNI-4B 5
+269PPSNI-6B 5
+269PPSNI-6C 5
+269PPSNI-8C 5
+272PPSNI-4A 5
+272PPSNI-6B 5
+FA-CAB-16
+Contains 16 of the fastest moving
+copper air brake fittings. For further
+detail on copper air brake fittings see
+catalog pages 27-31. Includes
+DL16C Compartment.
+260A-4 10
+260A-6 10
+261A-4 10
+261A-6 10
+262A-4 5
+262A-6 2
+264A-4 2
+264A-6 2
+PART NO. QTY. PART NO. QTY.
+268A-4A 5
+268A-4B 5
+268A-6B 5
+268A-6C 5
+269A-4A 5
+269A-4B 5
+269A-6B 2
+269A-6C 2
+FA-NIPAC-16
+Contains 16 of the fastest moving
+nickel poly push fittings. For further
+detail on nickel poly push fittings see
+catalog pages 73-78. Includes
+DS16C Compartment.
+262PPNI-4 5
+262PPNI-6 5
+264PPNI-4 5
+264PPNI-6 5
+266PPNI-4B 5
+266PPNI-6B 5
+268PPNI-4A 5
+268PPNI-4B 5
+PART NO. QTY. PART NO. QTY.
+268PPNI-6B 5
+268PPNI-6C 5
+269PPSNI-4A 5
+269PPSNI-4B 5
+269PPSNI-6B 5
+269PPSNI-6C 5
+272PPSNI-4A 5
+272PPSNI-6B 5
+Ander Fit-KIT
+64NAB-6 2
+68NAB-4A 5
+Anderson Fittings Assortments
+156 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+FA-DB16
+Contains 16 of the fastest moving
+double barb fittings. For further detail
+on double barb fittings see catalog
+pages 92-96. Includes DS16C
+Compartment.
+62DB-4 10
+62DB-6 10
+62DB-8 5
+64DB-4 10
+64DB-6 10
+64DB-8 5
+68DB-4A 10
+68DB-4B 10
+PART NO. QTY. PART NO. QTY.
+68DB-6B 10
+69DB-4A 10
+69DB-4B 10
+69DB-6B 10
+69DB-8C 5
+70DB-4A 10
+70DB-6B 10
+72DB-4A 10
+FA-ACTPAC-20
+Contains 20 of the fastest moving
+acetal plastic fittings. For further
+detail on acetal poly push fittings see
+catalog pages 79-91. Includes
+DL20C Compartment.
+462ACT-4 5
+462ACT-6 5
+462ACT-8 2
+464ACT-4 5
+464ACT-6 5
+464ACT-8 2
+466ACT-4A 5
+466ACT-6B 5
+468ACT-4A 5
+468ACT-4B 5
+PART NO. QTY. PART NO. QTY.
+468ACT-6B 5
+468ACT-6C 5
+468ACT-8C 2
+469ACT-4A 5
+469ACT-4B 5
+469ACT-6B 5
+469ACT-6C 5
+469ACT-8C 2
+472ACTS-4A      5
+472ACTS-6B      5
+FA-ACTPAC-16
+Contains 16 of the fastest moving
+acetal plastic fittings. For further
+detail on acetal poly push fittings see
+catalog pages 79-91. Includes
+DL16C Compartment.
+462ACT-4 5
+462ACT-6 5
+464ACT-4 5
+464ACT-6 5
+466ACT-4A 5
+466ACT-6B 5
+468ACT-4A 5
+468ACT-4B 5
+PART NO. QTY. PART NO. QTY.
+468ACT-6B 5
+468ACT-6C 5
+469ACT-4A 5
+469ACT-4B 5
+469ACT-6B 5
+469ACT-6C 5
+472ACTS-4A      5
+472ACTS-6B      5
+Ander Fit-KIT
+DS16C
+Measures 13-3/4L x 9-3/4W x 2-1/4D
+DL20C
+Measures 18-1/2L x 12-1/4W x 3-1/8D
+NOT PICTURED            DL16C
+Measures 18-1/4L x 12W x 3-1/8D
+
+Anderson Fittings
+157 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+NOTES 
+Anderson Fittings
+158 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+NOTES 
+Anderson Fittings
+159 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+NOTES 
+Anderson Fittings Alpha-Numeric
+160 Anderson Copper & Brass Company
+4325 Frontage Road, Oak Forest, IL 60452
+100A- ..............102
+100A-45-.........102
+100AF-............102
+101A- ..............102
+101AF-............102
+101CP.............129
+101CP-4 .........129
+102A- ..............103
+102AF-............103
+102CP.............129
+103-4CC .........129
+103A- ..............103
+103AH- ...........103
+103CC ............129
+103SAE ..........129
+103SD- ...........133
+104A- ..............103
+104HV-............139
+104SAE ..........130
+105SAE ..........130
+106CC ............130
+106SAE ..........130
+107CC ............130
+108A- ..............103
+108MP ............130
+108SAE ..........130
+108SD- ...........133
+109A- ..............104
+109AS-............104
+109CS- ...........104
+109SC- ...........139
+110A- ..............104
+110AH-............105
+110FB- ............104
+110MP.............130
+110SAE...........130
+111A-...............105
+112A- ..............105
+113A- ..............105
+113CC.............130
+113RB-............106
+114SD.............133
+115SAE...........130
+115SD.............133
+116A- ..............107
+116AF- ............107
+116AL- ............107
+116AL- ............107
+116AM- ...........107
+116AMF- .........107
+117A- ..............108
+119A- ..............108
+119AH-............108
+120A- ..............108
+120AH- ...........109
+120PC.............136
+121A- ..............109
+121AS-............109
+122A- ..............109
+122AH.............109
+122AS.............120
+122LWA ..........122
+122RWA .........122
+123A................110
+123AH.............110
+124A................110
+127A................110
+127S................110
+128A................111
+129A .................44
+129A-...............111
+129AS...............44
+129AS .............111
+PART NO. PAGE PART NO. PAGE PART NO. PAGE PART NO. PAGE PART NO. PAGE PART NO. PAGE PART NO. PAGE
+143CP.............129
+161A .................53
+161CT.............136
+161SAE ..........136
+163SAE ..........136
+164SAE ..........136
+166SAE ..........136
+167SAE ..........136
+181A .................62
+188A .................62
+189A .................62
+18A..................114
+19A..................114
+19AF ...............114
+1W ..................141
+200D ...............138
+201A................118
+201AB.............122
+201AH.............118
+201BF .............121
+201D ...............138
+201DH ............138
+201GH.............115
+201NY.............123
+202D ...............138
+202GHS ..........116
+203CC ............129
+203SAE ..........129
+204HV.............139
+204SAE ..........129
+209A................119
+209AS .............119
+209ASF...........120
+209GHS ..........116
+209LWA ..........122
+209NY.............123
+209RWA .........122
+20A..................114
+21A..................114
+227CC ............135
+227CSD ..........132
+227SAE ..........135
+227SD.............132
+22A..................114
+22AS ...............114
+23A..................115
+256PF ...............64
+260A .................28
+260PF ...............64
+260PFB.............64
+261A .................28
+261PF ...............64
+261PFB.............64
+261PFN ............64
+262A .................28
+262BH...............28
+262BHPPDOT ..38
+262PF ...............65
+262PFC ............65
+262PP...............69
+262PPDOT .......38
+262PPNI ...........74
+264A .................28
+264PF ...............65
+264PP...............69
+264PPDOT .......38
+264PPNI ...........74
+265A .................29
+265PP...............69
+265PPDOT .......38
+265PPNI ...........74
+266A .................29
+266PF ...............65
+266PP...............69
+266PPDOT .......38
+266PPNI ...........74
+268A .................29
+268PF ...............65
+268PP...............69
+268PPDOT .......39
+268PPNI ...........74
+269A .................30
+269PF ...............66
+269PP...............70
+269PPDOT .......39
+269PPNI ...........75
+269PPS ............70
+269PPSDOT.....39
+269PPSNI.........75
+270A .................30
+270PF ...............66
+270PP...............70
+270PPDOT .......40
+271A .................30
+271PF ...............66
+271PPS ............71
+271PPSDOT.....40
+271PPSNI.........76
+272A .................30
+272PF ...............66
+272PPS ............71
+272PPSDOT.....40
+272PPSNI.........76
+277PF ...............67
+279A .................31
+279PPDOT .......40
+27CC ..............135
+27SAE ............135
+280PP...............71
+281PP...............71
+282PF ...............67
+282PFT.............67
+282PP...............71
+283PP...............72
+283PPNI ...........77
+284PP...............72
+285PP...............72
+286PP...............72
+286PPNI ...........77
+28CC ..............135
+28SAE ............135
+28SD...............132
+2W ..................141
+300D ...............138
+300PPNI ...........78
+301....................98
+301D ...............138
+302....................98
+303....................98
+303ACC ..........129
+303CC ............129
+303SAE ..........129
+304....................98
+305....................99
+306....................99
+307....................99
+308....................99
+30862..............144
+309....................99
+3099................100
+30CC ..............135
+30SAE ............135
+310..................100
+310PPNI ...........78
+311PF ...............67
+312PF ...............67
+31440..............144
+31562..............144
+31662..............144
+31NV...............129
+31PC...............136
+320D ...............138
+321D ...............138
+322D ...............138
+327..................139
+32NV...............129
+32PC...............136
+32SD...............132
+3416X .............141
+360A .................43
+361A .................43
+362A .................43
+368A .................43
+371A .................43
+378A .................43
+37D .................138
+388A .................44
+38D .................138
+408NAB ..........142
+40PC...............136
+40SD...............132
+410NAB ..........142
+41AS.................14
+41D .................139
+41IB ..................24
+41IP ..................24
+41IS ..................24
+421D ...............138
+42D .................139
+42I.....................24
+43D .................139
+44D .................139
+44I.....................24
+462ACT ............80
+462PRY ............80
+464ACT ............80
+464PRY ............80
+465ACT ............80
+465ACTS ..........81
+465PRY ............80
+466ACT ............81
+466PRY ............81
+468ACT ............81
+468PRY ............81
+469ACT ............82
+469PRY ............82
+46I.....................25
+46WH..............115
+471ACTS ..........82
+472ACTS ..........83
+473ACT ............83
+483ACT ............83
+484ACT ............83
+486ACT ............84
+486PRY ............84
+487ACT ............84
+488ACT ............84
+488PRY ............84
+489ACT ............84
+48I.....................25
+48NV...............129
+48PC...............136
+48WH..............115
+490ACT ............85
+491ACT ............85
+492ACT ............85
+493ACT ............85
+494ACT ............85
+49I.....................25
+49NV...............129
+49PC...............136
+50I.....................26
+50PC...............136
+557CC ............135
+557CSD ..........132
+557SD.............132
+57CC ..............135
+57SCD ............132
+57SAE ............135
+57SD...............132
+5818CCX ........141
+5818PHX ........141
+5818X .............141
+58CC ..............135
+58CSD ............132
+58SAE ............135
+58SD...............132
+59A ...................33
+5A....................113
+5AS .................113
+60A ...................52
+60AE.................52
+60AH.................52
+60AP.................52
+60CC ..............136
+60NAB ..............33
+61A ...................52
+61AH.................52
+61NAB ..............33
+62A ...................53
+62ATS...............53
+62BH.................53
+62DB.................93
+62DBC ..............93
+62DBH ..............93
+62DBHC ...........93
+62NAB ..............33
+62NABH............33
+63A ...................54
+64A ...................54
+64AF .................54
+64DB.................93
+64NAB ..............34
+65A ...................54
+65AF .................54
+65DB.................94
+65NAB ..............34
+66A ...................54
+66AS.................55
+66ATS...............55
+66DB.................94
+66NAB ..............34
+67DB.................94
+67SAE ............135
+67SD...............132
+68A ...................55
+68ATS...............56
+68CC ..............135
+68CSD ............132
+68DB.................94
+68NAB ..............34
+68SAE ............135
+68SD...............132
+6945A ...............56
+69A ...................57
+69AF .................57
+69DB.................94
+69NAB ..............35
+70A ...................57
+70DB.................95
+70NAB ..............35
+71A ...................58
+71DB.................95
+71NAB ..............35
+72A ...................58
+72DB.................95
+72DBC ..............95
+72NAB ..............36
+76A ...................59
+76DB.................95
+76PC...............135
+77DB.................96
+77PC...............135
+77SD...............132
+7814X .............141
+78PC...............135
+79NAB ..............36
+80PC...............136
+81LB .................59
+83DB.................96
+84DB.................96
+89CCB ............136
+9101CP...........143
+9102CP...........143
+9103CC ..........143
+9106CC ..........143
+9107CC ..........143
+9113CC...........143
+9143CP...........143
+9203CC ..........143
+9303CC ..........143
+94I.....................26
+953PPNI ...........77
+958PPNI ...........78
+961A .................46
+962A .................46
+962ATS.............46
+962BH...............46
+963A .................46
+964A .................47
+965A .................47
+966A .................47
+966AS...............48
+968A .................48
+96945A .............48
+969A .................49
+970A .................49
+971A .................49
+972A .................50
+976A .................50
+AF20274 .........147
+AF20307 .........147
+AF21200 .........147
+AFBC ................90
+AFLOC..............89
+AFTR ..............145
+B1 .....................10
+B2 .....................10
+BCAR................88
+C1 .....................10
+C2 .....................10
+CKV462ACT .....88
+CV462ACT .......86
+CV465ACT .......86
+CV466ACT .......86
+CV468ACT .......87
+DE3...................10
+DL16C ............149
+DL20C ............149
+E1......................11
+E1-45 ................12
+E1F ...................11
+E2 .....................12
+E3 .....................13
+E3F ...................13
+E4 .....................13
+ECD-D.............115
+ER2...................12
+ES2...................12
+ES4...................13
+EV-12A ...........139
+FA ...................150
+FC-1................148
+G261...............140
+GHN1..............113
+GHN1H ...........113
+GHN5..............113
+GHN5H ...........113
+GHW ...............116
+HBPHV ...........140
+HBT2 ..............121
+HBV ................140
+HE1.................120
+HE1-45 ...........121
+HM ..................121
+HMNY .............123
+HV1.................140
+HV462AT ..........87
+HV466ACT .......87
+HV468ACT .......87
+J2 0
+K1 .....................13
+N1 .....................14
+N2 .....................14
+N4 .....................15
+N5 .....................15
+N5CT ................59
+NS4...................15
+NSE1 ................14
+NSR4 ................15
+OTS ..................21
+P2 .....................15
+POL ................126
+RE1...................21
+RNS4 ................21
+RT2...................21
+RU1 ..................22
+RU2 ..................22
+RU3 ..................22
+SCAR................88
+T1 .....................16
+T1F ...................16
+T2 .....................16
+T2F ...................16
+T3 .....................17
+T4 .....................18
+T9....................111
+TF1 ...................16
+TF3 ...................17
+TR2...................17
+TS .....................21
+U1 .....................18
+U144 .................59
+U2 .....................18
+U3 .....................19
+U4 .....................20
+U5 .....................20
+U5CC................59
+U6C ..................59
+U6CC................60
+U6CF ................60
+U6C-FF.............60
+U6FC ................60
+UR2 ..................19
+UR3 ..................19
+US3...................20
+US4...................20
+W1...................113
+WFACT .............89
+DS16C ............149
+1"
+MALE PIPE THREAD PROFILES
+45° FLARE NOSE CONE SIZES
+3/4 1/2 3/8 1/4 1/8 1/16
+7/8 3/4 5/8 1/2 3/8 5/16 1/4 3/16 1/8

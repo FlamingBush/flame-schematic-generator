@@ -124,6 +124,10 @@ let PARTS = {
     spec:"2-pc forged brass, quarter-turn lever, 600 psi WOG, rated for fuel gases (CSA).", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"apollo", sym:"ball", w:2.4, h:1.6 },
   hoseLP:{ name:"LP-gas hose assembly, 3/8 in", vendor:"Mr. Heater", pn:"F273702",
     spec:"Factory-crimped ends, 3/8 in SAE 45 deg female flare swivel both ends. WP 350 psi, continuously marked LP-GAS / 350 PSI by manufacturer. No hose clamps.", rating:350, ports:{i:"flare:3/8:F",o:"flare:3/8:F"}, psrc:"decl", sym:"none", w:0, h:0 },
+  polFlare:{ name:"Cylinder adapter, POL x 3/8 in male flare", vendor:"Anderson Fittings (Anderson Copper & Brass)", mfg:"Anderson Fittings", pn:"POL-U2-6",
+    spec:"Brass CA360/CA345. Male .880-14 LH POL thread into the cylinder valve, 3/8 in SAE 45 deg male flare cone out — the LP hose's female swivel lands straight on it, so no separate FNPT-to-flare adapter is bought. The catalog's POL section states the line is for making connections in LP gas systems. Confirm pressure rating on purchase.", rating:250, ports:{i:"pol::M",o:"flare:3/8:M"}, psrc:"andersonfittings", sym:"hexAdapter", w:2.4, h:1.1 },
+  flareTeeFpt:{ name:"Flare tee, female branch, 3/8 in tube x 1/4 in FNPT", vendor:"Anderson Fittings (Anderson Copper & Brass)", mfg:"Anderson Fittings", pn:"TF1-6B",
+    spec:"Forged brass SAE 45 deg female branch tee: 3/8 flare cones across the run, 1/4 FNPT branch. A gauge or relief valve threads straight into the branch while the run stays flare — no hex nipples. Rated -65 to +250 F. Confirm pressure rating on purchase.", rating:500, ports:{i:"flare:3/8:M",o:"flare:3/8:M"}, branch:"npt:1/4:F", psrc:"andersonfittings", sym:"tee", w:2.0, h:1.6 },
   flareTee:{ name:"Flare tee, 3/8 in tube (5/8-18 UNF)", vendor:"Anderson Metals", pn:"04044-06",
     spec:"Forged brass SAE 45 deg flare union tee, catalog-listed for LP / natural gas service. Use the 04052-06 four-way flare cross for 3-tank supply. Confirm pressure rating on purchase.", rating:500, ports:{i:"flare:3/8:M",o:"flare:3/8:M"}, branch:"flare:3/8:M", psrc:"anderson", sym:"tee", w:2.0, h:1.6 },
   flareTee14:{ name:"Flare tee, 1/4 in tube", vendor:"Anderson Metals", pn:"04044-04",
@@ -164,10 +168,10 @@ let PARTS = {
     spec:"Brass body 2W160-15, 2-way normally closed, 12 VDC. Max 0.7 MPa (~100 psi) air / 0.5 MPa liquid. THREADS: listing claims 1/2 in FNPT, but the plain 2W160-15 model number denotes G 1/2 (BSPP) in the originating line ('N' variants are NPT) — gauge-check threads on receipt. Seal material unpublished, no fuel-gas listing — confirm LP compatibility with FAST liaison. Must stay downstream of regulation.", rating:100, ports:{i:"npt:1/2:F",o:"npt:1/2:F"}, psrc:"beduan", sym:"sol", w:3.2, h:3.6 },
   needle:{ name:"Needle valve, 1/4 in NPT", vendor:"Breezliy (Amazon)", mfg:"Breezliy", asin:true, pn:"B08K8NP26L",
     spec:"Brass instrument needle valve, 1/4 in FNPT x FNPT, fine-metering stem. No published pressure rating or fuel-gas listing — confirm suitability with FAST liaison. Stepper actuator is custom.", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"decl", sym:"needle", w:2.2, h:2.6 },
-  needleFlare14:{ name:"Needle valve, 1/4 in flare x 1/4 in flare", vendor:"Anderson Metals (Midland Industries)", mfg:"Anderson Metals", pn:"09110-04",
-    spec:"Brass SAE 45 deg straight flare needle valve (cat. 110-SAE), fine-metering stem. Tube flare nuts land straight on the valve cones — no adapters. Catalog lists the part and its sizes but states neither END GENDER (modelled as male cones, the norm for an inline tube valve — verify on receipt) nor a PRESSURE RATING nor a fuel-gas listing; confirm all three with FAST liaison. Stepper actuator is custom.", rating:null, ports:{i:"flare:1/4:M",o:"flare:1/4:M"}, psrc:"anderson", sym:"needle", w:2.2, h:2.6 },
-  needleFlare38:{ name:"Needle valve, 3/8 in flare x 3/8 in flare", vendor:"Anderson Metals (Midland Industries)", mfg:"Anderson Metals", pn:"09110-06",
-    spec:"Brass SAE 45 deg straight flare needle valve (cat. 115-SAE), fine-metering stem. Catalog lists the part and its sizes but states neither END GENDER (modelled as male cones — verify on receipt) nor a PRESSURE RATING nor a fuel-gas listing; confirm all three with FAST liaison.", rating:null, ports:{i:"flare:3/8:M",o:"flare:3/8:M"}, psrc:"anderson", sym:"needle", w:2.2, h:2.6 },
+  needleFlare14:{ name:"Needle valve, 1/4 in flare x 1/4 in flare", vendor:"Anderson Fittings (Anderson Copper & Brass)", mfg:"Anderson Fittings", pn:"110SAE",
+    spec:"Brass SAE 45 deg straight needle valve, flare to flare, extruded body, metal-to-metal seat, fine-metering stem. MALE flare cones both ends per the catalog drawing, so the copper tube's flare nuts land straight on the valve — no adapters. Catalog rates the needle-valve line to 150 psi. It publishes NO LP-gas listing (only the separate ground-plug / special-duty valve line names LP gas) — confirm fuel-gas suitability with FAST liaison. Anderson Metals lists the same SAE figure number as 09110-04 but publishes no rating. Stepper actuator is custom.", rating:150, ports:{i:"flare:1/4:M",o:"flare:1/4:M"}, psrc:"andersonfittings", sym:"needle", w:2.2, h:2.6 },
+  needleFlare38:{ name:"Needle valve, 3/8 in flare x 3/8 in flare", vendor:"Anderson Fittings (Anderson Copper & Brass)", mfg:"Anderson Fittings", pn:"115SAE",
+    spec:"Brass SAE 45 deg straight needle valve, flare to flare, extruded body, metal-to-metal seat, fine-metering stem. MALE flare cones both ends per the catalog drawing. Catalog rates the needle-valve line to 150 psi — above this branch's 60 psi and above RV-2's 90 psi relief setting, so a regulator failure cannot overpressure it. No published LP-gas listing; confirm fuel-gas suitability with FAST liaison. Anderson Metals lists the same SAE figure number as 09110-06 but publishes no rating.", rating:150, ports:{i:"flare:3/8:M",o:"flare:3/8:M"}, psrc:"andersonfittings", sym:"needle", w:2.2, h:2.6 },
   check14:{ name:"Check valve, 1/4 in NPT", vendor:"McMaster brass spring check, Viton seal", pn:"—",
     spec:"Inline spring-loaded poppet, brass body, Viton seat, flow arrow marked on body. Prevents accumulator back-flow.", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"decl", sym:"check", w:2.2, h:1.3 },
   relief:{ name:"Relief valve, ASME, 1/4 in MNPT", vendor:"Aquatrol series 140 (ex-Kingston 112CSS)", mfg:"Aquatrol", pn:"140A",
@@ -204,9 +208,7 @@ let SYSTEM = {
       items:[
         {p:"tank100", tag:"TK-1/TK-2", xn:2},
         {j:"pol"},
-        {p:"polAdapter", tag:"F-1"},
-        {j:"npt", size:"1/4", lr:"M>F"},
-        {p:"fnptFlare"},
+        {p:"polFlare", tag:"F-1"},
         {j:"flare", size:"3/8"},
         {j:"hose", part:"hoseLP", label:"HS-1"},
         {j:"flare", size:"3/8", lr:"F<M"},
@@ -215,13 +217,16 @@ let SYSTEM = {
         {p:"flareNptF", tag:"F-8"},
         {j:"npt", size:"1/4", lr:"M>F"},
         {p:"ball14", tag:"V-1", emergency:true, note:"depot, marked"},
-        {j:"npt", size:"1/4", part:"nipple14"},
-        {p:"nptTee", tag:"F-5", mount:{p:"gaugeHP", tag:"PI-1", note:"tank pressure"}},
-        {j:"npt", size:"1/4", part:"nipple14"},
-        {j:"turn"},
-        {p:"nptTee", tag:"F-7", branch:{ref:"B"}},
         {j:"npt", size:"1/4", lr:"F<M"},
         {p:"flare14npt", rev:true},
+        {j:"flare", size:"3/8"},
+        {j:"tube", part:"cu38", size:"3/8", label:"TB-13"},
+        {j:"flare", size:"3/8", lr:"F<M"},
+        {p:"flareTeeFpt", tag:"F-5", mount:{p:"gaugeHP", tag:"PI-1", note:"tank pressure"}},
+        {j:"flare", size:"3/8"},
+        {j:"tube", part:"cu38", size:"3/8", label:"TB-14"},
+        {j:"turn"},
+        {p:"flareTee", tag:"F-7", branch:{ref:"B"}},
         {j:"flare", size:"3/8"},
         {j:"hose", part:"hoseLP", label:"HS-2"},
         {j:"flare", size:"3/8", lr:"F<M"},
@@ -251,26 +256,28 @@ let SYSTEM = {
         {j:"flare", size:"3/8", lr:"F<M"},
         {p:"flareTee", tag:"F-3", branch:{ref:"J"}},
         {j:"flare", size:"3/8"},
-        {p:"flareNptF"},
-        {j:"npt", size:"1/4", lr:"M>F"},
+        {j:"tube", part:"cu38", size:"3/8", label:"TB-15"},
+        {j:"flare", size:"3/8", lr:"F<M"},
         {split:{
-          tee:{p:"nptTee", tag:"F-10"},
-          rejoin:{p:"nptTee", tag:"F-11"},
+          tee:{p:"flareTee", tag:"F-10"},
+          rejoin:{p:"flareTee", tag:"F-11"},
           a:[
-            {j:"npt", size:"1/4", part:"nipple14", chk:true},
+            {j:"flare", size:"3/8"},
+            {p:"flareNptF"},
+            {j:"npt", size:"1/4", lr:"M>F", chk:true},
             {p:"sol14", tag:"SV-1", note:"rail flare"},
-            {j:"npt", size:"1/4", part:"nipple14", chk:true}
+            {j:"npt", size:"1/4", lr:"F<M", chk:true},
+            {p:"flareNptF", rev:true},
+            {j:"flare", size:"3/8", lr:"F<M"}
           ],
           b:[
-            {j:"npt", size:"1/4", part:"nipple14"},
-            {p:"needle", tag:"NV-1", note:"+ stepper (custom) · sets continuous flame"},
-            {j:"npt", size:"1/4", lr:"F<M"},
-            {p:"flare14npt14"},
-            {j:"flare", size:"1/4"},
-            {j:"tube", part:"cu14", size:"1/4", label:"TB-10"},
-            {j:"flare", size:"1/4", lr:"F<M"},
-            {p:"flare14npt14", rev:true},
-            {j:"npt", size:"1/4", lr:"M>F"}
+            {j:"flare", size:"3/8"},
+            {j:"tube", part:"cu38", size:"3/8", label:"TB-10"},
+            {j:"flare", size:"3/8", lr:"F<M"},
+            {p:"needleFlare38", tag:"NV-1", note:"+ stepper (custom) · sets continuous flame"},
+            {j:"flare", size:"3/8"},
+            {j:"tube", part:"cu38", size:"3/8", label:"TB-12"},
+            {j:"flare", size:"3/8", lr:"F<M"}
           ]}},
         {j:"off", ref:"P", dir:"out", label:"to rail"}
       ]},
@@ -298,9 +305,6 @@ let SYSTEM = {
     { id:"L3a", title:"Standby rail (one of 3)", psi:"60 psi", op:60,
       items:[
         {j:"off", ref:"P", dir:"in"},
-        {j:"npt", size:"1/4", lr:"F<M"},
-        {p:"flare14npt", rev:true},
-        {j:"flare", size:"3/8"},
         {j:"tube", part:"cu38", size:"3/8", label:"TB-2"},
         {j:"flare", size:"3/8", lr:"F<M"},
         {p:"flareTeeR3814", tag:"F-16", branch:{ref:"T"}},
@@ -328,8 +332,6 @@ let SYSTEM = {
     { id:"L4", title:"Poofer supply", psi:"tank pressure → 30 psi at PRV-2", op:235,
       items:[
         {j:"off", ref:"B", dir:"in"},
-        {j:"npt", size:"1/4", lr:"F<M"},
-        {p:"flare14npt", rev:true},
         {j:"flare", size:"3/8"},
         {j:"hose", part:"hoseLP", label:"HS-4"},
         {j:"flare", size:"3/8", lr:"F<M"},
@@ -1449,7 +1451,7 @@ function runChecks(){
     status:(under.length||unrated.length)?"rev":"ok",
     note:[under.length?`Rating below segment pressure: ${under.map(nameOf).join(", ")}.`:"",
           unrated.length?`No published pressure rating: ${[...new Set(unrated.map(nameOf))].join(", ")} — confirm with the FAST liaison before purchase.`:"",
-          (under.length||unrated.length)?"":"All scheduled component ratings meet or exceed their segment's operating pressure. Components marked VERIFY PN must be confirmed on purchase."].filter(Boolean).join(" ")});
+          (under.length||unrated.length)?"":"All scheduled component ratings meet or exceed their segment's operating pressure."].filter(Boolean).join(" ")});
   // FE-3 hoses
   const hoses=allItems.filter(it=>it.j==="hose");
   const badHose=hoses.filter(h=>h.op>5&&PARTS[h.part].rating<350);
@@ -1466,7 +1468,7 @@ function runChecks(){
   C.push({id:"FE-6",req:"All metallic tubing joints are flare fittings; compression fittings and soldered joints prohibited.",
     status:"ok",note:`${tubes.length} copper runs shown, all joints SAE 45° flare. No compression or soldered joints appear in the design.`});
   C.push({id:"FE-7",req:"All valves designed for LP-gas; plumbing fixtures prohibited in pressurized segments.",
-    status:"rev",note:"Ball valves and regulators are fuel-gas rated. Beduan solenoids and Breezliy needle valves have no published fuel-gas listing or seal spec — raise with your FAST liaison. Solenoid threads are claimed NPT but the 2W-series line is commonly G (BSPP) — gauge-check on receipt."});
+    status:"rev",note:"Ball valves and regulators are fuel-gas rated, and the POL cylinder adapter comes from a catalog line stated for LP-gas service. The Beduan solenoids and the three Anderson Fittings needle valves (NV-1, NV-2, NV-4) have no published fuel-gas listing or seal spec — raise with your FAST liaison. Anderson rates its needle-valve line to 150 psi but states no LP service; only its separate ground-plug valve line names LP gas. Solenoid threads are claimed NPT but the 2W-series line is commonly G (BSPP) — gauge-check on receipt."});
   // FE-8/9 accumulator
   const hasAcc=allItems.some(it=>it.p==="accum");
   if(hasAcc){
@@ -1476,7 +1478,7 @@ function runChecks(){
       status:"ok",note:"PRV-2 (30 psi), fed at cylinder pressure from tee F-7, is the regulator between the fuel supply and AC-1; its regulated 30 psi output is far below the vessel's 250 psi MAOP. MEGR-6120 regulators are UL-listed non-relief, so RV-1 (ASME safety valve, set 75 psi, on tee F-15 downstream of CV-1) provides the external overpressure protection for the accumulator train; its media listing is air/inert gas — raise LP suitability with the FAST liaison."});
   }
   C.push({id:"DOC-1",req:"Submitted diagrams must show fuel flow from supply to effect head(s), every component in the path, and the locations of all shut-offs, regulators, pressure vessels, and ignition sources.",
-    status:"ok",note:"This sheet traces supply → regulation → distribution → effect heads, standby tips, and pilots, with every valve, regulator, gauge, vessel, and ignition point ballooned and scheduled."});
+    status:"ok",note:"This sheet traces supply → regulation → distribution → effect heads, standby tips, and pilots, with every valve, regulator, gauge, vessel, and ignition point identified on the drawing and scheduled."});
   ["Cylinders stored upright, secured against tipping, foot ring intact, OPD valves on 4–40 lb cylinders.",
    "Daily pre-operation safety and leak check of all components and connections.",
    "Rated dry-chemical extinguisher(s) at the effect; effect never left unattended; trained operator 21+ in fire-resistant clothing.",

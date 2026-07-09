@@ -109,7 +109,7 @@ console.log("LAYOUT INVARIANTS (internal view)");
   check("supply stack: L1 opens vertical (tcell mini-grid below the centerline)",
     stackYs.length >= 12 && stackYs.every(y => y > app.CL), `${stackYs.length} cells, min ${Math.min(...stackYs)}`);
   check("vertical adapters consolidate (markers flanking the hex in one cell)",
-    l1band.includes("CGA-510 POL ▸ 1/4&quot; NPT") && bandChunks("L4").includes("▸ 1/2&quot; flare"));
+    l1band.includes("CGA-510 POL ▸ 3/8&quot; flare") && bandChunks("L4").includes("▸ 1/2&quot; flare"));
   check("supply stack: both cylinders drawn, bare curve into the horizontal",
     (l1band.match(/rx="9"/g) || []).length === 2 && l1band.includes(`Q80 ${app.CL} 88 ${app.CL} H`));
   // the pocket beside the stack is real estate: branch bands tuck up into it
@@ -123,7 +123,7 @@ console.log("LAYOUT INVARIANTS (internal view)");
     (svg.match(/<path [^>]*stroke-dasharray="7 4"/g) || []).length === 1);
   check("POL joint labeled on the supply stack", svg.includes("CGA-510 POL"));
   check("note-only adapters are now drawn parts (all reach the schedule)",
-    ["fnptFlare", "flare14npt", "flare14npt14", "cu14", "cu12", "flareTee14", "flareTeeR3814", "flareTeeR1414", "relief", "flare38npt34"].every(k => app.refIndex[k] !== undefined));
+    ["polFlare", "flareTeeFpt", "flare14npt", "cu14", "cu12", "flareTee14", "flareTeeR3814", "flareTeeR1414", "relief", "flare38npt34"].every(k => app.refIndex[k] !== undefined));
   check("no adaptIn/adaptOut/branchAdapt remain in the default system",
     !/adaptIn|adaptOut|branchAdapt/.test(JSON.stringify(app.SYSTEM)));
   check("no port-role copy on the accumulator (the drawing carries it)", !svg.includes("fill in side"));
@@ -207,19 +207,22 @@ console.log("LAYOUT INVARIANTS (internal view)");
   // FNPT-to-FNPT junctions (regs, ball valves, solenoids, NPT tees are all
   // female-ported) must show a hex nipple glyph, never a bare M-into-F marker
   // (the glyph's center hex body is the unique 6x12 white rect)
-  check("hex nipples drawn at every female-to-female NPT junction",
-    (svg.match(/width="6" height="12"/g) || []).length >= 11);
+  // tied to the data, not a snapshot: making the runs flare removed nipples,
+  // and the count must follow rather than be re-pinned by hand each time
+  const nipplesInSystem = (JSON.stringify(app.SYSTEM).match(/"part":"nipple/g) || []).length;
+  check("a hex nipple is drawn at every female-to-female NPT junction",
+    nipplesInSystem > 0 && (svg.match(/width="6" height="12"/g) || []).length >= nipplesInSystem);
   // adapters consolidate: interface markers flank the hex body in ONE cell
   // with a combined size caption instead of three spread-out cells — in both
   // flow directions (flare▸NPT into valve bodies, NPT▸flare out of tees)
   check("adapter cells consolidated (end-pair caption, no 'Adapter' word)",
     (svg.match(/>[0-9]\/[0-9]&quot; flare ▸ [0-9]\/[0-9]&quot; NPT</g) || []).length >= 3 &&
-    (svg.match(/>[0-9]\/[0-9]&quot; NPT ▸ [0-9]\/[0-9]&quot; flare</g) || []).length >= 4 &&
+    (svg.match(/>[0-9]\/[0-9]&quot; NPT ▸ [0-9]\/[0-9]&quot; flare</g) || []).length >= 3 &&
     !/>Adapter[ <]/.test(svg));
   check("no fraction glyphs — sizes written out", !/[⅜¼½⅛⅝]/.test(svg));
   check("no 'teed at F-' or 'from F-' marks", !svg.includes("teed at F") && !svg.includes("from F-"));
   check("tees marked with their exact type, thread designation off the cells",
-    svg.includes(">Tee, 1/4 in<") && svg.includes(">F-7<") && svg.includes(">3/8 in tube (5/8-18 UNF)<") &&
+    svg.includes("1/4 in + relief valve") && svg.includes(">F-7<") && svg.includes(">3/8 in tube (5/8-18 UNF)<") &&
     !/Tee, 1\/4 in [FM]NPT/.test(svg));
   check("take-off tees are flare tees; designations on their own line, no mfr numbers",
     svg.includes(">F-3<") && svg.includes(">F-6<") && (svg.match(/>Flare tee,</g) || []).length >= 3 &&
@@ -239,8 +242,10 @@ console.log("LAYOUT INVARIANTS (internal view)");
   check("NV-3 removed — rail metered by the split's needle alone", !svg.includes("NV-3"));
   // twin feed: both cylinder chains drawn (two POL glyphs, HS-1 twice plus
   // HS-2 = three hose squiggles in L1), labels and balloons only once
+  // the squiggle glyph is shared by hoses AND tube runs, so its raw count is a
+  // snapshot; what matters is two cylinder chains, each label drawn once
   check("both tank feed chains drawn, labeled once",
-    (l1band.match(/l5 -8 6 16 5 -8/g) || []).length === 3 &&
+    (l1band.match(/l5 -8 6 16 5 -8/g) || []).length >= 3 &&
     (l1band.match(/r="3\.2"/g) || []).length === 2 &&
     (svg.match(/>HS-1</g) || []).length === 1);
   check("poofer discharge stick: 10 ft of 1/2\" Cu to an open pipe",
@@ -457,10 +462,12 @@ console.log("PORT LINTER");
     L1.items[i] = { j: "npt", size: "1/4" };
   });
   check("catches a backwards thread-direction arrow", r5.issues.some(s => s.includes("male port is upstream")), r5.issues.join("; "));
-  // 6) a reversible adapter installed the wrong way round (rev flag dropped)
+  // 6) a reversible adapter installed the wrong way round (rev flag dropped).
+  // L4's rev'd half-union is gone — its branch now leaves F-7 as a flare cone
+  // and the hose swivel lands straight on it — so seed L3b's, downstream of SV-3.
   let r6 = seed(o => {
-    const L4 = o.SYSTEM.lines.find(L => L.id === "L4");
-    delete L4.items.find(it => it.p === "flare14npt" && it.rev).rev;
+    const L3b = o.SYSTEM.lines.find(L => L.id === "L3b");
+    delete L3b.items.find(it => it.p === "flare14npt" && it.rev).rev;
   });
   check("catches an adapter installed backwards (rev dropped)",
     r6.issues.some(s => s.includes("NPT joint drawn on a flare end")), r6.issues.join("; "));
@@ -492,33 +499,35 @@ console.log("VIEW MODES (internal packet vs external submission)");
   check("external draws no equipment designations",
     !ext.includes(">F-15+RV-1<") && !ext.includes(">SV-2<") && !ext.includes(">F-18+SB-1<"));
   check("external prints a pressure rating on components", ext.includes(">250 psi<"));
-  // the flare needle valves have no vendor-published rating; the drawing must
-  // say so rather than silently omitting it (they share a node with their PN)
-  check("external names the unrated flare valves on the drawing",
-    ext.includes("no published rating"));
+  // the Anderson Fittings catalog rates the needle-valve line to 150 psi
+  check("external prints the sourced rating on the flare needle valves",
+    ext.includes("Anderson Fittings 110SAE · 150 psi") &&
+    ext.includes("Anderson Fittings 115SAE · 150 psi"));
   // valves / regulators / gauges carry a manufacturer part number...
   check("external prints mfr part no. for a solenoid", ext.includes("B07N6246YB"));
   check("external prints mfr part no. for a regulator", /MEGR-6120/.test(ext));
-  check("external prints mfr part no. for the flare needle valve", ext.includes("09110-04"));
+  check("external prints mfr part no. for the flare needle valve", ext.includes("110SAE"));
 
   // ...and a bare number identifies nothing, so the make rides with it
   check("every drawn part number is preceded by its manufacturer",
     ext.includes("Marshall Excelsior MEGR-6120-60") &&
-    ext.includes("Anderson Metals 09110-04") &&
-    ext.includes("Anderson Metals 09110-06") &&
+    ext.includes("Anderson Fittings 110SAE") &&
+    ext.includes("Anderson Fittings 115SAE") &&
     ext.includes("Apollo 94A-101-01") &&
     ext.includes("Aquatrol 140A"));
   // an ASIN is a marketplace listing id, not a manufacturer part number —
   // "Beduan B08C2NLPR5" would read as a Beduan catalog number
   check("Amazon listing ids are labelled ASIN, not passed off as mfr numbers",
     ext.includes("Beduan ASIN B08C2NLPR5") && ext.includes("Beduan ASIN B07N6246YB") &&
-    ext.includes("Breezliy ASIN B08K8NP26L") &&
     !/(?<!ASIN )B08C2NLPR5/.test(ext));
-  check("catalog part numbers are NOT labelled ASIN", !/ASIN (94A|MEGR|09110|140A)/.test(ext));
+  check("catalog part numbers are NOT labelled ASIN", !/ASIN (94A|MEGR|1[01]5?SAE|140A)/.test(ext));
   check("a make without a number still shows the make", ext.includes("SENCTRL"));
   check("the schedule labels ASINs too",
-    store["partsTable"].innerHTML.includes("ASIN B08K8NP26L") &&
+    store["partsTable"].innerHTML.includes("ASIN B08C2NLPR5") &&
     store["partsTable"].innerHTML.includes(">94A-101-01<"));
+  // only the two solenoids are still bought off a marketplace listing
+  check("solenoids are the only ASIN-sourced parts left",
+    Object.values(app.PARTS).filter(p => p.asin && app.refIndex[Object.keys(app.PARTS).find(k => app.PARTS[k] === p)] !== undefined).length === 2);
   // ...and nothing else does. Fittings, adapters, tube stay generic (Marcus).
   check("external keeps fittings generic (no tee/adapter part numbers)",
     !ext.includes("04044-06") && !ext.includes("04059-060604") &&
@@ -568,24 +577,35 @@ console.log("EXPORTED SVG IS SELF-CONTAINED");
 console.log("UNRATED PARTS (rating:null)");
 {
   const { store, app } = loadApp();
-  const comp = store["compTable"].innerHTML.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
+  const strip = () => store["compTable"].innerHTML.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
+
+  // Every default part is now rated (the Anderson Fittings catalog supplied the
+  // needle valves' 150 psi), so the null path has to be exercised deliberately.
+  check("default system: no part claims an unpublished rating",
+    !strip().includes("No published pressure rating"));
 
   // null coerces to 0 in a `<` comparison, so an unrated part would silently
   // masquerade as "rated below segment pressure". It must read as unpublished.
-  check("unrated valves are named as unpublished, not as under-rated",
-    comp.includes("No published pressure rating") &&
-    comp.includes("NV-2") && comp.includes("NV-4") &&
-    !comp.includes("Rating below segment pressure"));
-  check("an unrated part drops FE-2 to REVIEW",
-    /FE-2[\s\S]{0,400}?REVIEW/.test(comp));
+  app.PARTS.ball14.rating = null;
+  app.renderAll();
+  check("an unrated part is named as unpublished, not as under-rated",
+    strip().includes("No published pressure rating") &&
+    strip().includes("V-1") &&
+    !strip().includes("Rating below segment pressure"));
+  check("an unrated part drops FE-2 to REVIEW", /FE-2[\s\S]{0,500}?REVIEW/.test(strip()));
   check("schedule prints 'not published' rather than 'null psi'",
     store["partsTable"].innerHTML.includes("not published") &&
     !store["partsTable"].innerHTML.includes("null psi"));
+  check("the drawing says so too",
+    store["strips"].children[0].innerHTML.includes("no published rating"));
 
-  // A genuinely under-rated part must still be caught, not masked by the fix.
-  const { PARTS } = app;
-  const realRatings = Object.keys(PARTS).filter(k => typeof PARTS[k].rating === "number");
-  check("numeric ratings still compared (some part carries a real rating)", realRatings.length > 10);
+  // ...and the fix must not mask a genuinely under-rated part
+  app.PARTS.ball14.rating = 5;
+  app.renderAll();
+  check("a genuinely under-rated part is still caught",
+    strip().includes("Rating below segment pressure") && strip().includes("V-1"));
+
+  app.PARTS.ball14.rating = 600;
 }
 
 console.log("FLARE NEEDLE VALVES");
@@ -601,17 +621,38 @@ console.log("FLARE NEEDLE VALVES");
   check("L3b NV-4 is a flare x flare valve", line("L3b").items.some(i => i.p === "needleFlare38"));
   check("L3b no longer needs a hex nipple", line("L3b").items.every(i => i.part !== "nipple14"));
 
-  // NV-1 hangs off an NPT tee; a flare valve there would ADD an adapter.
-  const l3 = JSON.stringify(SYSTEM.lines.find(l => l.id === "L3"));
-  check("NV-1 stays NPT (it hangs off an NPT tee)", l3.includes('"needle"') && l3.includes("NV-1"));
+  // Once the split tees became flare tees, NV-1 could go flare too and its
+  // whole fitting stack vanished. Match the part key EXACTLY: "needleFlare38"
+  // contains the substring "needle", so a loose check passes for free.
+  const l3items = SYSTEM.lines.find(l => l.id === "L3").items;
+  const nv1 = JSON.parse(JSON.stringify(l3items)).flatMap(i => i.split ? [...i.split.a, ...i.split.b] : [i]).find(i => i.tag === "NV-1");
+  check("NV-1 is now a flare x flare valve", nv1 && nv1.p === "needleFlare38");
+  check("the Breezliy ASIN needle valve is no longer purchased", app.refIndex.needle === undefined);
+  check("the split buys no adapters or nipples on its metered path",
+    (() => { const sp = l3items.find(i => i.split).split;
+      return sp.b.every(i => !i.p || i.p === "needleFlare38") && sp.b.every(i => !i.part || i.part === "cu38"); })());
 
   // Both flare valves must declare cones, or the linter's gender check is moot.
+  // The Anderson Fittings catalog drawing (p.130) shows male cones both ends,
+  // and its needle-valve section header (p.129) rates the line to 150 psi.
   for (const k of ["needleFlare14", "needleFlare38"]) {
     check(`${k} declares male flare cones both ends`,
       PARTS[k].ports.i.endsWith(":M") && PARTS[k].ports.o.endsWith(":M") &&
       PARTS[k].ports.i.startsWith("flare:"));
-    check(`${k} claims no pressure rating`, PARTS[k].rating === null);
+    check(`${k} carries the catalog's 150 psi rating`, PARTS[k].rating === 150);
+    check(`${k} is sourced to the vaulted Anderson Fittings catalog`,
+      PARTS[k].psrc === "andersonfittings" && PARTS[k].mfg === "Anderson Fittings");
   }
+  check("flare needle valve part numbers are the catalog's SAE figure numbers",
+    PARTS.needleFlare14.pn === "110SAE" && PARTS.needleFlare38.pn === "115SAE");
+
+  // 150 psi must clear the branch pressure AND the relief setting that caps it
+  // if a regulator fails, or the valve is the weak point on the line.
+  const opOf = id => SYSTEM.lines.find(l => l.id === id).op;
+  check("NV-2 valve rating exceeds its 30 psi branch and RV-1's 75 psi relief",
+    PARTS.needleFlare14.rating > opOf("L4a") && PARTS.needleFlare14.rating > 75);
+  check("NV-4 valve rating exceeds its 60 psi branch and RV-2's 90 psi relief",
+    PARTS.needleFlare38.rating > opOf("L3b") && PARTS.needleFlare38.rating > 90);
 
   // F-6 must reduce to 1/4 so the pilot branch leaves at tube size.
   check("F-6 is a reducing tee with a 1/4 branch",
