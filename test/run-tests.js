@@ -475,5 +475,59 @@ console.log("COMPLIANCE & PARTS TABLES");
   check("field-only items present", store["compTable"].innerHTML.includes("FIELD"));
 }
 
+console.log("UNRATED PARTS (rating:null)");
+{
+  const { store, app } = loadApp();
+  const comp = store["compTable"].innerHTML.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
+
+  // null coerces to 0 in a `<` comparison, so an unrated part would silently
+  // masquerade as "rated below segment pressure". It must read as unpublished.
+  check("unrated valves are named as unpublished, not as under-rated",
+    comp.includes("No published pressure rating") &&
+    comp.includes("NV-2") && comp.includes("NV-4") &&
+    !comp.includes("Rating below segment pressure"));
+  check("an unrated part drops FE-2 to REVIEW",
+    /FE-2[\s\S]{0,400}?REVIEW/.test(comp));
+  check("schedule prints 'not published' rather than 'null psi'",
+    store["partsTable"].innerHTML.includes("not published") &&
+    !store["partsTable"].innerHTML.includes("null psi"));
+
+  // A genuinely under-rated part must still be caught, not masked by the fix.
+  const { PARTS } = app;
+  const realRatings = Object.keys(PARTS).filter(k => typeof PARTS[k].rating === "number");
+  check("numeric ratings still compared (some part carries a real rating)", realRatings.length > 10);
+}
+
+console.log("FLARE NEEDLE VALVES");
+{
+  const { app } = loadApp();
+  const { PARTS, SYSTEM } = app;
+  const line = id => SYSTEM.lines.find(l => l.id === id);
+  const adapters = id => line(id).items.filter(i => i.p && PARTS[i.p] && PARTS[i.p].sym === "hexAdapter");
+
+  // The whole point of the flare valve: tube nuts land on the valve cones.
+  check("L4a poofer pilot buys zero adapters", adapters("L4a").length === 0);
+  check("L4a NV-2 is a flare x flare valve", line("L4a").items.some(i => i.p === "needleFlare14"));
+  check("L3b NV-4 is a flare x flare valve", line("L3b").items.some(i => i.p === "needleFlare38"));
+  check("L3b no longer needs a hex nipple", line("L3b").items.every(i => i.part !== "nipple14"));
+
+  // NV-1 hangs off an NPT tee; a flare valve there would ADD an adapter.
+  const l3 = JSON.stringify(SYSTEM.lines.find(l => l.id === "L3"));
+  check("NV-1 stays NPT (it hangs off an NPT tee)", l3.includes('"needle"') && l3.includes("NV-1"));
+
+  // Both flare valves must declare cones, or the linter's gender check is moot.
+  for (const k of ["needleFlare14", "needleFlare38"]) {
+    check(`${k} declares male flare cones both ends`,
+      PARTS[k].ports.i.endsWith(":M") && PARTS[k].ports.o.endsWith(":M") &&
+      PARTS[k].ports.i.startsWith("flare:"));
+    check(`${k} claims no pressure rating`, PARTS[k].rating === null);
+  }
+
+  // F-6 must reduce to 1/4 so the pilot branch leaves at tube size.
+  check("F-6 is a reducing tee with a 1/4 branch",
+    PARTS.flareTeeR3814.branch === "flare:1/4:M" &&
+    line("L4b").items.some(i => i.p === "flareTeeR3814" && i.tag === "F-6"));
+}
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

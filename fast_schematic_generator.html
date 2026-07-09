@@ -158,6 +158,10 @@ let PARTS = {
     spec:"Brass body 2W160-15, 2-way normally closed, 12 VDC. Max 0.7 MPa (~100 psi) air / 0.5 MPa liquid. THREADS: listing claims 1/2 in FNPT, but the plain 2W160-15 model number denotes G 1/2 (BSPP) in the originating line ('N' variants are NPT) — gauge-check threads on receipt. Seal material unpublished, no fuel-gas listing — confirm LP compatibility with FAST liaison. Must stay downstream of regulation.", rating:100, ports:{i:"npt:1/2:F",o:"npt:1/2:F"}, psrc:"beduan", sym:"sol", w:3.2, h:3.6 },
   needle:{ name:"Needle valve, 1/4 in NPT", vendor:"Breezliy (Amazon)", pn:"B08K8NP26L",
     spec:"Brass instrument needle valve, 1/4 in FNPT x FNPT, fine-metering stem. No published pressure rating or fuel-gas listing — confirm suitability with FAST liaison. Stepper actuator is custom.", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"decl", sym:"needle", w:2.2, h:2.6 },
+  needleFlare14:{ name:"Needle valve, 1/4 in flare x 1/4 in flare", vendor:"Anderson Metals (Midland Industries)", pn:"09110-04",
+    spec:"Brass SAE 45 deg straight flare needle valve (cat. 110-SAE), fine-metering stem. Tube flare nuts land straight on the valve cones — no adapters. Catalog lists the part and its sizes but states neither END GENDER (modelled as male cones, the norm for an inline tube valve — verify on receipt) nor a PRESSURE RATING nor a fuel-gas listing; confirm all three with FAST liaison. Stepper actuator is custom.", rating:null, ports:{i:"flare:1/4:M",o:"flare:1/4:M"}, psrc:"anderson", sym:"needle", w:2.2, h:2.6 },
+  needleFlare38:{ name:"Needle valve, 3/8 in flare x 3/8 in flare", vendor:"Anderson Metals (Midland Industries)", pn:"09110-06",
+    spec:"Brass SAE 45 deg straight flare needle valve (cat. 115-SAE), fine-metering stem. Catalog lists the part and its sizes but states neither END GENDER (modelled as male cones — verify on receipt) nor a PRESSURE RATING nor a fuel-gas listing; confirm all three with FAST liaison.", rating:null, ports:{i:"flare:3/8:M",o:"flare:3/8:M"}, psrc:"anderson", sym:"needle", w:2.2, h:2.6 },
   check14:{ name:"Check valve, 1/4 in NPT", vendor:"McMaster brass spring check, Viton seal", pn:"—",
     spec:"Inline spring-loaded poppet, brass body, Viton seat, flow arrow marked on body. Prevents accumulator back-flow.", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"decl", sym:"check", w:2.2, h:1.3 },
   relief:{ name:"Relief valve, ASME, 1/4 in MNPT", vendor:"Aquatrol series 140 (ex-Kingston 112CSS)", pn:"140A",
@@ -267,11 +271,12 @@ let SYSTEM = {
     { id:"L3b", title:"Jet nozzle", psi:"60 psi", op:60,
       items:[
         {j:"off", ref:"J", dir:"in"},
+        {j:"tube", part:"cu38", size:"3/8", label:"TB-11"},
+        {j:"flare", size:"3/8", lr:"F<M"},
+        {p:"needleFlare38", tag:"NV-4", note:"jet metering"},
         {j:"flare", size:"3/8"},
         {p:"flareNptF"},
-        {j:"npt", size:"1/4", lr:"M>F"},
-        {p:"needle", tag:"NV-4", note:"jet metering"},
-        {j:"npt", size:"1/4", part:"nipple14", chk:true},
+        {j:"npt", size:"1/4", lr:"M>F", chk:true},
         {p:"sol14", tag:"SV-3", note:"jet bursts"},
         {j:"npt", size:"1/4", lr:"F<M", chk:true},
         {p:"flare14npt", rev:true},
@@ -333,7 +338,7 @@ let SYSTEM = {
         {j:"npt", size:"1/4", lr:"F<M"},
         {p:"flareNptF", rev:true},
         {j:"flare", size:"3/8", lr:"F<M"},
-        {p:"flareTee", tag:"F-6", branch:{ref:"D"}},
+        {p:"flareTeeR3814", tag:"F-6", branch:{ref:"D"}},
         {j:"flare", size:"3/8"},
         {p:"flareNptF"},
         {j:"npt", size:"1/4", lr:"M>F"},
@@ -355,13 +360,9 @@ let SYSTEM = {
     { id:"L4a", title:"Poofer pilot", psi:"30 psi", op:30,
       items:[
         {j:"off", ref:"D", dir:"in"},
-        {j:"tube", part:"cu38", size:"3/8", label:"TB-4"},
-        {j:"flare", size:"3/8", lr:"F<M"},
-        {p:"flare14npt"},
-        {j:"npt", size:"1/4", lr:"M>F"},
-        {p:"needle", tag:"NV-2", note:"pilot metering"},
-        {j:"npt", size:"1/4", lr:"F<M"},
-        {p:"flare14npt14"},
+        {j:"tube", part:"cu14", size:"1/4", label:"TB-4"},
+        {j:"flare", size:"1/4", lr:"F<M"},
+        {p:"needleFlare14", tag:"NV-2", note:"pilot metering"},
         {j:"flare", size:"1/4"},
         {j:"tube", part:"cu14", size:"1/4", label:"TB-5"},
         {p:"pilot", tag:"PL-2", flame:true}
@@ -1231,7 +1232,7 @@ function renderParts(){
   const rows=Object.keys(refIndex).sort((a,b)=>refIndex[a]-refIndex[b]).map(k=>{
     const p=PARTS[k];
     return `<tr><td class="mono">${refIndex[k]}</td><td><b>${p.name}</b><br><span style="color:var(--ink2)">${p.spec}</span></td>
-    <td class="mono">${p.vendor}</td><td class="mono">${p.pn}</td><td class="mono">${p.rating} psi</td></tr>`;
+    <td class="mono">${p.vendor}</td><td class="mono">${p.pn}</td><td class="mono">${p.rating==null?"not published":p.rating+" psi"}</td></tr>`;
   }).join("");
   document.getElementById("partsTable").innerHTML=
   `<tr><th>REF</th><th>COMPONENT & SPECIFICATION</th><th>VENDOR / CATALOG</th><th>PART NO.</th><th>RATING</th></tr>${rows}`;
@@ -1395,10 +1396,17 @@ function runChecks(){
   const ems=allItems.filter(it=>it.emergency);
   C.push({id:"FE-1",req:"Quarter-turn shut-off valve at each fuel supply connection; closing it stops all fuel flow; exposed, visible, and clearly marked as the emergency fuel shut-off.",
     status:ems.length>=2?"ok":"rev",note:ems.length?`Shown: ${ems.map(e=>e.tag+" ("+e.line+")").join(", ")}. Physical marking & visibility verified at inspection.`:"No valve is flagged emergency:true in the system definition."});
-  // FE-2 component ratings vs operating pressure
-  const under=allItems.filter(it=>(it.p&&PARTS[it.p].rating<it.op)||(it.part&&PARTS[it.part]&&PARTS[it.part].rating<it.op));
+  // FE-2 component ratings vs operating pressure. rating:null means the vendor
+  // publishes none — never let it coerce to 0 and read as "below pressure".
+  const ratingOf=it=>{const p=(it.p&&PARTS[it.p])||(it.part&&PARTS[it.part])||null;return p?p.rating:undefined;};
+  const nameOf=it=>it.tag||it.label||it.p||it.part;
+  const under=allItems.filter(it=>{const r=ratingOf(it);return typeof r==="number"&&r<it.op;});
+  const unrated=allItems.filter(it=>ratingOf(it)===null);
   C.push({id:"FE-2",req:"Every fitting, pipe, valve, and connector rated for LP-gas and for the maximum operating pressure of its segment.",
-    status:under.length?"rev":"ok",note:under.length?`Rating below segment pressure: ${under.map(u=>u.tag||u.label||u.p||u.part).join(", ")}.`:"All scheduled component ratings meet or exceed their segment's operating pressure. Components marked VERIFY PN must be confirmed on purchase."});
+    status:(under.length||unrated.length)?"rev":"ok",
+    note:[under.length?`Rating below segment pressure: ${under.map(nameOf).join(", ")}.`:"",
+          unrated.length?`No published pressure rating: ${[...new Set(unrated.map(nameOf))].join(", ")} — confirm with the FAST liaison before purchase.`:"",
+          (under.length||unrated.length)?"":"All scheduled component ratings meet or exceed their segment's operating pressure. Components marked VERIFY PN must be confirmed on purchase."].filter(Boolean).join(" ")});
   // FE-3 hoses
   const hoses=allItems.filter(it=>it.j==="hose");
   const badHose=hoses.filter(h=>h.op>5&&PARTS[h.part].rating<350);

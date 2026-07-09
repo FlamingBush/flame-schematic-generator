@@ -20,9 +20,19 @@ on a live fetch. The `.txt` files are pypdf extractions of the PDFs.
   half-union flare x male pipe (04048-0604, -0606), fig 506 reducing union
   (04056-0604), fig 122 hex nipple MNPT x MNPT (06122-04), fig 123 reducing
   hex nipple (06123-0804 = 1/2 x 1/4), fig 101F forged FNPT tee (06201-04),
-  fig 102F forged FNPT cross (06202-04). NOTE the extracted text's layout:
+  fig 102F forged FNPT cross (06202-04), fig 509 reducing flare tees
+  (04059-060604 = 3/8 x 3/8 x 1/4, 04059-060404 = 3/8 x 1/4 x 1/4; the table
+  header reads "Flare Three Ends / Read Sizes 1-2-3"), and the straight
+  Flare x Flare brass needle valves (09110-04 = cat. 110-SAE 1/4 x 1/4,
+  09110-06 = cat. 115-SAE 3/8 x 3/8). NOTE the extracted text's layout:
   each figure name appears BEFORE its size table and the computer-number
-  prefix (e.g. "06201-") AFTER it — verified against fig 122/123.
+  prefix (e.g. "06201-") AFTER it — verified against fig 122/123, and again
+  against 09106- (Compression x Compression) / 09110- (Flare x Flare).
+  CAVEAT: this catalog states NO pressure ratings and NO end genders
+  anywhere. The needle valves' male-cone ends are a declared assumption
+  (the norm for a valve inline in a tube run) and their pressure rating is
+  unknown — both are called out in the part's spec text and land the part
+  on compliance row FE-2 as REVIEW.
 - `beduan` → `beduan-2w160-15.html` — mybeduan.com product page for the 1/2 in
   solenoid: "1/2\" female NPT port size, model designation 2W160-15".
   https://mybeduan.com/beduan-brass-electric-solenoid-valve-12-12v-air.html
@@ -52,6 +62,12 @@ on a live fetch. The `.txt` files are pypdf extractions of the PDFs.
 ## Blocked / unavailable (ports stay `src:"decl"` — declared from listing text)
 
 - motorsnorkel.com — HTTP 403 to both curl and WebFetch.
+- andersonmetals.com — HTTP 403 to curl; 301-redirects to midlandindustries.com
+  (Midland acquired the line). Midland's needle-valve product pages 404, and
+  cdn.midlandindustries.com/public/pdf/valves.pdf fetches fine but covers only
+  BALL valves — zero needle-valve content, so it was not vaulted. Retail
+  listings show 150 psi for Anderson's pipe/compression needle valves but say
+  nothing about the flare 09110- models. Checked 2026-07-09.
 - mrheater.com — /f273754.html and /f273702.html return 404 (PN pages moved);
   POL x 1/4 MNPT and 3/8 female-swivel hose genders declared from listings.
 - mcmaster.com — blocks automated retrieval entirely (check valve, generic
