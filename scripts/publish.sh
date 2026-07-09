@@ -28,5 +28,6 @@ cp "$SRC" "$DEST"
 git -C "$SITE" add public/fast_schematic_generator-2.html
 git -C "$SITE" commit -m "$MSG"
 git -C "$SITE" push origin main
-"$SITE/scripts/await-deploy.sh"
+# await-deploy.sh reads HEAD of the repo it runs in — run it from the site
+(cd "$SITE" && scripts/await-deploy.sh)
 echo "live: https://machine-elves.art/fast_schematic_generator-2"
