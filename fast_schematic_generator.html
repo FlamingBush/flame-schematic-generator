@@ -63,7 +63,7 @@ textarea{width:100%;height:300px;border:none;border-top:1px solid var(--line);fo
   <div class="tblock">
     <div>
       <h1 id="docTitle">AI AM Propane Mk. II — LP-gas flame effect schematic</h1>
-      <div class="sub">Fuel flow shown supply → effect heads. Schematic representation — symbols and run lengths are not to scale. Balloon numbers key to the parts schedule.</div>
+      <div class="sub" id="docSub"></div>
     </div>
     <div class="meta" id="docMeta"></div>
     <div class="stamp">FOR FAST REVIEW<br>NOT A BURN LICENSE</div>
@@ -92,6 +92,12 @@ textarea{width:100%;height:300px;border:none;border-top:1px solid var(--line);fo
 </div>
 
 <div class="toolbar">
+  <label style="display:block;padding:0 0 10px;font-size:12.5px;color:var(--ink2)">Diagram version
+    <select id="viewSel" onchange="setView(this.value)" style="margin-left:8px;font:inherit;padding:3px 6px">
+      <option value="external">External — SVG submission (self-identifying cells, no balloons)</option>
+      <option value="internal">Internal — PDF packet (balloons key to the parts schedule)</option>
+    </select>
+  </label>
   <button onclick="downloadSVG()">Download schematic as SVG</button>
   <button class="ghost" onclick="window.print()">Print / save PDF packet</button>
   <details>
@@ -533,20 +539,72 @@ function bandItems(L){return bandEntries(L).filter(e=>e.it).map(e=>e.it);}
 /* Shared label computation \u2014 one source of truth for band and riser cells.
    vert: flow-direction arrows in AUTONOTE turn upward on a discharge riser
    (vert==="up"); horizontal cells keep them pointing right. */
+/* ---------- VIEW MODE ----------
+   The sheet exists in two versions and they are NOT the same document:
+     internal - the working PDF packet: balloons key every cell to the parts
+                schedule, equipment designations (SV-2, F-16) label the cells,
+                and the compliance table's tag references resolve.
+     external - the standalone SVG that is actually submitted: nothing points
+                at an off-sheet schedule, so each cell identifies itself with
+                a manufacturer part number (valves, regulators, gauges only)
+                and the pressure rating FE-2 judges it against, and the symbol
+                legend ships inside the drawing.
+   Everything downstream branches on INTERNAL(). */
+let VIEW="external";
+function INTERNAL(){return VIEW==="internal";}
+const PN_SYM=new Set(["ball","sol","needle","check","relief","reg","gauge"]);
+function pnText(p){return PN_SYM.has(p.sym)&&p.pn&&p.pn!=="\u2014"?p.pn:"";}
+function ratingText(p){return p.rating==null?"no published rating":p.rating+" psi";}
+function specLine(p){return [pnText(p),ratingText(p)].filter(Boolean).join(" \u00b7 ");}
+/* Balloons key a cell to the parts schedule, so they exist ONLY in the internal
+   packet — the external sheet is standalone and draws none. Two shapes: band
+   cells hang one above the glyph on ROW.balloon; riser/stack cells sit left of
+   the run on their own row (leaderX null = no leader, a mount is in its path). */
+function balloonCol(cx,key){
+  if(!INTERNAL()||refIndex[key]===undefined)return "";
+  return `<line x1="${cx}" y1="${ROW.balloon+10}" x2="${cx}" y2="${CL-48}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
+  <circle cx="${cx}" cy="${ROW.balloon}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(cx,ROW.balloon+3.5,refIndex[key],10.5)}`;
+}
+/* ONE legend, two consumers: the on-page <div> and the exported SVG. The
+   balloon line only makes sense where balloons are actually drawn. */
+const LEG_ORANGE="orange — flame heads & marked emergency shut-offs";
+function legendLines(){return [
+  INTERNAL()?"◯ n — balloon: parts schedule ref · pentagon n — run continues at the matching pentagon"
+            :"pentagon n — run continues at the matching pentagon · every component cell carries its pressure rating; valves, regulators and gauges also carry their manufacturer part number",
+  "trapezoid ▸ box — NPT, male into female · back-to-back pair — brass hex nipple joining two female ports",
+  "cone ▸ nut — SAE 45° flare · 〰 with break — hose/tube run, length as required",
+  "GENERAL NOTES: flare joints SAE 45°, metal-to-metal, no sealant · NPT joints: PTFE gas tape · hex nipples join female ports · hoses: LP-gas, WP 350 psi, factory-crimped & marked · Cu tube: soft refrigeration (ACR) coil, flared joints only · solenoids: 12 VDC NC · ball valves: 1/4-turn lever · POL: CGA-510, LEFT-hand thread · * = thread per listing, gauge-check on receipt (2W solenoids often G/BSPP)",
+  "supply rises from the cylinders and turns at the corner elbow · main run flows left → right · branch lines drop below their tees · risers flow up",
+  "dashed box — one numbered line · 'one of n' — built n times, drawn once",
+  LEG_ORANGE];}
+function sheetSubtitle(){return "Fuel flow shown supply → effect heads. Schematic representation — symbols and run lengths are not to scale. "+
+  (INTERNAL()?"Balloon numbers key to the parts schedule.":"Every component is identified on the drawing; nothing refers to an off-sheet schedule.");}
+function svgSubtitle(){return "Schematic — not to scale. Supply rises from the cylinders; the main run flows left → right; branch lines drop below their tees; the run resumes at matching pentagons. "+
+  (INTERNAL()?"Balloons key to parts schedule (see packet).":"Each component carries its own part number and pressure rating.");}
+function setView(v){VIEW=v==="internal"?"internal":"external";renderAll();}
+function balloonRow(cx,cy,leaderX,key){
+  if(!INTERNAL()||refIndex[key]===undefined)return "";
+  const lead=leaderX==null?"":`<line x1="${cx+10}" y1="${cy}" x2="${leaderX}" y2="${cy}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>`;
+  return `${lead}<circle cx="${cx}" cy="${cy}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(cx,cy+3.5,refIndex[key],10.5)}`;
+}
 function partText(it,vert){const p=PARTS[it.p];const m=it.mount?PARTS[it.mount.p]:null;
-  // tees carry their exact type, everything else the short name; the thread
-  // designation and MANUFACTURER numbers stay in the schedule, not on the
-  // cell. Labels STACK on the note rows: name lines, the designation
-  // (SV-2, F-16, ...) on its OWN line, then notes — narrow beats wide
-  // (Marcus). Adapter bodies carry no name: the end-pair caption on the
-  // cell says everything; the balloon points at the schedule row.
+  // tees carry their exact type, everything else the short name. Labels STACK
+  // on the note rows: name lines, then ONE identification line (the equipment
+  // designation internally, part no. + rating externally), then notes —
+  // narrow beats wide (Marcus). Adapter bodies carry no name and no
+  // identification line: the end-pair caption on the cell says everything.
   const nm=p.sym==="tee"?p.name.replace(/ [FM]NPT\b/g,""):p.sym==="manifold"?p.name:p.name.split(",")[0]; // the cross carries its exact threads (Marcus)
   const ids=it.tag?it.tag+(m&&it.mount.tag?"+"+it.mount.tag:""):"";
   const nm2=p.sym==="hexAdapter"?"":nm+(m?" + "+m.name.split(",")[0].toLowerCase():"");
   const an=(AUTONOTE[p.sym]||"").replace(/\u2192/g,vert==="up"?"\u2191":vert?"\u2193":"\u2192");
-  const notes=wrap2(frac([it.emergency?"EMERGENCY FUEL SHUT-OFF":"",an,it.note||"",m&&it.mount.note?it.mount.tag+": "+it.mount.note:""].filter(Boolean).join(" \u00b7 ")),130,9);
+  const mn=m&&it.mount.note?(INTERNAL()?it.mount.tag+": "+it.mount.note:it.mount.note):"";
+  const notes=wrap2(frac([it.emergency?"EMERGENCY FUEL SHUT-OFF":"",an,it.note||"",mn].filter(Boolean).join(" \u00b7 ")),130,9);
   const lines=wrap2(nm2,150,10).map(t=>({s:t,f:10,w:1}));
-  if(ids)lines.push({s:ids,f:10,w:1});
+  if(INTERNAL()){if(ids)lines.push({s:ids,f:10,w:1});}
+  else if(p.sym!=="hexAdapter"){
+    lines.push({s:specLine(p),f:9,c:INK2});
+    if(m)lines.push({s:specLine(m),f:9,c:INK2}); // a gauge on a reg names itself too
+  }
   notes.forEach((t,i)=>lines.push({s:t,f:9,c:it.emergency&&i===0?FLAME:INK2}));
   return {p,m,ids,nm2,lines,notes};
 }
@@ -582,10 +640,8 @@ function buildCell(it){
         let s=`<line x1="${x}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
         for(let k=0;k<xn;k++)s+=`<g transform="translate(${(k-(xn-1)/2)*22} 0)">${SYM[p.sym==="none"?"hexAdapter":p.sym](cx,p,it)}</g>`;
         if(m)s+=SYM[m.sym](cx,m,it.mount);
-        s+=`<line x1="${bx}" y1="${ROW.balloon+10}" x2="${bx}" y2="${CL-48}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
-        <circle cx="${bx}" cy="${ROW.balloon}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(bx,ROW.balloon+3.5,refIndex[it.p],10.5)}`;
-        if(m)s+=`<line x1="${cx+16}" y1="${ROW.balloon+10}" x2="${cx+16}" y2="${CL-48}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
-        <circle cx="${cx+16}" cy="${ROW.balloon}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(cx+16,ROW.balloon+3.5,refIndex[it.mount.p],10.5)}`;
+        s+=balloonCol(bx,it.p);
+        if(m)s+=balloonCol(cx+16,it.mount.p);
         s+=drawLines(lines,tx,"start");
         return s;}};
     }
@@ -613,10 +669,8 @@ function buildCell(it){
         else if(p.sym==="tee")s+=`<g transform="translate(0 -13)">${SYM[m.sym](cx,m,it.mount)}</g>`;
         else s+=SYM[m.sym](cx,m,it.mount);
       }
-      s+=`<line x1="${bx}" y1="${ROW.balloon+10}" x2="${bx}" y2="${CL-48}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
-      <circle cx="${bx}" cy="${ROW.balloon}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(bx,ROW.balloon+3.5,refIndex[it.p],10.5)}`;
-      if(m)s+=`<line x1="${cx+16}" y1="${ROW.balloon+10}" x2="${cx+16}" y2="${CL-48}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
-      <circle cx="${cx+16}" cy="${ROW.balloon}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(cx+16,ROW.balloon+3.5,refIndex[it.mount.p],10.5)}`;
+      s+=balloonCol(bx,it.p);
+      if(m)s+=balloonCol(cx+16,it.mount.p);
       s+=drawLines(lines,cx,"middle");
       return s;}};
   }
@@ -684,7 +738,7 @@ function consolV(items){
 function consolLines(c){
   const {ids,notes}=partText(c.ad);
   const lines=[{s:`${jointText(c.j1).top} \u25b8 ${jointText(c.j2).top}`,f:10,w:1}];
-  if(ids)lines.push({s:ids,f:10,w:1});
+  if(INTERNAL()&&ids)lines.push({s:ids,f:10,w:1});
   notes.forEach(t=>lines.push({s:t,f:9,c:INK2}));
   return lines;
 }
@@ -698,8 +752,7 @@ function buildConsol(c){
   return {w,draw(x){const cx=x+w/2;
     let cs=`<line x1="${x}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
     cs+=`<g transform="translate(${cx} 0)">${consolGlyph(c)}</g>`;
-    cs+=`<line x1="${cx}" y1="${ROW.balloon+10}" x2="${cx}" y2="${CL-48}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
-    <circle cx="${cx}" cy="${ROW.balloon}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(cx,ROW.balloon+3.5,refIndex[c.ad.p],10.5)}`;
+    cs+=balloonCol(cx,c.ad.p);
     cs+=drawLines(lines,cx,"middle");
     return cs;}};
 }
@@ -718,8 +771,7 @@ function drawRiser(rit,rest,x0){
       const lines=consolLines(it.consol);
       s+=`<line x1="${rx}" y1="${yB-h}" x2="${rx}" y2="${yB}" stroke="${INK}" stroke-width="2"/>`;
       s+=`<g transform="translate(${rx} ${yA}) rotate(-90) translate(0 ${-CL})">${consolGlyph(it.consol)}</g>`;
-      s+=`<line x1="${rx+RISER.BAL_DX+10}" y1="${yA}" x2="${rx-33}" y2="${yA}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
-      <circle cx="${rx+RISER.BAL_DX}" cy="${yA}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(rx+RISER.BAL_DX,yA+TROW.balloon,refIndex[it.consol.ad.p],10.5)}`;
+      s+=balloonRow(rx+RISER.BAL_DX,yA,rx-33,it.consol.ad.p);
       s+=drawLinesT(lines,tx,yA);
       maxW=Math.max(maxW,linesW(lines));
     }else if(it.p&&PARTS[it.p]){
@@ -729,8 +781,7 @@ function drawRiser(rit,rest,x0){
       s+=`<line x1="${rx}" y1="${RISER.NOR[key]?yA+8:yB-h}" x2="${rx}" y2="${yB}" stroke="${INK}" stroke-width="2"/>`;
       s+=RISER.NOR[key]?`<g transform="translate(${rx} ${yA-CL})">${SYM[key](0,p,it)}</g>`
         :`<g transform="translate(${rx} ${yA}) rotate(-90) translate(0 ${-CL})">${SYM[key](0,p,it)}</g>`;
-      s+=`<line x1="${rx+RISER.BAL_DX+10}" y1="${yA}" x2="${rx-33}" y2="${yA}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
-      <circle cx="${rx+RISER.BAL_DX}" cy="${yA}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(rx+RISER.BAL_DX,yA+TROW.balloon,refIndex[it.p],10.5)}`;
+      s+=balloonRow(rx+RISER.BAL_DX,yA,rx-33,it.p);
       s+=drawLinesT(lines,tx,yA);
       maxW=Math.max(maxW,linesW(lines));
     }else{
@@ -755,14 +806,9 @@ function drawRiser(rit,rest,x0){
     inner+=`<g transform="translate(${rx} ${CL}) rotate(90) translate(0 ${-CL})">${SYM[p.sym==="none"?"hexAdapter":p.sym](0,p,tee)}</g>`;
     const yT=CL+34,tx=rx+RISER.TEXT_DX;
     let s=`<g class="tcell" data-y="${yT}">`;
-    const by=yT+TROW.balMain-3.5;
-    s+=`<line x1="${rx+RISER.BAL_DX+10}" y1="${by}" x2="${rx-27}" y2="${by}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
-    <circle cx="${rx+RISER.BAL_DX}" cy="${by}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(rx+RISER.BAL_DX,by+3.5,refIndex[tee.p],10.5)}`;
-    if(m){const bm=yT+TROW.balMount-3.5;
-      s+=`<line x1="${rx+RISER.BAL_DX+10}" y1="${bm}" x2="${rx-27}" y2="${bm}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
-      <circle cx="${rx+RISER.BAL_DX}" cy="${bm}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(rx+RISER.BAL_DX,bm+3.5,refIndex[tee.mount.p],10.5)}`;}
-    if(via&&refIndex[tee.mount.via]!==undefined){const bv=yT+TROW.balVia-3.5;
-      s+=`<circle cx="${rx+RISER.BAL_DX}" cy="${bv}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(rx+RISER.BAL_DX,bv+3.5,refIndex[tee.mount.via],10.5)}`;}
+    s+=balloonRow(rx+RISER.BAL_DX,yT+TROW.balMain-3.5,rx-27,tee.p);
+    if(m)s+=balloonRow(rx+RISER.BAL_DX,yT+TROW.balMount-3.5,rx-27,tee.mount.p);
+    if(via)s+=balloonRow(rx+RISER.BAL_DX,yT+TROW.balVia-3.5,null,tee.mount.via);
     s+=drawLinesT(lines,tx,yT);
     inner+=s+"</g>";
     maxW=Math.max(maxW,linesW(lines));
@@ -807,8 +853,7 @@ function drawSupply(items,x0){
         s+=`<line x1="${rx+TDX}" y1="${yB-h}" x2="${rx+TDX}" y2="${yB}" stroke="${INK}" stroke-width="2"/>`;
         s+=`<g transform="translate(${rx+TDX} ${yA}) rotate(-90) translate(0 ${-CL})">${consolGlyph(it.consol)}</g>`;
       }
-      s+=`<line x1="${rx+RISER.BAL_DX+10}" y1="${yA}" x2="${rx-33}" y2="${yA}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
-      <circle cx="${rx+RISER.BAL_DX}" cy="${yA}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(rx+RISER.BAL_DX,yA+TROW.balloon,refIndex[it.consol.ad.p],10.5)}`;
+      s+=balloonRow(rx+RISER.BAL_DX,yA,rx-33,it.consol.ad.p);
       s+=drawLinesT(lines,tx,yA);
       maxW=Math.max(maxW,linesW(lines));
     }else if(it.p&&PARTS[it.p]){
@@ -854,11 +899,8 @@ function drawSupply(items,x0){
       }
       // a mount crowds the left side: its balloons move to the balMain /
       // balMount rows and the leader is dropped (the gauge sits in its path)
-      const by=m?yA+TROW.balMain-3.5:yA;
-      if(!m)s+=`<line x1="${rx+RISER.BAL_DX+10}" y1="${by}" x2="${key==="tank"?rx-31:rx-33}" y2="${by}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>`;
-      s+=`<circle cx="${rx+RISER.BAL_DX}" cy="${by}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(rx+RISER.BAL_DX,by+3.5,refIndex[it.p],10.5)}`;
-      if(m){const bm=yA+TROW.balMount-3.5;
-        s+=`<circle cx="${rx+RISER.BAL_DX}" cy="${bm}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(rx+RISER.BAL_DX,bm+3.5,refIndex[it.mount.p],10.5)}`;}
+      s+=balloonRow(rx+RISER.BAL_DX,m?yA+TROW.balMain-3.5:yA,m?null:(key==="tank"?rx-31:rx-33),it.p);
+      if(m)s+=balloonRow(rx+RISER.BAL_DX,yA+TROW.balMount-3.5,null,it.mount.p);
       s+=drawLinesT(lines,tx,yA);
       maxW=Math.max(maxW,(tx-rx-textDX)+linesW(lines));
     }else{
@@ -881,8 +923,7 @@ function drawSupply(items,x0){
     const yT=CL+24,tx=rx+textDX;
     inner+=`<g transform="translate(${rx} 0)">${SYM[key](0,p,corner)}</g>`;
     let s=`<g class="tcell" data-y="${yT}">`;
-    s+=`<line x1="${rx+RISER.BAL_DX+10}" y1="${yT}" x2="${rx-14}" y2="${yT}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
-    <circle cx="${rx+RISER.BAL_DX}" cy="${yT}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(rx+RISER.BAL_DX,yT+TROW.balloon,refIndex[corner.p],10.5)}`;
+    s+=balloonRow(rx+RISER.BAL_DX,yT,rx-14,corner.p);
     s+=drawLinesT(lines,tx,yT);
     inner+=s+"</g>";
   }
@@ -1215,14 +1256,10 @@ function renderSchematic(){
   const div=document.createElement("div");div.className="strip";
   div.innerHTML=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${LAST_RENDER.inner}</svg>`;
   host.appendChild(div);
-  document.getElementById("legend").innerHTML=[
-    "◯ n — balloon: parts schedule ref · pentagon n — run continues at the matching pentagon",
-    "trapezoid ▸ box — NPT, male into female · back-to-back pair — brass hex nipple joining two female ports",
-    "cone ▸ nut — SAE 45° flare · 〰 with break — hose/tube run, length as required",
-    "GENERAL NOTES: flare joints SAE 45°, metal-to-metal, no sealant · NPT joints: PTFE gas tape · hoses: LP-gas, WP 350 psi, factory-crimped & marked · Cu tube: soft refrigeration (ACR) coil, flared joints only · solenoids: 12 VDC, normally closed · ball valves: 1/4-turn lever · POL: CGA-510, LEFT-hand thread · * = thread per listing, gauge-check on receipt (2W solenoids often G/BSPP)",
-    "supply rises from the cylinders and turns at the corner elbow · main run flows left → right · branch lines drop below their tees · risers flow up",
-    "dashed box — one numbered line · 'one of n' — built n times, drawn once",`<span style="color:${FLAME}">orange</span> — flame heads & marked emergency shut-offs`
-  ].map(s=>`<span>${s}</span>`).join("");
+  document.getElementById("legend").innerHTML=legendLines()
+    .map(s=>s===LEG_ORANGE?`<span style="color:${FLAME}">orange</span>${s.slice(6)}`:s)
+    .map(s=>`<span>${s}</span>`).join("");
+  document.getElementById("docSub").textContent=sheetSubtitle();
   document.getElementById("docMeta").innerHTML=
     `<span>PROJECT</span><b>${esc(SYSTEM.meta.project)}</b><span>REV / DATE</span><b>${esc(SYSTEM.meta.rev)} · ${esc(SYSTEM.meta.date)}</b>
      <span>SCALE</span><b>${esc(SYSTEM.meta.scale)}</b><span>SHEET</span><b>1 of 1 · ${SYSTEM.lines.length} lines</b>`;
@@ -1446,13 +1483,19 @@ function runChecks(){
 
 /* ---------- EXPORT & EDIT ---------- */
 function downloadSVG(){
-  const w=LAST_RENDER.w+40,h=LAST_RENDER.h+86;
+  // the exported sheet must stand alone: title, orientation, the drawing, and
+  // the symbol legend that decodes it. Widen if a legend line outruns the art.
+  const leg=legendLines(),HEAD=54,GAP=14,LH=14;
+  const legTop=HEAD+GAP+LAST_RENDER.h+22;
+  const legW=Math.ceil(Math.max(0,...leg.map(l=>l.length*6.4)))+40;
+  const w=Math.max(LAST_RENDER.w+40,legW),h=Math.round(legTop+leg.length*LH+8);
   const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" font-family="monospace">
   <rect x="1" y="1" width="${w-2}" height="${h-2}" fill="#fff" stroke="${INK}" stroke-width="2"/>
   <text x="20" y="30" font-size="16" fill="${INK}">${esc(SYSTEM.meta.project+" — LP-gas flame effect schematic · REV "+SYSTEM.meta.rev+" · "+SYSTEM.meta.date+" · FOR FAST REVIEW")}</text>
-  <text x="20" y="46" font-size="11" fill="${INK2}">${esc("Schematic — not to scale. Supply rises from the cylinders; the main run flows left → right; branch lines drop below their tees; the run resumes at matching pentagons. Balloons key to parts schedule (see packet).")}</text>
-  <text x="20" y="62" font-size="11" fill="${INK2}">${esc("GENERAL NOTES: flare joints SAE 45°, metal-to-metal, no sealant · NPT joints: PTFE gas tape · hex nipples join female ports · hoses: LP-gas, WP 350 psi, factory-crimped & marked · Cu tube: soft refrigeration (ACR) coil, flared joints only · solenoids: 12 VDC NC · ball valves: 1/4-turn · POL: CGA-510, LEFT-hand thread · * = thread per listing, gauge-check on receipt (2W solenoids often G/BSPP)")}</text>
-  <g transform="translate(20 76)">${LAST_RENDER.inner}</g></svg>`;
+  <text x="20" y="46" font-size="11" fill="${INK2}">${esc(svgSubtitle())}</text>
+  <g transform="translate(20 ${HEAD+GAP})">${LAST_RENDER.inner}</g>
+  <line x1="20" y1="${legTop-15}" x2="${w-20}" y2="${legTop-15}" stroke="${INK2}" stroke-width=".8"/>
+  ${leg.map((l,i)=>`<text x="20" y="${legTop+i*LH}" font-size="10.5" fill="${INK2}">${esc(l)}</text>`).join("")}</svg>`;
   const a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob([svg],{type:"image/svg+xml"}));
   a.download=SYSTEM.meta.project.replace(/\W+/g,"_")+"_schematic.svg";a.click();
@@ -1464,6 +1507,7 @@ function applyJSON(){
   }catch(e){document.getElementById("jsonMsg").textContent="JSON error: "+e.message;}
 }
 function renderAll(){renderSchematic();renderParts();runChecks();
+  document.getElementById("viewSel").value=VIEW;
   document.getElementById("docTitle").textContent=SYSTEM.meta.project+" — LP-gas flame effect schematic";
   document.getElementById("jsonBox").value=JSON.stringify({SYSTEM,PARTS},null,1);
 }

@@ -18,7 +18,11 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
 1. `PARTS` — parts library. Each entry: name, vendor, pn, spec text, pressure
    rating, symbol key, drawing proportions (`w`/`h`). (There is no `verified`
    flag or status chip any more — Marcus removed them — but specs must still
-   be grounded in vaulted vendor documents via `psrc`.)
+   be grounded in vaulted vendor documents via `psrc`.) `rating:null` means the
+   VENDOR PUBLISHES NO RATING — never invent one. Null is not zero: `null < op`
+   is `true` in JS, so every rating comparison must test `typeof r === "number"`
+   first or an unrated part silently reports as "rated below segment pressure".
+   FE-2 separates the two cases and the schedule prints "not published".
 2. `SYSTEM` — the system definition: `meta` + `lines[]`. Each line has an
    operating pressure `op` (used by compliance checks) and an ordered `items[]`
    sequence alternating components (`{p, tag, note, emergency, xn}`) and joints
@@ -136,9 +140,36 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
    never quoted verbatim.
 7. `downloadSVG()` — wraps `LAST_RENDER` (the single combined schematic SVG,
    mutated in place by `renderSchematic()` so external references stay live)
-   into one standalone document. Every interpolated string MUST pass through
-   `esc()`; browsers forgive raw `&`/`<` in-page but the exported .svg must be
-   strict XML (regression-tested).
+   into one standalone document: title, orientation subtitle, the drawing, and
+   the SYMBOL LEGEND (`legendLines()`, shared with the on-page `#legend` div —
+   the exported sheet is the only thing that decodes its own symbols once it
+   leaves the page). The canvas widens if a legend line outruns the artwork.
+   Every interpolated string MUST pass through `esc()`; browsers forgive raw
+   `&`/`<` in-page but the exported .svg must be strict XML (regression-tested).
+
+## Two views — the sheet is TWO documents (`VIEW`, `INTERNAL()`)
+
+The `#viewSel` toggle in the toolbar switches `VIEW` and re-renders. They are
+not cosmetic variants; each is a different deliverable.
+
+- **internal** — the working PDF packet. Balloons (`balloonCol`/`balloonRow`,
+  the ONLY places a balloon is drawn, both gated on `INTERNAL()`) key each cell
+  to the parts schedule's REF column, and the equipment designation (`SV-2`,
+  `F-15+RV-1`) is the cell's identification line. The compliance table's tag
+  references (`Shown: V-1 (L1)`) resolve against the drawing.
+- **external** — the standalone SVG that is actually submitted. Nothing points
+  at an off-sheet schedule, so each cell identifies ITSELF: `specLine()` prints
+  the manufacturer part number for valves, regulators, and gauges only
+  (`PN_SYM`) plus the pressure rating FE-2 judges it against. Fittings,
+  adapters, tube, and handmade tips stay generic — Marcus: part numbers are for
+  what a reviewer must be able to identify exactly. Adapters keep only their
+  consolidated "A ▸ B" end-pair caption, no name and no spec line.
+
+`external` is the DEFAULT: the safe artifact to hand someone. Both views must
+hold every geometry invariant (baselines on the row grid, zero text-bbox
+collisions, no text in rotated groups) — the suite asserts each separately.
+A part whose `pn` is `"—"` (the SENCTRL gauges, the McMaster check valve)
+correctly prints a rating and no number; that is data, not a bug.
 
 ## Hard-won constraints
 
@@ -165,6 +196,25 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
   54048-0606). Stanbroil 3/4 in LP air mixer confirmed 3/4 MNPT in / 3/4 FNPT
   out, 300k BTU max. Aquatrol series 140 ASME relief valves are air/inert-gas
   media only — LP suitability is a liaison flag, like the solenoids.
+  Anderson's straight Flare x Flare brass needle valves (09110-04 = cat.
+  110-SAE 1/4 x 1/4, 09110-06 = cat. 115-SAE 3/8 x 3/8) exist in the vaulted
+  catalog, but it publishes NO end gender and NO pressure rating for them; the
+  male-cone ends are a declared assumption and `rating` is `null`. Anderson
+  Metals is now MIDLAND INDUSTRIES: andersonmetals.com 403s to curl and
+  301-redirects there, Midland's needle-valve pages 404, and their
+  `cdn.midlandindustries.com/public/pdf/valves.pdf` is a BALL-valve catalog
+  with zero needle content — don't re-download it.
+- If a run is already flare, fit a flare x flare valve rather than adapting to
+  NPT and back (Marcus: cheaper and simpler). Applied at NV-2 (F-6 became the
+  reducing tee 04059-060604 so branch D leaves at 1/4 — zero adapters) and at
+  NV-4 (one hex nipple removed). NOT at NV-1: it hangs off an NPT tee, so a
+  flare valve there would ADD an adapter. Two male flare cones cannot mate —
+  check the gender before assuming a swap saves a fitting.
+- The check valve CV-1 STAYS. Marcus asked to remove it ("the regulator does
+  that"), then reversed. It sits downstream of the tee feeding the poofer pilot
+  branch, so it is the only thing isolating the accumulator from that branch;
+  the regulator alone does not cover it.
+- "Continuous flame", never "standing flame".
 - Compliance output is a self-review aid, not approval — the footer disclaimer
   and the FOR FAST REVIEW / NOT A BURN LICENSE stamp stay.
 - No localStorage/sessionStorage; state lives in the editable JSON box.
@@ -181,9 +231,14 @@ export, editor round trip (including hostile strings and an unmatched-ref
 line), graceful malformed-JSON handling, and the newer constructs: band chains
 render as one strip with a seam (`data-merged`), risers use tcell mini-grid
 rows with `rotate(-90)` symbols, split paths draw both corridor elbows, `xn`
-tips repeat, and dashed line boxes appear for every line. Bugs found by this
-suite so far: missing `tee` symbol, unescaped `&` breaking the exported XML,
-unescaped user strings in the title block. Add a check when you fix a bug.
+tips repeat, and dashed line boxes appear for every line. Both VIEWS are asserted separately —
+external draws no balloons and no designations but prints part numbers and
+ratings (and keeps fittings generic); internal is the mirror image; switching
+back and forth is idempotent; and the collision/baseline invariants must hold
+in each. Bugs found by this suite so far: missing `tee` symbol, unescaped `&`
+breaking the exported XML, unescaped user strings in the title block, and the
+harness DOM stub not dropping `children` on `innerHTML=""` (which let repeated
+renders stack strips). Add a check when you fix a bug.
 
 ## Roadmap candidates
 

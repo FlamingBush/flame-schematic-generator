@@ -16,7 +16,12 @@ function loadApp(extraJS) {
   const makeHost = (id) =>
     store[id] ||
     (store[id] = {
-      innerHTML: "",
+      _html: "",
+      // real DOM drops children when innerHTML is cleared; renderSchematic()
+      // relies on that to re-render, so the stub must too or repeated renders
+      // (e.g. a view-mode switch) would stack strips on top of each other
+      get innerHTML() { return this._html; },
+      set innerHTML(v) { this._html = v; if (v === "") this.children.length = 0; },
       textContent: "",
       value: "",
       children: [],
@@ -46,7 +51,7 @@ function loadApp(extraJS) {
   global.URL = { createObjectURL: (b) => { captured.svg = b.data; return "blob:x"; } };
 
   // eval in a function scope; expose the app's top-level bindings we need via a trailer
-  const trailer = `;__hooks({SYSTEM,PARTS,ROW,CL,STRIP_H,TRUNK,TROW,SYM,MATCHED,TREE,LAST_RENDER,refIndex,applyJSON,downloadSVG,renderAll,lintPorts,jointMarker});`;
+  const trailer = `;__hooks({SYSTEM,PARTS,ROW,CL,STRIP_H,TRUNK,TROW,SYM,MATCHED,TREE,LAST_RENDER,refIndex,applyJSON,downloadSVG,renderAll,lintPorts,jointMarker,setView,legendLines,specLine,PN_SYM,INTERNAL});`;
   let hooks = null;
   global.__hooks = (h) => { hooks = h; };
   eval(m[1] + trailer);

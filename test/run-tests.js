@@ -62,9 +62,13 @@ function collisions(boxes) {
   return bad;
 }
 
-console.log("LAYOUT INVARIANTS");
+console.log("LAYOUT INVARIANTS (internal view)");
 {
   const { store, app } = loadApp();
+  // this block asserts the INTERNAL packet: balloons key cells to the parts
+  // schedule and equipment designations (F-15, RV-1) label them. The external
+  // submission sheet is covered in its own block below.
+  app.setView("internal");
   const hosts = store["strips"].children;
   check("one combined svg", hosts.length === 1 && /<svg /.test(hosts[0].innerHTML));
   const svg = hosts[0].innerHTML;
@@ -473,6 +477,73 @@ console.log("COMPLIANCE & PARTS TABLES");
   check("nipples & adapters reach the schedule via joint parts",
     store["partsTable"].innerHTML.includes("Hex nipple") && store["partsTable"].innerHTML.includes("half union"));
   check("field-only items present", store["compTable"].innerHTML.includes("FIELD"));
+}
+
+console.log("VIEW MODES (internal packet vs external submission)");
+{
+  const { store, app } = loadApp();
+  const draw = () => store["strips"].children[0].innerHTML;
+
+  // default must be the submission sheet — the safe artifact to hand over
+  check("default view is external", app.INTERNAL() === false);
+
+  const ext = draw();
+  check("external draws no balloons", !/r="9\.5"/.test(ext));
+  check("external draws no equipment designations",
+    !ext.includes(">F-15+RV-1<") && !ext.includes(">SV-2<") && !ext.includes(">F-18+SB-1<"));
+  check("external prints a pressure rating on components", ext.includes(">250 psi<"));
+  // the flare needle valves have no vendor-published rating; the drawing must
+  // say so rather than silently omitting it (they share a node with their PN)
+  check("external names the unrated flare valves on the drawing",
+    ext.includes("no published rating"));
+  // valves / regulators / gauges carry a manufacturer part number...
+  check("external prints mfr part no. for a solenoid", ext.includes("B07N6246YB"));
+  check("external prints mfr part no. for a regulator", /MEGR-6120/.test(ext));
+  check("external prints mfr part no. for the flare needle valve", ext.includes("09110-04"));
+  // ...and nothing else does. Fittings, adapters, tube stay generic (Marcus).
+  check("external keeps fittings generic (no tee/adapter part numbers)",
+    !ext.includes("04044-06") && !ext.includes("04059-060604") &&
+    !ext.includes("06122-04") && !ext.includes("54048-0604"));
+
+  // the external sheet must survive the same geometry invariants
+  const eb = textBoxes(ext);
+  check("external: all <text> parseable", !eb.some(b => b.malformed));
+  check("external: no text inside rotated symbol groups", !eb.some(b => b.rot));
+  const ebad = collisions(eb);
+  check("external: zero text collisions anywhere on the sheet", ebad.length === 0, ebad.slice(0, 4).join("; "));
+  check("external: no text clipped by the canvas edge", clippedByCanvas(ext, eb).length === 0);
+
+  app.setView("internal");
+  const int = draw();
+  check("internal restores balloons", /r="9\.5"/.test(int));
+  check("internal restores equipment designations", int.includes(">F-15+RV-1<") && int.includes(">SV-2<"));
+  check("internal hides mfr part numbers on the drawing", !int.includes("B07N6246YB"));
+  const ibad = collisions(textBoxes(int));
+  check("internal: zero text collisions anywhere on the sheet", ibad.length === 0, ibad.slice(0, 4).join("; "));
+
+  check("switching back and forth is stable",
+    (app.setView("external"), draw() === ext));
+}
+
+console.log("EXPORTED SVG IS SELF-CONTAINED");
+{
+  const { captured, app } = loadApp();
+  app.downloadSVG();
+  const svg = captured.svg;
+  // the legend must ship inside the drawing — it is the only thing that
+  // decodes the symbols once the sheet leaves this page
+  check("export embeds the symbol legend",
+    svg.includes("cone ▸ nut") && svg.includes("trapezoid ▸ box") && svg.includes("GENERAL NOTES"));
+  check("export legend omits the balloon key in external view",
+    !svg.includes("balloon: parts schedule ref"));
+  check("export subtitle does not promise an off-sheet schedule",
+    !svg.includes("see packet"));
+  check("export is one <svg> and closes", svg.startsWith("<svg") && svg.trim().endsWith("</svg>"));
+
+  app.setView("internal");
+  app.downloadSVG();
+  check("internal export legend restores the balloon key",
+    captured.svg.includes("balloon: parts schedule ref"));
 }
 
 console.log("UNRATED PARTS (rating:null)");
