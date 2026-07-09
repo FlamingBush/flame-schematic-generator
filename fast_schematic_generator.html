@@ -120,7 +120,7 @@ let PARTS = {
     rating:250, ports:{o:"pol::F"}, psrc:"decl", sym:"tank", w:14.5, h:48 },
   polAdapter:{ name:"Cylinder adapter, POL x 1/4 in MNPT", vendor:"Mr. Heater", pn:"F273754",
     spec:"Brass, excess-flow soft-nose POL (CGA-510, LH internal thread) x 1/4 in MNPT.", rating:250, ports:{i:"pol::M",o:"npt:1/4:M"}, psrc:"decl", sym:"hexAdapter", w:2.2, h:1.1 },
-  ball14:{ name:"Ball valve, 1/4 in FNPT x FNPT", vendor:"Apollo (Aalberts)", pn:"94A-101-01",
+  ball14:{ name:"Ball valve, 1/4 in FNPT x FNPT", vendor:"Apollo (Aalberts)", mfg:"Apollo", pn:"94A-101-01",
     spec:"2-pc forged brass, quarter-turn lever, 600 psi WOG, rated for fuel gases (CSA).", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"apollo", sym:"ball", w:2.4, h:1.6 },
   hoseLP:{ name:"LP-gas hose assembly, 3/8 in", vendor:"Mr. Heater", pn:"F273702",
     spec:"Factory-crimped ends, 3/8 in SAE 45 deg female flare swivel both ends. WP 350 psi, continuously marked LP-GAS / 350 PSI by manufacturer. No hose clamps.", rating:350, ports:{i:"flare:3/8:F",o:"flare:3/8:F"}, psrc:"decl", sym:"none", w:0, h:0 },
@@ -144,33 +144,33 @@ let PARTS = {
     spec:"Forged brass hex nipple, male NPT both ends — joins female-ported valves, regulators, and tees (the schedule's regulators, ball valves, solenoids, and NPT tees are all FNPT). PTFE gas tape both ends. In segments above 125 psi use forged brass rated at or above segment pressure, or schedule 80 steel.", rating:1200, ports:{i:"npt:1/4:M",o:"npt:1/4:M"}, psrc:"anderson", sym:"none", w:0, h:0 },
   nipple1412:{ name:"Reducing hex nipple, 1/4 x 1/2 in MNPT", vendor:"Anderson Metals", pn:"06123-0804",
     spec:"Forged brass reducing hex nipple stepping the 1/4 in accumulator train up to the 1/2 in poof dump valve.", rating:1200, ports:{i:"npt:1/4:M",o:"npt:1/2:M"}, psrc:"anderson", sym:"none", w:0, h:0 },
-  reg60:{ name:"Regulator, main — set 60 psi", vendor:"Marshall Excelsior", pn:"MEGR-6120-60",
+  reg60:{ name:"Regulator, main — set 60 psi", vendor:"Marshall Excelsior", mfg:"Marshall Excelsior", pn:"MEGR-6120-60",
     spec:"High-pressure adjustable LP regulator, outlet range 1-60 psi, 1/4 in FNPT in/out + two 1/4 in FNPT gauge ports, max inlet 250 psig, die-cast aluminum, UL 144 (per MEC bulletin form 976). NON-RELIEF regulator — external overpressure protection required.", rating:250, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, gauge:"npt:1/4:F", psrc:"mec", sym:"reg", w:3.4, h:3.2 },
-  reg30:{ name:"Regulator, poofer — set 30 psi", vendor:"Marshall Excelsior", pn:"MEGR-6120-30",
+  reg30:{ name:"Regulator, poofer — set 30 psi", vendor:"Marshall Excelsior", mfg:"Marshall Excelsior", pn:"MEGR-6120-30",
     spec:"High-pressure adjustable LP regulator, outlet range 1-30 psi, 1/4 in FNPT in/out + two 1/4 in FNPT gauge ports, max inlet 250 psig, die-cast aluminum, UL 144 (per MEC bulletin form 976). NON-RELIEF regulator — external overpressure protection required.", rating:250, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, gauge:"npt:1/4:F", psrc:"mec", sym:"reg", w:3.4, h:3.2 },
-  gaugeHP:{ name:"Pressure gauge, 0-300 psi", vendor:"SENCTRL", pn:"—",
+  gaugeHP:{ name:"Pressure gauge, 0-300 psi", vendor:"SENCTRL", mfg:"SENCTRL", pn:"—",
     spec:"1/4 in MNPT bottom connection, brass internals compatible with LP vapor. Confirm exact model on purchase.", rating:300, ports:{i:"npt:1/4:M"}, psrc:"decl", sym:"gauge", w:2.5, h:3.2 },
-  gaugeLP:{ name:"Pressure gauge, 0-60 psi", vendor:"SENCTRL", pn:"—",
+  gaugeLP:{ name:"Pressure gauge, 0-60 psi", vendor:"SENCTRL", mfg:"SENCTRL", pn:"—",
     spec:"1/4 in MNPT bottom connection, brass internals compatible with LP vapor. Confirm exact model on purchase.", rating:300, ports:{i:"npt:1/4:M"}, psrc:"decl", sym:"gauge", w:2.5, h:3.2 },
-  gauge30:{ name:"Pressure gauge, 0-30 psi", vendor:"SENCTRL", pn:"—",
+  gauge30:{ name:"Pressure gauge, 0-30 psi", vendor:"SENCTRL", mfg:"SENCTRL", pn:"—",
     spec:"1/4 in MNPT bottom connection, brass internals compatible with LP vapor. Confirm exact model on purchase.", rating:300, ports:{i:"npt:1/4:M"}, psrc:"decl", sym:"gauge", w:2.5, h:3.2 },
   manifold:{ name:"Cross, 1/4 in NPT, four ends", vendor:"Anderson Metals", pn:"06202-04", 
     spec:"Forged brass pipe cross (fig 102F), four 1/4 in female NPT ports: one feed in, three outlets — one per jet branch. Replaces the generic manifold block with a catalog part.", rating:1200, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"anderson", sym:"manifold", w:4.0, h:1.6 },
   nptTee:{ name:"Tee, 1/4 in FNPT", vendor:"Anderson Metals", pn:"06201-04",
     spec:"Forged brass NPT run tee (fig 101F), fuel-gas service. Branch port carries a gauge, relief, or take-off.", rating:1000, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, branch:"npt:1/4:F", psrc:"decl", sym:"tee", w:2.0, h:1.6 },
-  sol14:{ name:"Solenoid valve, 1/4 in NPT, NC", vendor:"Beduan (Amazon)", pn:"B08C2NLPR5",
+  sol14:{ name:"Solenoid valve, 1/4 in NPT, NC", vendor:"Beduan (Amazon)", mfg:"Beduan", asin:true, pn:"B08C2NLPR5",
     spec:"Brass body, 2-way normally closed, 12 VDC. Max ~100 psi. THREADS: listing claims NPT, but plain Chinese 2W-series model numbers denote G (BSPP) — gauge-check threads on receipt. Prior pick B07N2LGFYS is an aluminum air valve (kl04010) — do not use. Seal material unpublished, no fuel-gas listing — confirm LP compatibility with FAST liaison. Must stay downstream of regulation.", rating:100, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"decl", sym:"sol", w:2.8, h:3.4 },
-  sol12:{ name:"Solenoid valve, 1/2 in NPT, NC (poofer dump)", vendor:"Beduan (Amazon)", pn:"B07N6246YB",
+  sol12:{ name:"Solenoid valve, 1/2 in NPT, NC (poofer dump)", vendor:"Beduan (Amazon)", mfg:"Beduan", asin:true, pn:"B07N6246YB",
     spec:"Brass body 2W160-15, 2-way normally closed, 12 VDC. Max 0.7 MPa (~100 psi) air / 0.5 MPa liquid. THREADS: listing claims 1/2 in FNPT, but the plain 2W160-15 model number denotes G 1/2 (BSPP) in the originating line ('N' variants are NPT) — gauge-check threads on receipt. Seal material unpublished, no fuel-gas listing — confirm LP compatibility with FAST liaison. Must stay downstream of regulation.", rating:100, ports:{i:"npt:1/2:F",o:"npt:1/2:F"}, psrc:"beduan", sym:"sol", w:3.2, h:3.6 },
-  needle:{ name:"Needle valve, 1/4 in NPT", vendor:"Breezliy (Amazon)", pn:"B08K8NP26L",
+  needle:{ name:"Needle valve, 1/4 in NPT", vendor:"Breezliy (Amazon)", mfg:"Breezliy", asin:true, pn:"B08K8NP26L",
     spec:"Brass instrument needle valve, 1/4 in FNPT x FNPT, fine-metering stem. No published pressure rating or fuel-gas listing — confirm suitability with FAST liaison. Stepper actuator is custom.", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"decl", sym:"needle", w:2.2, h:2.6 },
-  needleFlare14:{ name:"Needle valve, 1/4 in flare x 1/4 in flare", vendor:"Anderson Metals (Midland Industries)", pn:"09110-04",
+  needleFlare14:{ name:"Needle valve, 1/4 in flare x 1/4 in flare", vendor:"Anderson Metals (Midland Industries)", mfg:"Anderson Metals", pn:"09110-04",
     spec:"Brass SAE 45 deg straight flare needle valve (cat. 110-SAE), fine-metering stem. Tube flare nuts land straight on the valve cones — no adapters. Catalog lists the part and its sizes but states neither END GENDER (modelled as male cones, the norm for an inline tube valve — verify on receipt) nor a PRESSURE RATING nor a fuel-gas listing; confirm all three with FAST liaison. Stepper actuator is custom.", rating:null, ports:{i:"flare:1/4:M",o:"flare:1/4:M"}, psrc:"anderson", sym:"needle", w:2.2, h:2.6 },
-  needleFlare38:{ name:"Needle valve, 3/8 in flare x 3/8 in flare", vendor:"Anderson Metals (Midland Industries)", pn:"09110-06",
+  needleFlare38:{ name:"Needle valve, 3/8 in flare x 3/8 in flare", vendor:"Anderson Metals (Midland Industries)", mfg:"Anderson Metals", pn:"09110-06",
     spec:"Brass SAE 45 deg straight flare needle valve (cat. 115-SAE), fine-metering stem. Catalog lists the part and its sizes but states neither END GENDER (modelled as male cones — verify on receipt) nor a PRESSURE RATING nor a fuel-gas listing; confirm all three with FAST liaison.", rating:null, ports:{i:"flare:3/8:M",o:"flare:3/8:M"}, psrc:"anderson", sym:"needle", w:2.2, h:2.6 },
   check14:{ name:"Check valve, 1/4 in NPT", vendor:"McMaster brass spring check, Viton seal", pn:"—",
     spec:"Inline spring-loaded poppet, brass body, Viton seat, flow arrow marked on body. Prevents accumulator back-flow.", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"decl", sym:"check", w:2.2, h:1.3 },
-  relief:{ name:"Relief valve, ASME, 1/4 in MNPT", vendor:"Aquatrol series 140 (ex-Kingston 112CSS)", pn:"140A",
+  relief:{ name:"Relief valve, ASME, 1/4 in MNPT", vendor:"Aquatrol series 140 (ex-Kingston 112CSS)", mfg:"Aquatrol", pn:"140A",
     spec:"Brass ASME 'UV' Section VIII Div. 1 safety valve, National Board certified, stainless disk and spring, factory set per tag: RV-1 75 psig (30 psi accumulator train), RV-2 90 psig (60 psi distribution). Both protect the ~100 psi solenoid listings if a regulator fails at cylinder inlet pressure. Manufacturer media rating is air/inert gas — no published LP-gas listing; confirm with FAST liaison. Aim discharges away from operators and ignition sources.", rating:350, ports:{i:"npt:1/4:M"}, psrc:"aquatrol", sym:"relief", w:2.0, h:2.6 },
   ngtAdapter:{ name:"Adapter, 3/4 in MNGT x 1/4 in MNPT", vendor:"custom fabrication", pn:"—",
     spec:"Machined steel double-male adapter: 3/4-14 NGT threads into the accumulator's existing valve boss (no welds or vessel modification), 1/4 MNPT up into the run tee. CUSTOM COMPONENT — review with FAST liaison.", rating:1000, ports:{i:"npt:1/4:M",o:"ngt:3/4:M"}, psrc:"decl", sym:"hexAdapter", w:1.8, h:1.1 },
@@ -553,7 +553,13 @@ function bandItems(L){return bandEntries(L).filter(e=>e.it).map(e=>e.it);}
 let VIEW="external";
 function INTERNAL(){return VIEW==="internal";}
 const PN_SYM=new Set(["ball","sol","needle","check","relief","reg","gauge"]);
-function pnText(p){return PN_SYM.has(p.sym)&&p.pn&&p.pn!=="\u2014"?p.pn:"";}
+/* A bare catalog number identifies nothing — always name the manufacturer
+   beside it (Marcus). Amazon listings carry an ASIN, not a manufacturer part
+   number: label it, or "Beduan B08C2NLPR5" reads as a Beduan catalog number
+   and the wrong part gets bought. A part with a make but no number (the
+   SENCTRL gauges) still shows its make. */
+function pnNum(p){return p.pn&&p.pn!=="\u2014"?(p.asin?"ASIN "+p.pn:p.pn):"";}
+function pnText(p){return PN_SYM.has(p.sym)?[p.mfg||"",pnNum(p)].filter(Boolean).join(" "):"";}
 function ratingText(p){return p.rating==null?"no published rating":p.rating+" psi";}
 function specLine(p){return [pnText(p),ratingText(p)].filter(Boolean).join(" \u00b7 ");}
 /* Balloons key a cell to the parts schedule, so they exist ONLY in the internal
@@ -1269,7 +1275,7 @@ function renderParts(){
   const rows=Object.keys(refIndex).sort((a,b)=>refIndex[a]-refIndex[b]).map(k=>{
     const p=PARTS[k];
     return `<tr><td class="mono">${refIndex[k]}</td><td><b>${p.name}</b><br><span style="color:var(--ink2)">${p.spec}</span></td>
-    <td class="mono">${p.vendor}</td><td class="mono">${p.pn}</td><td class="mono">${p.rating==null?"not published":p.rating+" psi"}</td></tr>`;
+    <td class="mono">${p.vendor}</td><td class="mono">${pnNum(p)||p.pn}</td><td class="mono">${p.rating==null?"not published":p.rating+" psi"}</td></tr>`;
   }).join("");
   document.getElementById("partsTable").innerHTML=
   `<tr><th>REF</th><th>COMPONENT & SPECIFICATION</th><th>VENDOR / CATALOG</th><th>PART NO.</th><th>RATING</th></tr>${rows}`;

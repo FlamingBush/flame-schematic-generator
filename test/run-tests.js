@@ -500,6 +500,25 @@ console.log("VIEW MODES (internal packet vs external submission)");
   check("external prints mfr part no. for a solenoid", ext.includes("B07N6246YB"));
   check("external prints mfr part no. for a regulator", /MEGR-6120/.test(ext));
   check("external prints mfr part no. for the flare needle valve", ext.includes("09110-04"));
+
+  // ...and a bare number identifies nothing, so the make rides with it
+  check("every drawn part number is preceded by its manufacturer",
+    ext.includes("Marshall Excelsior MEGR-6120-60") &&
+    ext.includes("Anderson Metals 09110-04") &&
+    ext.includes("Anderson Metals 09110-06") &&
+    ext.includes("Apollo 94A-101-01") &&
+    ext.includes("Aquatrol 140A"));
+  // an ASIN is a marketplace listing id, not a manufacturer part number —
+  // "Beduan B08C2NLPR5" would read as a Beduan catalog number
+  check("Amazon listing ids are labelled ASIN, not passed off as mfr numbers",
+    ext.includes("Beduan ASIN B08C2NLPR5") && ext.includes("Beduan ASIN B07N6246YB") &&
+    ext.includes("Breezliy ASIN B08K8NP26L") &&
+    !/(?<!ASIN )B08C2NLPR5/.test(ext));
+  check("catalog part numbers are NOT labelled ASIN", !/ASIN (94A|MEGR|09110|140A)/.test(ext));
+  check("a make without a number still shows the make", ext.includes("SENCTRL"));
+  check("the schedule labels ASINs too",
+    store["partsTable"].innerHTML.includes("ASIN B08K8NP26L") &&
+    store["partsTable"].innerHTML.includes(">94A-101-01<"));
   // ...and nothing else does. Fittings, adapters, tube stay generic (Marcus).
   check("external keeps fittings generic (no tee/adapter part numbers)",
     !ext.includes("04044-06") && !ext.includes("04059-060604") &&

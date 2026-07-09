@@ -18,7 +18,15 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
 1. `PARTS` — parts library. Each entry: name, vendor, pn, spec text, pressure
    rating, symbol key, drawing proportions (`w`/`h`). (There is no `verified`
    flag or status chip any more — Marcus removed them — but specs must still
-   be grounded in vaulted vendor documents via `psrc`.) `rating:null` means the
+   be grounded in vaulted vendor documents via `psrc`.) `vendor` is the
+   schedule's "VENDOR / CATALOG" string and may name a marketplace or a
+   distributor; `mfg` is the MANUFACTURER, and it is what the drawing prints
+   beside a part number — a bare catalog number identifies nothing (Marcus).
+   `asin:true` marks a `pn` that is an Amazon listing id rather than a
+   manufacturer part number; it renders as "ASIN B08C2NLPR5" everywhere, or
+   "Beduan B08C2NLPR5" would read as a Beduan catalog number and the wrong part
+   gets bought. A part with an `mfg` but no `pn` (the SENCTRL gauges) still
+   shows its make. `rating:null` means the
    VENDOR PUBLISHES NO RATING — never invent one. Null is not zero: `null < op`
    is `true` in JS, so every rating comparison must test `typeof r === "number"`
    first or an unrated part silently reports as "rated below segment pressure".
@@ -159,8 +167,8 @@ not cosmetic variants; each is a different deliverable.
   references (`Shown: V-1 (L1)`) resolve against the drawing.
 - **external** — the standalone SVG that is actually submitted. Nothing points
   at an off-sheet schedule, so each cell identifies ITSELF: `specLine()` prints
-  the manufacturer part number for valves, regulators, and gauges only
-  (`PN_SYM`) plus the pressure rating FE-2 judges it against. Fittings,
+  `mfg` + part number for valves, regulators, and gauges only (`PN_SYM`) plus
+  the pressure rating FE-2 judges it against. Fittings,
   adapters, tube, and handmade tips stay generic — Marcus: part numbers are for
   what a reviewer must be able to identify exactly. Adapters keep only their
   consolidated "A ▸ B" end-pair caption, no name and no spec line.
