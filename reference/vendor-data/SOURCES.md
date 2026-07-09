@@ -19,13 +19,17 @@ on a live fetch. The `.txt` files are pypdf extractions of the PDFs.
   cross (04052-06), fig 406 flare x female pipe (04046-0604), fig 408
   half-union flare x male pipe (04048-0604, -0606), fig 506 reducing union
   (04056-0604), fig 122 hex nipple MNPT x MNPT (06122-04), fig 123 reducing
-  hex nipple (06123-0804 = 1/2 x 1/4).
+  hex nipple (06123-0804 = 1/2 x 1/4), fig 101F forged FNPT tee (06201-04),
+  fig 102F forged FNPT cross (06202-04). NOTE the extracted text's layout:
+  each figure name appears BEFORE its size table and the computer-number
+  prefix (e.g. "06201-") AFTER it — verified against fig 122/123.
 - `beduan` → `beduan-2w160-15.html` — mybeduan.com product page for the 1/2 in
   solenoid: "1/2\" female NPT port size, model designation 2W160-15".
   https://mybeduan.com/beduan-brass-electric-solenoid-valve-12-12v-air.html
 - `apollo` → `apollo-94a-submittal.pdf` (+ .txt) — Apollo 94A series submittal
   sheet (Aalberts). NPT (female) 1/4"–4", CSA/UL fuel-gas approvals on NPT
-  models. https://aalberts.compano.com/Data/Environments/000001/Attachment/Bijlage/PRD/ProductGroup/Apollo/Submittal_Tech_Sheets/SS_94A.pdf
+  models; grounds ball14's pn: 94A-101-01 is the 1/4" model.
+  https://aalberts.compano.com/Data/Environments/000001/Attachment/Bijlage/PRD/ProductGroup/Apollo/Submittal_Tech_Sheets/SS_94A.pdf
 - `sturgis` → `mbsturgis-38-sae-adapters.html` — MB Sturgis 3/8 SAE flare
   adapters page: "3/8″ Female SAE Swivel X 1/4″ Male NPTF Adapter" (the
   flareNptF part; Motorsnorkel #2327 is the same fitting but their site
