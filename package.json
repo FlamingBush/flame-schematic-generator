@@ -4,7 +4,8 @@
   "private": true,
   "description": "LP-gas flame effect schematic generator for FAST review packets",
   "scripts": {
-    "test": "node test/run-tests.js",
+    "test": "node test/run-tests.js && node test/mutants.js",
+    "approve": "node test/approve.js",
     "validate": "python3 scripts/validate_svg.py"
   }
 }

@@ -50,8 +50,20 @@ function loadApp(extraJS) {
   global.Blob = class { constructor(parts) { this.data = parts.join(""); } };
   global.URL = { createObjectURL: (b) => { captured.svg = b.data; return "blob:x"; } };
 
-  // eval in a function scope; expose the app's top-level bindings we need via a trailer
-  const trailer = `;__hooks({SYSTEM,PARTS,ROW,CL,STRIP_H,TRUNK,TROW,SYM,MATCHED,TREE,LAST_RENDER,refIndex,applyJSON,downloadSVG,renderAll,lintPorts,jointMarker,setView,legendLines,specLine,PN_SYM,NO_RATING_SYM,INTERNAL});`;
+  // eval in a function scope; expose the app's top-level bindings we need via a trailer.
+  //
+  // LIVENESS, and why it matters for mutation testing:
+  //   TREE, MATCHED, PN_SYM, NO_RATING_SYM are mutated in place — a captured
+  //     reference stays live, so `app.PN_SYM.add(...)` reaches the renderer.
+  //   refIndex is REASSIGNED by buildRefs() on every render.
+  //   SYSTEM and PARTS are REASSIGNED by applyJSON().
+  // A captured reference to any of those three goes stale the instant the app
+  // re-renders from edited JSON, so a test would read the PRE-mutation data,
+  // see nothing changed, and pass on a lie. Hand out getters and make the
+  // invariants resolve them at evaluation time.
+  const trailer = `;__hooks({SYSTEM,PARTS,ROW,CL,STRIP_H,TRUNK,TROW,SYM,MATCHED,TREE,LAST_RENDER,refIndex,` +
+    `getSYSTEM:()=>SYSTEM,getPARTS:()=>PARTS,getRefIndex:()=>refIndex,` +
+    `applyJSON,downloadSVG,renderAll,lintPorts,jointMarker,setView,legendLines,generalNotes,specLine,PN_SYM,NO_RATING_SYM,INTERNAL});`;
   let hooks = null;
   global.__hooks = (h) => { hooks = h; };
   eval(m[1] + trailer);

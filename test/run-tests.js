@@ -1,6 +1,28 @@
 // Regression tests for fast_schematic_generator.html — run: node test/run-tests.js
+//
+// Every check here is exactly one of four kinds, and nothing else is allowed in:
+//
+//   1. A NAMED INVARIANT in test/invariants.js — quantified over data, and it
+//      MUST have a paired mutation in test/mutants.js that turns it red. The
+//      coverage gate fails the build otherwise. Run as the first block below.
+//   2. A PORT-LINTER DEFECT CLASS, seeded through viaJSON() — these live in
+//      test/mutants.js as mutations of `portLinterClean`.
+//   3. A GEOMETRY OR STRUCTURAL CHECK — collisions, baselines, clipping,
+//      escaping, balanced tags, no undefined/NaN, hostile-data survival. These
+//      are renderer guarantees: no data mutation falsifies them, so they are
+//      exempt from the mutation gate and stay inline here.
+//   4. THE APPROVED SNAPSHOT (test/approved/drawing-{external,internal}.svg).
+//      Rendering details live there, not in includes() calls.
+//
+// Refuse: a constant asserting itself (`PARTS.x.rating === 150`); a string
+// pinned to incidental output (`svg.includes(">3/8 in tube (5/8-18 UNF)<")`).
+// The tell that you got it wrong is hand-editing tests every time the design
+// legitimately changes.
 "use strict";
 const { loadApp } = require("./harness");
+const { textBoxes, rx, clippedByCanvas, collisions, bandChunks, textContents } = require("./geometry");
+const { INVARIANTS, evaluateAll, eachItem } = require("./invariants");
+const { VIEWS, goldenPath, goldenFor, summarize } = require("./golden");
 const fs = require("fs");
 const path = require("path");
 
@@ -9,75 +31,69 @@ function check(name, cond, detail) {
   if (cond) { pass++; console.log("  ✓", name); }
   else { fail++; console.log("  ✗", name, detail ? "— " + detail : ""); }
 }
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const noUndefinedNaN = (s) => !/undefined|NaN/.test(s);
+const xmlEscaped = (s) => ({
+  bareAmp: (s.match(/&(?!amp;|lt;|gt;|quot;|apos;|#\d+;|#x[\da-fA-F]+;)/g) || []).length,
+  rawLt: (s.match(/<(?![a-zA-Z/!?])/g) || []).length,
+});
 
-// Parse every <text> in the svg, resolving <g> translate offsets and tagging
-// each box with its nearest band/strip/tcell ancestor. Texts inside rotated
-// groups are flagged separately (symbols must stay text-free, so there should
-// never be any).
-function textBoxes(svg) {
-  const boxes = []; const stack = [{ x: 0, y: 0, band: false, cellY: null, rot: false }];
-  const re = /<g\b[^>]*>|<\/g>|<text [^>]*>[^<]*<\/text>/g; let m;
-  while ((m = re.exec(svg))) {
-    const tok = m[0];
-    if (tok === "</g>") { stack.pop(); continue; }
-    if (tok.startsWith("<g")) {
-      const fr = { ...stack[stack.length - 1] };
-      if (/rotate\(/.test(tok)) fr.rot = true;
-      else {
-        const t = tok.match(/transform="translate\((-?[\d.]+) (-?[\d.]+)\)"/);
-        if (t) { fr.x += +t[1]; fr.y += +t[2]; }
-      }
-      const cls = tok.match(/class="(\w+)"/);
-      if (cls && (cls[1] === "band" || cls[1] === "strip")) { fr.band = true; fr.cellY = null; }
-      if (cls && cls[1] === "tcell") { const d = tok.match(/data-y="(-?[\d.]+)"/); fr.cellY = d ? +d[1] : null; fr.band = false; }
-      stack.push(fr); continue;
-    }
-    const a = tok.match(/<text x="(-?[\d.]+)" y="(-?[\d.]+)" font-size="([\d.]+)" text-anchor="(\w+)"[^>]*>([^<]*)<\/text>/);
-    const top = stack[stack.length - 1];
-    if (!a) { boxes.push({ malformed: tok }); continue; }
-    // measure the RENDERED string, not the escaped markup (&quot; is one glyph)
-    const raw = a[5].replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
-    const fsz = +a[3], wpx = raw.length * fsz * 0.62;
-    const x0 = a[4] === "start" ? +a[1] : +a[1] - wpx / 2;
-    boxes.push({
-      rot: top.rot, band: top.band, cellY: top.cellY, localY: +a[2], s: a[5],
-      x0: top.x + x0, x1: top.x + x0 + wpx, y0: top.y + +a[2] - 0.8 * fsz, y1: top.y + +a[2] + 0.25 * fsz
-    });
-  }
-  return boxes;
-}
-const rx = s => String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // literal string -> regex
-function clippedByCanvas(svg, boxes) {
-  const dim = svg.match(/<svg width="(\d+)" height="(\d+)"/);
-  return boxes.filter(b => !b.malformed && (b.x0 < 0 || b.y0 < 0 || b.x1 > +dim[1] || b.y1 > +dim[2]))
-    .map(b => `${b.s}@${Math.round(b.x1)},${Math.round(b.y1)} vs ${dim[1]}x${dim[2]}`);
-}
-function collisions(boxes) {
-  const bad = [];
-  for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) {
-    const p = boxes[i], q = boxes[j];
-    if (p.malformed || q.malformed) continue;
-    if (p.x0 < q.x1 - 1 && q.x0 < p.x1 - 1 && p.y0 < q.y1 - 1 && q.y0 < p.y1 - 1) bad.push(p.s + " | " + q.s);
-  }
-  return bad;
-}
+/* ============================ 1. NAMED INVARIANTS ============================ */
 
-console.log("LAYOUT INVARIANTS (internal view)");
+console.log("INVARIANTS (each has a paired mutation in test/mutants.js)");
 {
   const { store, app } = loadApp();
-  // this block asserts the INTERNAL packet: balloons key cells to the parts
-  // schedule and equipment designations (F-15, RV-1) label them. The external
-  // submission sheet is covered in its own block below.
+  const res = evaluateAll(app, store);
+  INVARIANTS.forEach((inv) => check(inv.describe, res[inv.id].ok, res[inv.id].detail));
+}
+
+/* =========================== 4. APPROVED SNAPSHOT =========================== */
+
+console.log("\nAPPROVED DRAWINGS (golden — regenerate with: npm run approve)");
+{
+  VIEWS.forEach((view) => {
+    const file = goldenPath(view);
+    if (!fs.existsSync(file)) {
+      check(`${view} drawing has an approved snapshot`, false, "missing — run: npm run approve");
+      return;
+    }
+    const prev = fs.readFileSync(file, "utf8");
+    const next = goldenFor(view);
+    if (prev === next) { check(`${view} drawing matches the approved snapshot`, true); return; }
+    const { report } = summarize(prev, next, { label: view, maxHunks: 8 });
+    check(`${view} drawing matches the approved snapshot`, false,
+      "\n" + report + "\n    If intentional: `npm run approve`, then LOOK at the PNG it renders.");
+  });
+}
+
+/* ================= 3. GEOMETRY & STRUCTURE (renderer guarantees) ================= */
+
+console.log("\nLAYOUT & GEOMETRY (internal view)");
+{
+  const { store, app } = loadApp();
   app.setView("internal");
+  const SYSTEM = app.getSYSTEM(), PARTS = app.getPARTS();
   const hosts = store["strips"].children;
   check("one combined svg", hosts.length === 1 && /<svg /.test(hosts[0].innerHTML));
   const svg = hosts[0].innerHTML;
-  const chained = Object.values(app.TREE.chain).flatMap(segs => segs.slice(1).map(s => s.id));
-  check("every line rendered (band, chain seam, or orphan strip)", app.SYSTEM.lines.every(L =>
+  const chunks = (id) => bandChunks(svg, id);
+
+  // a chained segment renders inside its host's band, not as its own strip
+  const hostOf = {};
+  Object.entries(app.TREE.chain).forEach(([host, segs]) => segs.forEach((s) => (hostOf[s.id] = host)));
+  const bandIdFor = (id) => hostOf[id] || id;
+  const chained = Object.values(app.TREE.chain).flatMap((segs) => segs.slice(1).map((s) => s.id));
+
+  check("every line rendered (band, chain seam, or orphan strip)", SYSTEM.lines.every((L) =>
     chained.includes(L.id) || svg.includes(`data-band="${L.id}"`)));
   check("default system: root band carries supply; only the shared tip run is unrooted",
     !!app.TREE.root && app.TREE.orphans.length === 1 && app.TREE.orphans[0].id === "L3r" &&
     svg.includes(`data-band="${app.TREE.root.id}"`));
+
+  // every chained segment draws a seam and never a band of its own
+  const seamBad = chained.filter((id) => !svg.includes(`data-merged="${id}"`) || svg.includes(`data-band="${id}"`));
+  check("every chained segment renders as a seam inside its host band", chained.length > 0 && seamBad.length === 0,
+    seamBad.join(", "));
 
   // the supply stack absorbs the run's length: the default sheet fits in one
   // row with NO fold. Over-long roots still serpentine exactly once — that
@@ -85,103 +101,108 @@ console.log("LAYOUT INVARIANTS (internal view)");
   const loops = [...svg.matchAll(/data-loop="[^"]*" data-y1="(-?[\d.]+)" data-y2="(-?[\d.]+)"/g)];
   check("default sheet needs no fold (supply stack absorbs the length)", loops.length === 0, loops.length + " loops");
   check("branch bands never wrap (no data-row outside the root)",
-    [...svg.matchAll(/data-band="([^"]*)"[^>]*data-row=/g)].every(m => m[1] === app.TREE.root.id));
+    [...svg.matchAll(/data-band="([^"]*)"[^>]*data-row=/g)].every((m) => m[1] === app.TREE.root.id));
 
-  // new constructs: band chain (L4→L4b), discharge riser, split/rejoin
-  const bandChunks = id => { // all row <g>s of one band, concatenated
-    let s = "", i = 0;
-    while ((i = svg.indexOf(`data-band="${id}"`, i)) >= 0) {
-      const j = svg.indexOf('class="band" data-band=', i + 1);
-      s += svg.slice(i, j < 0 ? undefined : j); i = j < 0 ? svg.length : j;
-    }
-    return s;
-  };
-  check("L4b chains into the L4 band (seam, no separate strip)",
-    svg.includes('data-merged="L4b"') && !svg.includes('data-band="L4b"') && svg.includes("L4b — Poofer accumulator"));
-  const l4band = bandChunks("L4");
-  check("riser: L4 discharge turns upward (tcell mini-grid + rotate(-90) symbols)",
-    l4band.includes('class="tcell"') && l4band.includes("rotate(-90)"));
-  // supply stack: L1 opens as a vertical bottom→top run — every stack cell is
-  // a tcell BELOW the band centerline, both cylinders are drawn (tank body
-  // rect rx="9"), and the corner elbow's L-body masks the bend
-  const l1band = bandChunks("L1");
-  const stackYs = [...l1band.matchAll(/class="tcell" data-y="(-?[\d.]+)"/g)].map(m => +m[1]);
-  check("supply stack: L1 opens vertical (tcell mini-grid below the centerline)",
-    stackYs.length >= 12 && stackYs.every(y => y > app.CL), `${stackYs.length} cells, min ${Math.min(...stackYs)}`);
-  check("vertical adapters consolidate (markers flanking the hex in one cell)",
-    l1band.includes("CGA-510 POL ▸ 3/8&quot; flare") && bandChunks("L4").includes("▸ 1/2&quot; flare"));
-  check("supply stack: both cylinders drawn, bare curve into the horizontal",
-    (l1band.match(/rx="9"/g) || []).length === 2 && l1band.includes(`Q80 ${app.CL} 88 ${app.CL} H`));
+  // vertical constructs, quantified over the lines that declare them
+  const risers = SYSTEM.lines.filter((L) => L.items.some((it) => it.j === "riser"));
+  const badRiser = risers.filter((L) => {
+    const b = chunks(bandIdFor(L.id));
+    return !(b.includes('class="tcell"') && b.includes("rotate(-90)"));
+  });
+  check("every discharge riser draws a tcell mini-grid with rotate(-90) symbols",
+    risers.length > 0 && badRiser.length === 0, badRiser.map((L) => L.id).join(", "));
+
+  // Every cell of a supply stack sits BELOW the centerline, and the stack draws
+  // at least one cell per part ahead of the turn. Derived from the data, not a
+  // pinned cell count — the stack legitimately shortens when a run is respecced.
+  const stacks = SYSTEM.lines.filter((L) => L.items.some((it) => it.j === "turn"));
+  const badStack = stacks.filter((L) => {
+    const ys = [...chunks(bandIdFor(L.id)).matchAll(/class="tcell" data-y="(-?[\d.]+)"/g)].map((m) => +m[1]);
+    const parts = L.items.slice(0, L.items.findIndex((it) => it.j === "turn")).filter((it) => it.p).length;
+    return !(ys.length >= parts && ys.length > 0 && ys.every((y) => y > app.CL));
+  });
+  check("every supply stack opens vertical (one cell per part, all below the centerline)",
+    stacks.length > 0 && badStack.length === 0, badStack.map((L) => L.id).join(", "));
+
   // the pocket beside the stack is real estate: branch bands tuck up into it
-  // instead of stacking below the whole stack depth, and the L1 box notches
-  // so they sit outside it
-  const bandY = id => { const m = svg.match(new RegExp(`data-band="${id}"[^>]*transform="translate\\((-?[\\d.]+) (-?[\\d.]+)\\)"`)); return m ? +m[2] : null; };
-  const stackBotAbs = bandY("L1") + Math.max(...stackYs);
+  const stackYs = [...chunks("L1").matchAll(/class="tcell" data-y="(-?[\d.]+)"/g)].map((m) => +m[1]);
+  const bandY = (id) => { const m = svg.match(new RegExp(`data-band="${id}"[^>]*transform="translate\\((-?[\\d.]+) (-?[\\d.]+)\\)"`)); return m ? +m[2] : null; };
   check("branch bands tuck into the pocket beside the stack",
-    bandY("L4") !== null && bandY("L4") < stackBotAbs, `L4@${bandY("L4")} vs stack bottom ${stackBotAbs}`);
-  check("the stack segment's box notches (L-shape, not a full rectangle)",
-    (svg.match(/<path [^>]*stroke-dasharray="7 4"/g) || []).length === 1);
-  check("POL joint labeled on the supply stack", svg.includes("CGA-510 POL"));
-  check("note-only adapters are now drawn parts (all reach the schedule)",
-    ["polFlare", "flareTeeFpt", "flare14npt", "cu14", "cu12", "flareTee14", "flareTeeR3814", "flareTeeR1414", "relief", "flare38npt34"].every(k => app.refIndex[k] !== undefined));
-  check("no adaptIn/adaptOut/branchAdapt remain in the default system",
-    !/adaptIn|adaptOut|branchAdapt/.test(JSON.stringify(app.SYSTEM)));
-  check("no port-role copy on the accumulator (the drawing carries it)", !svg.includes("fill in side"));
+    bandY("L4") !== null && bandY("L4") < bandY("L1") + Math.max(...stackYs));
+  // ...and the stack segment's dashed box notches into an L so the pocket
+  // stays outside it — a <path> box rather than a <rect>, one per stack
+  check("the stack segment's box notches (an L-shaped path, not a rectangle)",
+    (svg.match(/<path [^>]*stroke-dasharray="7 4"/g) || []).length === stacks.length);
+
+  // splits render a parallel metered strip one row below
+  const splits = SYSTEM.lines.filter((L) => L.items.some((it) => it.split));
+  const badSplit = splits.filter((L) => !chunks(bandIdFor(L.id)).includes(`data-par="${L.id}"`));
+  check("every split draws its parallel metered strip", splits.length > 0 && badSplit.length === 0,
+    badSplit.map((L) => L.id).join(", "));
+
+  // SYMBOL PHYSICS: manifold outlets leave the body's right face onto one x —
+  // the continuing run is one of them, so none may sprout from another face
+  const man = app.SYM.manifold(0, { w: 4 }, {});
+  // lazy + leading \s, or the greedy form matches stroke-width="1.6"
+  const rect = /<rect x="(-?[\d.]+)"[^>]*?\swidth="([\d.]+)"/.exec(man);
+  const rightFace = +rect[1] + +rect[2];
+  const stubs = [...man.matchAll(/<line x1="(-?[\d.]+)" y1="(-?[\d.]+)" x2="(-?[\d.]+)" y2="(-?[\d.]+)"/g)];
+  check("manifold outlets fan from the body's right face onto one common x",
+    stubs.length >= 2 && stubs.every((s) => Math.abs(+s[1] - rightFace) <= 2 && +s[3] > rightFace) &&
+    new Set(stubs.map((s) => s[3])).size === 1);
   check("partless NPT glyph mirrors when the female port is upstream",
     app.jointMarker({ j: "npt" }, 50).includes("scale(-1,1)") && !app.jointMarker({ j: "npt", lr: "M>F" }, 50).includes("scale(-1,1)"));
-  check("manifold outlets fan from the right face (run continues as one of 3)",
-    /x2="33" y2="101"/.test(app.SYM.manifold(0, { w: 4 }, {})) && /x2="33" y2="123"/.test(app.SYM.manifold(0, { w: 4 }, {})));
-  const l3band = bandChunks("L3"), pcl = app.STRIP_H + app.CL;
-  check("split: metered path strip renders below with down and up elbows",
-    l3band.includes('data-par="L3"') && l3band.includes(`V${pcl - 8} Q`) && l3band.includes(`V${app.CL}"`));
-  // rail: 3/8 Cu through two reducing tees, every 1/4 port keyed by a T
-  // pentagon; the 1/4 tip run drawn ONCE in its own strip — two tee-mounted
-  // tips and a terminal crimped tip (three pilot circles)
-  check("standby rail: reducing tees keyed T; tip run drawn once with three tips",
-    (bandChunks("L3r").match(/r="9"/g) || []).length === 3 &&
-    svg.includes(">Flare tee, reducing,<") && svg.includes(">F-17<") &&
-    svg.includes(">F-18+SB-1<") &&
-    svg.includes("3 identical tip runs") && svg.includes('data-band="L3r"'));
-  check("60 psi distribution protected: RV-2 relief ahead of the manifold",
-    svg.includes(">F-20+RV-2<") && svg.includes("RV-2: set 90 psi"));
-  check("mixer respecced to the Stanbroil 3/4 in unit",
-    svg.includes(">LP air mixer valve<") && svg.includes(">AM-1<") &&
-    (svg.match(/3\/8&quot; flare ▸ 3\/4&quot; NPT/g) || []).length === 1);
-  check("rail chains downstream of the split (L3a seam on the L3 band)",
-    svg.includes('data-merged="L3a"') && !svg.includes('data-band="L3a"'));
-  const jet = app.SYSTEM.lines.find(L => L.id === "L3b");
-  const jI = t => jet.items.findIndex(it => it.tag === t);
-  check("jet path teed off before the split, needle+solenoid in series",
-    app.TREE.edges.some(e => e.ref === "J" && e.kind === "drop") &&
-    jI("NV-4") > -1 && jI("NV-4") < jI("SV-3") && jI("SV-3") < jI("AM-1"));
-  check("dashed line boxes drawn (one per line segment per row)",
-    (svg.match(/stroke-dasharray="7 4"/g) || []).length >= app.SYSTEM.lines.length);
+  check("symbols are text-free (rotatable)", Object.keys(app.SYM).every((k) => !/<text/.test(app.SYM[k](0, { w: 3, h: 3 }, {}))));
 
-  const boxes = textBoxes(svg);
-  check("all <text> elements parseable", !boxes.some(b => b.malformed), (boxes.find(b => b.malformed) || {}).malformed);
-  check("no text inside rotated symbol groups", !boxes.some(b => b.rot));
+  // a hex nipple glyph for every nipple part in SYSTEM (the glyph's center hex
+  // body is the unique 6x12 white rect) — tied to the data, never re-pinned
+  let nipples = 0;
+  eachItem(SYSTEM, (it) => { if (it.part && /nipple/i.test((PARTS[it.part] || {}).name || "")) nipples++; });
+  check("a hex nipple is drawn at every female-to-female NPT junction",
+    nipples > 0 && (svg.match(/width="6" height="12"/g) || []).length >= nipples, `${nipples} nipples in SYSTEM`);
 
-  const bandRows = new Set([app.ROW.balloon + 3.5, app.ROW.jTop, app.ROW.jBot, app.ROW.tag, app.ROW.n1, app.ROW.n2, app.ROW.n3, app.ROW.n4, app.CL + 3.5, 8]);
-  const trunkOffs = new Set(Object.values(app.TROW));
-  let offGrid = 0, homeless = 0; const offDetail = [];
-  boxes.forEach(b => {
-    if (b.malformed) return;
-    if (b.band) { if (![...bandRows].some(r => Math.abs(r - b.localY) < 0.01)) { offGrid++; offDetail.push(b.s + "@band:" + b.localY); } }
-    else if (b.cellY !== null) { const o = b.localY - b.cellY; if (![...trunkOffs].some(r => Math.abs(r - o) < 0.01)) { offGrid++; offDetail.push(b.s + "@trunk:" + o); } }
-    else { homeless++; offDetail.push("homeless:" + b.s); }
+  // adapters consolidate: interface markers flank the hex body in ONE cell with
+  // a combined "A ▸ B" caption, never three spread-out cells carrying a name
+  let adapters = 0;
+  eachItem(SYSTEM, (it) => { if (it.p && (PARTS[it.p] || {}).sym === "hexAdapter") adapters++; });
+  const pairCaptions = (svg.match(/ ▸ /g) || []).length;
+  check("adapter cells consolidate into one end-pair caption, with no 'Adapter' name",
+    adapters > 0 && pairCaptions >= adapters && !/>Adapter[ <]/.test(svg), `${adapters} adapters, ${pairCaptions} captions`);
+
+  // an xn:n cell repeats the symbol but is identified ONCE
+  const xn = [];
+  eachItem(SYSTEM, (it) => { if (it.xn > 1 && it.tag) xn.push(it.tag); });
+  const xnBad = xn.filter((t) => (svg.match(new RegExp(`>${rx(esc(t))}<`, "g")) || []).length !== 1);
+  check("a repeated (xn) cell draws its identification exactly once", xn.length > 0 && xnBad.length === 0, xnBad.join(", "));
+
+  // every emergency:true item carries the orange callout, and only those
+  const flagged = SYSTEM.lines.flatMap((L) => L.items).filter((it) => it.emergency);
+  check("every emergency:true valve carries the orange callout, and only those",
+    flagged.length > 0 && (svg.match(/EMERGENCY FUEL SHUT-OFF/g) || []).length === flagged.length,
+    `${flagged.length} flagged: ${flagged.map((f) => f.tag).join(", ")}`);
+
+  // a fan edge's badge states the branch count the DATA declares
+  app.TREE.edges.filter((e) => e.kind === "end").forEach((e) =>
+    check(`fan ${e.ref}: badge states the ${e.fan} branches the data declares`,
+      svg.includes(`one of ${e.fan} identical branches`)));
+
+  // a ref with MULTIPLE producers is a deliberate idiom, not an error: every
+  // port marked with it renders the plain pentagon, the consumer renders once
+  const prod = {}, cons = {};
+  eachItem(SYSTEM, (it) => {
+    if (it.branch && it.branch.ref) prod[it.branch.ref] = (prod[it.branch.ref] || 0) + 1;
+    if (it.j === "off" && it.dir === "out") prod[it.ref] = (prod[it.ref] || 0) + 1;
+    if (it.j === "off" && it.dir === "in") cons[it.ref] = (cons[it.ref] || 0) + 1;
   });
-  check("every text baseline on a band row or riser mini-grid row", offGrid === 0, offDetail.slice(0, 4).join("; "));
-  check("every text inside a band/strip/tcell group", homeless === 0, offDetail.slice(0, 4).join("; "));
+  const multi = Object.keys(prod).filter((r) => prod[r] > 1);
+  const multiBad = multi.filter((r) => (svg.match(new RegExp(`>${rx(esc(r))}<`, "g")) || []).length !== prod[r] + (cons[r] || 0));
+  check("multi-producer refs render one pentagon per port plus one consumer mark",
+    multi.length > 0 && multiBad.length === 0, multiBad.join(", "));
 
-  const bad = collisions(boxes);
-  check("zero text collisions anywhere on the sheet", bad.length === 0, bad.slice(0, 4).join("; "));
-  const clip = clippedByCanvas(svg, boxes);
-  check("no text clipped by the canvas edge", clip.length === 0, clip.slice(0, 3).join("; "));
-
-  // connectors: every drop edge draws exactly one connector whose y equals
-  // the destination band's centerline; a fan (end) edge instead breaks into a
+  // connectors: every drop edge draws exactly one connector whose y equals the
+  // destination band's centerline; a fan (end) edge instead breaks into a
   // labeled pentagon PAIR — a drawn route would read as a second loop-back
-  app.TREE.edges.forEach(e => {
+  app.TREE.edges.forEach((e) => {
     if (e.kind === "end") {
       const pout = (svg.match(new RegExp(`data-pout="${rx(e.ref)}"`, "g")) || []).length;
       const pin = (svg.match(new RegExp(`data-pin="${rx(e.ref)}"`, "g")) || []).length;
@@ -195,100 +216,211 @@ console.log("LAYOUT INVARIANTS (internal view)");
       conns.length === 1 && !!band && conns[0][1] === band[1],
       `${conns.length} conns, cly=${conns[0] && conns[0][1]}, cl=${band && band[1]}`);
   });
-  // pentagons: the matched fan pair (C ×2) plus the deliberately-unmatched
-  // tip-run key T (F-16 branch, F-17 branch, rail end, tip-run lead-in)
-  check("pentagons: fan pair + the four T tip-run marks",
-    (svg.match(/h16 l8 10 l-8 10 h-16/g) || []).length === 6 && (svg.match(/>T</g) || []).length === 4);
-  check("symbols are text-free (rotatable)", Object.keys(app.SYM).every(k => !/<text/.test(app.SYM[k](0, { w: 3, h: 3 }, {}))));
-  check("no undefined/NaN in svg", !/undefined|NaN/.test(svg));
-  // V-1 (depot), V-2 (main) and V-3 (poofer accumulator) are all marked
-  // emergency shut-offs. Tie the count to the data so flagging another valve
-  // can never silently go undrawn.
-  const flagged = app.SYSTEM.lines.flatMap(L => L.items).filter(it => it.emergency);
-  check("every emergency:true valve carries the orange callout, and only those",
-    flagged.length >= 3 && (svg.match(/EMERGENCY FUEL SHUT-OFF/g) || []).length === flagged.length,
-    `${flagged.length} flagged: ${flagged.map(f => f.tag).join(", ")}`);
-  check("the poofer accumulator ball valve is marked for e-stop",
-    flagged.some(f => f.tag === "V-3"));
-  // FNPT-to-FNPT junctions (regs, ball valves, solenoids, NPT tees are all
-  // female-ported) must show a hex nipple glyph, never a bare M-into-F marker
-  // (the glyph's center hex body is the unique 6x12 white rect)
-  // tied to the data, not a snapshot: making the runs flare removed nipples,
-  // and the count must follow rather than be re-pinned by hand each time
-  const nipplesInSystem = (JSON.stringify(app.SYSTEM).match(/"part":"nipple/g) || []).length;
-  check("a hex nipple is drawn at every female-to-female NPT junction",
-    nipplesInSystem > 0 && (svg.match(/width="6" height="12"/g) || []).length >= nipplesInSystem);
-  // adapters consolidate: interface markers flank the hex body in ONE cell
-  // with a combined size caption instead of three spread-out cells — in both
-  // flow directions (flare▸NPT into valve bodies, NPT▸flare out of tees)
-  check("adapter cells consolidated (end-pair caption, no 'Adapter' word)",
-    (svg.match(/>[0-9]\/[0-9]&quot; flare ▸ [0-9]\/[0-9]&quot; NPT</g) || []).length >= 3 &&
-    (svg.match(/>[0-9]\/[0-9]&quot; NPT ▸ [0-9]\/[0-9]&quot; flare</g) || []).length >= 2 &&
-    !/>Adapter[ <]/.test(svg));
-  check("no fraction glyphs — sizes written out", !/[⅜¼½⅛⅝]/.test(svg));
-  check("no 'teed at F-' or 'from F-' marks", !svg.includes("teed at F") && !svg.includes("from F-"));
-  check("tees marked with their exact type, thread designation off the cells",
-    svg.includes("1/4 in + relief valve") && svg.includes(">F-7<") && svg.includes(">Flare tee, 3/8 in tube<") &&
-    !/Tee, 1\/4 in [FM]NPT/.test(svg));
-  check("take-off tees are flare tees; designations on their own line, no mfr numbers",
-    svg.includes(">F-3<") && svg.includes(">F-6<") && (svg.match(/>Flare tee[,<]/g) || []).length >= 3 &&
-    svg.includes(">SV-2<") && !svg.includes("B07N6246YB") && !svg.includes("04044-06"));
-  check("parallel metered path closes through a copper flare link",
-    bandChunks("L3").includes(">TB-10<"));
-  check("solenoid joints flagged for thread check",
-    (svg.match(/&quot; NPT\*/g) || []).length >= 6 &&
-    store["legend"].innerHTML.includes("gauge-check on receipt"));
-  check("accumulator hangs through the NGT boss adapter",
-    app.refIndex.ngtAdapter !== undefined && store["partsTable"].innerHTML.includes("MNGT"));
-  check("hoses labeled exactly, designation on its own row",
-    svg.includes(">3/8&quot; LP-gas hose<") && svg.includes(">HS-2<"));
-  const l3split = app.SYSTEM.lines.find(L => L.id === "L3").items.find(it => it.split).split;
-  check("split metered path is needle-only (no solenoid in path b)",
-    !(l3split.b || []).some(it => it.p && app.PARTS[it.p] && app.PARTS[it.p].sym === "sol"));
-  check("NV-3 removed — rail metered by the split's needle alone", !svg.includes("NV-3"));
-  // twin feed: both cylinder chains drawn (two POL glyphs, HS-1 twice plus
-  // HS-2 = three hose squiggles in L1), labels and balloons only once
-  // the squiggle glyph is shared by hoses AND tube runs, so its raw count is a
-  // snapshot; what matters is two cylinder chains, each label drawn once
-  check("both tank feed chains drawn, labeled once",
-    (l1band.match(/l5 -8 6 16 5 -8/g) || []).length >= 3 &&
-    (l1band.match(/r="3\.2"/g) || []).length === 2 &&
-    (svg.match(/>HS-1</g) || []).length === 1);
-  check("poofer discharge stick: 10 ft of 1/2\" Cu to an open pipe",
-    svg.includes(">TB-6 × 10 ft<") && svg.includes(">Open pipe discharge<"));
-  // overpressure protection: RV-1 relief on its own tee, downstream of the
-  // check valve, upstream of the accumulator riser
-  const l4b = app.SYSTEM.lines.find(L => L.id === "L4b");
-  const idx = f => l4b.items.findIndex(f);
-  check("RV-1 relief mounted downstream of CV-1, before the accumulator",
-    app.refIndex.relief !== undefined &&
-    idx(it => it.tag === "CV-1") < idx(it => it.tag === "F-15") &&
-    idx(it => it.tag === "F-15") < idx(it => it.j === "riser") &&
-    svg.includes(">F-15+RV-1<") && svg.includes("RV-1: set 75 psi"));
-  check("hose-to-regulator flare x NPT adapters drawn (F-13, F-14)",
-    svg.includes("F-13") && svg.includes("F-14"));
+
+  // PIPE STYLING: colour and width encode material. Orange belongs to flame
+  // heads and marked e-stops, so no run line may borrow it, and every colour a
+  // run line actually uses must be decoded by the legend — a colour is not
+  // self-apparent the way a glyph is.
+  const HOSE_C = "#334E68", COPPER_C = "#8C5A2B", FLAME_C = "#C6480A", INKC = "#1F2933", INK2C = "#52606D";
+  const hoses = [], tubes = [];
+  eachItem(SYSTEM, (it) => { if (it.j === "hose") hoses.push(it); if (it.j === "tube") tubes.push(it); });
+  const widthsFor = (colour) => [...new Set([...svg.matchAll(new RegExp(`stroke="${colour}" stroke-width="([\\d.]+)"`, "g"))].map((m) => +m[1]))];
+  const hoseW = widthsFor(HOSE_C), copperW = widthsFor(COPPER_C);
+  check("hose runs draw in the hose colour, on a single width", hoses.length > 0 && hoseW.length === 1, hoseW.join(","));
+  // Width tracks BORE. Derived from the sizes SYSTEM actually declares, never a
+  // pinned px value — the widths are a visual choice and will be tuned.
+  const bore = (s) => { const [n, d] = String(s).split("/").map(Number); return d ? n / d : n; };
+  const sizes = [...new Set(tubes.map((it) => it.size))].sort((a, b) => bore(a) - bore(b));
+  check("copper runs draw in the copper colour, one width per bore",
+    tubes.length > 0 && copperW.length === sizes.length,
+    `${sizes.length} bores (${sizes}) vs ${copperW.length} widths (${copperW})`);
+  check("copper line width increases with bore", copperW.slice().sort((a, b) => a - b).every((w, i, a) => i === 0 || a[i - 1] < w));
+  // ...and no copper width sits so close to the hose that a BLACK-AND-WHITE
+  // print of the packet cannot tell the flexible weak point from rigid tube.
+  // The hose need not be fattest (Marcus), but it must be separable.
+  check("every copper width is separable from the hose width on a B/W print",
+    hoseW.length === 1 && copperW.every((w) => Math.abs(w - hoseW[0]) >= 0.5),
+    `hose ${hoseW} vs copper ${copperW}`);
+  // Palette guard: every stroke on the sheet is one of the five documented
+  // colours. A rogue colour means someone invented a meaning nothing decodes.
+  // (Flame orange legitimately strokes flame-head glyphs and e-stop levers, so
+  // it cannot be excluded by width — enumerate the palette instead.)
+  const PALETTE = new Set([INKC, INK2C, FLAME_C, HOSE_C, COPPER_C, "#fff"]);
+  const strokes = new Set([...svg.matchAll(/stroke="(#[0-9A-Fa-f]{3,6})"/g)].map((m) => m[1]));
+  const rogue = [...strokes].filter((c) => !PALETTE.has(c));
+  check("every stroke colour on the sheet is one the legend can decode", rogue.length === 0, rogue.join(", "));
+  const legend = app.legendLines().join(" ");
+  check("the legend decodes every pipe colour the drawing uses",
+    /hose/i.test(legend) && /copper tube/i.test(legend) && /brass/i.test(legend));
+
+  check("dashed line boxes drawn (one per line segment per row)",
+    (svg.match(/stroke-dasharray="7 4"/g) || []).length >= SYSTEM.lines.length);
+  check("no fraction glyphs — sizes written out", !textContents(svg).some((t) => /[⅜¼½⅛⅝]/.test(t)));
+  check("no undefined/NaN in the drawing", noUndefinedNaN(svg));
+
+  /* --- text geometry: the invariants the sheet lives or dies by --- */
+  const boxes = textBoxes(svg);
+  check("all <text> elements parseable", !boxes.some((b) => b.malformed), (boxes.find((b) => b.malformed) || {}).malformed);
+  check("no text inside rotated symbol groups", !boxes.some((b) => b.rot));
+
+  const bandRows = new Set([app.ROW.balloon + 3.5, app.ROW.jTop, app.ROW.jBot, app.ROW.tag, app.ROW.n1, app.ROW.n2, app.ROW.n3, app.ROW.n4, app.CL + 3.5, 8]);
+  const trunkOffs = new Set(Object.values(app.TROW));
+  let offGrid = 0, homeless = 0; const offDetail = [];
+  boxes.forEach((b) => {
+    if (b.malformed) return;
+    if (b.band) { if (![...bandRows].some((r) => Math.abs(r - b.localY) < 0.01)) { offGrid++; offDetail.push(b.s + "@band:" + b.localY); } }
+    else if (b.cellY !== null) { const o = b.localY - b.cellY; if (![...trunkOffs].some((r) => Math.abs(r - o) < 0.01)) { offGrid++; offDetail.push(b.s + "@trunk:" + o); } }
+    else { homeless++; offDetail.push("homeless:" + b.s); }
+  });
+  check("every text baseline on a band row or riser mini-grid row", offGrid === 0, offDetail.slice(0, 4).join("; "));
+  check("every text inside a band/strip/tcell group", homeless === 0, offDetail.slice(0, 4).join("; "));
+
+  const bad = collisions(boxes);
+  check("zero text collisions anywhere on the sheet", bad.length === 0, bad.slice(0, 4).join("; "));
+  const clip = clippedByCanvas(svg, boxes);
+  check("no text clipped by the canvas edge", clip.length === 0, clip.slice(0, 3).join("; "));
 }
 
-console.log("SVG EXPORT");
+console.log("\nVIEW MODES (internal packet vs external submission)");
 {
-  const { store, captured, app } = loadApp();
+  const { store, app } = loadApp();
+  const draw = () => store["strips"].children[0].innerHTML;
+  const SYSTEM = app.getSYSTEM(), PARTS = app.getPARTS(), refIndex = app.getRefIndex();
+  const drawn = Object.keys(PARTS).filter((k) => refIndex[k] !== undefined);
+
+  check("default view is external", app.INTERNAL() === false);
+  const ext = draw();
+
+  // deTag strips a leading designation from a run label; whatever the label
+  // says AFTER it must survive ("TB-6 × 10 ft" -> "10 ft")
+  const remainders = [];
+  eachItem(SYSTEM, (it) => {
+    const m = it.label && /^[A-Z]{1,3}-\d+\s*×\s*(.+)$/.exec(it.label);
+    if (m) remainders.push(m[1]);
+  });
+  check("stripping designations keeps the run's real information",
+    remainders.length > 0 && remainders.every((t) => ext.includes(`>${esc(t)}<`)), remainders.join(", "));
+
+  // A rating means "this can fail at pressure". Solid-brass fittings cannot,
+  // and custom fabrications never had a sourced number. Swept over every drawn
+  // part against the APP's OWN sets — a local copy would silently drift.
+  const strayRating = drawn.filter((k) => app.NO_RATING_SYM.has(PARTS[k].sym) && app.specLine(PARTS[k]) !== "");
+  const missingRating = drawn.filter((k) => !app.NO_RATING_SYM.has(PARTS[k].sym) && !/psi|no published rating/.test(app.specLine(PARTS[k])));
+  check("fittings and custom fabrications print no rating", strayRating.length === 0, strayRating.join(", "));
+  check("everything that can fail at pressure prints one", missingRating.length === 0, missingRating.join(", "));
+  check("no part number reaches the drawing outside PN_SYM",
+    drawn.every((k) => app.PN_SYM.has(PARTS[k].sym) || !/[A-Z]{2,}-?\d/.test(app.specLine(PARTS[k]))));
+
+  // the external sheet must survive the same geometry invariants as the packet
+  const eb = textBoxes(ext);
+  check("external: all <text> parseable", !eb.some((b) => b.malformed));
+  check("external: no text inside rotated symbol groups", !eb.some((b) => b.rot));
+  check("external: zero text collisions anywhere on the sheet", collisions(eb).length === 0, collisions(eb).slice(0, 4).join("; "));
+  check("external: no text clipped by the canvas edge", clippedByCanvas(ext, eb).length === 0);
+  check("no undefined/NaN in the external drawing", noUndefinedNaN(ext));
+
+  app.setView("internal");
+  const int = draw();
+  const balloons = (s) => (s.match(/r="9\.5"/g) || []).length;
+  check("balloons key cells to the schedule in the internal packet, and nowhere else",
+    balloons(ext) === 0 && balloons(int) > 0, `external ${balloons(ext)}, internal ${balloons(int)}`);
+
+  // the internal packet identifies each cell by its equipment designation
+  const plainTags = [];
+  eachItem(SYSTEM, (it) => { if (it.tag && !it.mount) plainTags.push(it.tag); });
+  const missingTag = plainTags.filter((t) => !int.includes(`>${esc(t)}<`));
+  check("the internal packet identifies every cell by its equipment designation",
+    plainTags.length > 0 && missingTag.length === 0, missingTag.join(", "));
+
+  check("internal: zero text collisions anywhere on the sheet", collisions(textBoxes(int)).length === 0);
+  check("switching back and forth is stable", (app.setView("external"), draw() === ext));
+}
+
+console.log("\nSVG EXPORT");
+{
+  const { captured, app } = loadApp();
   app.downloadSVG();
   check("export produced", !!captured.svg && captured.svg.length > 1000);
-  check("no undefined/NaN in export", !/undefined|NaN/.test(captured.svg));
-  // XML well-formedness essentials without a parser dependency:
-  const bareAmp = captured.svg.match(/&(?!amp;|lt;|gt;|quot;|apos;|#\d+;|#x[\da-fA-F]+;)/g) || [];
-  check("no unescaped & in export", bareAmp.length === 0, bareAmp.length + " found");
-  const rawLt = captured.svg.match(/<(?![a-zA-Z/!?])/g) || [];
-  check("no stray < in export", rawLt.length === 0);
+  check("no undefined/NaN in export", noUndefinedNaN(captured.svg));
+  // XML well-formedness essentials without a parser dependency (the strict
+  // check is scripts/validate_svg.py, which consumes the file written below)
+  const { bareAmp, rawLt } = xmlEscaped(captured.svg);
+  check("export: no unescaped & (strict XML)", bareAmp === 0, bareAmp + " found");
+  check("export: no stray < (strict XML)", rawLt === 0);
   const opens = (captured.svg.match(/<text[\s>]/g) || []).length;
   const closes = (captured.svg.match(/<\/text>/g) || []).length;
   check("balanced <text> tags", opens === closes, opens + " vs " + closes);
+  // the w/h proportions in PARTS are visual only — the sheet must never claim scale
   check("no scale claims in export", !/relative scale|px = 1 in/.test(captured.svg));
   fs.writeFileSync(path.join(__dirname, "export.svg"), captured.svg);
   console.log("    (export written to test/export.svg — validate strictly with: python3 scripts/validate_svg.py)");
 }
 
-console.log("EDITOR ROUND TRIP");
+console.log("\nEXPORTED SVG IS SELF-CONTAINED");
+{
+  const { captured, app } = loadApp();
+  // the legend must ship inside the drawing — it is the only thing that decodes
+  // the symbols once the sheet leaves this page. Swept over EVERY legend line
+  // rather than spot-checking three of them.
+  const missingIn = (svg) => app.legendLines().filter((l) => !svg.includes(esc(l)));
+  app.downloadSVG();
+  const ext = captured.svg;
+  check("external export embeds every legend line", missingIn(ext).length === 0, missingIn(ext).join(" | ").slice(0, 120));
+  check("external export carries the general notes", ext.includes(esc(app.generalNotes())));
+  check("export is one <svg> and closes", ext.startsWith("<svg") && ext.trim().endsWith("</svg>"));
+  // The drawing is declared not to scale everywhere on purpose: the w/h
+  // proportions in PARTS are visual only.
+  check("external export still declares itself not to scale", /not to scale/.test(ext));
+  // The submitted sheet is read on its own. It may not name a document the
+  // reviewer does not hold — not even to disclaim it. Swept as a vocabulary,
+  // so a new subtitle or legend line cannot quietly reintroduce one.
+  const OFF_SHEET = /see packet|off-sheet|parts schedule|balloon/i;
+  const offSheet = OFF_SHEET.exec(ext);
+  check("external export names no off-sheet document (schedule, packet, balloons)",
+    !offSheet, offSheet && `"${offSheet[0]}" — a reviewer holding only this SVG cannot see it`);
+  // ...and the submitted legend carries only what the drawing CANNOT say about
+  // itself: the pipe colours (a colour is not self-apparent) and the flow
+  // orientation. The glyphs, the dashed line boxes and the orange highlight
+  // read themselves (Marcus), so none of them earn a line.
+  const extLegend = app.legendLines().join(" | ");
+  check("external legend carries only the pipe key and the flow orientation",
+    /line style/.test(extLegend) && /supply rises/.test(extLegend) &&
+    !/pentagon|trapezoid|cone ▸ nut|dashed box|balloon/i.test(extLegend),
+    extLegend.slice(0, 90));
+
+  app.setView("internal");
+  app.downloadSVG();
+  const int = captured.svg;
+  check("internal export embeds every legend line", missingIn(int).length === 0, missingIn(int).join(" | ").slice(0, 120));
+  check("internal export carries the same general notes", int.includes(esc(app.generalNotes())));
+  check("internal export still declares itself not to scale", /not to scale/.test(int));
+  // the working packet keeps the full key — its balloons genuinely need decoding
+  check("the balloon key ships only where balloons are drawn", int.includes("balloon: parts schedule ref"));
+  const intLegend = app.legendLines().join(" | ");
+  check("internal legend keeps the full symbol key the external sheet drops",
+    /pentagon/i.test(intLegend) && /trapezoid/i.test(intLegend) && /line style/.test(intLegend));
+}
+
+console.log("\nPORT LINTER COVERAGE");
+{
+  // The linter's VERDICT is invariant `portLinterClean`, and the six hand-found
+  // defect classes are its mutations in test/mutants.js. What stays here is the
+  // structural claim that the walk actually reaches the whole system.
+  const { app } = loadApp();
+  const r = app.lintPorts();
+  check("meaningful coverage (checked many, skipped only customs)", r.checked >= 40 && r.skipped > 0 && r.skipped < 20,
+    `checked ${r.checked}, skipped ${r.skipped}`);
+}
+
+console.log("\nCOMPLIANCE & PARTS TABLES");
+{
+  const { store } = loadApp();
+  check("parts schedule populated", (store["partsTable"].innerHTML.match(/<tr>/g) || []).length > 15);
+  check("compliance schedule populated", (store["compTable"].innerHTML.match(/<tr>/g) || []).length > 10);
+  check("field-only items present", store["compTable"].innerHTML.includes("FIELD"));
+}
+
+console.log("\nEDITOR ROUND TRIP");
 {
   const { store, app } = loadApp();
   const box = store["jsonBox"];
@@ -302,7 +434,10 @@ console.log("EDITOR ROUND TRIP");
   check("re-render succeeds", store["jsonMsg"].textContent === "Re-rendered.");
   const svg = store["strips"].children[0].innerHTML;
   check("unmatched line renders as orphan strip with pentagon", svg.includes('data-band="L9"') && /h16 l8 10 l-8 10 h-16/.test(svg) && svg.includes(">Z<"));
-  check("fan:3 survives the JSON round trip (one-of-n badge drawn)", svg.includes("one of 3 identical branches"));
+  // the badge states the count the DATA declares, not a literal 3
+  const fanEdge = app.TREE.edges.find((e) => e.kind === "end");
+  check("fan survives the JSON round trip (one-of-n badge, n from the data)",
+    !!fanEdge && svg.includes(`one of ${fanEdge.fan} identical branches`));
   check("hostile project name escaped in meta", !store["docMeta"].innerHTML.includes("<script>"));
   const bad = collisions(textBoxes(svg));
   check("still zero text collisions after edit", bad.length === 0, bad.slice(0, 4).join("; "));
@@ -311,21 +446,21 @@ console.log("EDITOR ROUND TRIP");
   check("malformed JSON reported, no crash", store["jsonMsg"].textContent.startsWith("JSON error"));
 }
 
-console.log("MULTI-BRANCH & HOSTILE DATA");
+console.log("\nMULTI-BRANCH & HOSTILE DATA");
 {
   const { store, captured, app } = loadApp();
   const o = JSON.parse(store["jsonBox"].value);
   // second matched tap on L3, downstream of the split (the corridor-crossing regression)
-  const L3 = o.SYSTEM.lines.find(L => L.id === "L3");
-  L3.items.splice(L3.items.findIndex(it => it.split) + 1, 0,
+  const L3 = o.SYSTEM.lines.find((L) => L.id === "L3");
+  L3.items.splice(L3.items.findIndex((it) => it.split) + 1, 0,
     { p: "nptTee", tag: "F-T9", branch: { ref: "P2" }, note: "second standby tap" }, { j: "npt", size: "1/4", lr: "M>F" });
   o.SYSTEM.lines.push({ id: "L3c", title: "Second pilot", psi: "60 psi", op: 60,
     items: [{ j: "off", ref: "P2", dir: "in", label: "from F-T9" }, { j: "tube", part: "cu38", size: "3/8", label: "TB-9" }, { p: "pilot", tag: "PL-9", flame: true }] });
   // mid-trunk off-out (must NOT terminate the run)
-  const L1 = o.SYSTEM.lines.find(L => L.id === "L1");
+  const L1 = o.SYSTEM.lines.find((L) => L.id === "L1");
   L1.items.splice(L1.items.length - 2, 0, { j: "off", ref: "Q", dir: "out", label: "aux port (future)" });
   // mount cell directly followed by a left-stub cell (balloon adjacency regression)
-  L1.items.splice(L1.items.findIndex(it => it.tag === "F-5") + 1, 0,
+  L1.items.splice(L1.items.findIndex((it) => it.tag === "F-5") + 1, 0,
     { p: "flareTee", tag: "F-Z", branch: { arrow: "in" }, note: "adjacency probe" });
   // line id with a double quote (attribute-injection regression)
   o.SYSTEM.lines.push({ id: 'Z"9', title: 'quoted "id" line', psi: "1 psi", op: 1,
@@ -347,18 +482,18 @@ console.log("MULTI-BRANCH & HOSTILE DATA");
   // rows[id] = every drawn row rect of that band (a band may wrap)
   const rows = {};
   [...svg.matchAll(/<g class="band" data-band="([^"]*)" data-cl="(-?[\d.]+)" data-w="(-?[\d.]+)" transform="translate\((-?[\d.]+) (-?[\d.]+)\)"/g)]
-    .forEach(m => { (rows[m[1]] = rows[m[1]] || []).push({ cl: +m[2], w: +m[3], x: +m[4], y: +m[5] }); });
-  app.TREE.edges.filter(e => e.kind === "drop").forEach(e => {
+    .forEach((m) => { (rows[m[1]] = rows[m[1]] || []).push({ cl: +m[2], w: +m[3], x: +m[4], y: +m[5] }); });
+  app.TREE.edges.filter((e) => e.kind === "drop").forEach((e) => {
     // every drop connector leaves straight DOWN from its tee: M x cl V ...
     const m = svg.match(new RegExp(`data-conn="${rx(e.ref)}" data-cly="(-?[\\d.]+)" d="M(-?[\\d.]+) (-?[\\d.]+) V(-?[\\d.]+)`));
     check(`drop ${e.ref}: leaves straight down from its tee, at a host row centerline`,
-      !!m && (rows[e.from.id] || []).some(r => r.cl === +m[3]),
-      m && `starts ${m[3]} vs cls ${(rows[e.from.id] || []).map(r => r.cl).join("/")}`);
+      !!m && (rows[e.from.id] || []).some((r) => r.cl === +m[3]),
+      m && `starts ${m[3]} vs cls ${(rows[e.from.id] || []).map((r) => r.cl).join("/")}`);
     // the initial vertical segment must not slice any strip other than its
     // host's (last-row drops descend all the way into their band; earlier-row
     // drops descend only into their own row gap before jogging left)
     const cross = m ? Object.entries(rows).filter(([id, rs]) =>
-      id !== e.from.id && id !== e.to.id && rs.some(r =>
+      id !== e.from.id && id !== e.to.id && rs.some((r) =>
         +m[2] >= r.x && +m[2] <= r.x + r.w &&
         Math.min(+m[3], +m[4]) < r.y + app.STRIP_H && Math.max(+m[3], +m[4]) > r.y + 1)).map(([id]) => id) : ["no-path"];
     check(`drop ${e.ref}: descent clears sibling strips`, !!m && cross.length === 0, cross.join(","));
@@ -367,20 +502,21 @@ console.log("MULTI-BRANCH & HOSTILE DATA");
   check("long orphan title not clipped by canvas", clip.length === 0, clip.slice(0, 3).join("; "));
   check("mid-run off renders as pentagon stub, run continues", svg.includes(">Q<"));
   check("quoted line id escaped in attributes", svg.includes('data-band="Z&quot;9"'));
+  check("no undefined/NaN on hostile data", noUndefinedNaN(svg));
   app.downloadSVG();
-  const bareAmp = captured.svg.match(/&(?!amp;|lt;|gt;|quot;|apos;|#\d+;|#x[\da-fA-F]+;)/g) || [];
-  check("hostile export: still no unescaped &", bareAmp.length === 0, bareAmp.length + " found");
+  check("hostile export: still no unescaped &", xmlEscaped(captured.svg).bareAmp === 0);
   check("hostile export: quoted attr intact", captured.svg.includes('data-band="Z&quot;9"'));
   const bad = collisions(textBoxes(svg));
   check("hostile render: zero text collisions", bad.length === 0, bad.slice(0, 3).join("; "));
 }
-console.log("FORCED WRAP");
+
+console.log("\nFORCED WRAP");
 {
   // the serpentine machinery must still work when a root outgrows one row —
   // padded with valve/nipple pairs until it folds
   const { store, app } = loadApp();
   const o = JSON.parse(store["jsonBox"].value);
-  const L1 = o.SYSTEM.lines.find(L => L.id === "L1");
+  const L1 = o.SYSTEM.lines.find((L) => L.id === "L1");
   for (let i = 0; i < 8; i++)
     L1.items.splice(L1.items.length - 1, 0, { j: "npt", size: "1/4", part: "nipple14" }, { p: "ball14", tag: "V-W" + i });
   store["jsonBox"].value = JSON.stringify(o);
@@ -388,9 +524,9 @@ console.log("FORCED WRAP");
   app.applyJSON();
   const svg = store["strips"].children[0].innerHTML;
   const loops = [...svg.matchAll(/data-loop="[^"]*" data-y1="(-?[\d.]+)" data-y2="(-?[\d.]+)"/g)];
-  const cls = new Set([...svg.matchAll(/data-cl="(-?[\d.]+)"/g)].map(m => m[1]));
+  const cls = new Set([...svg.matchAll(/data-cl="(-?[\d.]+)"/g)].map((m) => m[1]));
   check("over-long root still folds exactly once", loops.length === 1, loops.length + " loops");
-  check("the fold joins two row centerlines", loops.length === 1 && loops.every(m => cls.has(m[1]) && cls.has(m[2])));
+  check("the fold joins two row centerlines", loops.length === 1 && loops.every((m) => cls.has(m[1]) && cls.has(m[2])));
   check("stack and fold coexist without text collisions", collisions(textBoxes(svg)).length === 0,
     collisions(textBoxes(svg)).slice(0, 3).join("; "));
 }
@@ -412,278 +548,6 @@ console.log("FORCED WRAP");
   const host = svg.match(/data-band="R1" data-cl="(-?[\d.]+)"/);
   check("take-off from a ball valve starts at the host run centerline",
     !!conn && !!host && conn[3] === host[1], conn && host && `${conn[3]} vs ${host[1]}`);
-}
-
-console.log("PORT LINTER");
-{
-  const { store, app } = loadApp();
-  const r = app.lintPorts();
-  check("zero issues in the default system", r.issues.length === 0, r.issues.slice(0, 3).join("; "));
-  check("meaningful coverage (checked many, skipped only customs)", r.checked >= 40 && r.skipped > 0 && r.skipped < 20,
-    `checked ${r.checked}, skipped ${r.skipped}`);
-  check("FIT-1 row passes in the compliance table",
-    store["compTable"].innerHTML.includes("FIT-1") && store["compTable"].innerHTML.includes("junctions machine-checked"));
-
-  // seed the exact defect classes found by hand review — each must be caught
-  const seed = (mutate) => {
-    const { store, app } = loadApp();
-    const o = JSON.parse(store["jsonBox"].value);
-    mutate(o);
-    store["jsonBox"].value = JSON.stringify(o);
-    store["strips"].children.length = 0;
-    app.applyJSON();
-    return app.lintPorts();
-  };
-  // 1) the PRV-1 → V-2 bug: female-to-female drawn as a bare M ▸ F joint
-  let r1 = seed(o => {
-    const L1 = o.SYSTEM.lines.find(L => L.id === "L1");
-    const i = L1.items.findIndex(it => it.p === "reg60") + 1;
-    L1.items[i] = { j: "npt", size: "1/4", lr: "M>F" };
-  });
-  check("catches female-to-female drawn without a nipple", r1.issues.some(s => s.includes("needs a nipple")), r1.issues.join("; "));
-  // 2) the missing-adapter bug: hose flare directly into an NPT port
-  let r2 = seed(o => {
-    const L1 = o.SYSTEM.lines.find(L => L.id === "L1");
-    L1.items.splice(L1.items.findIndex(it => it.tag === "F-13"), 1);
-  });
-  check("catches a missing adapter (two joints in a row)", r2.issues.some(s => s.includes("adapter part is missing")), r2.issues.join("; "));
-  // 3) size discontinuity: 1/4 joint drawn against the 3/8 mixer inlet
-  let r3 = seed(o => {
-    const L3b = o.SYSTEM.lines.find(L => L.id === "L3b");
-    const i = L3b.items.findIndex(it => it.p === "mixer") - 1;
-    L3b.items[i] = { j: "npt", size: "1/4", lr: "M>F" };
-  });
-  check("catches a joint size discontinuity", r3.issues.some(s => s.includes("but the")), r3.issues.join("; "));
-  // 4) wrong joint type: NPT drawn where the ports are flare
-  let r4 = seed(o => {
-    const L1 = o.SYSTEM.lines.find(L => L.id === "L1");
-    const i = L1.items.findIndex(it => it.tag === "F-2") + 1;
-    L1.items[i] = { j: "npt", size: "1/4", lr: "M>F" };
-  });
-  check("catches an NPT joint drawn on flare ends", r4.issues.some(s => s.includes("NPT joint drawn on a flare end")), r4.issues.join("; "));
-  // 5) backwards arrow: M ▸ F where the male port is actually downstream
-  let r5 = seed(o => {
-    const L1 = o.SYSTEM.lines.find(L => L.id === "L1");
-    const i = L1.items.findIndex(it => it.tag === "F-8") + 1;
-    L1.items[i] = { j: "npt", size: "1/4" };
-  });
-  check("catches a backwards thread-direction arrow", r5.issues.some(s => s.includes("male port is upstream")), r5.issues.join("; "));
-  // 6) a reversible adapter installed the wrong way round (rev flag dropped).
-  // L4's rev'd half-union is gone — its branch now leaves F-7 as a flare cone
-  // and the hose swivel lands straight on it — so seed L3b's, downstream of SV-3.
-  let r6 = seed(o => {
-    const L3b = o.SYSTEM.lines.find(L => L.id === "L3b");
-    delete L3b.items.find(it => it.p === "flare14npt" && it.rev).rev;
-  });
-  check("catches an adapter installed backwards (rev dropped)",
-    r6.issues.some(s => s.includes("NPT joint drawn on a flare end")), r6.issues.join("; "));
-}
-
-console.log("COMPLIANCE & PARTS TABLES");
-{
-  const { store } = loadApp();
-  check("parts schedule populated", (store["partsTable"].innerHTML.match(/<tr>/g) || []).length > 15);
-  check("compliance schedule populated", (store["compTable"].innerHTML.match(/<tr>/g) || []).length > 10);
-  check("verification chips removed from the schedule",
-    !store["partsTable"].innerHTML.includes("VERIFY PN") && !store["partsTable"].innerHTML.includes("SPEC VERIFIED") &&
-    !store["partsTable"].innerHTML.includes("STATUS"));
-  check("nipples & adapters reach the schedule via joint parts",
-    store["partsTable"].innerHTML.includes("Hex nipple") && store["partsTable"].innerHTML.includes("half union"));
-  check("field-only items present", store["compTable"].innerHTML.includes("FIELD"));
-}
-
-console.log("VIEW MODES (internal packet vs external submission)");
-{
-  const { store, app } = loadApp();
-  const { PARTS } = app;
-  const draw = () => store["strips"].children[0].innerHTML;
-  const occ = (hay, needle) => hay.split(needle).length - 1;
-  // parts actually drawn on the sheet
-  const drawn = Object.keys(PARTS).filter(k => app.refIndex[k] !== undefined);
-  // the RULE, stated here as the spec the renderer must satisfy
-  const NO_RATING = new Set(["tee", "manifold", "hexAdapter", "none", "nozzle", "pilot"]);
-  const CARRIES_PN = new Set(["sol", "needle", "check", "relief", "reg", "gauge", "tank"]);
-
-  check("default view is external", app.INTERNAL() === false);
-  const ext = draw();
-  check("external draws no balloons", !/r="9\.5"/.test(ext));
-
-  // NOTHING on the external sheet may key to an off-sheet schedule — not cells,
-  // not band titles ("at PRV-1"), not run labels (TB-13), not notes. This swept
-  // up a note citing compliance row "FE-8", which lives only in the HTML table.
-  // CGA-510 is a thread standard, not a designation.
-  const extText = [...ext.matchAll(/<text[^>]*>([^<]*)<\/text>/g)].map(m => m[1]).join(" | ");
-  const stray = [...new Set((extText.match(/\b[A-Z]{1,3}-\d+\b/g) || []).filter(x => x !== "CGA-510"))];
-  check("external carries no equipment designation anywhere", stray.length === 0, stray.join(", "));
-  check("stripping designations keeps the run's real information", ext.includes(">10 ft<"));
-
-  // A bare catalog number identifies nothing, and an ASIN is a marketplace id,
-  // not a manufacturer part number. Checked for EVERY number that reaches the
-  // drawing, so a new part cannot slip through unlabelled.
-  const shown = drawn.filter(k => PARTS[k].pn && PARTS[k].pn !== "—" && ext.includes(PARTS[k].pn));
-  const badPn = shown.filter(k => {
-    const p = PARTS[k], num = p.asin ? "ASIN " + p.pn : p.pn;
-    return occ(ext, p.pn) !== occ(ext, `${p.mfg} ${num}`);
-  });
-  check("every part number on the drawing is preceded by its maker (ASINs labelled)",
-    shown.length >= 4 && badPn.length === 0, badPn.join(", "));
-  check("solenoids are the only parts still bought off a marketplace listing",
-    drawn.filter(k => PARTS[k].asin).length === 2);
-  // ...and the asin FLAG cannot silently go missing: anything sourced from a
-  // marketplace must be flagged, or its listing id renders as if it were a
-  // manufacturer catalog number ("Beduan B07N6246YB") and the wrong part is bought
-  const marketplace = drawn.filter(k => /amazon/i.test(PARTS[k].vendor || ""));
-  check("marketplace-sourced parts are flagged and render their id as an ASIN",
-    marketplace.length > 0 && marketplace.every(k => PARTS[k].asin && ext.includes("ASIN " + PARTS[k].pn)),
-    marketplace.filter(k => !PARTS[k].asin).join(", "));
-
-  // ball valves state a rating but no maker/number (Marcus); the schedule keeps it
-  check("ball valves carry no part number on the drawing, but the schedule does",
-    !ext.includes("94A-101-01") && !ext.includes("Apollo") &&
-    store["partsTable"].innerHTML.includes(">94A-101-01<"));
-
-  // a rating means "this can fail at pressure". Solid brass fittings cannot, and
-  // custom fabrications never had a sourced number. Checked over every part.
-  const strayRating = drawn.filter(k => NO_RATING.has(PARTS[k].sym) && app.specLine(PARTS[k]) !== "");
-  const missingRating = drawn.filter(k => !NO_RATING.has(PARTS[k].sym) && !/psi|no published rating/.test(app.specLine(PARTS[k])));
-  check("fittings and custom fabrications print no rating", strayRating.length === 0, strayRating.join(", "));
-  check("everything that can fail at pressure prints one", missingRating.length === 0, missingRating.join(", "));
-  check("only PN_SYM parts print a part number",
-    drawn.every(k => CARRIES_PN.has(PARTS[k].sym) || !/[A-Z]{2,}-?\d/.test(app.specLine(PARTS[k]))));
-
-  // the accumulator is the most unusual component on the sheet and was rendering
-  // as a bare "Tee + accumulator" until Marcus caught it
-  check("the accumulator states its DOT spec and how it is plumbed",
-    ext.includes("DOT 4BA240 · 250 psi") && ext.includes("NGT boss") &&
-    ext.includes("no welds") && ext.includes("requal stamp expired"));
-
-  // the external sheet must survive the same geometry invariants as the packet
-  const eb = textBoxes(ext);
-  check("external: all <text> parseable", !eb.some(b => b.malformed));
-  check("external: no text inside rotated symbol groups", !eb.some(b => b.rot));
-  const ebad = collisions(eb);
-  check("external: zero text collisions anywhere on the sheet", ebad.length === 0, ebad.slice(0, 4).join("; "));
-  check("external: no text clipped by the canvas edge", clippedByCanvas(ext, eb).length === 0);
-
-  app.setView("internal");
-  const int = draw();
-  check("internal restores balloons and equipment designations",
-    /r="9\.5"/.test(int) && int.includes(">F-15+RV-1<") && int.includes(">SV-2<"));
-  check("internal hides mfr part numbers on the drawing", !int.includes("B07N6246YB"));
-  const ibad = collisions(textBoxes(int));
-  check("internal: zero text collisions anywhere on the sheet", ibad.length === 0, ibad.slice(0, 4).join("; "));
-  check("switching back and forth is stable", (app.setView("external"), draw() === ext));
-}
-
-console.log("EXPORTED SVG IS SELF-CONTAINED");
-{
-  const { captured, app } = loadApp();
-  app.downloadSVG();
-  const svg = captured.svg;
-  // the legend must ship inside the drawing — it is the only thing that
-  // decodes the symbols once the sheet leaves this page
-  check("export embeds the symbol legend",
-    svg.includes("cone ▸ nut") && svg.includes("trapezoid ▸ box") && svg.includes("GENERAL NOTES"));
-  check("export legend omits the balloon key in external view",
-    !svg.includes("balloon: parts schedule ref"));
-  check("export subtitle does not promise an off-sheet schedule",
-    !svg.includes("see packet"));
-  check("export is one <svg> and closes", svg.startsWith("<svg") && svg.trim().endsWith("</svg>"));
-
-  app.setView("internal");
-  app.downloadSVG();
-  check("internal export legend restores the balloon key",
-    captured.svg.includes("balloon: parts schedule ref"));
-}
-
-console.log("UNRATED PARTS (rating:null)");
-{
-  const { store, app } = loadApp();
-  const strip = () => store["compTable"].innerHTML.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
-
-  // Every default part is now rated (the Anderson Fittings catalog supplied the
-  // needle valves' 150 psi), so the null path has to be exercised deliberately.
-  check("default system: no part claims an unpublished rating",
-    !strip().includes("No published pressure rating"));
-
-  // null coerces to 0 in a `<` comparison, so an unrated part would silently
-  // masquerade as "rated below segment pressure". It must read as unpublished.
-  app.PARTS.ball14.rating = null;
-  app.renderAll();
-  check("an unrated part is named as unpublished, not as under-rated",
-    strip().includes("No published pressure rating") &&
-    strip().includes("V-1") &&
-    !strip().includes("Rating below segment pressure"));
-  check("an unrated part drops FE-2 to REVIEW", /FE-2[\s\S]{0,500}?REVIEW/.test(strip()));
-  check("schedule prints 'not published' rather than 'null psi'",
-    store["partsTable"].innerHTML.includes("not published") &&
-    !store["partsTable"].innerHTML.includes("null psi"));
-  check("the drawing says so too",
-    store["strips"].children[0].innerHTML.includes("no published rating"));
-
-  // ...and the fix must not mask a genuinely under-rated part
-  app.PARTS.ball14.rating = 5;
-  app.renderAll();
-  check("a genuinely under-rated part is still caught",
-    strip().includes("Rating below segment pressure") && strip().includes("V-1"));
-
-  app.PARTS.ball14.rating = 600;
-}
-
-console.log("FLARE VALVES & THE POOFER TRAIN")
-{
-  const { app } = loadApp();
-  const { PARTS, SYSTEM } = app;
-  const line = id => SYSTEM.lines.find(l => l.id === id);
-  // every item on a line, splits flattened
-  const flat = id => line(id).items.flatMap(i => i.split ? [...i.split.a, ...i.split.b] : [i]);
-  const buys = id => flat(id).filter(i => (i.p && PARTS[i.p] && PARTS[i.p].sym === "hexAdapter") ||
-                                          (i.part && PARTS[i.part] && /nipple/i.test(PARTS[i.part].name)));
-  const flareValves = Object.keys(PARTS).filter(k => PARTS[k].sym === "needle" && PARTS[k].ports.i.startsWith("flare:"));
-
-  // THE point of a flare valve: the tube nut lands on its cone, so nothing sits
-  // between the valve and the run. Quantified over every use, not spot-checked.
-  const flanked = SYSTEM.lines.every(L => {
-    const its = L.items.flatMap(i => i.split ? [...i.split.a, ...i.split.b] : [i]);
-    return its.every((it, i) => !flareValves.includes(it.p) ||
-      (its[i - 1] && its[i - 1].j === "flare" && !its[i - 1].part &&
-       its[i + 1] && its[i + 1].j === "flare" && !its[i + 1].part));
-  });
-  check("every flare needle valve is flanked by bare flare joints", flanked);
-  check("flare needle valves declare male cones both ends (or the linter's gender check is moot)",
-    flareValves.length >= 2 && flareValves.every(k => PARTS[k].ports.i.endsWith(":M") && PARTS[k].ports.o.endsWith(":M")));
-
-  // the two circuits the flare valves bought us
-  check("the poofer pilot line buys no fittings at all", buys("L4a").length === 0);
-  check("the split's metered path buys no fittings at all",
-    line("L3").items.find(i => i.split).split.b.every(i => !i.p || flareValves.includes(i.p)));
-
-  // a needle valve must out-rate whatever relief caps its zone if a regulator
-  // fails, or the valve is the weak point on the line
-  const reliefSets = SYSTEM.lines.flatMap(L => L.items)
-    .map(it => it.mount || (it.tee && it.tee.mount)).filter(m => m && m.p === "relief")
-    .map(m => +(/set (\d+) psi/.exec(m.note || "") || [0, 0])[1]);
-  const maxRelief = Math.max(...reliefSets);
-  check("every flare needle valve out-rates the highest relief setting that can cap it",
-    reliefSets.length >= 2 && flareValves.every(k => PARTS[k].rating > maxRelief),
-    `max relief ${maxRelief}`);
-
-  // L4b's order is the design: CV-1 blocks backflow to the regulator; V-3 is an
-  // e-stop upstream of the pilot tee so it cuts pilot AND accumulator together;
-  // the pilot tees off between them and the accumulator so the vessel bleeds
-  // down through the burning pilot on a normal shutdown. Move any one and you
-  // break one of the other two properties.
-  const l4b = line("L4b").items, at = f => l4b.findIndex(f);
-  const iCheck = at(i => i.p === "check14"), iV3 = at(i => i.tag === "V-3"),
-        iPilot = at(i => i.branch && i.branch.ref === "D"),
-        iRelief = at(i => i.mount && i.mount.p === "relief"), iAccum = at(i => i.j === "riser");
-  check("L4b order: check valve -> isolation valve -> pilot tee -> relief -> accumulator",
-    iCheck >= 0 && iCheck < iV3 && iV3 < iPilot && iPilot < iRelief && iRelief < iAccum,
-    `${iCheck} ${iV3} ${iPilot} ${iRelief} ${iAccum}`);
-  check("the isolation valve that cuts the pilot is an emergency shut-off",
-    l4b[iV3].emergency === true);
-  check("the pilot tee screws into the check valve with no hex nipple",
-    l4b[iPilot - 1].part === undefined && PARTS[l4b[iPilot].p].ports.i === "npt:1/4:M");
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);

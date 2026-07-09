@@ -72,6 +72,11 @@ on a live fetch. The `.txt` files are pypdf extractions of the PDFs.
   product page. Grounds the mixer: "3/4\" Male NPT on Incoming Side · 3/4\"
   Female or Male (with included adapter) NPT on Burner Side · Rated BTU's:
   300,000 Max", brass, LP only.
+  Also grounds the mixer's IDENTIFIER: the page publishes no catalog/model
+  number anywhere; its only "BUY IT NOW" link is
+  `https://www.amazon.com/dp/B019RGW4KG`. So B019RGW4KG is an Amazon listing id,
+  NOT a Stanbroil part number — PARTS.mixer carries `asin:true` and the drawing
+  prints "Stanbroil ASIN B019RGW4KG". Do not restyle it as a catalog number.
   https://www.stanbroil.com/product/Stanbroil-34-LP-Air-Mixer-Valve-for-Liquid-Propane-Fire-Pits-300K-BTU-Max-Brass.html
 - `aquatrol` → `aquatrol-series140.html` + `aquatrol-140-cutsheet.pdf` (+ .txt)
   — Aquatrol Series 140 safety valve (Kingston 112CSS successor; Kingston is
@@ -93,7 +98,12 @@ on a live fetch. The `.txt` files are pypdf extractions of the PDFs.
   listings show 150 psi for Anderson's pipe/compression needle valves but say
   nothing about the flare 09110- models. Checked 2026-07-09.
 - mrheater.com — /f273754.html and /f273702.html return 404 (PN pages moved);
-  POL x 1/4 MNPT and 3/8 female-swivel hose genders declared from listings.
+  3/8 female-swivel hose genders declared from listings.
+  (`polAdapter` NO LONGER uses the unconfirmed Mr. Heater F273754 — it is now
+  MEC `ME318`, grounded in the vaulted `mecrv` catalog, section
+  "MALE POL X 1/4\" MNPT": hard-nose `ME318`/`ME318P`, soft-nose `ME1629`,
+  7/8" nut; `ME1690`/`ME1641` add a .9 GPM excess-flow valve, and the catalog
+  notes POLs with an excess-flow feature are UL Listed.)
 - mcmaster.com — blocks automated retrieval entirely (check valve, generic
   brass); check14 ports declared.
 - Amazon product pages render a JS shell to fetchers — Breezliy needle,

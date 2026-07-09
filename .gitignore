@@ -1,3 +1,7 @@
 test/export.svg
 test/export.png
 node_modules/
+
+# derived rasters from `npm run approve` — look at them, don't commit them.
+# the .svg goldens beside them ARE tracked.
+test/approved/*.png

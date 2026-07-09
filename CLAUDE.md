@@ -7,11 +7,16 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
 
 ## Commands
 
-- `node test/run-tests.js` — full regression suite (no dependencies). Run after ANY change.
+- `npm test` — the full suite: `test/run-tests.js` (invariants + geometry +
+  goldens) then `test/mutants.js` (the mutation gates). Run after ANY change.
+- `npm run approve` — regenerate `test/approved/drawing-{external,internal}.svg`
+  after an INTENTIONAL drawing change. Prints how many chunks you are waving
+  through, rasterizes both views, and refuses to run under CI. Look at the PNG.
 - `python3 scripts/validate_svg.py` — strict XML validation of the exported SVG
   (stdlib only); rasterizes to PNG if cairosvg is installed. When changing layout
   or symbols, rasterize and actually look at the PNG — several past bugs were
-  only visible, not logical.
+  only visible, not logical. (cairosvg is NOT installed here; use `rsvg-convert`,
+  which is what `npm run approve` calls.)
 
 ## Architecture (inside the HTML `<script>`)
 
@@ -37,22 +42,37 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
    (`{j: npt|flare|pol|hose|tube|off, ...}`). Three structured constructs:
    `{split:{tee, rejoin, a:[...], b:[...]}}` draws two parallel paths between
    two tees (path b on a full row grid one `PAR_DY` below, entered/left through
-   the same reserved corridors drops use); `{j:"riser", tee:{...}}` turns
+   the same reserved corridors drops use). A TEE HAS THREE PORTS: path **a**
+   continues through the tee's RUN (`ports.o` → `rejoin.ports.i`), path **b**
+   leaves through its BRANCH (`tee.branch` → `rejoin.branch`). `lintPorts`
+   models it that way. It used to feed BOTH paths from the outlet, which only
+   ever looked right because a plain flare tee carries identical male cones on
+   all three ports — it could never catch a branch-port mismatch. Which path is
+   "the metered one" is therefore a port-model detail: identify it by the needle
+   valve it carries, never by its letter (`meteredPath()` in invariants.js).
+   `{j:"riser", tee:{...}}` turns
    the band's remaining items into a vertical bottom→top discharge stack (TROW
    mini-grid, `rotate(-90)` symbols, tanks/heads stay upright; `bandUp()`
    reserves the headroom above the strip); and `{j:"turn"}` marks the end of a
    vertical SUPPLY STACK — every item before it renders bottom→top BELOW the
    band centerline (`drawSupply`, same TROW mini-grid), the run turns through
    a bare curve at the centerline (Marcus: no elbow fitting — the NTS line
-   just bends; a corner PART right before the marker is still supported and
-   masks the bend), and the band continues horizontally after. Cylinders in a stack connect through
+   just bends). THE CORNER OVERDRAWS THE LAST STACK CELL. A plain joint survives
+   there (a hex nipple, or the copper squiggle that used to sit there), but a
+   part with a symbol — especially one with a `mount` on its boss — does not:
+   putting the tank-pressure gauge tee at the corner made the bend swallow both
+   the tee and its gauge. The collision test never saw it, because it compares
+   TEXT boxes, not symbols. End the stack on a joint and let the first
+   horizontal cell carry the fitting. The band continues horizontally after.
+   Cylinders in a stack connect through
    their TOP valve only — never draw the run through a tank body. `xn:n` on a
    part draws n copies of the symbol side by side (standby rail tips, the two
    cylinders) under one balloon. `rev:true` on a part item installs the same
    fitting in the opposite flow direction — the port linter swaps its `i`/`o`
-   ends and one schedule row serves both orientations. `chk:true` on an npt
-   joint appends `*` to its caption (thread-per-listing, gauge-check on
-   receipt — the Beduan solenoids); the footnote lives in GENERAL NOTES.
+   ends and one schedule row serves both orientations. (The `chk:true` joint
+   flag, which appended a `*` for "gauge-check the thread on receipt", is GONE —
+   Marcus has the solenoids in hand and they gauge as NPT, so the asterisks, the
+   GENERAL NOTES footnote and the `chkJointsMarked` invariant all went with it.)
    `mount:{..., via:"part"}` hangs a mount through an adapter (the
    accumulator's NGT boss bushing) — drawn as a hex on the hanger stub with
    its own balloon (riser base only). A ref with MULTIPLE producers is a
@@ -118,9 +138,9 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
    upstream, default female upstream — matching the linter). VERBOSITY: cell
    captions carry only what is unique to the item — joint direction (glyphs
    encode it), hose/tube ratings, solenoid voltage, valve style, POL thread
-   and the like live in the diagram-wide GENERAL NOTES (legend + export
-   header); Marcus asked for ~70% less label text, so resist re-adding
-   boilerplate to notes or AUTONOTE. A [joint][hex adapter][joint] sequence
+   and the like live in the diagram-wide GENERAL NOTES (`generalNotes()`, in
+   the sheet's top-left header in both views); Marcus asked for ~70% less label
+   text, so resist re-adding boilerplate to notes or AUTONOTE. A [joint][hex adapter][joint] sequence
    renders as ONE consolidated cell (markers flanking the hex, sizes in a
    single "A ▸ B" caption), not three spread-out cells.
 5. Port linter (`lintPorts`) — machine check that every drawn joint is
@@ -148,10 +168,21 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
    never quoted verbatim.
 7. `downloadSVG()` — wraps `LAST_RENDER` (the single combined schematic SVG,
    mutated in place by `renderSchematic()` so external references stay live)
-   into one standalone document: title, orientation subtitle, the drawing, and
-   the SYMBOL LEGEND (`legendLines()`, shared with the on-page `#legend` div —
-   the exported sheet is the only thing that decodes its own symbols once it
-   leaves the page). The canvas widens if a legend line outruns the artwork.
+   into one standalone document, in reading order: title (with the FOR FAST
+   REVIEW stamp), the "not to scale" line, `generalNotes()` — the build rules a
+   reader wants BEFORE the drawing, hence the top-left header — the drawing,
+   then `legendLines()`. The canvas widens if the notes or a legend line outruns
+   the artwork. Both the header notes and the legend are shared with the on-page
+   `#legend` div (which prepends the notes the same way).
+   `legendLines()` is VIEW-DEPENDENT and asymmetric on purpose: **external is
+   the pipe-style key plus the flow-orientation line, and nothing else.** Marcus
+   cut the rest — the glyphs read themselves (a male taper entering a female
+   box, a cone entering a swivel nut), the dashed line boxes and the orange
+   flame/e-stop highlight are self-apparent, and the pentagon cross-reference
+   went with them. The pipe key is the one thing that cannot go: a COLOUR is not
+   self-apparent the way a glyph is. The internal packet keeps the full key
+   because its balloons genuinely need decoding. Do not "restore" the external
+   glyph key.
    Every interpolated string MUST pass through `esc()`; browsers forgive raw
    `&`/`<` in-page but the exported .svg must be strict XML (regression-tested).
 
@@ -172,6 +203,10 @@ not cosmetic variants; each is a different deliverable.
   adapters, tube, and handmade tips stay generic — Marcus: part numbers are for
   what a reviewer must be able to identify exactly. Adapters keep only their
   consolidated "A ▸ B" end-pair caption, no name and no spec line.
+  The sheet may not NAME a document the reviewer does not hold — not even to
+  disclaim it. "nothing keys to an off-sheet schedule" was itself a reference to
+  the off-sheet schedule, and is gone. The suite sweeps the external export for
+  the vocabulary `see packet | off-sheet | parts schedule | balloon`.
 
 `external` is the DEFAULT: the safe artifact to hand someone. Both views must
 hold every geometry invariant (baselines on the row grid, zero text-bbox
@@ -192,11 +227,12 @@ correctly prints a rating and no number; that is data, not a bug.
   protection flagged. Amazon ASIN B07N2LGFYS is NOT the brass 1/4 in solenoid —
   it is Beduan kl04010, an anodized-ALUMINUM air valve (115 psi, CE only); the
   brass 1/4 in candidate is B08C2NLPR5. Beduan B07N6246YB (2W160-15, 1/2 in)
-  claims FNPT but the plain 2W-series model number denotes G/BSPP threads in
-  the originating product line ("N" variants are NPT) — both solenoids carry a
-  gauge-check-threads-on-receipt warning in their specs; neither publishes
-  seal material or a fuel-gas listing. Mr. Heater F273754/F273702 part numbers
-  are plausible but unconfirmed; Breezliy B08K8NP26L needle valves likewise
+  claims FNPT and the plain 2W-series model number denotes G/BSPP threads in the
+  originating product line ("N" variants are NPT) — the LISTING is ambiguous,
+  but Marcus has both valves in hand and they gauge as NPT, so the thread
+  question is CLOSED. Do not re-add the gauge-check-on-receipt warning. What is
+  still open: neither publishes seal material or a fuel-gas listing, so LP
+  compatibility stays a liaison flag. Breezliy B08K8NP26L needle valves likewise
   unlisted. Anderson Metals SAE 45° flare catalog items confirmed to exist
   (LP/fuel-gas service in catalog text): 04044-04/-06 union tees, 04052-06
   four-way cross, 04059-060604/-060404 fig 509 reducing tees, 04046 fig 406
@@ -222,20 +258,105 @@ correctly prints a rating and no number; that is data, not a bug.
   cones cannot mate, so a fitting-to-fitting flare junction always needs one
   female swivel (`flareNptF` / cat. U5) or a length of tube between — check the
   gender before assuming a swap saves anything.
-- Adapter/nipple purchases went 31 -> 22 by using the catalogs properly. The
-  three moves, in descending value: (1) `POL-U2-6` takes the cylinder straight
-  to a 3/8 male flare cone, so the hose swivel lands on it and both the old
-  POL-to-NPT adapter and the NPT-to-flare adapter are gone; (2) the split tees
+- THE SAME TRICK ON A BRANCH: when the component hanging off a tee is NPT and
+  the run is flare, do NOT adapt the branch — buy the tee with the thread you
+  need on its boss. `flareTeeMpt` = Anderson Fittings **T1-6B** (male branch
+  tee, 3/8 flare run x 1/4 MNPT branch, T1 series ref SAE 010425, cat. p.16).
+  The rail solenoid SV-1 now screws straight onto the male bosses of F-10/F-11
+  and the two 3/8-flare-swivel x 1/4-MNPT half unions that flanked it are gone
+  (Marcus spotted them: "that sounds expensive"). `TF1-6B` is the FEMALE-branch
+  sibling. Fittings 24 -> 22, and BOTH split paths now buy nothing.
+- Adapter/nipple purchases: 31 -> 22 by using the catalogs properly; -> 23 when
+  the poofer tee moved below the main shut-off (a safety fix worth one fitting);
+  -> 24 when each cylinder got its own shut-off; -> **22** when the split tees
+  became male-branch tees and the solenoid's two half unions vanished.
+  Of the original three moves, one stands and one was replaced by something better:
+  (1) `POL-U2-6` takes the cylinder straight
+  to a 3/8 male flare cone — REVERSED at the cylinder (see the per-cylinder
+  shut-off below), still the reason nothing else adapts POL; (2) the split tees
   F-10/F-11 became plain flare tees, which let NV-1 become a flare valve and
   left its metered path (TB-10 -> NV-1 -> TB-12) with ZERO fittings, and let
-  L3a start on bare tube; (3) `TF1-6B`, a flare tee with a 1/4 FNPT branch,
-  carries the tank-pressure gauge while the run stays flare, so the supply
-  stack above V-1 needs no hex nipples. What is left is irreducible without
+  L3a start on bare tube — SUPERSEDED: they are now T1-6B male-branch tees and
+  the solenoid path buys nothing either. Move (3) — `TF1-6B`, a flare tee with a
+  1/4 FNPT
+  branch carrying the tank-pressure gauge so the stack above V-1 stayed flare —
+  is REVERSED: Marcus judged the copper before the high-pressure hose "way
+  easier as NPT", so F-5 is now a plain `nptTee` and `flareTeeFpt` is a dead
+  PARTS entry. Fitting count did not change (the deleted flare union and the
+  deleted rev'd half-union paid for the new nipple and half-union).
+  What is left is irreducible without
   changing components: every remaining nipple joins two FEMALE NPT ports
   (ball valves, solenoids, regulators, NPT tees are all FNPT), and every
   remaining half-union is where a flare run meets an FNPT valve body.
-- The Breezliy ASIN needle valve is GONE (NV-1 now takes 115SAE). The only
-  parts still bought off a marketplace listing are the two Beduan solenoids.
+- Cell captions drop everything after the first comma ("Ball valve, 1/4 in FNPT
+  x FNPT" -> "Ball valve"; narrow beats wide). THREE exceptions keep more: tees
+  carry their exact type, the cross its exact threads, and a CYLINDER its
+  capacity — the drawing must read "Propane cylinder, 100 lb", because the fuel
+  quantity is what the review is about and 100 lb is the fuel team's delivery
+  minimum. `sym:"tank"` keeps its full name for that reason; the accumulator is
+  a MOUNT and takes the lowercased short name, so it is unaffected.
+- PIPE STYLING (`runStyle`, `jointGlyph`) — colour AND width both encode
+  MATERIAL, never pressure. Hose `#334E68` slate at 3.0 px; copper `#8C5A2B`
+  bronze, thickening with bore (1/4 → 2.4, 3/8 → 4.0, 1/2 → 5.2); everything
+  else — brass fittings, nipples, the threaded connections either side of them —
+  default ink at 2.0. The hose is NOT the fattest line (Marcus fattened the
+  copper, then put the hose back); it sits BETWEEN 1/4 and 3/8 copper. Keep every
+  copper width ≥0.5 px from the hose width, or a BLACK-AND-WHITE PRINT of the
+  packet cannot tell the flexible weak point from rigid tube — FAST packets get
+  printed, and the suite checks the separation. FLAME orange is reserved for
+  flame heads and marked emergency shut-offs; no run line may borrow it.
+  `jointGlyph` is the single place this is drawn — shared by the horizontal band
+  cells and the rotated riser cells, so change it once. The suite enumerates the
+  whole palette: a stroke colour outside
+  {INK, INK2, FLAME, HOSE_C, COPPER_C, #fff} means someone invented a meaning
+  nothing decodes. Widths are a VISUAL choice and get retuned — never pin one in
+  a test; derive the ordering from the bores SYSTEM declares.
+- EACH CYLINDER HAS ITS OWN SHUT-OFF (V-4, drawn once for the twin feed, two
+  bought). NOT an e-stop — no orange, no `emergency:true` — just so a bottle can
+  be isolated and swapped without bleeding the run down (Marcus: "it just makes
+  things less stressful"). No flare ball valve is vaulted anywhere, so it is the
+  same Apollo 94A. That makes ME353's flare cone useless at the cylinder, so F-1
+  is now `polAdapter` = MEC **ME318** (POL x 1/4 MNPT, hard nose, 7/8 nut, same
+  catalog page as ME353) and the valve screws straight on: ONE adapter each side
+  of the valve, not two stacked. Two hexAdapter bodies back-to-back share a
+  joint, and the consolidator can only caption one of them — the other renders
+  as an unlabeled hex. That reverses move (1) at the cylinder only; ME353 is now
+  a dead PARTS entry. Fittings 23 -> 24. ME1690/ME1641 are the excess-flow
+  variants (the catalog notes excess-flow POLs are UL Listed) if the liaison
+  wants one.
+- L1 CARRIES NO COPPER. Above V-1 the depot stack is NPT land — hex nipples
+  between FNPT bodies, nothing flared on site. Flare survives on L1 only where a
+  component forces it: the cylinders' POL adapters (`ME353`, POL x male flare)
+  and the two hose swivels. `cu38` is still used on L3/L3a/L3b.
+- The Breezliy ASIN needle valve is GONE (NV-1 now takes 115SAE). Three parts
+  are still bought off a marketplace listing: the two Beduan solenoids and the
+  Stanbroil air mixer. Stanbroil publishes NO catalog number — its own product
+  page (`psrc:"stanbroil"`) sells the valve through one Amazon listing, so
+  `B019RGW4KG` is an ASIN, not a Stanbroil part number, and carries `asin:true`.
+- Gas HOSES mark their working pressure on the cell (`WP 350 psi`, read from
+  `PARTS[].rating`, never a literal). A hose is the one flexible, elastomeric
+  component on the sheet and the likeliest weak point, so the rating belongs
+  beside it and NOT in GENERAL NOTES — a generic note would contradict the
+  drawing the moment a different hose is specced. Guarded by
+  `hosesMarkTheirWorkingPressure`.
+- L1's order is a SAFETY property, not a layout choice:
+  `cylinders -> V-1 (depot e-stop) -> F-5 (gauge tee) -> F-21 -> HS-2 -> V-2
+  (MAIN e-stop) -> F-7 (poofer tee) -> PRV-1 -> L2`.
+  V-2 is the first thing the gas meets when it arrives at the effect, so it is
+  upstream of BOTH consumers and closing it kills everything. The poofer tee sits
+  after V-2 but BEFORE PRV-1, so L4 still draws tank pressure for a fast
+  accumulator refill. Move the tee above V-2 and the valve marked "main emergency
+  shut-off" silently stops cutting the poofer — the sheet then lies about a
+  life-safety device. It shipped that way until Marcus caught it.
+  THE PORT LINTER CANNOT SEE THIS: both orders are mechanically assemblable and
+  lint clean. Invariant `branchesDownstreamOfTheMainShutoff` guards it.
+  HS-2 is the long run from the propane depot to the piece. F-21 (a rev'd
+  `flare14npt`) takes the gauge tee's female pipe port back out to a 3/8 male
+  flare cone for the hose swivel; F-7 became an `nptTee` because it now sits
+  between two FNPT bodies. Net cost of the whole fix: adapters+nipples 22 -> 23.
+  NOTE: a `hexAdapter` body needs a drawn joint on BOTH sides or it renders as
+  an UNLABELED HEX — the flanking markers and the "A ▸ B" caption are its only
+  label. Putting one straight after a `{j:"turn"}` marker is how you find out.
 - WHERE TO BUY, checked 2026-07-09. Anderson Fittings is an OEM supplier (Marmon
   / Berkshire Hathaway, Frankfort IL) — you buy through distributors, and its
   figure numbers are industry-standard so several makers stamp them.
@@ -257,8 +378,11 @@ correctly prints a rating and no number; that is data, not a bug.
   bleeds down through the continuously-burning pilot instead of sitting charged.
   Move any one of those three and you break one of the other two properties.
   F-6 is `teeStreet14` (Anderson T4-4B street tee): its male NPT screws straight
-  into CV-1's female outlet with no hex nipple, and its branch is a flare cone
-  that the pilot's copper tube lands on directly.
+  into the female NPT outlet ahead of it — V-3's, since the e-stop sits between
+  CV-1 and the tee — with no hex nipple, and its branch is a flare cone that the
+  pilot's copper tube lands on directly. (Invariant
+  `pilotTeeScrewsInWithoutANipple` compares the tee against whatever part is
+  actually upstream, so a legitimate re-order of L4b will not make it lie.)
 - The check valve CV-1 STAYS. Marcus asked to remove it ("the regulator does
   that"), then reversed.
 - "Continuous flame", never "standing flame".
@@ -267,13 +391,23 @@ correctly prints a rating and no number; that is data, not a bug.
   have no seat, seal, or diaphragm and print none — a 500/1000/1200 psi number
   on those cells is noise (Marcus). Custom fabrications (the handmade tips, the
   open pipe discharge) print none either: their "rating" was never sourced from
-  anyone. `PARTS[].rating` still carries every number for FE-2 to test against.
+  anyone. BALL VALVES print none as well, for a DIFFERENT reason — a ball valve
+  does have a seat, but the whole class is 600 psi WOG brass, an order of
+  magnitude above anything on this sheet, so the number tells a reviewer nothing
+  (Marcus: "aren't they all high pressure?"). `PARTS[].rating` still carries
+  every number for FE-2 to test against, and the schedule still records it.
 - `PN_SYM` decides which cells print `mfg` + part number. BALL VALVES ARE NOT IN
   IT (Marcus) — they show a rating only; the schedule still records the Apollo
-  number. Pressure VESSELS are: the accumulator prints "DOT 4BA240 · 250 psi"
-  plus a note naming the NGT boss, the no-welds constraint, and the expired
-  requal stamp. It is the most unusual component on the sheet and the external
-  drawing said almost nothing about it until Marcus caught that.
+  number. RELIEF VALVES ARE NOT IN IT EITHER: they have not been bought, the
+  Aquatrol 140A is a candidate whose LP suitability is still a liaison flag, so
+  the drawing states the rating the valve must meet and names no part. Same
+  treatment, same reason — the schedule keeps the number. Pressure VESSELS are
+  in it: the accumulator prints "DOT 4BA240 · 250 psi" plus a note naming the
+  NGT boss, the no-welds constraint, and the expired requal stamp. It is the
+  most unusual component on the sheet and the external drawing said almost
+  nothing about it until Marcus caught that. The vessel note stops at "interior
+  inspected" — the photographs are an on-site artifact and the packet is for
+  PRELIMINARY review, so neither the drawing nor the schedule cites them.
 - `deTag()` strips equipment designations from the EXTERNAL sheet — not just from
   cells but from band titles ("... at PRV-1"), run labels (TB-13, HS-2), off-band
   labels ("from MF-1"), and notes. The suite asserts the external SVG contains no
@@ -291,34 +425,71 @@ correctly prints a rating and no number; that is data, not a bug.
 
 ## Testing philosophy
 
-The suite asserts invariants, not snapshots: every text baseline on a band row
-or riser mini-grid row, ZERO text-bbox collisions across the entire combined
-sheet (translate-resolving parser in `textBoxes()`), no text inside rotated
-groups and none inside `SYM` bodies, every derived edge drawing exactly one
-connector whose y equals its band's centerline (`data-conn`/`data-cl`), orphan
-lines falling back to pentagons, no undefined/NaN leaks, strict escaping in the
-export, editor round trip (including hostile strings and an unmatched-ref
-line), graceful malformed-JSON handling, and the newer constructs: band chains
-render as one strip with a seam (`data-merged`), risers use tcell mini-grid
-rows with `rotate(-90)` symbols, split paths draw both corridor elbows, `xn`
-tips repeat, and dashed line boxes appear for every line. A CHECK MUST BE ABLE TO FAIL. Before adding one, mutate the thing it guards and
-watch it go red; if it stays green it is decoration. Two shapes to refuse:
-a constant asserting itself (`PARTS.x.rating === 150` — the guard for a sourced
-spec is `psrc` + SOURCES.md, not a test restating the literal), and a string
-pinned to incidental output (`svg.includes(">3/8 in tube (5/8-18 UNF)<")`).
-Quantify over the data instead: sweep EVERY drawn part, EVERY text node, EVERY
-nipple in SYSTEM. The tell that you got it wrong is having to hand-edit tests
-every time the design legitimately changes — that happened ~22 times in one
-session before the suite was consolidated back from 167 checks to 140.
+Every check is exactly one of four kinds, and nothing else is allowed in:
 
-Both VIEWS are asserted separately —
-external draws no balloons and no designations but prints part numbers and
-ratings (and keeps fittings generic); internal is the mirror image; switching
-back and forth is idempotent; and the collision/baseline invariants must hold
-in each. Bugs found by this suite so far: missing `tee` symbol, unescaped `&`
-breaking the exported XML, unescaped user strings in the title block, and the
-harness DOM stub not dropping `children` on `innerHTML=""` (which let repeated
-renders stack strips). Add a check when you fix a bug.
+1. **A named invariant** in `test/invariants.js`, quantified over data (sweep
+   EVERY drawn part, EVERY text node, EVERY nipple in SYSTEM) — and it MUST have
+   a paired mutation in `test/mutants.js` that turns it red. The coverage gate
+   fails the build otherwise. Only predicates a *data* mutation can falsify
+   belong here.
+2. **A port-linter defect class**, seeded through `viaJSON(mutate)` — these are
+   mutations of the `portLinterClean` invariant, each with an `expectDetail` so
+   it must go red for the RIGHT reason ("needs a nipple", "male port is
+   upstream", …).
+3. **A geometry or structural check** — collisions, baselines, clipping,
+   escaping, balanced tags, no `undefined`/`NaN`, hostile-data survival. These
+   are renderer guarantees, exempt from the mutation gate, and stay inline in
+   `run-tests.js`.
+4. **The approved snapshot** (`test/approved/drawing-{external,internal}.svg`).
+   Rendering details live here, not in `includes()` calls.
+
+Refuse: a constant asserting itself (`PARTS.x.rating === 150` — the guard for a
+sourced spec is `psrc` + SOURCES.md, not a test restating the literal); a string
+pinned to incidental output (`svg.includes(">3/8 in tube (5/8-18 UNF)<")`). The
+tell that you got it wrong is hand-editing tests every time the design
+legitimately changes — that happened ~22 times in one session before the suite
+was rebuilt (167 → 140 → 114 checks + 31 mutants). When the drawing changes on
+purpose: `npm run approve`, **look at the PNG it renders**, then commit the
+golden diff. A one-word label change now costs zero test edits or one reviewable
+golden hunk — never a scavenger hunt through 40 `includes()` calls.
+
+### GATE SCOPING — the one way this collapses
+
+`invariants.js` may hold **only** predicates a DATA mutation can falsify.
+Renderer guarantees are not: deleting a line from `SYSTEM` leaves
+`everyLineRendered` true (`.every()` just iterates fewer lines) — verified. Same
+for `branchBandsNeverWrap`, connector alignment, collision-freeness. They are
+category 3 and stay inline. Smuggling one into `invariants.js` forces a fake
+mutation and makes the coverage gate unsatisfiable.
+
+> If no clean data/app mutation falsifies a predicate, it is category 3.
+
+The subtler trap, which bit during the migration: **a mutation that moves BOTH
+sides of the comparison proves nothing.** `onlyPnSymPartsPrintPartNumbers` — "no
+part outside `PN_SYM` prints a number" — stays green under `PN_SYM.add("ball")`,
+because the ball valve leaves the filter along with the rule. It became
+`ballValvesNoPnOnDrawing`, quantified over `sym === "ball"`, so the observation
+and the expectation are independent. Same reasoning made
+`partsThatCanFailPrintTheirRating` ground itself in `PN_SYM` while the mutation
+targets `NO_RATING_SYM`. If you cannot find such an independent ground, the
+predicate is category 3.
+
+**Test-harness liveness.** `applyJSON()` REASSIGNS `SYSTEM` and `PARTS`;
+`buildRefs()` REASSIGNS `refIndex`. A reference captured at load time goes stale
+the instant anything re-renders, so tests read the pre-mutation data and pass on
+a lie. Always go through `app.getSYSTEM()` / `app.getPARTS()` / `app.getRefIndex()`.
+`TREE`, `MATCHED`, `PN_SYM` and `NO_RATING_SYM` are mutated in place and stay live.
+
+Both VIEWS are asserted separately — external draws no balloons and no
+designations but prints part numbers and ratings (and keeps fittings generic);
+internal is the mirror image; switching back and forth is idempotent; and the
+collision/baseline invariants must hold in each. Bugs found by this suite so far:
+missing `tee` symbol, unescaped `&` breaking the exported XML, unescaped user
+strings in the title block, the harness DOM stub not dropping `children` on
+`innerHTML=""` (which let repeated renders stack strips), and a `{j:"flare",
+part:"x"}` purchase silently never reaching the parts schedule (`buildRefs`
+registers `it.part` only for `hose|tube|npt` — now guarded by
+`everyPartReachesTheSchedule`). Add a check when you fix a bug.
 
 ## Roadmap candidates
 
@@ -329,6 +500,26 @@ renders stack strips). Add a check when you fix a bug.
   FAST discussion point).
 - Encode the FAST required-documentation checklist (site plan, operating
   procedure, extinguisher plan) as a cover-sheet generator.
+
+## Test layout
+
+```
+test/
+  harness.js     loadApp() — evaluates the HTML's <script> against a DOM stub.
+                 Exposes getSYSTEM/getPARTS/getRefIndex getters; see liveness above.
+  geometry.js    shared SVG parsers (textBoxes, collisions, clippedByCanvas,
+                 bandChunks, textContents). Required by all three runners —
+                 duplicating them is how the assertion and the prover drift apart.
+  invariants.js  named, DATA-FALSIFIABLE predicates + evaluateAll/evaluateOne
+  mutants.js     the mutation table + three gates (forward / coverage / reverse)
+  golden.js      canonicalize, render, LCS diff, hunk reporter
+  approve.js     regenerates the goldens; refuses to be silent, refuses under CI
+  approved/      drawing-external.svg, drawing-internal.svg (tracked; *.png ignored)
+  run-tests.js   runs the invariants, compares the goldens, then the inline
+                 geometry/structural + hostile/wrap/editor blocks
+```
+
+`run-tests.js` and `mutants.js` are independent entry points; `npm test` runs both.
 
 ## Reference material
 
