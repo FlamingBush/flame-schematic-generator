@@ -301,7 +301,17 @@ export, editor round trip (including hostile strings and an unmatched-ref
 line), graceful malformed-JSON handling, and the newer constructs: band chains
 render as one strip with a seam (`data-merged`), risers use tcell mini-grid
 rows with `rotate(-90)` symbols, split paths draw both corridor elbows, `xn`
-tips repeat, and dashed line boxes appear for every line. Both VIEWS are asserted separately —
+tips repeat, and dashed line boxes appear for every line. A CHECK MUST BE ABLE TO FAIL. Before adding one, mutate the thing it guards and
+watch it go red; if it stays green it is decoration. Two shapes to refuse:
+a constant asserting itself (`PARTS.x.rating === 150` — the guard for a sourced
+spec is `psrc` + SOURCES.md, not a test restating the literal), and a string
+pinned to incidental output (`svg.includes(">3/8 in tube (5/8-18 UNF)<")`).
+Quantify over the data instead: sweep EVERY drawn part, EVERY text node, EVERY
+nipple in SYSTEM. The tell that you got it wrong is having to hand-edit tests
+every time the design legitimately changes — that happened ~22 times in one
+session before the suite was consolidated back from 167 checks to 140.
+
+Both VIEWS are asserted separately —
 external draws no balloons and no designations but prints part numbers and
 ratings (and keeps fittings generic); internal is the mirror image; switching
 back and forth is idempotent; and the collision/baseline invariants must hold

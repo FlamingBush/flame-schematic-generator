@@ -495,86 +495,69 @@ console.log("COMPLIANCE & PARTS TABLES");
 console.log("VIEW MODES (internal packet vs external submission)");
 {
   const { store, app } = loadApp();
+  const { PARTS } = app;
   const draw = () => store["strips"].children[0].innerHTML;
+  const occ = (hay, needle) => hay.split(needle).length - 1;
+  // parts actually drawn on the sheet
+  const drawn = Object.keys(PARTS).filter(k => app.refIndex[k] !== undefined);
+  // the RULE, stated here as the spec the renderer must satisfy
+  const NO_RATING = new Set(["tee", "manifold", "hexAdapter", "none", "nozzle", "pilot"]);
+  const CARRIES_PN = new Set(["sol", "needle", "check", "relief", "reg", "gauge", "tank"]);
 
-  // default must be the submission sheet — the safe artifact to hand over
   check("default view is external", app.INTERNAL() === false);
-
   const ext = draw();
   check("external draws no balloons", !/r="9\.5"/.test(ext));
-  check("external draws no equipment designations",
-    !ext.includes(">F-15+RV-1<") && !ext.includes(">SV-2<") && !ext.includes(">F-18+SB-1<"));
-  check("external prints a pressure rating on components", ext.includes(">250 psi<"));
-  // the Anderson Fittings catalog rates the needle-valve line to 150 psi
-  check("external prints the sourced rating on the flare needle valves",
-    ext.includes("Anderson Fittings 110SAE · 150 psi") &&
-    ext.includes("Anderson Fittings 115SAE · 150 psi"));
-  // valves / regulators / gauges carry a manufacturer part number...
-  check("external prints mfr part no. for a solenoid", ext.includes("B07N6246YB"));
-  check("external prints mfr part no. for a regulator", /MEGR-6120/.test(ext));
-  check("external prints mfr part no. for the flare needle valve", ext.includes("110SAE"));
 
-  // ...and a bare number identifies nothing, so the make rides with it
-  check("every drawn part number is preceded by its manufacturer",
-    ext.includes("Marshall Excelsior MEGR-6120-60") &&
-    ext.includes("Anderson Fittings 110SAE") &&
-    ext.includes("Anderson Fittings 115SAE") &&
-    ext.includes("Aquatrol 140A") &&
-    ext.includes("DOT 4BA240"));
-  // ball valves state a rating but no maker/number (Marcus) — the schedule keeps it
-  check("ball valves carry no part number on the drawing",
-    app.specLine(app.PARTS.ball14) === "600 psi" &&
-    !ext.includes("94A-101-01") && !ext.includes("Apollo"));
-  check("the schedule still records the ball valve's part number",
+  // NOTHING on the external sheet may key to an off-sheet schedule — not cells,
+  // not band titles ("at PRV-1"), not run labels (TB-13), not notes. This swept
+  // up a note citing compliance row "FE-8", which lives only in the HTML table.
+  // CGA-510 is a thread standard, not a designation.
+  const extText = [...ext.matchAll(/<text[^>]*>([^<]*)<\/text>/g)].map(m => m[1]).join(" | ");
+  const stray = [...new Set((extText.match(/\b[A-Z]{1,3}-\d+\b/g) || []).filter(x => x !== "CGA-510"))];
+  check("external carries no equipment designation anywhere", stray.length === 0, stray.join(", "));
+  check("stripping designations keeps the run's real information", ext.includes(">10 ft<"));
+
+  // A bare catalog number identifies nothing, and an ASIN is a marketplace id,
+  // not a manufacturer part number. Checked for EVERY number that reaches the
+  // drawing, so a new part cannot slip through unlabelled.
+  const shown = drawn.filter(k => PARTS[k].pn && PARTS[k].pn !== "—" && ext.includes(PARTS[k].pn));
+  const badPn = shown.filter(k => {
+    const p = PARTS[k], num = p.asin ? "ASIN " + p.pn : p.pn;
+    return occ(ext, p.pn) !== occ(ext, `${p.mfg} ${num}`);
+  });
+  check("every part number on the drawing is preceded by its maker (ASINs labelled)",
+    shown.length >= 4 && badPn.length === 0, badPn.join(", "));
+  check("solenoids are the only parts still bought off a marketplace listing",
+    drawn.filter(k => PARTS[k].asin).length === 2);
+  // ...and the asin FLAG cannot silently go missing: anything sourced from a
+  // marketplace must be flagged, or its listing id renders as if it were a
+  // manufacturer catalog number ("Beduan B07N6246YB") and the wrong part is bought
+  const marketplace = drawn.filter(k => /amazon/i.test(PARTS[k].vendor || ""));
+  check("marketplace-sourced parts are flagged and render their id as an ASIN",
+    marketplace.length > 0 && marketplace.every(k => PARTS[k].asin && ext.includes("ASIN " + PARTS[k].pn)),
+    marketplace.filter(k => !PARTS[k].asin).join(", "));
+
+  // ball valves state a rating but no maker/number (Marcus); the schedule keeps it
+  check("ball valves carry no part number on the drawing, but the schedule does",
+    !ext.includes("94A-101-01") && !ext.includes("Apollo") &&
     store["partsTable"].innerHTML.includes(">94A-101-01<"));
-  // the accumulator is the most unusual component: it must not be a bare tee
+
+  // a rating means "this can fail at pressure". Solid brass fittings cannot, and
+  // custom fabrications never had a sourced number. Checked over every part.
+  const strayRating = drawn.filter(k => NO_RATING.has(PARTS[k].sym) && app.specLine(PARTS[k]) !== "");
+  const missingRating = drawn.filter(k => !NO_RATING.has(PARTS[k].sym) && !/psi|no published rating/.test(app.specLine(PARTS[k])));
+  check("fittings and custom fabrications print no rating", strayRating.length === 0, strayRating.join(", "));
+  check("everything that can fail at pressure prints one", missingRating.length === 0, missingRating.join(", "));
+  check("only PN_SYM parts print a part number",
+    drawn.every(k => CARRIES_PN.has(PARTS[k].sym) || !/[A-Z]{2,}-?\d/.test(app.specLine(PARTS[k]))));
+
+  // the accumulator is the most unusual component on the sheet and was rendering
+  // as a bare "Tee + accumulator" until Marcus caught it
   check("the accumulator states its DOT spec and how it is plumbed",
     ext.includes("DOT 4BA240 · 250 psi") && ext.includes("NGT boss") &&
     ext.includes("no welds") && ext.includes("requal stamp expired"));
-  // an ASIN is a marketplace listing id, not a manufacturer part number —
-  // "Beduan B08C2NLPR5" would read as a Beduan catalog number
-  check("Amazon listing ids are labelled ASIN, not passed off as mfr numbers",
-    ext.includes("Beduan ASIN B08C2NLPR5") && ext.includes("Beduan ASIN B07N6246YB") &&
-    !/(?<!ASIN )B08C2NLPR5/.test(ext));
-  check("catalog part numbers are NOT labelled ASIN", !/ASIN (94A|MEGR|1[01]5?SAE|140A)/.test(ext));
-  check("a make without a number still shows the make", ext.includes("SENCTRL"));
-  check("the schedule labels ASINs too",
-    store["partsTable"].innerHTML.includes("ASIN B08C2NLPR5") &&
-    store["partsTable"].innerHTML.includes(">94A-101-01<"));
-  // only the two solenoids are still bought off a marketplace listing
-  check("solenoids are the only ASIN-sourced parts left",
-    Object.values(app.PARTS).filter(p => p.asin && app.refIndex[Object.keys(app.PARTS).find(k => app.PARTS[k] === p)] !== undefined).length === 2);
-  // ...and nothing else does. Fittings, adapters, tube stay generic (Marcus).
-  check("external keeps fittings generic (no tee/adapter part numbers)",
-    !ext.includes("04044-06") && !ext.includes("04059-060604") &&
-    !ext.includes("06122-04") && !ext.includes("54048-0604"));
 
-  // NOTHING on the external sheet may key to an off-sheet schedule — not the
-  // cells, not the band titles ("... at PRV-1"), not the run labels (TB-13,
-  // HS-2), not the notes. CGA-510 is a thread standard, not a designation.
-  const tags = t => [...new Set((t.match(/\b[A-Z]{1,3}-\d+\b/g) || []).filter(x => x !== "CGA-510"))];
-  const extText = [...ext.matchAll(/<text[^>]*>([^<]*)<\/text>/g)].map(m => m[1]).join(" | ");
-  check("external carries no equipment designation anywhere", tags(extText).length === 0, tags(extText).join(", "));
-  check("external band titles drop the 'at PRV-1' reference",
-    ext.includes("tank pressure → 60 psi<") && !ext.includes("at PRV-1"));
-  check("external keeps the run's real information, drops its designation",
-    ext.includes(">10 ft<") && !ext.includes(">TB-6"));
-
-  // solid brass fittings have no seat, seal, or diaphragm: no psi on the cell
-  check("solid brass fittings print no rating",
-    ["flareTee", "flareTee14", "flareTeeFpt", "flareTeeR3814", "nptTee", "manifold", "flare14npt"]
-      .every(k => app.specLine(app.PARTS[k]) === ""));
-  check("custom fabrications print no invented rating",
-    ["nozzle", "pilot", "standby"].every(k => app.specLine(app.PARTS[k]) === ""));
-  // but anything that can actually fail at pressure still states its rating
-  check("valves, regulators and vessels still state their rating",
-    ext.includes("Beduan ASIN B08C2NLPR5 · 100 psi") &&
-    ext.includes("Marshall Excelsior MEGR-6120-60 · 250 psi") &&
-    ext.includes("Aquatrol 140A · 350 psi") && ext.includes(">250 psi<"));
-  check("FE-2 still tests fitting ratings from the data",
-    app.PARTS.flareTee.rating === 500 && app.PARTS.manifold.rating === 1200);
-
-  // the external sheet must survive the same geometry invariants
+  // the external sheet must survive the same geometry invariants as the packet
   const eb = textBoxes(ext);
   check("external: all <text> parseable", !eb.some(b => b.malformed));
   check("external: no text inside rotated symbol groups", !eb.some(b => b.rot));
@@ -584,14 +567,12 @@ console.log("VIEW MODES (internal packet vs external submission)");
 
   app.setView("internal");
   const int = draw();
-  check("internal restores balloons", /r="9\.5"/.test(int));
-  check("internal restores equipment designations", int.includes(">F-15+RV-1<") && int.includes(">SV-2<"));
+  check("internal restores balloons and equipment designations",
+    /r="9\.5"/.test(int) && int.includes(">F-15+RV-1<") && int.includes(">SV-2<"));
   check("internal hides mfr part numbers on the drawing", !int.includes("B07N6246YB"));
   const ibad = collisions(textBoxes(int));
   check("internal: zero text collisions anywhere on the sheet", ibad.length === 0, ibad.slice(0, 4).join("; "));
-
-  check("switching back and forth is stable",
-    (app.setView("external"), draw() === ext));
+  check("switching back and forth is stable", (app.setView("external"), draw() === ext));
 }
 
 console.log("EXPORTED SVG IS SELF-CONTAINED");
@@ -649,72 +630,60 @@ console.log("UNRATED PARTS (rating:null)");
   app.PARTS.ball14.rating = 600;
 }
 
-console.log("FLARE NEEDLE VALVES");
+console.log("FLARE VALVES & THE POOFER TRAIN")
 {
   const { app } = loadApp();
   const { PARTS, SYSTEM } = app;
   const line = id => SYSTEM.lines.find(l => l.id === id);
-  const adapters = id => line(id).items.filter(i => i.p && PARTS[i.p] && PARTS[i.p].sym === "hexAdapter");
+  // every item on a line, splits flattened
+  const flat = id => line(id).items.flatMap(i => i.split ? [...i.split.a, ...i.split.b] : [i]);
+  const buys = id => flat(id).filter(i => (i.p && PARTS[i.p] && PARTS[i.p].sym === "hexAdapter") ||
+                                          (i.part && PARTS[i.part] && /nipple/i.test(PARTS[i.part].name)));
+  const flareValves = Object.keys(PARTS).filter(k => PARTS[k].sym === "needle" && PARTS[k].ports.i.startsWith("flare:"));
 
-  // The whole point of the flare valve: tube nuts land on the valve cones.
-  check("L4a poofer pilot buys zero adapters", adapters("L4a").length === 0);
-  check("L4a NV-2 is a flare x flare valve", line("L4a").items.some(i => i.p === "needleFlare14"));
-  check("L3b NV-4 is a flare x flare valve", line("L3b").items.some(i => i.p === "needleFlare38"));
-  check("L3b no longer needs a hex nipple", line("L3b").items.every(i => i.part !== "nipple14"));
+  // THE point of a flare valve: the tube nut lands on its cone, so nothing sits
+  // between the valve and the run. Quantified over every use, not spot-checked.
+  const flanked = SYSTEM.lines.every(L => {
+    const its = L.items.flatMap(i => i.split ? [...i.split.a, ...i.split.b] : [i]);
+    return its.every((it, i) => !flareValves.includes(it.p) ||
+      (its[i - 1] && its[i - 1].j === "flare" && !its[i - 1].part &&
+       its[i + 1] && its[i + 1].j === "flare" && !its[i + 1].part));
+  });
+  check("every flare needle valve is flanked by bare flare joints", flanked);
+  check("flare needle valves declare male cones both ends (or the linter's gender check is moot)",
+    flareValves.length >= 2 && flareValves.every(k => PARTS[k].ports.i.endsWith(":M") && PARTS[k].ports.o.endsWith(":M")));
 
-  // Once the split tees became flare tees, NV-1 could go flare too and its
-  // whole fitting stack vanished. Match the part key EXACTLY: "needleFlare38"
-  // contains the substring "needle", so a loose check passes for free.
-  const l3items = SYSTEM.lines.find(l => l.id === "L3").items;
-  const nv1 = JSON.parse(JSON.stringify(l3items)).flatMap(i => i.split ? [...i.split.a, ...i.split.b] : [i]).find(i => i.tag === "NV-1");
-  check("NV-1 is now a flare x flare valve", nv1 && nv1.p === "needleFlare38");
-  check("the Breezliy ASIN needle valve is no longer purchased", app.refIndex.needle === undefined);
-  check("the split buys no adapters or nipples on its metered path",
-    (() => { const sp = l3items.find(i => i.split).split;
-      return sp.b.every(i => !i.p || i.p === "needleFlare38") && sp.b.every(i => !i.part || i.part === "cu38"); })());
+  // the two circuits the flare valves bought us
+  check("the poofer pilot line buys no fittings at all", buys("L4a").length === 0);
+  check("the split's metered path buys no fittings at all",
+    line("L3").items.find(i => i.split).split.b.every(i => !i.p || flareValves.includes(i.p)));
 
-  // Both flare valves must declare cones, or the linter's gender check is moot.
-  // The Anderson Fittings catalog drawing (p.130) shows male cones both ends,
-  // and its needle-valve section header (p.129) rates the line to 150 psi.
-  for (const k of ["needleFlare14", "needleFlare38"]) {
-    check(`${k} declares male flare cones both ends`,
-      PARTS[k].ports.i.endsWith(":M") && PARTS[k].ports.o.endsWith(":M") &&
-      PARTS[k].ports.i.startsWith("flare:"));
-    check(`${k} carries the catalog's 150 psi rating`, PARTS[k].rating === 150);
-    check(`${k} is sourced to the vaulted Anderson Fittings catalog`,
-      PARTS[k].psrc === "andersonfittings" && PARTS[k].mfg === "Anderson Fittings");
-  }
-  check("flare needle valve part numbers are the catalog's SAE figure numbers",
-    PARTS.needleFlare14.pn === "110SAE" && PARTS.needleFlare38.pn === "115SAE");
+  // a needle valve must out-rate whatever relief caps its zone if a regulator
+  // fails, or the valve is the weak point on the line
+  const reliefSets = SYSTEM.lines.flatMap(L => L.items)
+    .map(it => it.mount || (it.tee && it.tee.mount)).filter(m => m && m.p === "relief")
+    .map(m => +(/set (\d+) psi/.exec(m.note || "") || [0, 0])[1]);
+  const maxRelief = Math.max(...reliefSets);
+  check("every flare needle valve out-rates the highest relief setting that can cap it",
+    reliefSets.length >= 2 && flareValves.every(k => PARTS[k].rating > maxRelief),
+    `max relief ${maxRelief}`);
 
-  // 150 psi must clear the branch pressure AND the relief setting that caps it
-  // if a regulator fails, or the valve is the weak point on the line.
-  const opOf = id => SYSTEM.lines.find(l => l.id === id).op;
-  check("NV-2 valve rating exceeds its 30 psi branch and RV-1's 75 psi relief",
-    PARTS.needleFlare14.rating > opOf("L4a") && PARTS.needleFlare14.rating > 75);
-  check("NV-4 valve rating exceeds its 60 psi branch and RV-2's 90 psi relief",
-    PARTS.needleFlare38.rating > opOf("L3b") && PARTS.needleFlare38.rating > 90);
-
-  // The pilot tee sits DOWNSTREAM of the check valve so the accumulator bleeds
-  // down through the continuously-burning pilot on normal shutdown, while CV-1
-  // still blocks backflow toward the regulator. A street tee (male NPT into the
-  // check valve's female outlet) does it without a hex nipple, and its branch is
-  // a flare cone so the pilot's copper tube lands on it directly.
-  const l4b = line("L4b").items;
-  const at = f => l4b.findIndex(f);
-  check("F-6 is a street tee with a 1/4 flare branch",
-    PARTS.teeStreet14.branch === "flare:1/4:M" &&
-    PARTS.teeStreet14.ports.i === "npt:1/4:M" && PARTS.teeStreet14.ports.o === "npt:1/4:F" &&
-    l4b.some(i => i.p === "teeStreet14" && i.tag === "F-6"));
-  check("the poofer pilot tees off DOWNSTREAM of the check valve",
-    at(i => i.tag === "CV-1") < at(i => i.branch && i.branch.ref === "D"));
-  check("the accumulator sits downstream of the pilot tee, so it can bleed back",
-    at(i => i.branch && i.branch.ref === "D") < at(i => i.j === "riser"));
-  check("the street tee needs no nipple into the check valve",
-    l4b[at(i => i.p === "teeStreet14") - 1].part === undefined);
-  // the reducing flare tee is still the rail take-off on L3a
-  check("the reducing flare tee still serves the standby rail",
-    line("L3a").items.some(i => i.p === "flareTeeR3814" && i.tag === "F-16"));
+  // L4b's order is the design: CV-1 blocks backflow to the regulator; V-3 is an
+  // e-stop upstream of the pilot tee so it cuts pilot AND accumulator together;
+  // the pilot tees off between them and the accumulator so the vessel bleeds
+  // down through the burning pilot on a normal shutdown. Move any one and you
+  // break one of the other two properties.
+  const l4b = line("L4b").items, at = f => l4b.findIndex(f);
+  const iCheck = at(i => i.p === "check14"), iV3 = at(i => i.tag === "V-3"),
+        iPilot = at(i => i.branch && i.branch.ref === "D"),
+        iRelief = at(i => i.mount && i.mount.p === "relief"), iAccum = at(i => i.j === "riser");
+  check("L4b order: check valve -> isolation valve -> pilot tee -> relief -> accumulator",
+    iCheck >= 0 && iCheck < iV3 && iV3 < iPilot && iPilot < iRelief && iRelief < iAccum,
+    `${iCheck} ${iV3} ${iPilot} ${iRelief} ${iAccum}`);
+  check("the isolation valve that cuts the pilot is an emergency shut-off",
+    l4b[iV3].emergency === true);
+  check("the pilot tee screws into the check valve with no hex nipple",
+    l4b[iPilot - 1].part === undefined && PARTS[l4b[iPilot].p].ports.i === "npt:1/4:M");
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);

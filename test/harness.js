@@ -51,7 +51,7 @@ function loadApp(extraJS) {
   global.URL = { createObjectURL: (b) => { captured.svg = b.data; return "blob:x"; } };
 
   // eval in a function scope; expose the app's top-level bindings we need via a trailer
-  const trailer = `;__hooks({SYSTEM,PARTS,ROW,CL,STRIP_H,TRUNK,TROW,SYM,MATCHED,TREE,LAST_RENDER,refIndex,applyJSON,downloadSVG,renderAll,lintPorts,jointMarker,setView,legendLines,specLine,PN_SYM,INTERNAL});`;
+  const trailer = `;__hooks({SYSTEM,PARTS,ROW,CL,STRIP_H,TRUNK,TROW,SYM,MATCHED,TREE,LAST_RENDER,refIndex,applyJSON,downloadSVG,renderAll,lintPorts,jointMarker,setView,legendLines,specLine,PN_SYM,NO_RATING_SYM,INTERNAL});`;
   let hooks = null;
   global.__hooks = (h) => { hooks = h; };
   eval(m[1] + trailer);
