@@ -691,6 +691,20 @@ function consolGlyph(c){
   const p=PARTS[c.ad.p],mo=Math.max(p.w*S,22)/2+18;
   return jointMarker(c.j1,-mo)+SYM.hexAdapter(0,p,c.ad)+jointMarker(c.j2,mo);
 }
+function buildConsol(c){
+  const lines=consolLines(c);
+  const w=Math.ceil(Math.max(96,linesW(lines)+14));
+  return {w,draw(x){const cx=x+w/2;
+    let cs=`<line x1="${x}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
+    cs+=`<g transform="translate(${cx} 0)">${consolGlyph(c)}</g>`;
+    cs+=`<line x1="${cx}" y1="${ROW.balloon+10}" x2="${cx}" y2="${CL-48}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
+    <circle cx="${cx}" cy="${ROW.balloon}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(cx,ROW.balloon+3.5,refIndex[c.ad.p],10.5)}`;
+    cs+=drawLines(lines,cx,"middle");
+    return cs;}};
+}
+/* horizontal item list -> cells, with [joint][hex][joint] consolidation —
+   used by the split paths (the band loop consolidates inline) */
+function buildCellsH(items){return consolV(items||[]).map(x=>x.consol?buildConsol(x.consol):buildCell(x));}
 function drawRiser(rit,rest,x0){
   rest=consolV(rest);
   const rx=x0+66; // entry stub long enough that the base balloons (left of the run) clear the previous cell's text
@@ -1003,7 +1017,7 @@ function renderBandRows(L,availW){
       const sp=it.split;
       const tA=sp.tee&&sp.tee.p&&PARTS[sp.tee.p]?buildCell(sp.tee):null;
       const tB=sp.rejoin&&sp.rejoin.p&&PARTS[sp.rejoin.p]?buildCell(sp.rejoin):null;
-      const aC=(sp.a||[]).map(buildCell),bC=(sp.b||[]).map(buildCell);
+      const aC=buildCellsH(sp.a),bC=buildCellsH(sp.b);
       const span=Math.max(aC.reduce((s,c)=>s+c.w,0),bC.reduce((s,c)=>s+c.w,0)-8,60);
       if(!fits((tA?tA.w:0)+(tB?tB.w:0)+span+2*TRUNK.DROP_W))wrap();
       row.hasSplit=true;seg().bot=Math.max(seg().bot,PAR_DY+STRIP_H-4);
@@ -1060,25 +1074,9 @@ function renderBandRows(L,availW){
     if(it.j&&(it.j==="npt"||it.j==="flare"||it.j==="pol")&&!it.part&&
        nx1&&nx1.it&&nx1.it.p&&PARTS[nx1.it.p]&&PARTS[nx1.it.p].sym==="hexAdapter"&&!nx1.it.branch&&!nx1.it.mount&&
        nx2&&nx2.it&&nx2.it.j&&(nx2.it.j==="npt"||nx2.it.j==="flare"||nx2.it.j==="pol")&&!nx2.it.part){
-      const ad=nx1.it;
-      const {p,ids,notes}=partText(ad);
-      // adapter cell label: the end pair IS the name ("1/4" NPT ▸ 3/8" flare"),
-      // the designation stacks under it — no "Adapter" word anywhere
-      const cap=`${jointText(it).top} ▸ ${jointText(nx2.it).top}`;
-      const lines=[{s:cap,f:10,w:1}];
-      if(ids)lines.push({s:ids,f:10,w:1});
-      notes.forEach(t=>lines.push({s:t,f:9,c:INK2}));
-      const w=Math.ceil(Math.max(96,linesW(lines)+14));
-      if(!fits(w))wrap();
-      const x=row.x,cx=x+w/2;
-      const mo=Math.max(p.w*S,22)/2+18; // markers clear the body, whatever its width
-      let cs=`<line x1="${x}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
-      cs+=jointMarker(it,cx-mo)+jointMarker(nx2.it,cx+mo);
-      cs+=SYM.hexAdapter(cx,p,ad);
-      cs+=`<line x1="${cx}" y1="${ROW.balloon+10}" x2="${cx}" y2="${CL-48}" stroke="${INK2}" stroke-dasharray="2 3" stroke-width=".8"/>
-      <circle cx="${cx}" cy="${ROW.balloon}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(cx,ROW.balloon+3.5,refIndex[ad.p],10.5)}`;
-      cs+=drawLines(lines,cx,"middle");
-      row.inner+=cs;row.x+=w;skip=2;return;
+      const c=buildConsol({j1:it,ad:nx1.it,j2:nx2.it});
+      if(!fits(c.w))wrap();
+      row.inner+=c.draw(row.x);row.x+=c.w;skip=2;return;
     }
     const c=buildCell(it);
     const teeRef=it.p&&it.branch&&it.branch.ref&&MATCHED.has(it.branch.ref)?it.branch.ref:null;
