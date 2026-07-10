@@ -181,7 +181,7 @@ let PARTS = {
   flareTee:{ name:"Flare tee, 3/8 tube", vendor:"Anderson Metals", pn:"04044-06",
     spec:"Forged brass SAE 45 deg flare union tee, catalog-listed for LP / natural gas service. Use the 04052-06 four-way flare cross for 3-tank supply. Confirm pressure rating on purchase.", rating:500, ports:{i:"flare:3/8:M",o:"flare:3/8:M"}, branch:"flare:3/8:M", psrc:"anderson", sym:"tee", w:2.0, h:1.6 },
   flareTee14:{ name:"Flare tee, 1/4 tube", vendor:"Anderson Metals", pn:"04044-04",
-    spec:"Forged brass SAE 45 deg flare union tee (fig 404); each branch port carries a pinpoint standby tip.", rating:500, ports:{i:"flare:1/4:M",o:"flare:1/4:M"}, branch:"flare:1/4:M", psrc:"anderson", sym:"tee", w:2.0, h:1.6 },
+    spec:"Forged brass SAE 45 deg flare union tee (fig 404); each branch port carries a pinpoint continuous tip.", rating:500, ports:{i:"flare:1/4:M",o:"flare:1/4:M"}, branch:"flare:1/4:M", psrc:"anderson", sym:"tee", w:2.0, h:1.6 },
   flareTeeR3814:{ name:"Flare tee, reducing, 3/8 x 3/8 x 1/4", vendor:"Anderson Metals", pn:"04059-060604",
     spec:"Forged brass SAE 45 deg reducing flare tee (fig 509): 3/8 run, 1/4 branch feeding a tip run.", rating:500, ports:{i:"flare:3/8:M",o:"flare:3/8:M"}, branch:"flare:1/4:M", psrc:"anderson", sym:"tee", w:2.0, h:1.6 },
   flareTeeR1414:{ name:"Flare tee, reducing, 3/8 x 1/4 x 1/4", vendor:"Anderson Metals", pn:"04059-060404",
@@ -275,7 +275,7 @@ let PARTS = {
   cu38:{ name:"Copper tube, 3/8 OD", vendor:"soft copper refrigeration (ACR) coil + brass SAE flare nuts", pn:"—",
     spec:"All joints SAE 45 deg flared. Compression and soldered joints prohibited on fuel lines.", rating:700, ports:{i:"flare:*:F",o:"flare:*:F"}, psrc:"decl", sym:"none", w:0, h:0 },
   cu14:{ name:"Copper tube, 1/4 OD", vendor:"soft copper refrigeration (ACR) coil + brass SAE flare nuts", pn:"—",
-    spec:"Pilot and standby-tip feed runs. All joints SAE 45 deg flared. Compression and soldered joints prohibited on fuel lines.", rating:700, ports:{i:"flare:*:F",o:"flare:*:F"}, psrc:"decl", sym:"none", w:0, h:0 },
+    spec:"Pilot and continuous-tip feed runs. All joints SAE 45 deg flared. Compression and soldered joints prohibited on fuel lines.", rating:700, ports:{i:"flare:*:F",o:"flare:*:F"}, psrc:"decl", sym:"none", w:0, h:0 },
   cu12:{ name:"Copper tube, 1/2 OD", vendor:"soft copper refrigeration (ACR) coil + brass SAE flare nuts", pn:"—",
     spec:"Poofer discharge stick. All joints SAE 45 deg flared. Compression and soldered joints prohibited on fuel lines.", rating:700, ports:{i:"flare:*:F",o:"flare:*:F"}, psrc:"decl", sym:"none", w:0, h:0 },
   flare12npt12:{ name:"Adapter, 1/2 male flare x 1/2 MNPT (half union)", vendor:"Anderson Metals", pn:"04048-0808",
@@ -321,7 +321,7 @@ let SYSTEM = {
     // (its feed is the drop at the bottom of sheet 1).
     { id:"S1", title:"Supply, regulation & poofer feed", lines:["L1","L1b"], fold:true },
     { id:"S2", title:"Distribution, bush branch & jet", lines:["L2","L3","L3b"] },
-    { id:"S3", title:"Standby rail & tips", lines:["L3a","L3c"] },
+    { id:"S3", title:"Continuous rail & tips", lines:["L3a","L3c"] },
     { id:"S4", title:"Poofer accumulator & pilot", lines:["L1c"], bare:true }
   ],
   lines:[
@@ -466,7 +466,7 @@ let SYSTEM = {
         {j:"off", ref:"G", dir:"out", label:"to rail"}
       ]},
     // ONE OF THREE: the jet hangs off F-3's branch on the bush branch, and the
-    // bush branch is one of three. Same multiplier as the standby rail.
+    // bush branch is one of three. Same multiplier as the continuous rail.
     { id:"L3b", title:"Jet nozzle (one of 3)", psi:"45 psi", op:45,
       items:[
         // NV-4 and SV-3 are in SERIES here, not parallel, so the jet's flow is
@@ -488,7 +488,7 @@ let SYSTEM = {
         {j:"npt", size:"3/4"},
         {p:"nozzle", tag:"N-1", flame:true}
       ]},
-    { id:"L3a", title:"Standby rail (one of 3)", psi:"45 psi", op:45,
+    { id:"L3a", title:"Continuous rail (one of 3)", psi:"45 psi", op:45,
       items:[
         {j:"off", ref:"G", dir:"in"},
         {j:"tube", part:"cu38", size:"3/8", label:"TB-2"},
@@ -503,7 +503,7 @@ let SYSTEM = {
       ]},
     // NINE, not three: the rail carries three tip-run take-offs (ref H, three
     // producers, drawn once) and the rail itself is one of three bush branches.
-    { id:"L3c", title:"Standby tip run (one of 9)", psi:"45 psi", op:45,
+    { id:"L3c", title:"Continuous tip run (one of 9)", psi:"45 psi", op:45,
       items:[
         {j:"off", ref:"H", dir:"in"},
         {j:"tube", part:"cu14", size:"1/4", label:"TB-3"},
@@ -1082,7 +1082,7 @@ function drawLines(lines,x,anchor){return lines.slice(0,5).map((l,i)=>txt(x,ROWL
 function drawLinesT(lines,x,yA){return lines.slice(0,5).map((l,i)=>txt(x,yA+TROWL[i],l.s,l.f,"start",l.c||INK,l.w)).join("");}
 function buildCell(it){
   if(it.p){const {p,m,lines}=partText(it);
-    const xn=Math.min(Math.max(it.xn|0,1),6); // xn: repeated tips (standby rail) drawn side by side
+    const xn=Math.min(Math.max(it.xn|0,1),6); // xn: repeated tips (continuous rail) drawn side by side
     const wSym=((p.sym==="tank")?50:Math.max(p.w*S,30))+(xn-1)*22;
     // a cell hosting a RISING branch stands the consumer's stack on its boss.
     // Same text-right-of-the-symbol layout as a drop host: the column above the
@@ -2186,11 +2186,11 @@ function runChecks(){
       status:"ok",note:"PRV-2 (20 psi), fed at cylinder pressure from tee F-7, is the regulator between the fuel supply and AC-1; its regulated 20 psi output is far below the vessel's 250 psi MAOP. MEGR-6120 regulators are UL-listed non-relief, so RV-1 (ASME safety valve, set 75 psi, on tee F-15 downstream of CV-1) provides the external overpressure protection for the accumulator train; its media listing is air/inert gas — raise LP suitability with the FAST liaison."});
   }
   C.push({id:"DOC-1",req:"Submitted diagrams must show fuel flow from supply to effect head(s), every component in the path, and the locations of all shut-offs, regulators, pressure vessels, and ignition sources.",
-    status:"ok",note:"This sheet traces supply → regulation → distribution → effect heads, standby tips, and pilots, with every valve, regulator, gauge, vessel, and ignition point identified on the drawing and scheduled."});
+    status:"ok",note:"This sheet traces supply → regulation → distribution → effect heads, continuous tips, and pilots, with every valve, regulator, gauge, vessel, and ignition point identified on the drawing and scheduled."});
   ["Cylinders stored upright, secured against tipping, foot ring intact, OPD valves on 4–40 lb cylinders.",
    "Daily pre-operation safety and leak check of all components and connections.",
    "Rated dry-chemical extinguisher(s) at the effect; effect never left unattended; trained operator 21+ in fire-resistant clothing.",
-   "Pilot supervision / wind performance of the custom steel-wool standby and pilot tips demonstrated to the inspector."]
+   "Pilot supervision / wind performance of the custom steel-wool continuous and pilot tips demonstrated to the inspector."]
    .forEach((t,i)=>C.push({id:"FLD-"+(i+1),req:t,status:"fld",note:"Verified on playa at FAST inspection — cannot be demonstrated on a schematic."}));
   document.getElementById("compTable").innerHTML=
   `<tr><th>ID</th><th>REQUIREMENT (paraphrased from published guidelines)</th><th>STATUS</th><th>BASIS IN THIS DESIGN</th></tr>`+
