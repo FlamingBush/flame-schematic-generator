@@ -92,9 +92,11 @@ const MUTANTS = [
     name: "wrong joint type — NPT drawn where both ends are flare",
     kind: "json",
     expectDetail: "NPT joint drawn on a flare end",
+    // Seeded on the first flare joint L1 still has (a hose swivel), not on a
+    // fitting tag: the depot's thread landscape changes, flare-vs-NPT is the point.
     mutate(o) {
       const L1 = line(o, "L1");
-      L1.items[idxOf(L1, (it) => it.tag === "F-2") + 1] = { j: "npt", size: "1/4", lr: "M>F" };
+      L1.items[idxOf(L1, (it) => it.j === "flare")] = { j: "npt", size: "1/4", lr: "M>F" };
     },
   },
   {
@@ -102,9 +104,11 @@ const MUTANTS = [
     name: "backwards thread-direction arrow — M ▸ F where the male port is downstream",
     kind: "json",
     expectDetail: "male port is upstream",
+    // Anchored on the ARROW, not on a tag: any legitimate re-plumbing of L1 that
+    // still draws a male-upstream NPT joint keeps this defect class seeded.
     mutate(o) {
       const L1 = line(o, "L1");
-      L1.items[idxOf(L1, (it) => it.tag === "F-8") + 1] = { j: "npt", size: "1/4" };
+      delete L1.items[idxOf(L1, (it) => it.j === "npt" && it.lr === "M>F")].lr;
     },
   },
   {
@@ -112,9 +116,10 @@ const MUTANTS = [
     name: "a reversible adapter installed backwards (rev flag dropped)",
     kind: "json",
     expectDetail: "NPT joint drawn on a flare end",
+    // The one rev’d adapter left: the split’s branch-path half union. Dropping rev
+    // turns its cone upstream, so the NPT joint ahead of it lands on a flare end.
     mutate(o) {
-      const L = line(o, "L3b");
-      delete L.items.find((it) => it.p === "flare14npt" && it.rev).rev;
+      delete splitOf(line(o, "L3")).b.find((it) => it.p === "flare14npt" && it.rev).rev;
     },
   },
 
@@ -135,14 +140,15 @@ const MUTANTS = [
     invariantId: "everyPartReachesTheSchedule",
     name: "a nipple hung on a flare joint — buildRefs only registers hose|tube|npt parts",
     kind: "json",
-    expectDetail: "nipple1412",
+    expectDetail: "cu12",
+    // The latent bug: {j:"flare", part:"x"} is a purchase that silently never
+    // reaches the parts schedule. Anchored on a part used EXACTLY ONCE, so the
+    // schedule entry disappears entirely rather than surviving on another line.
+    // (nipple1412 held that role until the 1/2 solenoids needed four more of them.)
     mutate(o) {
-      // The latent bug: {j:"flare", part:"x"} is a purchase that silently never
-      // reaches the parts schedule. nipple1412 is used exactly once, so the
-      // schedule entry disappears entirely.
       const L = line(o, "L4b");
-      const i = idxOf(L, (it) => it.part === "nipple1412");
-      L.items[i] = { j: "flare", size: L.items[i].size, part: "nipple1412" };
+      const i = idxOf(L, (it) => it.part === "cu12");
+      L.items[i] = { j: "flare", size: L.items[i].size, part: "cu12" };
     },
   },
   {
@@ -198,11 +204,18 @@ const MUTANTS = [
     mutate(app) { app.NO_RATING_SYM.add("sol"); },
   },
   {
+    invariantId: "gaugeCellsHideTheBodyRating",
+    name: "gauges pulled back out of NO_RATING_SYM — the 300 psi body rating lands beside every range",
+    kind: "app",
+    expectDetail: "bare body rating",
+    mutate(app) { app.NO_RATING_SYM.delete("gauge"); },
+  },
+  {
     invariantId: "pnAlwaysNamesItsMaker",
     name: "a solenoid loses its mfg — a bare catalog number identifies nothing",
     kind: "app",
-    expectDetail: "sol14",
-    mutate(app) { delete app.getPARTS().sol14.mfg; },
+    expectDetail: "sol12",
+    mutate(app) { delete app.getPARTS().sol12.mfg; },
   },
   {
     invariantId: "marketplacePartsFlaggedAsin",
@@ -217,8 +230,8 @@ const MUTANTS = [
     kind: "json",
     expectDetail: "regressed to name + rating",
     mutate(o) {
-      const L = line(o, "L4b");
-      delete L.items[idxOf(L, (it) => it.j === "riser")].tee.mount.note;
+      const st = line(o, "L4b").items.find((it) => it.j === "riser").down;
+      delete st.find((it) => it.p === "accum").note;
     },
   },
   {
@@ -253,45 +266,50 @@ const MUTANTS = [
 
   /* --- the flare decision --- */
   {
-    invariantId: "flareValvesFlankedByBareFlareJoints",
-    name: "an adapter installed beside a flare needle valve",
-    kind: "json",
-    expectDetail: "NV-2",
-    mutate(o) {
-      const L = line(o, "L4a");
-      L.items.splice(idxOf(L, (it) => it.tag === "NV-2"), 0, { p: "flare14npt", tag: "F-X" });
-    },
-  },
-  {
-    invariantId: "flareValvesMaleConesBothEnds",
-    name: "a flare valve respecced female-ended — two swivels cannot seal on each other",
-    kind: "app",
-    expectDetail: "needleFlare14",
-    mutate(app) { app.getPARTS().needleFlare14.ports.o = "flare:1/4:F"; },
-  },
-  {
-    invariantId: "flareValvesOutRateHighestRelief",
+    invariantId: "needleValvesOutRateHighestRelief",
     name: "a needle valve rated below the relief that caps its zone",
     kind: "app",
-    expectDetail: "needleFlare14@50",
-    mutate(app) { app.getPARTS().needleFlare14.rating = 50; },
+    expectDetail: "needle@50",
+    mutate(app) { app.getPARTS().needle.rating = 50; },
   },
   {
-    invariantId: "pilotLineBuysNoFittings",
-    name: "a hex nipple bought for the pilot line",
+    invariantId: "gaugesPrintTheirRange",
+    name: "a gauge loses its range, leaving only the 300 psi body rating to identify it",
     kind: "json",
-    expectDetail: "nipple14",
+    expectDetail: "gauge30",
+    mutate(o) { o.PARTS.gauge30.name = "Pressure gauge"; },
+  },
+  {
+    invariantId: "noInchesOnTheSheet",
+    name: "a part name written with inches",
+    kind: "json",
+    expectDetail: "1/4 in",
+    // Must be a TEE: tees are the cells that print their name past the first
+    // comma, so "Ball valve, 1/4 in FNPT" would render as "Ball valve" and the
+    // mutation would never reach the sheet.
+    mutate(o) { o.PARTS.nptTee.name = "Tee, 1/4 in FNPT"; },
+  },
+  {
+    // The bug that shipped: a rigid valve screwed straight onto both branch
+    // bosses. Lints clean, renders fine, cannot be built.
+    invariantId: "splitBranchPathTurnsAround",
+    name: "the branch path stripped back to a rigid chain between the two bosses",
+    kind: "json",
+    expectDetail: "rigid end to end",
     mutate(o) {
-      const L = line(o, "L4a");
-      L.items.splice(idxOf(L, (it) => it.tag === "PL-2"), 0, { j: "npt", size: "1/4", part: "nipple14", lr: "M>F" });
+      splitOf(line(o, "L3")).b = [{ j: "npt", size: "1/4", lr: "M>F" }, { p: "sol14", tag: "SV-9" }, { j: "npt", size: "1/4" }];
     },
   },
   {
-    invariantId: "splitPathsBuyNoFittings",
-    name: "an adapter bought for the split's metered run",
+    // The other half: nothing left free to rotate when the last thread is made up.
+    invariantId: "splitPathsCloseOnASwivel",
+    name: "a split path closing on a tapered thread instead of a flare nut",
     kind: "json",
-    expectDetail: "flare14npt",
-    mutate(o) { meteredOf(o, "L3").push({ p: "flare14npt", tag: "F-M" }); },
+    expectDetail: "closes on npt",
+    mutate(o) {
+      const p = splitOf(line(o, "L3")).a;
+      p[p.length - 1] = { j: "npt", size: "1/4", lr: "M>F" };
+    },
   },
   {
     invariantId: "splitMeteredPathNeedleOnly",
@@ -319,21 +337,25 @@ const MUTANTS = [
   /* --- L4b's order is the design --- */
   {
     invariantId: "l4bOrder",
-    name: "V-3 moved downstream of the pilot tee (closing it no longer cuts the pilot)",
+    name: "the pilot tee moved below the accumulator (the vessel can no longer bleed down through it)",
     kind: "json",
     expectDetail: "out of order",
     mutate(o) {
       const L = line(o, "L4b");
-      const iV = idxOf(L, (it) => it.tag === "V-3"), iT = idxOf(L, (it) => it.tag === "F-6");
-      [L.items[iV], L.items[iT]] = [L.items[iT], L.items[iV]];
+      const iR = idxOf(L, (it) => it.j === "riser"), iT = idxOf(L, (it) => it.tag === "F-6");
+      [L.items[iR], L.items[iT]] = [L.items[iT], L.items[iR]];
     },
   },
   {
-    invariantId: "eStopCutsPilotAndAccumulator",
-    name: "the isolation valve loses its emergency marking",
+    invariantId: "accumulatorKeepsItsRelief",
+    name: "the isolation valve dropped below the OPD tee — a charged vessel can be shut off from its relief",
     kind: "json",
-    expectDetail: "not marked emergency",
-    mutate(o) { delete line(o, "L4b").items[idxOf(line(o, "L4b"), (it) => it.tag === "V-3")].emergency; },
+    expectDetail: "can be isolated from the vessel",
+    mutate(o) {
+      const st = line(o, "L4b").items.find((it) => it.j === "riser").down;
+      const iB = st.findIndex((i) => i.tag === "V-3"), iR = st.findIndex((i) => i.mount && i.mount.p === "relief");
+      [st[iB], st[iR]] = [st[iR], st[iB]];
+    },
   },
   {
     invariantId: "pilotTeeScrewsInWithoutANipple",

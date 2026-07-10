@@ -304,7 +304,9 @@ console.log("\nVIEW MODES (internal packet vs external submission)");
   // A rating means "this can fail at pressure". Solid-brass fittings cannot,
   // and custom fabrications never had a sourced number. Swept over every drawn
   // part against the APP's OWN sets — a local copy would silently drift.
-  const strayRating = drawn.filter((k) => app.NO_RATING_SYM.has(PARTS[k].sym) && app.specLine(PARTS[k]) !== "");
+  // Tests the RATING, not the whole spec line: a GAUGE is the one part that is in
+  // PN_SYM and NO_RATING_SYM at once, so its cell prints "SENCTRL" and no psi.
+  const strayRating = drawn.filter((k) => app.NO_RATING_SYM.has(PARTS[k].sym) && /psi|no published rating/.test(app.specLine(PARTS[k])));
   const missingRating = drawn.filter((k) => !app.NO_RATING_SYM.has(PARTS[k].sym) && !/psi|no published rating/.test(app.specLine(PARTS[k])));
   check("fittings and custom fabrications print no rating", strayRating.length === 0, strayRating.join(", "));
   check("everything that can fail at pressure prints one", missingRating.length === 0, missingRating.join(", "));

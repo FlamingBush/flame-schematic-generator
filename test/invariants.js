@@ -27,7 +27,7 @@ function eachItem(SYSTEM, fn) {
   const visit = (it) => {
     if (!it) return;
     fn(it);
-    if (it.j === "riser") visit(it.tee);
+    if (it.j === "riser") { visit(it.tee); (it.down || []).forEach(visit); }
     if (it.split) {
       visit(it.split.tee); visit(it.split.rejoin);
       (it.split.a || []).forEach(visit); (it.split.b || []).forEach(visit);
@@ -42,7 +42,7 @@ function partKeys(SYSTEM, PARTS) {
   eachItem(SYSTEM, (it) => {
     if (it.p) keys.push(it.p);
     if (it.part) keys.push(it.part);
-    if (it.mount) { keys.push(it.mount.p); if (it.mount.via) keys.push(it.mount.via); }
+    if (it.mount) { keys.push(it.mount.p); [].concat(it.mount.via || []).forEach((v) => keys.push(v)); }
   });
   return [...new Set(keys.filter((k) => k && PARTS[k]))];
 }
@@ -68,6 +68,8 @@ function sequences(L) {
   return out;
 }
 
+// The accumulator hangs BELOW the riser tee as an ordered down-stack.
+const accStack = (SYSTEM, id) => { const L = line(SYSTEM, id); const r = L && (L.items || []).find((x) => x.j === "riser"); return (r && r.down) || null; };
 const splitOf = (SYSTEM, id) => { const L = line(SYSTEM, id); const it = L && (L.items || []).find((x) => x.split); return it ? it.split : null; };
 // Which split path is the metered one is decided by the NEEDLE VALVE it carries,
 // never by its letter — `a` vs `b` is a port-model detail (a = run, b = branch).
@@ -79,15 +81,6 @@ const realPn = (p) => p.pn && p.pn !== "—" ? p.pn : "";
 const occ = (hay, needle) => hay.split(needle).length - 1;
 const stripTags = (h) => h.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
 const textsOf = (svg) => [...svg.matchAll(/<text[^>]*>([^<]*)<\/text>/g)].map((m) => m[1]);
-
-// A part is a purchased fitting if it is an adapter body or a nipple.
-const isFitting = (PARTS, key) =>
-  !!PARTS[key] && (PARTS[key].sym === "hexAdapter" || /nipple/i.test(PARTS[key].name || ""));
-
-// Needle valves that land straight on a flare cone (the whole point of speccing
-// them flare: no adapter between the valve and the run).
-const flareValveKeys = (PARTS) =>
-  Object.keys(PARTS).filter((k) => PARTS[k].sym === "needle" && String(PARTS[k].ports && PARTS[k].ports.i).startsWith("flare:"));
 
 const ok = (detail) => ({ ok: true, detail });
 const no = (detail) => ({ ok: false, detail });
@@ -192,6 +185,37 @@ const INVARIANTS = [
     },
   },
   {
+    id: "gaugesPrintTheirRange",
+    describe: "every drawn gauge prints its measuring range on the cell — the rating is the same 300 psi on all three",
+    view: "any",
+    run({ svg, PARTS, refIndex }) {
+      // The range identifies the instrument; the spec line's burst rating does
+      // not distinguish a 0-30 gauge from a 0-300 one. Grounded in the range
+      // token, NOT in the rating, so the two cannot move together.
+      const gauges = drawnParts(PARTS, refIndex).filter((k) => PARTS[k].sym === "gauge");
+      if (!gauges.length) return no("no gauges drawn — the rule is untested");
+      const bad = gauges.filter((k) => {
+        const range = (PARTS[k].name.match(/\d+-\d+ psi/) || [])[0];
+        return !range || !svg.includes(range);
+      });
+      return bad.length ? no(bad.join(", ") + " print no range") : ok(gauges.length + " gauges, each ranged");
+    },
+  },
+  {
+    id: "noInchesOnTheSheet",
+    describe: "no cell writes inches — fractions are designations, so never \"3/8 in\" and never a 3/8\" inch mark",
+    view: "any",
+    run({ svg }) {
+      // Marcus: the fractions read as brand names, not measurements. Sweeps every
+      // rendered text node in whichever view is under test, so a name, a note, a
+      // joint caption or a legend line all fail it alike.
+      const offenders = textsOf(svg).filter((t) => /\d\s?(?:in\b|&quot;|")/.test(t));
+      return offenders.length
+        ? no(offenders.slice(0, 3).map((t) => `"${t}"`).join("; "))
+        : ok(textsOf(svg).length + " text nodes, no inch written");
+    },
+  },
+  {
     id: "ballValvesNoPnOnDrawing",
     describe: "ball valves print neither maker nor part number on the drawing — the schedule still records both",
     view: "external",
@@ -214,16 +238,35 @@ const INVARIANTS = [
   },
   {
     id: "partsThatCanFailPrintTheirRating",
-    describe: "every valve, regulator, gauge and vessel on the drawing states the pressure rating FE-2 judges it against",
+    describe: "every valve, regulator and vessel on the drawing states the pressure rating FE-2 judges it against",
     view: "external",
     run({ app, PARTS, refIndex }) {
       // Grounded in PN_SYM, not NO_RATING_SYM: everything with a seat, seal or
       // diaphragm is exactly the set a reviewer must identify by number, so
       // dropping one into NO_RATING_SYM must go red rather than read as vacuous.
+      // GAUGES are the one PN_SYM symbol exempted, and by name rather than by
+      // membership so the exemption cannot silently widen: a gauge states its
+      // RANGE instead (gaugesPrintTheirRange / gaugeCellsHideTheBodyRating).
       const mute = drawnParts(PARTS, refIndex).filter(
-        (k) => app.PN_SYM.has(PARTS[k].sym) && !/psi|no published rating/.test(app.specLine(PARTS[k]))
+        (k) => app.PN_SYM.has(PARTS[k].sym) && PARTS[k].sym !== "gauge"
+          && !/psi|no published rating/.test(app.specLine(PARTS[k]))
       );
       return mute.length ? no("states no rating: " + mute.join(", ")) : ok("all pressure-bearing parts rated");
+    },
+  },
+  {
+    id: "gaugeCellsHideTheBodyRating",
+    describe: "no gauge cell prints its body rating — all three are 300 psi, which made every gauge read as a 300 psi gauge",
+    view: "external",
+    run({ svg, PARTS, refIndex }) {
+      // The range "0-300 psi" legitimately ends in the same token, so the search
+      // is for a BARE rating: one not preceded by the hyphen of a range.
+      const bad = drawnParts(PARTS, refIndex)
+        .filter((k) => PARTS[k].sym === "gauge" && typeof PARTS[k].rating === "number")
+        .filter((k) => textsOf(svg).some((t) => new RegExp(`(?<![-\\d])${PARTS[k].rating} psi`).test(t)));
+      return bad.length
+        ? no(bad.join(", ") + " print a bare body rating beside the range")
+        : ok("gauge cells state a range and nothing else in psi");
     },
   },
   {
@@ -260,10 +303,11 @@ const INVARIANTS = [
     describe: "the pressure vessel says more than its name and rating — how it is plumbed reaches the drawing",
     view: "external",
     run({ svg, SYSTEM, PARTS }) {
-      let mount = null;
-      eachItem(SYSTEM, (it) => { if (it.mount && PARTS[it.mount.p] && PARTS[it.mount.p].sym === "tank") mount = it.mount; });
-      if (!mount) return no("no mounted pressure vessel found");
-      const words = String(mount.note || "").split(/\W+/).filter((w) => w.length >= 5);
+      // The vessel sits at the bottom of the accumulator stack, not on a mount.
+      const stack = accStack(SYSTEM, "L4b") || [];
+      const vessel = stack.find((it) => it.p && PARTS[it.p] && PARTS[it.p].sym === "tank");
+      if (!vessel) return no("no pressure vessel in the accumulator stack");
+      const words = String(vessel.note || "").split(/\W+/).filter((w) => w.length >= 5);
       if (words.length < 6) return no(`vessel note is ${words.length} significant words — it regressed to name + rating`);
       const shown = words.filter((w) => svg.includes(w));
       return shown.length / words.length >= 0.9
@@ -308,41 +352,17 @@ const INVARIANTS = [
     },
   },
 
-  /* --- the flare decision: fit a flare valve, buy no adapters --- */
+  /* --- metering valves ---
+     The flare-decision invariants that lived here (flare valves flanked by bare
+     flare joints; male cones both ends; the metered run and the pilot line buying
+     nothing) are GONE with the Anderson Fittings 110SAE/115SAE valves. Every one
+     of them was a statement about a part that turned out to be unbuyable. The
+     RATING check below was the only one making a claim about safety rather than
+     about cost, so it survives — re-grounded on every needle valve, not just the
+     flare ones. */
   {
-    id: "flareValvesFlankedByBareFlareJoints",
-    describe: "every flare needle valve is flanked by bare flare joints (the tube nut lands on its cone)",
-    view: "any",
-    run({ SYSTEM, PARTS }) {
-      const fv = flareValveKeys(PARTS);
-      const bad = [];
-      (SYSTEM.lines || []).forEach((L) =>
-        sequences(L).forEach((seq) =>
-          seq.forEach((it, i) => {
-            if (!it || !fv.includes(it.p)) return;
-            const before = seq[i - 1], after = seq[i + 1];
-            const bare = (x) => x && x.j === "flare" && !x.part;
-            if (!bare(before) || !bare(after)) bad.push(`${L.id}:${it.tag || it.p}`);
-          })
-        )
-      );
-      return bad.length ? no("something sits between the valve and the run: " + bad.join(", ")) : ok(`${fv.length} flare valve types, all bare`);
-    },
-  },
-  {
-    id: "flareValvesMaleConesBothEnds",
-    describe: "flare needle valves declare male cones both ends (or the linter's gender check is moot)",
-    view: "any",
-    run({ PARTS }) {
-      const fv = flareValveKeys(PARTS);
-      if (fv.length < 2) return no(`only ${fv.length} flare needle valve types`);
-      const bad = fv.filter((k) => !(PARTS[k].ports.i.endsWith(":M") && PARTS[k].ports.o.endsWith(":M")));
-      return bad.length ? no("not male cones both ends: " + bad.join(", ")) : ok(`${fv.length} valve types, male cones`);
-    },
-  },
-  {
-    id: "flareValvesOutRateHighestRelief",
-    describe: "every flare needle valve out-rates the highest relief setting that can cap its zone",
+    id: "needleValvesOutRateHighestRelief",
+    describe: "every needle valve out-rates the highest relief setting that can cap its zone",
     view: "any",
     run({ SYSTEM, PARTS }) {
       const sets = [];
@@ -352,35 +372,57 @@ const INVARIANTS = [
       });
       if (sets.length < 2) return no(`only ${sets.length} relief settings found`);
       const max = Math.max(...sets);
-      const weak = flareValveKeys(PARTS).filter((k) => !(typeof PARTS[k].rating === "number" && PARTS[k].rating > max));
+      const valves = Object.keys(PARTS).filter((k) => PARTS[k].sym === "needle");
+      if (!valves.length) return no("no needle valves — the rule is untested");
+      const weak = valves.filter((k) => !(typeof PARTS[k].rating === "number" && PARTS[k].rating > max));
       return weak.length
         ? no(`the weak point on the line at ${max} psi relief: ` + weak.map((k) => `${k}@${PARTS[k].rating}`).join(", "))
         : ok(`all valves out-rate ${max} psi`);
     },
   },
   {
-    id: "pilotLineBuysNoFittings",
-    describe: "the poofer pilot line buys no fittings at all",
+    id: "splitBranchPathTurnsAround",
+    describe: "the split's BRANCH path carries a bendable section — it leaves and re-enters through bosses that face the same way",
     view: "any",
-    run({ SYSTEM, PARTS }) {
-      const L = line(SYSTEM, "L4a");
-      if (!L) return no("L4a is gone");
-      const bought = (L.items || []).filter((it) => isFitting(PARTS, it.p) || isFitting(PARTS, it.part));
-      return bought.length ? no("buys " + bought.map((it) => it.p || it.part).join(", ")) : ok("zero fittings");
+    run({ SYSTEM }) {
+      const sp = splitOf(SYSTEM, "L3");
+      if (!sp) return no("L3's split is gone");
+      // Grounded on `b`, which IS the branch path by the port model — not on
+      // "the path without the needle valve". Those were the same path until the
+      // solenoid moved onto the run, and conflating them is how this predicate
+      // would have started guarding the wrong leg.
+      // Both branch bosses face the SAME way (down, into the strip), so this path
+      // must reverse direction, and only a bendable section reverses it. No rigid
+      // chain of adapters, however threaded, spans two same-facing bosses.
+      // THE PORT LINTER CANNOT SEE THIS: it mates thread type, size and gender,
+      // and a rigid bare solenoid across two bosses lints perfectly clean.
+      const branch = sp.b;
+      if (!branch || !branch.length) return no("the split has no branch path");
+      const bendable = branch.filter((it) => it.j === "tube" || it.j === "hose");
+      return bendable.length
+        ? ok(`turns on ${bendable.map((it) => it.label || it.part).join(", ")}`)
+        : no("the branch path is rigid end to end — it cannot get back to the rejoin tee");
     },
   },
   {
-    id: "splitPathsBuyNoFittings",
-    describe: "NEITHER side of the split buys a fitting — the metered run and the solenoid bypass are both bare",
+    id: "splitPathsCloseOnASwivel",
+    describe: "both split paths land on the rejoin tee through a flare swivel — a tapered thread there cannot be made up",
     view: "any",
-    run({ SYSTEM, PARTS }) {
+    run({ SYSTEM }) {
       const sp = splitOf(SYSTEM, "L3");
       if (!sp) return no("L3's split is gone");
-      // Tube and hose SECTIONS are the run itself, not fittings; only adapter
-      // bodies and nipples are purchases. The metered run rides bare flare tube;
-      // the solenoid screws onto the tees' male NPT branch bosses.
-      const bought = [...(sp.a || []), ...(sp.b || [])].filter((it) => isFitting(PARTS, it.p) || isFitting(PARTS, it.part));
-      return bought.length ? no("buys " + bought.map((it) => it.p || it.part).join(", ")) : ok("zero fittings on either path");
+      // The rejoin tee is held by BOTH paths at once, so by the time you close the
+      // second one there is nothing left free to rotate. A flare nut tightens
+      // without rotating what it grips; a tapered pipe thread does not. Hence the
+      // flare tee on the output side. This is the other half of why L3 keeps any
+      // flare at all, and it is invisible to the port linter, which is happy to
+      // mate an NPT male into an NPT female that can never be turned.
+      const bad = [["a", sp.a], ["b", sp.b]]
+        .filter(([, p]) => p && p.length)
+        .filter(([, p]) => { const last = p[p.length - 1]; return !last || last.j !== "flare"; });
+      return bad.length
+        ? no("path " + bad.map(([n, p]) => `${n} closes on ${p[p.length - 1].j || p[p.length - 1].p}`).join("; "))
+        : ok("both paths close on a flare swivel");
     },
   },
   {
@@ -431,47 +473,49 @@ const INVARIANTS = [
   /* --- L4b's order is the design; move one and you break two properties --- */
   {
     id: "l4bOrder",
-    describe: "L4b order: check valve -> isolation valve -> pilot tee -> relief -> accumulator",
+    describe: "L4b order: check valve -> pilot tee -> accumulator stack",
     view: "any",
     run({ SYSTEM, PARTS }) {
-      // CV-1 blocks backflow toward the regulator. The isolation valve sits
-      // UPSTREAM of the pilot tee, so closing it cuts pilot and accumulator
-      // together. The pilot tees off downstream of CV-1 and upstream of the
-      // accumulator, so the vessel bleeds down through the burning pilot on a
-      // normal shutdown. Move any one and you break one of the other two.
-      // Positions are identified by SYMBOL, not by the emergency flag — the
-      // e-stop marking is a separate invariant and must fail separately.
+      // CV-1 blocks backflow toward the regulator. The pilot tees off DOWNSTREAM
+      // of CV-1 and UPSTREAM of the accumulator, so on a normal shutdown the
+      // vessel bleeds down through the continuously-burning pilot instead of
+      // sitting charged. The isolation valve moved INTO the stack and has its own
+      // invariant (accumulatorKeepsItsRelief) — this one is about the supply run.
       const L = line(SYSTEM, "L4b");
       if (!L) return no("L4b is gone");
       const at = (f) => L.items.findIndex(f);
-      const sym = (s) => at((i) => i.p && PARTS[i.p] && PARTS[i.p].sym === s);
-      const iCheck = sym("check");
-      const iValve = sym("ball");
+      const iCheck = at((i) => i.p && PARTS[i.p] && PARTS[i.p].sym === "check");
       const iPilot = at((i) => i.branch && i.branch.ref === "D");
-      const iRelief = at((i) => i.mount && i.mount.p === "relief");
       const iAccum = at((i) => i.j === "riser");
-      const seq = [iCheck, iValve, iPilot, iRelief, iAccum];
-      const named = `check=${iCheck} isolation=${iValve} pilotTee=${iPilot} relief=${iRelief} accum=${iAccum}`;
+      const seq = [iCheck, iPilot, iAccum];
+      const named = `check=${iCheck} pilotTee=${iPilot} accumulatorStack=${iAccum}`;
       if (seq.some((i) => i < 0)) return no("missing element: " + named);
       const sorted = seq.every((v, i) => i === 0 || seq[i - 1] < v);
       return sorted ? ok(named) : no("out of order: " + named);
     },
   },
   {
-    id: "eStopCutsPilotAndAccumulator",
-    describe: "the isolation valve upstream of the pilot tee is an emergency shut-off",
+    // V-3 stopped being an e-stop when the poofer got killed at V-2 with
+    // everything else. What replaces that check is the property the valve is
+    // actually FOR: it isolates the vessel from the supply and the dump valve,
+    // and from nothing else. The relief must stay on the vessel side of it.
+    id: "accumulatorKeepsItsRelief",
+    describe: "the accumulator isolation valve cannot shut the vessel off from its own relief",
     view: "any",
-    run({ SYSTEM }) {
-      const L = line(SYSTEM, "L4b");
-      if (!L) return no("L4b is gone");
-      const iPilot = L.items.findIndex((i) => i.branch && i.branch.ref === "D");
-      if (iPilot < 0) return no("the pilot tee is gone");
-      const up = L.items.slice(0, iPilot).filter((i) => i.p && i.tag);
-      const valve = up[up.length - 1];
-      if (!valve) return no("nothing sits upstream of the pilot tee");
-      return valve.emergency === true
-        ? ok(`${valve.tag} is an e-stop`)
-        : no(`${valve.tag} sits upstream of the pilot tee but is not marked emergency`);
+    run({ SYSTEM, PARTS }) {
+      const stack = accStack(SYSTEM, "L4b");
+      if (!stack) return no("L4b has no accumulator stack");
+      const at = (f) => stack.findIndex(f);
+      // reading DOWN from the supply tee: isolation valve, then the OPD tee,
+      // then the vessel. Anything between the valve and the vessel is protected.
+      const iBall = at((i) => i.p && PARTS[i.p] && PARTS[i.p].sym === "ball");
+      const iRelief = at((i) => i.mount && i.mount.p === "relief");
+      const iTank = at((i) => i.p && PARTS[i.p] && PARTS[i.p].sym === "tank");
+      const named = `isolation=${iBall} relief=${iRelief} vessel=${iTank}`;
+      if ([iBall, iRelief, iTank].some((i) => i < 0)) return no("missing element: " + named);
+      return iBall < iRelief && iRelief < iTank
+        ? ok("the relief sits between the isolation valve and the vessel: " + named)
+        : no("the relief can be isolated from the vessel: " + named);
     },
   },
   {
@@ -567,4 +611,4 @@ function evaluateOne(app, store, inv) {
   return runOne(inv, ctxFor(app, store, drawing(store), inv.view));
 }
 
-module.exports = { INVARIANTS, evaluateAll, evaluateOne, eachItem, sequences, line, splitOf, meteredPath, drawnParts, flareValveKeys, textsOf, stripTags };
+module.exports = { INVARIANTS, evaluateAll, evaluateOne, eachItem, sequences, line, splitOf, meteredPath, drawnParts, textsOf, stripTags };

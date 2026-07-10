@@ -68,6 +68,17 @@ on a live fetch. The `.txt` files are pypdf extractions of the PDFs.
   adapters page: "3/8″ Female SAE Swivel X 1/4″ Male NPTF Adapter" (the
   flareNptF part; Motorsnorkel #2327 is the same fitting but their site
   blocks fetching). https://www.mbsturgis.com/adapters-fittings/sae-flare-adapters/3-8-sae-flare-adapters/
+- `thermoid` → `thermoid-025lpg-lpg-hose.html` — John M. Ellsworth listing for the
+  Thermoid Type 75 LPG hose assembly, part 025LPG: "1/4 in. (6.35mm)" ID, "MPT
+  Ends" (male pipe thread BOTH ends), "350 psi (2.41 Mpa)", "-40° F to 180° F",
+  "UL 21 FILE MH12585". Grounds `hoseLPnpt` (HS-1). UL 21 IS the LP-gas hose
+  standard, so unlike the solenoids this part carries a published fuel-gas
+  listing. The configuration is standard rather than proprietary — New-Line
+  ("Type 1 Rubber Propane Hose w/ Male NPT Each End") lists the same build, and
+  Marcus does not need this exact SKU. NOTE the retail/big-box hose in this size
+  (Mr. Heater, 1/4" MPT x 1/4" FPT) has a FEMALE second end and would buy a hex
+  nipple back; Home Depot's NPT-ended high-pressure hose is 3/8 (F276124), which
+  does not fit the 1/4 depot. https://www.jmesales.com/thermoid-1-4-in-type-75-350-psi-lpg-hose-assembly-w-mpt-ends/
 - `stanbroil` → `stanbroil-air-mixer.html` — Stanbroil 3/4" LP Air Mixer Valve
   product page. Grounds the mixer: "3/4\" Male NPT on Incoming Side · 3/4\"
   Female or Male (with included adapter) NPT on Burner Side · Rated BTU's:

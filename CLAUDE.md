@@ -242,59 +242,135 @@ correctly prints a rating and no number; that is data, not a bug.
   media only — LP suitability is a liaison flag, like the solenoids.
   TWO DIFFERENT COMPANIES both stamp the legacy SAE figure numbers and both are
   called "Anderson" — cite the one you took the spec from. `anderson` =
-  Anderson Metals Corp (Kansas City), which lists the needle valves as
-  09110-04/-06 but publishes NO gender and NO rating anywhere in its catalog.
-  `andersonfittings` = Anderson Copper & Brass Co (Oak Forest, IL), whose
-  catalog IS the source for the needle valves: p.130 "NEEDLE VALVE FLARE TO
-  FLARE" 110SAE / 115SAE with a drawing showing MALE cones both ends, and
-  p.129 "Pressure range up to 150 psi". Anderson Metals is now MIDLAND
-  INDUSTRIES: andersonmetals.com 403s to curl and 301-redirects there,
-  Midland's needle-valve pages 404, and their
-  `cdn.midlandindustries.com/public/pdf/valves.pdf` is a BALL-valve catalog
-  with zero needle content — don't re-download it.
+  Anderson Metals Corp (Kansas City); `andersonfittings` = Anderson Copper &
+  Brass Co (Oak Forest, IL). Both catalogs are still the source for the flare
+  FITTINGS. Neither is a source for a needle valve any more.
+- A CATALOG ENTRY YOU CANNOT BUY IS NOT A SOURCED PART. The Anderson Fittings
+  110SAE / 115SAE flare-to-flare needle valves are DELETED. They were beautifully
+  documented — p.130 drawing showing male cones both ends, p.129 "Pressure range
+  up to 150 psi" — and they let the metered run and the whole pilot line buy zero
+  adapters. But no distributor stocks them, and Marcus could not find so much as a
+  photograph of one (Anderson Fittings is an OEM supplier; its catalog is a
+  manufacturing document, not a storefront). Vaulting a PDF proved the spec, not
+  the availability, and three invariants ended up defending a part nobody can hold.
+  `needle` (Breezliy B08K8NP26L, 1/4 FNPT x FNPT) is now the ONLY needle valve on
+  the sheet, at NV-1, NV-2 and NV-4 — Marcus owns them. When you vault a source,
+  check that somebody sells the thing.
 - If a run is already flare, fit a flare x flare valve rather than adapting to
   NPT and back (Marcus: cheaper and simpler). The corollary is stronger: make
   the TEES flare too and the adapters on both sides vanish. Two male flare
   cones cannot mate, so a fitting-to-fitting flare junction always needs one
   female swivel (`flareNptF` / cat. U5) or a length of tube between — check the
   gender before assuming a swap saves anything.
-- THE SAME TRICK ON A BRANCH: when the component hanging off a tee is NPT and
-  the run is flare, do NOT adapt the branch — buy the tee with the thread you
-  need on its boss. `flareTeeMpt` = Anderson Fittings **T1-6B** (male branch
-  tee, 3/8 flare run x 1/4 MNPT branch, T1 series ref SAE 010425, cat. p.16).
-  The rail solenoid SV-1 now screws straight onto the male bosses of F-10/F-11
-  and the two 3/8-flare-swivel x 1/4-MNPT half unions that flanked it are gone
-  (Marcus spotted them: "that sounds expensive"). `TF1-6B` is the FEMALE-branch
-  sibling. Fittings 24 -> 22, and BOTH split paths now buy nothing.
+- THE SAME TRICK ON A BRANCH, AND THE ONE PLACE IT DOES NOT WORK: when the
+  component hanging off a tee is NPT and the run is flare, do NOT adapt the
+  branch — buy the tee with the thread you need on its boss. `flareTeeMpt` =
+  Anderson Fittings **T1-6B** (male branch tee, 3/8 flare run x 1/4 MNPT branch,
+  T1 series ref SAE 010425, cat. p.16); `TF1-6B` is the FEMALE-branch sibling.
+  THIS ONLY PAYS OFF UNDER A **MOUNT** — a dead-end branch (gauge, relief) that
+  never has to close. It is WRONG on a bypass, and both are currently dead PARTS
+  entries for that reason.
+  A BYPASS IS A LOOP, and a loop is governed by geometry, not by threads. The
+  two tees' bosses face the SAME way (both toward the parallel strip); a rigid
+  two-ported valve has colinear ports facing OPPOSITE ways. So the leg must turn
+  90 deg at each end, and no choice of thread on the boss can turn it. It must
+  also contain a swivel, because two tapered NPT threads cannot both be made up
+  onto tees that the other path already holds rigid. A copper leg is both at
+  once — it bends, and its flare nuts are the unions. Today L3's split runs
+  `F-10 (nptTee) -> [run] nipple1412 -> SV-1 -> flare38npt12(rev) -> TB-10`
+  and `F-10.branch -> nipple14 -> NV-1 -> flare14npt(rev) -> TB-12`, both
+  landing on `F-11 (flareTee)`. Note the branch path is not "the bypass" any
+  more — the SOLENOID took the run when it grew to 1/2 — so the geometry rule is
+  stated over the BRANCH path, whichever valve happens to be on it.
+  SV-1 was briefly screwed straight onto two T1-6B bosses to save the half
+  unions (Marcus: "that sounds expensive"). It lints clean, renders fine, and
+  cannot be built. Guarded now by `splitBranchPathTurnsAround` plus
+  `splitPathsCloseOnASwivel`; the invariant that asserted *both* split paths buy
+  nothing is what pinned the bug in place, and is gone entirely — its premise
+  died with the flare needle valve.
 - Adapter/nipple purchases: 31 -> 22 by using the catalogs properly; -> 23 when
   the poofer tee moved below the main shut-off (a safety fix worth one fitting);
-  -> 24 when each cylinder got its own shut-off; -> **22** when the split tees
-  became male-branch tees and the solenoid's two half unions vanished.
-  Of the original three moves, one stands and one was replaced by something better:
+  -> 24 when each cylinder got its own shut-off; -> 22 when the split tees became
+  male-branch tees and the solenoid's two half unions vanished; -> 24 when
+  that turned out to be unbuildable and the half unions came back; -> 23 when
+  HS-1 went to an NPT-ended hose and F-2 to a pipe tee; -> **28** when L3 went
+  NPT and the unbuyable flare needle valves were replaced by NPT ones. NPT costs
+  nipples, and an NPT needle valve costs a half union on each side of it (the
+  pilot line went from zero fittings to two); -> 31 with the 1/2 accumulator
+  train; -> **29** when both 1/2 tees became street tees. THE COUNT IS NO LONGER
+  THE SCORE.
+  It fell from 31 to 22 while the sheet quietly acquired an unbuildable loop and
+  a valve nobody sells; it rose to 28 buying assemblability and availability.
+  Optimise those first and let the count land where it lands.
+  Of the original three moves, one stands and two are reversed:
   (1) `POL-U2-6` takes the cylinder straight
   to a 3/8 male flare cone — REVERSED at the cylinder (see the per-cylinder
   shut-off below), still the reason nothing else adapts POL; (2) the split tees
-  F-10/F-11 became plain flare tees, which let NV-1 become a flare valve and
-  left its metered path (TB-10 -> NV-1 -> TB-12) with ZERO fittings, and let
-  L3a start on bare tube — SUPERSEDED: they are now T1-6B male-branch tees and
-  the solenoid path buys nothing either. Move (3) — `TF1-6B`, a flare tee with a
-  1/4 FNPT
+  became plain flare tees so NV-1 could be a flare valve and its path buy nothing
+  — DEAD, along with the flare needle valve itself; only `F-11` is still a flare
+  tee, and now for the loop-closure reason, not the fitting-count one. Move (3) —
+  `TF1-6B`, a flare tee with a 1/4 FNPT
   branch carrying the tank-pressure gauge so the stack above V-1 stayed flare —
   is REVERSED: Marcus judged the copper before the high-pressure hose "way
   easier as NPT", so F-5 is now a plain `nptTee` and `flareTeeFpt` is a dead
   PARTS entry. Fitting count did not change (the deleted flare union and the
   deleted rev'd half-union paid for the new nipple and half-union).
+  The split's two half unions are NOT reducible: both valves are FNPT and both
+  paths must arrive at F-11 as bendable 3/8 flare tube.
   What is left is irreducible without
   changing components: every remaining nipple joins two FEMALE NPT ports
   (ball valves, solenoids, regulators, NPT tees are all FNPT), and every
   remaining half-union is where a flare run meets an FNPT valve body.
-- Cell captions drop everything after the first comma ("Ball valve, 1/4 in FNPT
-  x FNPT" -> "Ball valve"; narrow beats wide). THREE exceptions keep more: tees
-  carry their exact type, the cross its exact threads, and a CYLINDER its
+- NEVER WRITE "FNPT" OR "MNPT" WHERE THE PART CLASS ALREADY SAYS IT (Marcus:
+  "all my things are just NPT"). A nipple is male both ends; a valve body, a pipe
+  tee and a cross are female. So: "Ball valve, 1/4 NPT", "Hex nipple, 1/4 NPT",
+  "Tee, 1/2 NPT". Gender survives in a NAME only where it is the part's identity —
+  adapters, half unions, hex bushings — because that is the whole
+  thing you are buying. It also survives in `spec` prose, which is where a builder
+  learns which end is male, and in `ports`, where the LINTER needs it: the gender
+  model is what catches a nipple made up against a male port. Only the schedule's
+  NAME column was ever the problem. `partText` no longer strips gender from tee
+  names, because no drawn tee has any — a STREET tee says "male one end" in the
+  word "street", so it is "Street tee, 1/2 NPT", not "1/2 MNPT x 1/2 NPT".
+- NEVER WRITE INCHES. Not the word ("3/8 in tube"), not the mark ('3/8" flare').
+  The fractions are DESIGNATIONS, closer to brand names than to measurements
+  (Marcus) — a 3/8 flare fitting does not measure 3/8 of anything a reviewer
+  cares about. So: `3/8 tube`, `1/4 FNPT`, `3/8 Cu`, `1/4 NPT ▸ 3/8 flare`. The
+  one true linear dimension on the sheet, the pinpoint tip's stub, spells the
+  unit out ("a 1 inch stub"). `noInchesOnTheSheet` sweeps every text node in
+  both views; `frac()` no longer appends a mark and no caption may re-add one.
+- Cell captions drop everything after the first comma ("Ball valve, 1/4 FNPT
+  x FNPT" -> "Ball valve"; narrow beats wide). FOUR exceptions keep more: tees
+  carry their exact type, the cross its exact threads, a CYLINDER its
   capacity — the drawing must read "Propane cylinder, 100 lb", because the fuel
   quantity is what the review is about and 100 lb is the fuel team's delivery
-  minimum. `sym:"tank"` keeps its full name for that reason; the accumulator is
-  a MOUNT and takes the lowercased short name, so it is unaffected.
+  minimum — and a GAUGE its RANGE. `sym:"tank"` keeps its full name for the
+  cylinder reason; `sym:"gauge"` keeps its full name, in a mount position too,
+  because the range is what identifies the instrument: `pn` is "—" and all three
+  gauges share the same 300 psi body rating on the spec line, so without
+  "0-30 psi" the cell cannot say which gauge it is. Guarded by
+  `gaugesPrintTheirRange`, grounded in the range token so the rating cannot
+  move with it. The accumulator is a MOUNT and takes the lowercased short
+  name, so it is unaffected.
+- The tee SYMBOL is one T-shaped path — a 30x14 run bar plus a perpendicular
+  branch stub of the same wall — not a body rect with a tab glued on. Drawn as a
+  single path so there is no seam across the crotch and it still rotates whole on
+  a riser. It used to be 24x18, near enough a square that it read as a box.
+  WIDENING THE BAR WAS NOT ENOUGH, and this is the part that matters: a MOUNT is
+  drawn over the stub, so `MOUNT_LIFT` must raise it clear. Most mount symbols
+  ATTACH AT CL and grow a neck upward (gauge, relief), so 13 lands that neck on
+  the stub; they cannot be lifted further without crossing the 46 px headroom the
+  balloon leaders need (they end at `CL-48`). The PILOT is a bare flame ball
+  CENTRED on CL with no neck, so at 13 its white body sat straight over the stub
+  and EVERY RAIL TEE STILL READ AS A BOX — Marcus saw no change at all. It needs
+  its own radius on top (25). Any new mount whose body dips below its attachment
+  point needs a `MOUNT_LIFT` entry, and the way you find out is to look at L3r.
+- Cell width is the width of the caption's widest LINE, so `wrap2` breaks at the
+  separator leaving the narrowest long half, NOT at the one nearest the character
+  midpoint. The old rule optimised nothing visible: it put "Flare tee" alone on
+  one row and "1/4 tube + pinpoint nozzle" on the next, and the rail tees
+  inherited that as their pitch. " + " is a break point and keeps the plus with
+  the mount it introduces.
 - PIPE STYLING (`runStyle`, `jointGlyph`) — colour AND width both encode
   MATERIAL, never pressure. Hose `#334E68` slate at 3.0 px; copper `#8C5A2B`
   bronze, thickening with bore (1/4 → 2.4, 3/8 → 4.0, 1/2 → 5.2); everything
@@ -324,15 +400,50 @@ correctly prints a rating and no number; that is data, not a bug.
   a dead PARTS entry. Fittings 23 -> 24. ME1690/ME1641 are the excess-flow
   variants (the catalog notes excess-flow POLs are UL Listed) if the liaison
   wants one.
-- L1 CARRIES NO COPPER. Above V-1 the depot stack is NPT land — hex nipples
-  between FNPT bodies, nothing flared on site. Flare survives on L1 only where a
-  component forces it: the cylinders' POL adapters (`ME353`, POL x male flare)
-  and the two hose swivels. `cu38` is still used on L3/L3a/L3b.
-- The Breezliy ASIN needle valve is GONE (NV-1 now takes 115SAE). Three parts
-  are still bought off a marketplace listing: the two Beduan solenoids and the
-  Stanbroil air mixer. Stanbroil publishes NO catalog number — its own product
-  page (`psrc:"stanbroil"`) sells the valve through one Amazon listing, so
-  `B019RGW4KG` is an ASIN, not a Stanbroil part number, and carries `asin:true`.
+- L1 CARRIES NO COPPER, AND NOW ALMOST NO FLARE. The whole depot is NPT land —
+  hex nipples between FNPT bodies, nothing flared on site. `F-1` is `polAdapter`
+  (POL x 1/4 MNPT), `F-2` is a plain `nptTee`, and `HS-1` is `hoseLPnpt`, an LP
+  hose with MALE PIPE THREAD BOTH ENDS: it screws straight into V-4's outlet and
+  into F-2, so the two flare adapters that used to flank it are gone (24 -> 23).
+  That is safe here because HS-1 is a CHAIN, not a loop — the cylinder end is
+  free to rotate, so two tapered threads make up with no swivel between them,
+  which is exactly what the L3 bypass could not do. HS-1 is also the one hose
+  nobody breaks: a bottle is swapped at the POL, so its swivels bought nothing.
+  Flare now survives on L1 at exactly two places, HS-2's swivels (F-21, F-13) —
+  that hose IS broken at every setup and a tapered thread wants fresh tape each
+  time, so it keeps its swivels. `cu38` is still used on L3/L3a/L3b.
+- L3 IS NPT LAND TOO. A flare joint is a 45 deg cone held by nut tension alone,
+  and a bush branch out on the playa gets torqued; a tapered thread with gas tape
+  survives what a flare seal does not (Marcus). L3 keeps flare in exactly three
+  places, ALL at the rejoin, and each is load-bearing:
+  (1) `F-11`, a flare tee on the OUTPUT side — its outlet cone feeds the rail's
+  copper directly, so the rail costs no adapter; (2) two half unions, one per
+  path; (3) two short copper tubes, one per path, whose swivel nuts are the ONLY
+  unions in the loop. A SPLIT IS A CLOSED LOOP: F-10 and F-11 are joined twice
+  over, so by the time you make up the second path nothing is left free to
+  rotate, and a tapered thread cannot be tightened there. Delete either tube and
+  the loop cannot be assembled. `splitPathsCloseOnASwivel` and
+  `splitBranchPathTurnsAround` guard the two halves of that; the port linter sees
+  neither.
+- SOLENOIDS ARE 1/2 (`sol12`, Beduan 2W160-15) at SV-1, SV-2 and SV-3 — one part,
+  one spare, one harness. The 1/4 `sol14` is a dead PARTS entry. SV-1 sits on the
+  split's RUN, not its branch: it is a pilot-operated diaphragm valve that wants
+  to be horizontal with its coil up, and a branch boss faces down into the strip.
+  The needle valve goes on the branch instead — it hangs rigid off the boss and
+  does not care which way up it is. The 1/4 pipe, not the valve, is now the
+  restriction. CAVEAT worth remembering: on L3b, NV-4 and SV-3 are in SERIES, so
+  the jet's flow is capped by the 1/4 needle valve however big the solenoid is.
+- Three parts are still bought off a marketplace listing: the Beduan solenoid,
+  the Breezliy needle valve, and the Stanbroil air mixer. Stanbroil publishes NO
+  catalog number — its own product page (`psrc:"stanbroil"`) sells the valve
+  through one Amazon listing, so `B019RGW4KG` is an ASIN, not a Stanbroil part
+  number, and carries `asin:true`.
+- A `hexAdapter` consolidates into its "A ▸ B" cell only when a BARE joint sits
+  on each side. A nipple joint (`{j:"npt", part:"nipple…"}`) does not count, and
+  neither does another hex body — either way the adapter renders as an unlabeled
+  hex with no caption at all. That is why `flare38npt12` (Anderson 04048-0608,
+  3/8 male flare x 1/2 MNPT) exists: a reducing nipple into a separate 1/4 flare
+  coupling costs the same two purchases and leaves the hex mute.
 - Gas HOSES mark their working pressure on the cell (`WP 350 psi`, read from
   `PARTS[].rating`, never a literal). A hose is the one flexible, elastomeric
   component on the sheet and the likeliest weak point, so the rating belongs
@@ -357,32 +468,96 @@ correctly prints a rating and no number; that is data, not a bug.
   NOTE: a `hexAdapter` body needs a drawn joint on BOTH sides or it renders as
   an UNLABELED HEX — the flanking markers and the "A ▸ B" caption are its only
   label. Putting one straight after a `{j:"turn"}` marker is how you find out.
+- LP HOSE ENDS, checked 2026-07-09. Marcus does not need an exact SKU — "just
+  something reasonably standard that is marked as compliant on the diagram" — but
+  the sheet still may not carry an invented rating, and `hosesMarkTheirWorkingPressure`
+  refuses a hose without a numeric one, so an unrated hose is not an option.
+  MALE-NPT-BOTH-ENDS LP hose is a standard build, not a special: Thermoid Type 75
+  `025LPG` (`psrc:"thermoid"`, vaulted) — 1/4 ID, MPT both ends, 350 psi,
+  -40 to 180 F, **UL 21** (which IS the LP-gas hose standard, so unlike the
+  solenoids it carries a published fuel-gas listing). New-Line lists the same
+  build. It is a distributor item, not big-box. TRAP: the hardware-store hose in
+  this size (Mr. Heater 1/4" MPT x 1/4" FPT) has a FEMALE second end and buys a
+  hex nipple straight back, and Home Depot's NPT-ended high-pressure hose is 3/8
+  (F276124), which does not fit a 1/4 depot. Do not "simplify" HS-1 to either.
 - WHERE TO BUY, checked 2026-07-09. Anderson Fittings is an OEM supplier (Marmon
   / Berkshire Hathaway, Frankfort IL) — you buy through distributors, and its
   figure numbers are industry-standard so several makers stamp them.
-  110SAE / 115SAE needle valves: BSP Company, Industrial Parts Fittings,
-  Installation Parts Supply (also 110SAE-LF lead-free); Midland/Anderson Metals
-  lists 110SAE too. TF1-6B female branch tee = Fairview/Fasparts `36-6B`, whose
+  The 110SAE / 115SAE needle valves LOOKED buyable from here — several sites list
+  the figure numbers — but nothing stocks them, nothing pictures them, and Marcus
+  gave up trying. Listing a figure number is not selling a valve. They are gone;
+  see the needle-valve entry above. TF1-6B female branch tee = Fairview/Fasparts `36-6B`, whose
   SAE 45 flare line IS listed for LP-gas service. POL adapter: Marshall Excelsior
   `ME353` (`psrc:"mecrv"`, MEC RV/LPG catalog p.28 "POL X MALE FLARE", "Male Hard
   Nose 3/8"") — same maker as the MEGR-6120 regulators, stocked everywhere.
   TRAP: many retail listings call ME353 a "male INVERTED flare" fitting. It is
   not; MEC's own catalog puts it under POL X MALE FLARE, and an inverted flare
   will not seal against a 45 deg swivel.
-- L4b's order is load-bearing and was arrived at deliberately:
-  `PRV-2 -> CV-1 -> V-3 -> F-6 (pilot tee) -> F-15 (relief) -> accumulator ->
-  SV-2 -> nozzle`. CV-1 blocks backflow toward the regulator. V-3 is an e-stop
-  (`emergency:true`) sitting UPSTREAM of the pilot tee, so closing it cuts supply
-  gas to the pilot and the accumulator together. The pilot tees off DOWNSTREAM of
-  CV-1 and UPSTREAM of the accumulator, so on a normal shutdown the accumulator
-  bleeds down through the continuously-burning pilot instead of sitting charged.
-  Move any one of those three and you break one of the other two properties.
+- L4b's order is load-bearing and was arrived at deliberately. The supply run is
+  `PRV-2 -> CV-1 -> F-6 (pilot tee) -> F-12 (supply tee)`, and the ACCUMULATOR
+  STACK hangs below F-12, reading DOWN: `V-3 -> F-15 (OPD tee, RV-1) -> adapters
+  -> AC-1`. CV-1 blocks backflow toward the regulator. The pilot tees off
+  DOWNSTREAM of CV-1 and UPSTREAM of the accumulator, so on a normal shutdown the
+  vessel bleeds down through the continuously-burning pilot instead of sitting
+  charged (`l4bOrder`).
+  THE ISOLATION VALVE'S POSITION IS THE SAFETY PROPERTY: V-3 sits between the
+  vessel and everything else EXCEPT ITS RELIEF. Closing it isolates a charged
+  accumulator from the supply and from the dump valve, and RV-1 — on the tee
+  BELOW V-3 — still protects it. Swap V-3 and F-15 and you can lock a charged
+  vessel away from its own relief; that is a safety defect, not a layout tweak.
+  Guarded by `accumulatorKeepsItsRelief`.
+  V-3 is NOT an e-stop (Marcus). The poofer dies at V-2 with everything else, so
+  V-3 carries no `emergency:true`, no orange, and no "marked" note. The invariant
+  that asserted it WAS an e-stop is gone; its replacement asserts the relief
+  property above, which is what the valve is actually for.
   F-6 is `teeStreet14` (Anderson T4-4B street tee): its male NPT screws straight
-  into the female NPT outlet ahead of it — V-3's, since the e-stop sits between
-  CV-1 and the tee — with no hex nipple, and its branch is a flare cone that the
+  into the female NPT outlet ahead of it — CV-1's, now that V-3 has moved into
+  the stack — with no hex nipple, and its branch is a flare cone that the
   pilot's copper tube lands on directly. (Invariant
   `pilotTeeScrewsInWithoutANipple` compares the tee against whatever part is
   actually upstream, so a legitimate re-order of L4b will not make it lie.)
+- THE ACCUMULATOR IS A FRESHLY STAMPED CYLINDER, de-valved (Marcus). It is in
+  requalification date, unmodified — no welds, no drilling, nothing added — and
+  plumbed through its existing 3/4-14 NGT boss with two STOCK adapters:
+  `ngtAdapter` (3/4 MNGT x 3/4 MNPT) then `adapt3412` (3/4 FNPT x 1/2 MNPT) up
+  into the 1/2 run tee. There is no custom machined part and no interior-inspection
+  story any more; compliance row FE-8 states the case plainly instead of arguing
+  for an out-of-date vessel. The drawing does NOT say "at the NGT boss" (Marcus) —
+  the stack shows a `3/4 NPT ▸ 3/4 NGT` adapter, so the words are redundant.
+  The whole vertical path is 1/2 (`teeStreet12`, `nipple12`, `ball12`, `sol12`)
+  because the vessel breathes through it on every poof; only RV-1's branch necks
+  to 1/4, through `bushing1214` in the mount's `via` slot.
+- BOTH 1/2 TEES ARE STREET TEES (Anderson 06227-08, fig 127F, F x M x F). F-12
+  points its male run end DOWN into V-3's inlet and F-15 points its male UP into
+  V-3's outlet, so the ball valve takes a male thread in each port and the two hex
+  nipples that used to flank it are gone. A male end only works where nothing has
+  to close on a fixed loop, and the accumulator stack is a CHAIN dead-ending on
+  the vessel — each tapered thread is made up by rotating the piece being added.
+  IT DOES NOT SAVE MONEY, which is what Marcus asked. Catalog list: a street tee
+  is $16.27 against $9.58 + $3.29 for a tee plus a hex nipple, so the swap costs
+  about $6.79 and buys two fewer joints on a pressure vessel. Marcus took the
+  joints ("doesn't matter, as long as it will fit"). No new invariant guards this:
+  the PORT LINTER already refuses a nipple made up against a male port, which is
+  the whole property.
+- A riser tee that carries a down stack is TURNED ON ITS SIDE in the port model
+  as well as the drawing: the horizontal band arrives on its BRANCH, the stack
+  leaves through its lower RUN port (`ports.i`), and the discharge leaves through
+  `ports.o`. That mapping was cosmetic while every port was 1/2 FNPT; it became
+  load-bearing the moment a tee grew a male run end. `lintPorts` mates the band
+  into `branchPort(tee)` and walks `down` out of `endPort(tee,"i")`.
+- A RISER TEE MAY CARRY A DOWN STACK (`{j:"riser", tee, down:[...]}`) — an
+  ordered list of items hanging BELOW the base tee, drawn by the same cell loop
+  as the discharge with `dir=+1`. That is how the accumulator stack renders.
+  Three things are easy to get wrong here, and all three were:
+  (1) `row.down` grows the ROW, but `placeBand`'s POCKET (which lets drop bands
+  tuck up beside a supply stack) must read `row.pocket` — only `drawSupply` sets
+  it. Reusing `row.down` for both drew the pilot line straight through the vessel.
+  (2) segment coords are BAND-LOCAL, the same frame as `CL`; do not subtract `CL`
+  when growing `seg().bot` or the dashed box closes through the vessel.
+  (3) a lone `hexAdapter` — one with no bare joint on BOTH sides — used to render
+  as an unlabeled hex. It now names its own ends from `ports` (`endPair`), so
+  `3/4 NPT ▸ 3/4 NGT` appears without a consolidated cell. `RISER.NOR` is now the
+  run's inset for upright symbols (tank 30, flame heads 8), not a boolean.
 - The check valve CV-1 STAYS. Marcus asked to remove it ("the regulator does
   that"), then reversed.
 - "Continuous flame", never "standing flame".
@@ -394,8 +569,17 @@ correctly prints a rating and no number; that is data, not a bug.
   anyone. BALL VALVES print none as well, for a DIFFERENT reason — a ball valve
   does have a seat, but the whole class is 600 psi WOG brass, an order of
   magnitude above anything on this sheet, so the number tells a reviewer nothing
-  (Marcus: "aren't they all high pressure?"). `PARTS[].rating` still carries
+  (Marcus: "aren't they all high pressure?"). GAUGES print none, for a THIRD
+  reason — a gauge's pressure statement is its RANGE. All three share the same
+  300 psi body rating, so printing it beside "0-30 psi" made every gauge on the
+  sheet read as a 300 psi gauge (Marcus, twice). One psi figure per gauge cell,
+  and it is the range. `PARTS[].rating` still carries
   every number for FE-2 to test against, and the schedule still records it.
+  A gauge is therefore the ONLY part in `PN_SYM` and `NO_RATING_SYM` at once: its
+  cell prints "SENCTRL" and no psi. That broke the inline sweep, which tested
+  `specLine(p) !== ""` as a proxy for "prints no rating" — a proxy that held only
+  because every other `NO_RATING_SYM` member also prints no maker. It now tests
+  the psi figure directly. `gaugeCellsHideTheBodyRating` guards the removal.
 - `PN_SYM` decides which cells print `mfg` + part number. BALL VALVES ARE NOT IN
   IT (Marcus) — they show a rating only; the schedule still records the Apollo
   number. RELIEF VALVES ARE NOT IN IT EITHER: they have not been bought, the
@@ -474,6 +658,29 @@ and the expectation are independent. Same reasoning made
 targets `NO_RATING_SYM`. If you cannot find such an independent ground, the
 predicate is category 3.
 
+**An invariant can PIN A BUG.** A green suite means the data still has the
+property you named — never that the property is right. `splitPathsBuyNoFittings`
+asserted that neither side of the L3 split buys a fitting; it was true, it was
+mutation-covered, and it froze a bypass leg that could not be assembled. The
+fitting-count boast was the tell: a predicate that rewards *fewer purchases* is
+scoring a proxy, and the drawing is not obliged to make the proxy true.
+
+That family is now EXTINCT, and its death is the lesson. `splitPathsBuyNoFittings`
+was narrowed to the metered run, whose "buys nothing" at least had an argument
+behind it — NV-1 is a flare valve, so the tube nut lands on its cone. Then the
+flare valve turned out to be unbuyable, and the narrowed invariant, the pilot
+line's `pilotLineBuysNoFittings`, and both `flareValves*` predicates all died in
+one commit. Four checks, all green, all mutation-covered, all defending a part
+nobody can hold. Meanwhile the two properties that actually matter — the loop can
+be assembled, the branch can turn around — had NO test at all until a loop shipped
+that could not be built.
+
+**Assert what would hurt if it were false, not what you are proud of.** A
+fitting count is a preference; `splitPathsCloseOnASwivel` is a fact about
+whether the thing can be screwed together. Prefer predicates whose violation is
+a defect rather than a regret, and ground them in geometry or the port model, not
+in a purchase decision that the next conversation may reverse.
+
 **Test-harness liveness.** `applyJSON()` REASSIGNS `SYSTEM` and `PARTS`;
 `buildRefs()` REASSIGNS `refIndex`. A reference captured at load time goes stale
 the instant anything re-renders, so tests read the pre-mutation data and pass on
@@ -490,6 +697,13 @@ strings in the title block, the harness DOM stub not dropping `children` on
 part:"x"}` purchase silently never reaching the parts schedule (`buildRefs`
 registers `it.part` only for `hose|tube|npt` — now guarded by
 `everyPartReachesTheSchedule`). Add a check when you fix a bug.
+
+The REVERSE gate earns its keep too: the first mutation written for
+`noInchesOnTheSheet` put inches in `ball14.name` and the invariant stayed green,
+because cell captions drop everything after the first comma and "Ball valve,
+1/4 in FNPT" renders as "Ball valve". The mutation has to be a TEE, which is one
+of the four symbols that print their name whole. A mutation that cannot reach the
+drawing proves nothing about the drawing.
 
 ## Roadmap candidates
 
