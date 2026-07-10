@@ -9,8 +9,10 @@
 set -euo pipefail
 
 SRC="$(cd "$(dirname "$0")/.." && pwd)/fast_schematic_generator.html"
+FN="ai-am-schematic-generator"
 SITE="$HOME/machine-elves.art"
-DEST="$SITE/public/fast_schematic_generator-2.html"
+# Astro copies public/ verbatim into dist/; a file at the repo root is not served.
+DEST="$SITE/public/$FN.html"
 MSG="${1:-Schematic update}"
 
 [ -f "$SRC" ] || { echo "missing $SRC" >&2; exit 1; }
@@ -25,9 +27,9 @@ if diff -q "$SRC" "$DEST" >/dev/null 2>&1; then
 fi
 
 cp "$SRC" "$DEST"
-git -C "$SITE" add public/fast_schematic_generator-2.html
+git -C "$SITE" add "$DEST"
 git -C "$SITE" commit -m "$MSG"
 git -C "$SITE" push origin main
 # await-deploy.sh reads HEAD of the repo it runs in — run it from the site
 (cd "$SITE" && scripts/await-deploy.sh)
-echo "live: https://machine-elves.art/fast_schematic_generator-2"
+echo "live: https://machine-elves.art/$FN"
