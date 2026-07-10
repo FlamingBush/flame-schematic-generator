@@ -51,9 +51,20 @@ button.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--ink)}
 details{flex:1 1 100%;background:#fff;border:1.5px solid var(--ink);border-radius:3px}
 details summary{font-family:var(--mono);font-size:12.5px;padding:9px 14px;cursor:pointer}
 textarea{width:100%;height:300px;border:none;border-top:1px solid var(--line);font-family:var(--mono);font-size:11.5px;padding:12px}
+#printSheets{display:none}
+/* The ONLY output is the external PDF: downloadPDF() lays the four external
+   sheets into #printSheets, one per page, and the browser writes them. There is
+   no internal-packet export (Marcus) — the internal view is a working SCREEN
+   document: balloons, the parts schedule and the compliance table. The plain
+   rules below only keep a stray Cmd+P from printing the toolbar. */
 @media print{
   body{background:#fff} .toolbar{display:none} .sheet{border-width:1px;margin:0;max-width:none}
   .strip{overflow:visible} .strip svg{max-width:100%;height:auto}
+  body.pdfonly>*{display:none!important}
+  body.pdfonly #printSheets{display:block}
+  #printSheets .page{page-break-after:always;break-after:page}
+  #printSheets .page:last-child{page-break-after:auto;break-after:auto}
+  #printSheets svg{width:100%;height:auto}
 }
 </style>
 </head>
@@ -66,8 +77,7 @@ textarea{width:100%;height:300px;border:none;border-top:1px solid var(--line);fo
       <option value="internal">Internal — PDF packet (balloons key to the parts schedule)</option>
     </select>
   </label>
-  <button onclick="downloadSVG()">Download schematic as SVG</button>
-  <button class="ghost" onclick="window.print()">Print / save PDF packet</button>
+  <button onclick="downloadPDF()">Download external PDF</button>
   <details>
     <summary>Edit system definition (JSON) — change parts, pressures, and line layout, then re-render</summary>
     <textarea id="jsonBox" spellcheck="false"></textarea>
@@ -182,9 +192,9 @@ let PARTS = {
     spec:"Forged brass hex nipple, male NPT both ends — joins female-ported valves, regulators, and tees (the schedule's regulators, ball valves, solenoids, and NPT tees are all FNPT). PTFE gas tape both ends. In segments above 125 psi use forged brass rated at or above segment pressure, or schedule 80 steel.", rating:1200, ports:{i:"npt:1/4:M",o:"npt:1/4:M"}, psrc:"anderson", sym:"none", w:0, h:0 },
   nipple1412:{ name:"Reducing hex nipple, 1/4 x 1/2 NPT", vendor:"Anderson Metals", pn:"06123-0804",
     spec:"Forged brass reducing hex nipple stepping the 1/4 accumulator train up to the 1/2 poof dump valve.", rating:1200, ports:{i:"npt:1/4:M",o:"npt:1/2:M"}, psrc:"anderson", sym:"none", w:0, h:0 },
-  reg60:{ name:"Regulator, main — set 60 psi", vendor:"Marshall Excelsior", mfg:"Marshall Excelsior", pn:"MEGR-6120-60",
+  reg60:{ name:"Regulator, main — set 45 psi", vendor:"Marshall Excelsior", mfg:"Marshall Excelsior", pn:"MEGR-6120-60",
     spec:"High-pressure adjustable LP regulator, outlet range 1-60 psi, 1/4 FNPT in/out + two 1/4 FNPT gauge ports, max inlet 250 psig, die-cast aluminum, UL 144 (per MEC bulletin form 976). NON-RELIEF regulator — external overpressure protection required.", rating:250, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, gauge:"npt:1/4:F", psrc:"mec", sym:"reg", w:3.4, h:3.2 },
-  reg30:{ name:"Regulator, poofer — set 30 psi", vendor:"Marshall Excelsior", mfg:"Marshall Excelsior", pn:"MEGR-6120-30",
+  reg30:{ name:"Regulator, poofer — set 20 psi", vendor:"Marshall Excelsior", mfg:"Marshall Excelsior", pn:"MEGR-6120-30",
     spec:"High-pressure adjustable LP regulator, outlet range 1-30 psi, 1/4 FNPT in/out + two 1/4 FNPT gauge ports, max inlet 250 psig, die-cast aluminum, UL 144 (per MEC bulletin form 976). NON-RELIEF regulator — external overpressure protection required.", rating:250, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, gauge:"npt:1/4:F", psrc:"mec", sym:"reg", w:3.4, h:3.2 },
   gaugeHP:{ name:"Pressure gauge, 0-300 psi", vendor:"SENCTRL", mfg:"SENCTRL", pn:"—",
     spec:"1/4 MNPT bottom connection, brass internals compatible with LP vapor. Confirm exact model on purchase.", rating:300, ports:{i:"npt:1/4:M"}, psrc:"decl", sym:"gauge", w:2.5, h:3.2 },
@@ -226,7 +236,7 @@ let PARTS = {
   check14:{ name:"Check valve, 1/4 NPT", vendor:"McMaster brass spring check, Viton seal", pn:"—",
     spec:"Inline spring-loaded poppet, brass body, Viton seat, flow arrow marked on body. Prevents accumulator back-flow.", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"decl", sym:"check", w:2.2, h:1.3 },
   relief:{ name:"Relief valve, ASME, 1/4 NPT", vendor:"Aquatrol series 140 (ex-Kingston 112CSS)", mfg:"Aquatrol", pn:"140A",
-    spec:"Brass ASME 'UV' Section VIII Div. 1 safety valve, National Board certified, stainless disk and spring, factory set per tag: RV-1 75 psig (30 psi accumulator train), RV-2 90 psig (60 psi distribution). Both protect the ~100 psi solenoid listings if a regulator fails at cylinder inlet pressure. Manufacturer media rating is air/inert gas — no published LP-gas listing; confirm with FAST liaison. Aim discharges away from operators and ignition sources.", rating:350, ports:{i:"npt:1/4:M"}, psrc:"aquatrol", sym:"relief", w:2.0, h:2.6 },
+    spec:"Brass ASME 'UV' Section VIII Div. 1 safety valve, National Board certified, stainless disk and spring, factory set per tag: RV-1 75 psig (20 psi accumulator train), RV-2 90 psig (45 psi distribution). Both protect the ~100 psi solenoid listings if a regulator fails at cylinder inlet pressure. Manufacturer media rating is air/inert gas — no published LP-gas listing; confirm with FAST liaison. Aim discharges away from operators and ignition sources.", rating:350, ports:{i:"npt:1/4:M"}, psrc:"aquatrol", sym:"relief", w:2.0, h:2.6 },
   // The accumulator's boss chain, bottom up: a stock tank adapter takes the
   // 3/4-14 NGT opening out to a 3/4 male pipe thread, and a reducing adapter
   // takes that to the 1/2 MNPT the run tee wants. No machining, no welds.
@@ -241,7 +251,7 @@ let PARTS = {
   // A FRESHLY STAMPED cylinder, bought for the job and de-valved. The sheet no
   // longer has to argue that an out-of-date vessel is acceptable.
   accum:{ name:"Accumulator, DOT LP cylinder", vendor:"DOT 4BA240 cylinder", mfg:"DOT 4BA240", pn:"—",
-    spec:"DOT 4BA240 cylinder, requalification stamp IN DATE. Service valve removed at the existing 3/4-14 NGT boss and the vessel is otherwise UNMODIFIED — no welds, no drilling, no cutting, nothing added to the shell. Plumbed through that boss with stock adapters. Supply regulated to 30 psi, far below the 240 psi design service pressure.", rating:250, ports:{i:"ngt:3/4:F"}, psrc:"decl", sym:"tank", w:9, h:13 },
+    spec:"DOT 4BA240 cylinder, requalification stamp IN DATE. Service valve removed at the existing 3/4-14 NGT boss and the vessel is otherwise UNMODIFIED — no welds, no drilling, no cutting, nothing added to the shell. Plumbed through that boss with stock adapters. Supply regulated to 20 psi, far below the 240 psi design service pressure.", rating:250, ports:{i:"ngt:3/4:F"}, psrc:"decl", sym:"tank", w:9, h:13 },
   cu38:{ name:"Copper tube, 3/8 OD", vendor:"soft copper refrigeration (ACR) coil + brass SAE flare nuts", pn:"—",
     spec:"All joints SAE 45 deg flared. Compression and soldered joints prohibited on fuel lines.", rating:700, ports:{i:"flare:*:F",o:"flare:*:F"}, psrc:"decl", sym:"none", w:0, h:0 },
   cu14:{ name:"Copper tube, 1/4 OD", vendor:"soft copper refrigeration (ACR) coil + brass SAE flare nuts", pn:"—",
@@ -269,8 +279,22 @@ let PARTS = {
 /* ---------- SYSTEM DEFINITION ---------- */
 let SYSTEM = {
   meta:{ project:"AI AM Propane Mk. II", drawnBy:"—", rev:"B", date:new Date().toISOString().slice(0,10), scale:"none — schematic (NTS)" },
+  // SHEETS. One drawing was unreadable, so the lines are dealt onto four of them
+  // (Marcus). A ref whose producer and consumer land on the SAME sheet still
+  // draws a real connector; a ref that CROSSES sheets degrades to the pentagon
+  // the renderer already drew for unmatched refs, and gets a "to/from sheet n"
+  // caption. That is the whole mechanism — off-page connectors were free.
+  // A line named in no sheet is still drawn, on a sheet of its own.
+  sheets:[
+    // fold:true — L1's run is long and its sheet is mostly empty below, so the
+    // root band loops back once instead of running off to the right (Marcus).
+    { id:"S1", title:"Supply & regulation", lines:["L1"], fold:true },
+    { id:"S2", title:"Poofer", lines:["L4","L4b","L4a"] },
+    { id:"S3", title:"Distribution, bush branch & jet", lines:["L2","L3","L3b"] },
+    { id:"S4", title:"Standby rail & tips", lines:["L3a","L3r"] }
+  ],
   lines:[
-    { id:"L1", title:"Supply & regulation", psi:"tank pressure → 60 psi at PRV-1", op:235,
+    { id:"L1", title:"Supply & regulation", psi:"tank pressure → 45 psi at PRV-1", op:235,
       items:[
         {p:"tank100", tag:"TK-1/TK-2", xn:2, note:"requal stamp in date"},
         {j:"pol"},
@@ -322,26 +346,26 @@ let SYSTEM = {
         {j:"npt", size:"1/4", lr:"M>F"},
         // MAIN SHUT-OFF FIRST. The gas arrives from the depot here, so V-2 is
         // the first thing it meets at the effect. Everything below — the poofer
-        // branch AND the 60 psi distribution — is downstream of it, so closing
+        // branch AND the 45 psi distribution — is downstream of it, so closing
         // V-2 kills every effect. It used to sit AFTER the poofer tee, which
         // meant the "main" shut-off left the poofer fed (Marcus caught it).
         {p:"ball14", tag:"V-2", emergency:true, note:"main, marked"},
         {j:"npt", size:"1/4", part:"nipple14"},
         // The poofer tees off downstream of V-2 but UPSTREAM of PRV-1, so it
         // still draws tank pressure for a fast accumulator refill.
-        {p:"nptTee", tag:"F-7", branch:{ref:"B"}, note:"poofer feed at tank pressure"},
+        {p:"nptTee", tag:"F-7", branch:{ref:"A"}, note:"poofer feed at tank pressure"},
         {j:"npt", size:"1/4", part:"nipple14"},
-        {p:"reg60", tag:"PRV-1", note:"set 60 psi", mount:{p:"gaugeLP", tag:"PI-2"}},
-        {j:"off", ref:"A", dir:"out", label:"to L2 manifold — 60 psi"}
+        {p:"reg60", tag:"PRV-1", note:"set 45 psi", mount:{p:"gaugeLP", tag:"PI-2"}},
+        {j:"off", ref:"B", dir:"out", label:"to L2 manifold — 45 psi"}
       ]},
-    { id:"L2", title:"Distribution manifold", psi:"60 psi", op:60,
+    { id:"L2", title:"Distribution manifold", psi:"45 psi", op:45,
       items:[
-        {j:"off", ref:"A", dir:"in", label:"from L1"},
+        {j:"off", ref:"B", dir:"in", label:"from L1"},
         {j:"npt", size:"1/4", part:"nipple14"},
         {p:"nptTee", tag:"F-20", mount:{p:"relief", tag:"RV-2", note:"set 90 psi"}},
         {j:"npt", size:"1/4", part:"nipple14"},
         {p:"manifold", tag:"MF-1"},
-        {j:"off", ref:"C", dir:"out", fan:3, label:"to L3"}
+        {j:"off", ref:"E", dir:"out", fan:3, label:"to L3"}
       ]},
     // L3 IS NPT LAND. A flare joint is a metal-to-metal 45 deg cone with nothing
     // but nut tension holding the seal, so anywhere the run can be torqued — and
@@ -357,13 +381,13 @@ let SYSTEM = {
     //     twice over, so the last joint you make up cannot be a tapered thread
     //     (nothing is left free to rotate). Take either tube away and the loop
     //     cannot be assembled — that is the whole reason any copper is left here.
-    { id:"L3", title:"Main bush branch (one of 3)", psi:"60 psi", op:60,
+    { id:"L3", title:"Main bush branch (one of 3)", psi:"45 psi", op:45,
       items:[
-        {j:"off", ref:"C", dir:"in", label:"from MF-1"},
+        {j:"off", ref:"E", dir:"in", label:"from MF-1"},
         {j:"npt", size:"1/4", lr:"F<M"},
         {j:"hose", part:"hoseLPnpt", label:"HS-3"},
         {j:"npt", size:"1/4", lr:"M>F"},
-        {p:"nptTee", tag:"F-3", branch:{ref:"J"}},
+        {p:"nptTee", tag:"F-3", branch:{ref:"F"}},
         {j:"npt", size:"1/4", part:"nipple14"},
         {split:{
           tee:{p:"nptTee", tag:"F-10"},
@@ -396,14 +420,14 @@ let SYSTEM = {
             {j:"tube", part:"cu38", size:"3/8", label:"TB-12"},
             {j:"flare", size:"3/8", lr:"F<M"}
           ]}},
-        {j:"off", ref:"P", dir:"out", label:"to rail"}
+        {j:"off", ref:"G", dir:"out", label:"to rail"}
       ]},
-    { id:"L3b", title:"Jet nozzle", psi:"60 psi", op:60,
+    { id:"L3b", title:"Jet nozzle", psi:"45 psi", op:45,
       items:[
         // NV-4 and SV-3 are in SERIES here, not parallel, so the jet's flow is
         // capped by whichever is tighter. Upsizing SV-3 to the 1/2 body lifts the
         // cap to the needle valve; the needle is now the jet's restriction.
-        {j:"off", ref:"J", dir:"in"},
+        {j:"off", ref:"F", dir:"in"},
         {j:"npt", size:"1/4", part:"nipple14"},
         {p:"needle", tag:"NV-4", note:"jet metering"},
         {j:"npt", size:"1/4 x 1/2", part:"nipple1412"},
@@ -419,22 +443,22 @@ let SYSTEM = {
         {j:"npt", size:"3/4"},
         {p:"nozzle", tag:"N-1", flame:true}
       ]},
-    { id:"L3a", title:"Standby rail (one of 3)", psi:"60 psi", op:60,
+    { id:"L3a", title:"Standby rail (one of 3)", psi:"45 psi", op:45,
       items:[
-        {j:"off", ref:"P", dir:"in"},
+        {j:"off", ref:"G", dir:"in"},
         {j:"tube", part:"cu38", size:"3/8", label:"TB-2"},
         {j:"flare", size:"3/8", lr:"F<M"},
-        {p:"flareTeeR3814", tag:"F-16", branch:{ref:"T"}},
+        {p:"flareTeeR3814", tag:"F-16", branch:{ref:"H"}},
         {j:"flare", size:"3/8"},
         {j:"tube", part:"cu38", size:"3/8", label:"TB-7"},
         {j:"flare", size:"3/8", lr:"F<M"},
-        {p:"flareTeeR1414", tag:"F-17", branch:{ref:"T"}},
+        {p:"flareTeeR1414", tag:"F-17", branch:{ref:"H"}},
         {j:"flare", size:"1/4"},
-        {j:"off", ref:"T", dir:"out", label:"3 identical tip runs"}
+        {j:"off", ref:"H", dir:"out", label:"3 identical tip runs"}
       ]},
-    { id:"L3r", title:"Standby tip run (one of 3)", psi:"60 psi", op:60,
+    { id:"L3r", title:"Standby tip run (one of 3)", psi:"45 psi", op:45,
       items:[
-        {j:"off", ref:"T", dir:"in"},
+        {j:"off", ref:"H", dir:"in"},
         {j:"tube", part:"cu14", size:"1/4", label:"TB-3"},
         {j:"flare", size:"1/4", lr:"F<M"},
         {p:"flareTee14", tag:"F-18", mount:{p:"standby", tag:"SB-1"}},
@@ -446,9 +470,9 @@ let SYSTEM = {
         {j:"tube", part:"cu14", size:"1/4", label:"TB-9"},
         {p:"standby", tag:"SB-3", flame:true, note:"every 1/4 branch ends in one of these · one lights the jet nozzle"}
       ]},
-    { id:"L4", title:"Poofer supply", psi:"tank pressure → 30 psi at PRV-2", op:235,
+    { id:"L4", title:"Poofer supply", psi:"tank pressure → 20 psi at PRV-2", op:235,
       items:[
-        {j:"off", ref:"B", dir:"in"},
+        {j:"off", ref:"A", dir:"in"},
         // F-7 is now an NPT tee, so its branch is a female pipe port. Take it
         // back out to a 3/8 flare cone for the hose swivel to land on.
         {j:"npt", size:"1/4"},
@@ -458,10 +482,10 @@ let SYSTEM = {
         {j:"flare", size:"3/8", lr:"F<M"},
         {p:"flare14npt", tag:"F-14"},
         {j:"npt", size:"1/4", lr:"M>F"},
-        {p:"reg30", tag:"PRV-2", note:"set 30 psi · tank-pressure feed for fast refill", mount:{p:"gauge30", tag:"PI-3"}},
-        {j:"off", ref:"E", dir:"out", label:"to L4b — 30 psi"}
+        {p:"reg30", tag:"PRV-2", note:"set 20 psi · tank-pressure feed for fast refill", mount:{p:"gauge30", tag:"PI-3"}},
+        {j:"off", ref:"C", dir:"out", label:"to L4b — 20 psi"}
       ]},
-    { id:"L4b", title:"Poofer accumulator & discharge", psi:"30 psi (accumulator MAOP 250 psi)", op:30,
+    { id:"L4b", title:"Poofer accumulator & discharge", psi:"20 psi (accumulator MAOP 250 psi)", op:20,
       items:[
         // THE ACCUMULATOR STACK, bottom up: vessel, OPD tee, isolation valve,
         // supply tee, dump solenoid. V-3 sits between the vessel and EVERYTHING
@@ -471,7 +495,7 @@ let SYSTEM = {
         // moving V-3 down one place would be a safety defect, not a layout tweak.
         // V-3 is NOT an e-stop (Marcus): the poofer is killed at V-2 with
         // everything else. It is an isolation valve, so no orange, no `emergency`.
-        {j:"off", ref:"E", dir:"in", label:"from PRV-2"},
+        {j:"off", ref:"C", dir:"in", label:"from PRV-2"},
         {j:"npt", size:"1/4", part:"nipple14"},
         {p:"check14", tag:"CV-1"},
         {j:"npt", size:"1/4", lr:"F<M"},
@@ -494,7 +518,7 @@ let SYSTEM = {
             {p:"adapt3412"},
             {j:"npt", size:"3/4", lr:"F<M"},
             {p:"ngtAdapter"},
-            {p:"accum", tag:"AC-1", note:"requal stamp in date \u00b7 unmodified: valve removed \u00b7 stock adapters"}
+            {p:"accum", tag:"AC-1", note:"requal stamp in date \u00b7 valve removed \u00b7 stock adapters"}
           ]},
         {j:"npt", size:"1/2", part:"nipple12"},
         {p:"sol12", tag:"SV-2", note:"poof dump"},
@@ -504,7 +528,7 @@ let SYSTEM = {
         {j:"tube", part:"cu12", size:"1/2", label:"TB-6 × 10 ft"},
         {p:"nozzle", tag:"N-2", flame:true}
       ]},
-    { id:"L4a", title:"Poofer pilot", psi:"30 psi", op:30,
+    { id:"L4a", title:"Poofer pilot", psi:"20 psi", op:20,
       items:[
         // The pilot line used to buy nothing, because the old flare needle valve
         // took the tube's nuts straight on its cones. An NPT valve costs one half
@@ -877,7 +901,10 @@ function partText(it,vert){const p=PARTS[it.p];const m=it.mount?PARTS[it.mount.p
   const nm2=p.sym==="hexAdapter"?endPair(p,it):nm+(m?" + "+mnm.toLowerCase():"");
   const an=(AUTONOTE[p.sym]||"").replace(/\u2192/g,vert==="up"?"\u2191":vert?"\u2193":"\u2192");
   const mn=m&&it.mount.note?(INTERNAL()?it.mount.tag+": "+it.mount.note:it.mount.note):"";
-  const notes=wrap2(frac([it.emergency?"EMERGENCY FUEL SHUT-OFF":"",an,it.note||"",mn].filter(Boolean).join(" \u00b7 ")),130,9);
+  // a branch that leaves the SHEET says where it goes, on a note row: the bare
+  // pentagon letter tells a reviewer which pentagon, not which page
+  const xr=it.branch&&it.branch.ref&&XSHEET[it.branch.ref]?`ref ${it.branch.ref} \u2192 ${XSHEET[it.branch.ref]}`:"";
+  const notes=wrap2(frac([it.emergency?"EMERGENCY FUEL SHUT-OFF":"",an,it.note||"",mn,xr].filter(Boolean).join(" \u00b7 ")),130,9);
   const lines=wrap2(nm2,150,10).map(t=>({s:t,f:10,w:1}));
   if(INTERNAL()){if(ids)lines.push({s:ids,f:10,w:1});}
   else if(p.sym!=="hexAdapter"){
@@ -887,6 +914,9 @@ function partText(it,vert){const p=PARTS[it.p];const m=it.mount?PARTS[it.mount.p
   notes.forEach((t,i)=>lines.push({s:t,f:9,c:it.emergency&&i===0?FLAME:INK2}));
   return {p,m,ids,nm2,lines,notes};
 }
+/* ref -> "sheet 3", for the pentagons whose other end is on another sheet.
+   Rebuilt per sheet by renderSchematic; empty when a ref stays home. */
+let XSHEET={};
 function jointText(it){let top="",bot="",wG=64;
   // direction/material boilerplate lives in GENERAL NOTES; glyphs encode it
   if(it.j==="npt"){top=`${frac(it.size)} NPT`;wG=it.part?60:44;}
@@ -901,7 +931,9 @@ function jointText(it){let top="",bot="",wG=64;
     top=(hp&&hp.sz?`${frac(hp.sz)} LP-gas hose`:"hose")+(wp?` · ${wp}`:"");
     bot=deTag(it.label||"");wG=96;} // designation on its own row
   else if(it.j==="tube"){top=`${frac(it.size)} Cu`;bot=deTag(it.label||"");wG=64;}
-  else if(it.j==="off"){bot=deTag(it.label||"");wG=72;}
+  else if(it.j==="off"){const xs=XSHEET[it.ref];
+    // an off-page connector says WHERE, not what it used to be wired to
+    bot=xs?`${it.dir==="in"?"from":"to"} ${xs}`:deTag(it.label||"");wG=xs?86:72;}
   return {top,bot,wG};
 }
 /* stacked-label emitters — one line per grid row, from partText().lines */
@@ -939,7 +971,7 @@ function buildCell(it){
       let s=`<line x1="${x}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
       if(it.branch&&!(it.branch.ref&&MATCHED.has(it.branch.ref))){const b=it.branch;
         s+=`<line x1="${cx}" y1="${b.ref?CL-19.5:CL-44}" x2="${cx}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
-        if(b.ref)s+=`<path d="M${cx-12} ${CL-39.5} h16 l8 10 l-8 10 h-16 Z" fill="#fff" stroke="${INK}" stroke-width="1.4"/>${txt(cx-1,ROW.jTop,b.ref,11)}`;
+        if(b.ref)s+=`<path d="M${cx-12} ${CL-39.5} h16 l8 10 l-8 10 h-16 Z" fill="${INK}" stroke="${INK}" stroke-width="1.4"/>${txt(cx-1,ROW.jTop,b.ref,11,"middle","#fff",1)}`;
         // chevrons sit ABOVE the upward boss so its white body never hides them
         if(b.arrow==="in")s+=`<path d="M${cx-4} ${CL-33} l4 5 l4 -5" fill="none" stroke="${INK}" stroke-width="1.6"/>`;
         else if(b.arrow==="out"&&!b.ref)s+=`<path d="M${cx-4} ${CL-28} l4 -5 l4 5" fill="none" stroke="${INK}" stroke-width="1.6"/>`;
@@ -967,7 +999,7 @@ function buildCell(it){
       if(out)s+=`<path d="M${x} ${CL} h${w-34} m0 0 l-5 -4 m5 4 l-5 4" stroke="${INK}" fill="none" stroke-width="2"/>`;
       else s+=`<line x1="${x+34}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
       const hx=out?x+w-30:x+4;
-      s+=`<path d="M${hx} ${CL-10} h16 l8 10 l-8 10 h-16 Z" fill="#fff" stroke="${INK}" stroke-width="1.4"/>${txt(hx+11,CL+3.5,it.ref,11)}`;
+      s+=`<path d="M${hx} ${CL-10} h16 l8 10 l-8 10 h-16 Z" fill="${INK}" stroke="${INK}" stroke-width="1.4"/>${txt(hx+11,CL+3.5,it.ref,11,"middle","#fff",1)}`;
     } else {
       s+=jointGlyph(it,x,w);
     }
@@ -1264,10 +1296,14 @@ function drawSupply(items,x0){
    Unmatched refs degrade to the classic pentagon look; unreachable lines
    render as standalone strips at the bottom — nothing throws on hostile
    data. */
-function deriveTree(){
+function deriveTree(lines){
+  // lintPorts() walks the WHOLE system, so the default is every line; the
+  // renderer passes one sheet at a time and refs that leave the sheet simply
+  // find no producer, which is exactly the "unmatched -> pentagon" path.
+  lines=lines||SYSTEM.lines;
   MATCHED.clear();TREE.edges.length=0;TREE.merged.length=0;TREE.orphans.length=0;TREE.trunk.length=0;TREE.root=null;TREE.chain={};TREE.fan=new Set();
   const producers={},consumers={};
-  SYSTEM.lines.forEach(L=>{
+  lines.forEach(L=>{
     L.items.forEach((it,i)=>{
       if(it.p&&it.branch&&it.branch.ref)(producers[it.branch.ref]=producers[it.branch.ref]||[]).push(L);
       if(it.j==="off"&&it.dir==="out"&&it.ref&&i===L.items.length-1)(producers[it.ref]=producers[it.ref]||[]).push(L);
@@ -1277,7 +1313,11 @@ function deriveTree(){
   });
   const cand=r=>producers[r]&&producers[r].length===1&&consumers[r]&&consumers[r].length===1&&producers[r][0]!==consumers[r][0];
   const used=new Set();
-  const root=SYSTEM.lines.find(L=>{const f=L.items[0];return !(f&&f.j==="off"&&f.dir==="in"&&f.ref);});
+  // The root is the line nothing on this sheet feeds. On the full system that is
+  // the line with no off-in at all; on a sheet it is the line whose off-in ref
+  // has no producer here — otherwise every sheet but the first would be rootless.
+  const leadRef=L=>{const f=L.items[0];return (f&&f.j==="off"&&f.dir==="in"&&f.ref)?f.ref:null;};
+  const root=lines.find(L=>{const r=leadRef(L);return !r||!producers[r]||!producers[r].length;});
   TREE.root=root||null;
   // chain-merge a band's 1:1 continuations, then wire its branches (and its
   // terminal fan-out) as edges, recursing into each consumer band
@@ -1305,7 +1345,7 @@ function deriveTree(){
     });
   };
   if(root){used.add(root);attach(root);}
-  SYSTEM.lines.forEach(L=>{if(!used.has(L))TREE.orphans.push(L);});
+  lines.forEach(L=>{if(!used.has(L)&&L!==TREE.root)TREE.orphans.push(L);});
 }
 
 /* ---------- BANDS (horizontal, wrap-aware) ----------
@@ -1332,6 +1372,7 @@ function renderBandRows(L,availW){
     if(stackIts.length){
       const sup=drawSupply(stackIts,row.x);
       row.inner+=sup.inner;row.x=Math.max(row.x,sup.x);row.down=sup.down;row.pocket=sup.down;
+      row.stackX=sup.x;
       seg().bot=STRIP_H-4+sup.down;seg().notchX=sup.notch;
     }
     skip=ti+1;
@@ -1362,7 +1403,7 @@ function renderBandRows(L,availW){
         // the run resumes here from the matching pentagon at the fan's end —
         // a drawn route back across the sheet would read as a second loop
         const w=Math.max(80,measure(lbl,9)+42);
-        row.inner+=`<g data-pin="${esc(it.ref)}"><path d="M${row.x+4} ${CL-10} h16 l8 10 l-8 10 h-16 Z" fill="#fff" stroke="${INK}" stroke-width="1.4"/>${txt(row.x+15,CL+3.5,it.ref,11)}
+        row.inner+=`<g data-pin="${esc(it.ref)}"><path d="M${row.x+4} ${CL-10} h16 l8 10 l-8 10 h-16 Z" fill="${INK}" stroke="${INK}" stroke-width="1.4"/>${txt(row.x+15,CL+3.5,it.ref,11,"middle","#fff",1)}
         <line x1="${row.x+34}" y1="${CL}" x2="${row.x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>
         <path d="M${row.x+40} ${CL} h10 m0 0 l-6 -4.5 m6 4.5 l-6 4.5" fill="none" stroke="${INK}" stroke-width="2"/></g>`;
         row.inner+=txt(row.x+34+(w-30)/2,ROW.jBot,lbl,9,"middle",INK2);
@@ -1433,7 +1474,7 @@ function renderBandRows(L,availW){
       if(!fits(w))wrap();
       const x=row.x,hx=x+w-34;
       row.inner+=`<g data-pout="${esc(it.ref)}"><path d="M${x} ${CL} h${w-38} m0 0 l-5 -4 m5 4 l-5 4" stroke="${INK}" fill="none" stroke-width="2"/>
-      <path d="M${hx} ${CL-10} h16 l8 10 l-8 10 h-16 Z" fill="#fff" stroke="${INK}" stroke-width="1.4"/>${txt(hx+11,CL+3.5,it.ref,11)}</g>`;
+      <path d="M${hx} ${CL-10} h16 l8 10 l-8 10 h-16 Z" fill="${INK}" stroke="${INK}" stroke-width="1.4"/>${txt(hx+11,CL+3.5,it.ref,11,"middle","#fff",1)}</g>`;
       if(badge)row.inner+=`<rect x="${x+8}" y="${ROW.jTop-11}" width="${measure(badge,9)+12}" height="14" rx="3" fill="#fff" stroke="${INK}"/>`+txt(x+14,ROW.jTop,badge,9,"start",INK,1);
       row.inner+=txt(x+(w-24)/2,ROW.jBot,lbl,9,"middle",INK2);
       row.endTee={ref:it.ref};
@@ -1485,11 +1526,13 @@ function renderBandRows(L,availW){
    remaining rows; a terminal fan S-routes on the right below everything.
    Returns the subtree extents and the first row's centerline so the caller
    can draw the arriving connector. */
-function placeBand(L,absX,topY,out,edgeByRef,isRoot){
+function placeBand(L,absX,topY,out,edgeByRef,isRoot,fold){
   let avail=1e9;
   if(isRoot){
     const w0=renderBandRows(L,1e9)[0].w;
-    avail=Math.max(SHEET_W-absX,Math.ceil(w0/2)+260);
+    // a FOLDED sheet aims at half the unwrapped width, so the root serpentines
+    // once; otherwise it only folds when it outgrows the sheet
+    avail=fold?Math.ceil(w0/2)+260:Math.max(SHEET_W-absX,Math.ceil(w0/2)+260);
     for(let t=0;t<6&&renderBandRows(L,avail).length>2;t++)avail=Math.ceil(avail*1.15);
   }
   const rows=renderBandRows(L,avail);
@@ -1503,22 +1546,32 @@ function placeBand(L,absX,topY,out,edgeByRef,isRoot){
   });
   routed.sort((a,b)=>a.ri-b.ri||a.t.cx-b.t.cx);
   const jogsPerGap={};routed.forEach(r=>{jogsPerGap[r.ri]=(jogsPerGap[r.ri]||0)+1;});
+  // A folded root whose first row carries a supply stack tucks the wrapped
+  // rows into the POCKET beside it — right of the stack, packed against the
+  // first row's strip — instead of dropping them below the tall stack, which
+  // stranded the second row and made the loop-back wrap an empty rectangle.
+  // The +20 keeps the return's left gutter clear of the stack's widest label.
+  const pocketX=fold&&rows[0].stackX?rows[0].stackX+20:0;
+  const indent=rows.map((row,ri)=>ri&&pocketX?pocketX:0);
   // pass 1: rows, gaps grown to hold the jogs routed through them
   const rowY=[];let y=topY+rows[0].up,right=absX;
   rows.forEach((row,ri)=>{
-    rowY[ri]=y;right=Math.max(right,absX+row.w);
-    out.over.push(`<g class="band" data-band="${esc(L.id)}" data-cl="${y+CL}" data-w="${row.w}" transform="translate(${absX} ${y})"${ri?` data-row="${ri}"`:merged}>${ri===0?bandTitle(L):""}${row.content}</g>`);
-    if(ri<lastIdx)y+=row.h+TRUNK.GAP+6*(jogsPerGap[ri]||0)+rows[ri+1].up;
+    rowY[ri]=y;right=Math.max(right,absX+indent[ri]+row.w);
+    out.over.push(`<g class="band" data-band="${esc(L.id)}" data-cl="${y+CL}" data-w="${row.w}" transform="translate(${absX+indent[ri]} ${y})"${ri?` data-row="${ri}"`:merged}>${ri===0?bandTitle(L):""}${row.content}</g>`);
+    // a pocketed next row rides BESIDE the stack, so advance by the strip only —
+    // the stack's own depth still sets `bottom` below
+    if(ri<lastIdx)y+=(indent[ri+1]?STRIP_H+(row.hasSplit?PAR_DY:0):row.h)+TRUNK.GAP+6*(jogsPerGap[ri]||0)+rows[ri+1].up;
   });
-  let bottom=rowY[lastIdx]+rows[lastIdx].h;
+  let bottom=rowY.reduce((b,yy,ri)=>Math.max(b,yy+rows[ri].h),topY);
   // loop-backs: out on the right of the two rows they join, back along the
   // bottom of the gap (above the next row's riser headroom), in at the margin
   rows.forEach((row,ri)=>{
     if(ri>=lastIdx)return;
     const rowCL=rowY[ri]+CL,nextCL=rowY[ri+1]+CL;
     const yMid=rowY[ri+1]-rows[ri+1].up-10;
-    const lane=absX+Math.max(row.w,rows[ri+1].w)+18;
-    out.under.push(`<path data-loop="${esc(L.id)}:${ri}" data-y1="${rowCL}" data-y2="${nextCL}" d="M${absX+row.x} ${rowCL} H${lane-8} Q${lane} ${rowCL} ${lane} ${rowCL+8} V${yMid-8} Q${lane} ${yMid} ${lane-8} ${yMid} H${absX+2} Q${absX-6} ${yMid} ${absX-6} ${yMid+8} V${nextCL-8} Q${absX-6} ${nextCL} ${absX+2} ${nextCL} H${absX+15} M${absX+18} ${nextCL-4} l6 4 l-6 4" fill="none" stroke="${INK}" stroke-width="2"/>`);
+    const leftX=absX+indent[ri+1];
+    const lane=absX+Math.max(indent[ri]+row.w,indent[ri+1]+rows[ri+1].w)+18;
+    out.under.push(`<path data-loop="${esc(L.id)}:${ri}" data-y1="${rowCL}" data-y2="${nextCL}" d="M${absX+indent[ri]+row.x} ${rowCL} H${lane-8} Q${lane} ${rowCL} ${lane} ${rowCL+8} V${yMid-8} Q${lane} ${yMid} ${lane-8} ${yMid} H${leftX+2} Q${leftX-6} ${yMid} ${leftX-6} ${yMid+8} V${nextCL-8} Q${leftX-6} ${nextCL} ${leftX+2} ${nextCL} H${leftX+15} M${leftX+18} ${nextCL-4} l6 4 l-6 4" fill="none" stroke="${INK}" stroke-width="2"/>`);
     right=Math.max(right,lane);
   });
   // pass 2a: last-row drops, right-to-left, straight down under the tee — a
@@ -1566,25 +1619,82 @@ function placeBand(L,absX,topY,out,edgeByRef,isRoot){
 
 /* ---------- SCHEMATIC ASSEMBLY ---------- */
 const LAST_RENDER={w:0,h:0,inner:""};
+/* Which sheet each line belongs to. A line named in no sheet still gets drawn,
+   on a sheet of its own — hostile data must not lose a line. */
+function sheetsOf(){
+  const byId={};SYSTEM.lines.forEach(L=>{byId[L.id]=L;});
+  const defs=(SYSTEM.sheets&&SYSTEM.sheets.length)?SYSTEM.sheets:[{id:"S1",title:"Schematic",lines:SYSTEM.lines.map(L=>L.id)}];
+  const out=defs.map(d=>({id:d.id||"S?",title:d.title||"",fold:!!d.fold,lines:(d.lines||[]).map(i=>byId[i]).filter(Boolean)}));
+  const seen=new Set();out.forEach(sh=>sh.lines.forEach(L=>seen.add(L.id)));
+  const rest=SYSTEM.lines.filter(L=>!seen.has(L.id));
+  if(rest.length)out.push({id:"S?",title:"Unassigned",lines:rest});
+  return out.filter(sh=>sh.lines.length);
+}
+/* A ref is CROSS-SHEET when its producer and its consumer sit on different
+   sheets. Those are exactly the refs deriveTree() leaves unmatched, so they
+   already draw as pentagons; all this adds is the "to/from sheet n" caption. */
+function crossSheetRefs(sheets){
+  const prod={},cons={};
+  sheets.forEach((sh,i)=>sh.lines.forEach(L=>{
+    L.items.forEach(it=>{
+      if(it.p&&it.branch&&it.branch.ref)prod[it.branch.ref]=i+1;
+      if(it.j==="off"&&it.dir==="out"&&it.ref)prod[it.ref]=i+1;
+    });
+    const f=L.items[0];if(f&&f.j==="off"&&f.dir==="in"&&f.ref)cons[f.ref]=i+1;
+  }));
+  return {prod,cons};
+}
+const SHEET_TOP=46;   // room for the sheet's own title strip
+/* What the renderer ACTUALLY drew, one entry per sheet. TREE is mutated in place
+   and lintPorts() re-derives it over the whole system straight afterwards, so a
+   reader asking "which connectors exist?" must consult this, not TREE. */
+const SHEETS=[];
 function renderSchematic(){
-  buildRefs();deriveTree();
-  const edgeByRef={};TREE.edges.forEach(e=>{edgeByRef[e.ref]=e;});
-  const out={over:[],under:[]};
-  // reserve a left gutter for the lanes that route earlier-row drops down the
-  // margin (worst case: one lane per derived edge)
-  const x0=20+12+8*TREE.edges.length;
-  let right=600,bottom=16;
-  if(TREE.root){
-    const r=placeBand(TREE.root,x0,16,out,edgeByRef,true);
-    right=Math.max(right,r.right);bottom=r.bottom;
-  }
-  let oy=bottom+30;
-  TREE.orphans.forEach(L=>{
-    const r=placeBand(L,x0,oy,out,edgeByRef);
-    right=Math.max(right,r.right);oy=r.bottom+18;bottom=r.bottom;
+  buildRefs();
+  const sheets=sheetsOf();
+  SHEETS.length=0;
+  const {prod,cons}=crossSheetRefs(sheets);
+  let right=600,y=16,inner="";
+  sheets.forEach((sh,i)=>{
+    const n=i+1;
+    deriveTree(sh.lines);
+    // captions for this sheet's off-page pentagons, both directions
+    XSHEET={};
+    Object.keys(prod).forEach(r=>{if(cons[r]&&prod[r]!==cons[r]){
+      if(cons[r]===n)XSHEET[r]="sheet "+prod[r];
+      if(prod[r]===n)XSHEET[r]="sheet "+cons[r];}});
+    const edgeByRef={};TREE.edges.forEach(e=>{edgeByRef[e.ref]=e;});
+    const out={over:[],under:[]};
+    // reserve a left gutter for the lanes that route earlier-row drops down the
+    // margin (worst case: one lane per derived edge)
+    const x0=20+12+8*TREE.edges.length;
+    let sr=600,sb=SHEET_TOP;
+    if(TREE.root){
+      const r=placeBand(TREE.root,x0,SHEET_TOP,out,edgeByRef,true,sh.fold);
+      sr=Math.max(sr,r.right);sb=r.bottom;
+    }
+    let oy=sb+30;
+    TREE.orphans.forEach(L=>{
+      const r=placeBand(L,x0,oy,out,edgeByRef);
+      sr=Math.max(sr,r.right);oy=r.bottom+18;sb=r.bottom;
+    });
+    const sw=Math.round(sr+20),sh2=Math.round(sb+16);
+    // A sheet is a PAGE. It keeps its own coordinate space so it can be exported
+    // as a standalone document (and rasterised into one page of the PDF); the
+    // on-page preview is the same content stacked with a translate.
+    // The title lives in a class="strip" group so its baseline sits on the grid.
+    const body=`<rect x="6" y="6" width="${sw-12}" height="${sh2-12}" rx="6" fill="none" stroke="${INK2}" stroke-width="1"/>`
+      +`<g class="strip" transform="translate(24 18)">${txt(0,8,`SHEET ${n} OF ${sheets.length} · ${sh.title}`,11,"start",INK,1)}</g>`
+      +out.under.join("")+out.over.join("");
+    inner+=`<g class="sheet" data-sheet="${esc(sh.id)}" transform="translate(0 ${y})">${body}</g>`;
+    SHEETS.push({id:sh.id,title:sh.title,n,of:sheets.length,fold:!!sh.fold,w:sw,h:sh2,inner:body,lines:sh.lines.slice(),
+      root:TREE.root,edges:TREE.edges.slice(),orphans:TREE.orphans.slice(),
+      chain:Object.fromEntries(Object.entries(TREE.chain).map(([k,v])=>[k,v.slice()]))});
+    right=Math.max(right,sw);y+=sh2+22;
   });
-  const W=Math.round(right+20),H=Math.round(bottom+16);
-  LAST_RENDER.w=W;LAST_RENDER.h=H;LAST_RENDER.inner=out.under.join("")+out.over.join("");
+  XSHEET={};
+  const W=Math.round(right),H=Math.round(y);
+  LAST_RENDER.w=W;LAST_RENDER.h=H;LAST_RENDER.inner=inner;
   const host=document.getElementById("strips");host.innerHTML="";
   const div=document.createElement("div");div.className="strip";
   div.innerHTML=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${LAST_RENDER.inner}</svg>`;
@@ -1596,7 +1706,7 @@ function renderSchematic(){
   document.getElementById("docSub").textContent=sheetSubtitle();
   document.getElementById("docMeta").innerHTML=
     `<span>PROJECT</span><b>${esc(SYSTEM.meta.project)}</b><span>REV / DATE</span><b>${esc(SYSTEM.meta.rev)} · ${esc(SYSTEM.meta.date)}</b>
-     <span>SCALE</span><b>${esc(SYSTEM.meta.scale)}</b><span>SHEET</span><b>1 of 1 · ${SYSTEM.lines.length} lines</b>`;
+     <span>SCALE</span><b>${esc(SYSTEM.meta.scale)}</b><span>SHEETS</span><b>${sheetsOf().length} · ${SYSTEM.lines.length} lines</b>`;
 }
 
 function renderParts(){
@@ -1829,9 +1939,9 @@ function runChecks(){
   const hasAcc=allItems.some(it=>it.p==="accum");
   if(hasAcc){
     C.push({id:"FE-8",req:"Accumulators / pressure vessels designed, manufactured, and tested to ASME BPVC or DOT for the gas pressure in use; no uncertified welding or modification.",
-      status:"ok",note:"AC-1 is a DOT 4BA240 cylinder bought new for this purpose, with its requalification stamp IN DATE. The service valve is removed at the existing 3/4-14 NGT boss and the vessel is otherwise unmodified: no welding, no drilling, nothing added to the shell. It is plumbed through that boss with stock adapters. Working pressure (30 psi) is a small fraction of the 240 psi design service pressure. Walk the FAST liaison through the de-valved boss arrangement at inspection."});
+      status:"ok",note:"AC-1 is a DOT 4BA240 cylinder bought new for this purpose, with its requalification stamp IN DATE. The service valve is removed at the existing 3/4-14 NGT boss and the vessel is otherwise unmodified: no welding, no drilling, nothing added to the shell. It is plumbed through that boss with stock adapters. Working pressure (20 psi) is a small fraction of the 240 psi design service pressure. Walk the FAST liaison through the de-valved boss arrangement at inspection."});
     C.push({id:"FE-9",req:"If supply pressure exceeds the vessel's MAOP, a regulator must sit between the fuel supply and the vessel.",
-      status:"ok",note:"PRV-2 (30 psi), fed at cylinder pressure from tee F-7, is the regulator between the fuel supply and AC-1; its regulated 30 psi output is far below the vessel's 250 psi MAOP. MEGR-6120 regulators are UL-listed non-relief, so RV-1 (ASME safety valve, set 75 psi, on tee F-15 downstream of CV-1) provides the external overpressure protection for the accumulator train; its media listing is air/inert gas — raise LP suitability with the FAST liaison."});
+      status:"ok",note:"PRV-2 (20 psi), fed at cylinder pressure from tee F-7, is the regulator between the fuel supply and AC-1; its regulated 20 psi output is far below the vessel's 250 psi MAOP. MEGR-6120 regulators are UL-listed non-relief, so RV-1 (ASME safety valve, set 75 psi, on tee F-15 downstream of CV-1) provides the external overpressure protection for the accumulator train; its media listing is air/inert gas — raise LP suitability with the FAST liaison."});
   }
   C.push({id:"DOC-1",req:"Submitted diagrams must show fuel flow from supply to effect head(s), every component in the path, and the locations of all shut-offs, regulators, pressure vessels, and ignition sources.",
     status:"ok",note:"This sheet traces supply → regulation → distribution → effect heads, standby tips, and pilots, with every valve, regulator, gauge, vessel, and ignition point identified on the drawing and scheduled."});
@@ -1846,26 +1956,54 @@ function runChecks(){
 }
 
 /* ---------- EXPORT & EDIT ---------- */
-function downloadSVG(){
-  // the exported sheet must stand alone: title, "not to scale", the GENERAL
-  // NOTES, the drawing, and whatever legend the view still needs. Widen if the
-  // notes or a legend line outruns the art.
+/* ONE STANDALONE DOCUMENT PER SHEET — each is a PAGE of the packet, so each
+   carries its own title block, "not to scale" line, GENERAL NOTES and legend.
+   A reviewer holding page 3 alone must still be able to read it. Every
+   interpolated string goes through esc(): the .svg must be strict XML.
+   scripts/make_pdf.sh rasterises these into the 4-page PDF. */
+function sheetDoc(sh){
   const leg=legendLines(),notes=generalNotes(),HEAD=70,GAP=14,LH=14;
-  const legTop=HEAD+GAP+LAST_RENDER.h+22;
+  const legTop=HEAD+GAP+sh.h+22;
   const textW=s=>Math.ceil(s.length*6.4)+40;
   const legW=Math.max(0,...leg.map(textW),textW(notes));
-  const w=Math.max(LAST_RENDER.w+40,legW),h=Math.round(legTop+leg.length*LH+8);
-  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" font-family="monospace">
+  const w=Math.max(sh.w+40,legW),h=Math.round(legTop+leg.length*LH+8);
+  const head=SYSTEM.meta.project+" — LP-gas flame effect schematic · REV "+SYSTEM.meta.rev
+    +" · "+SYSTEM.meta.date+" · SHEET "+sh.n+" OF "+sh.of+" · "+sh.title+" · FOR FAST REVIEW";
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" font-family="monospace">
   <rect x="1" y="1" width="${w-2}" height="${h-2}" fill="#fff" stroke="${INK}" stroke-width="2"/>
-  <text x="20" y="30" font-size="16" fill="${INK}">${esc(SYSTEM.meta.project+" — LP-gas flame effect schematic · REV "+SYSTEM.meta.rev+" · "+SYSTEM.meta.date+" · FOR FAST REVIEW")}</text>
+  <text x="20" y="30" font-size="16" fill="${INK}">${esc(head)}</text>
   <text x="20" y="46" font-size="11" fill="${INK2}">${esc(svgSubtitle())}</text>
   <text x="20" y="62" font-size="10.5" fill="${INK2}">${esc(notes)}</text>
-  <g transform="translate(20 ${HEAD+GAP})">${LAST_RENDER.inner}</g>
+  <g transform="translate(20 ${HEAD+GAP})">${sh.inner}</g>
   <line x1="20" y1="${legTop-15}" x2="${w-20}" y2="${legTop-15}" stroke="${INK2}" stroke-width=".8"/>
   ${leg.map((l,i)=>`<text x="20" y="${legTop+i*LH}" font-size="10.5" fill="${INK2}">${esc(l)}</text>`).join("")}</svg>`;
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(new Blob([svg],{type:"image/svg+xml"}));
-  a.download=SYSTEM.meta.project.replace(/\W+/g,"_")+"_schematic.svg";a.click();
+}
+function sheetDocs(){return SHEETS.map(sheetDoc);}
+/* THE DELIVERABLE. A browser cannot write a PDF byte stream without a library,
+   and this file has no build step and no dependencies — so the four EXTERNAL
+   sheets are laid into a print-only container, one per page, and the browser's
+   own "Save as PDF" writes them out. That path stays VECTOR: text is selectable
+   and the pages scale cleanly, which a canvas-rasterised export would not.
+   scripts/make_pdf.sh builds the identical packet from the command line. */
+function downloadPDF(){
+  const prev=VIEW;
+  if(prev!=="external")setView("external");   // the packet is ALWAYS the external view
+  const host=document.getElementById("printSheets");
+  host.innerHTML=sheetDocs().map(d=>`<div class="page">${d}</div>`).join("");
+  // @page cannot be scoped by a class, so landscape is injected for THIS print
+  // only — the other button still wants the internal packet in portrait
+  const st=document.createElement("style");
+  st.id="pdfPage";st.textContent="@page{size:landscape;margin:8mm}";
+  document.head.appendChild(st);
+  document.body.classList.add("pdfonly");
+  let done=false;
+  const restore=()=>{if(done)return;done=true;
+    document.body.classList.remove("pdfonly");
+    host.innerHTML="";st.remove();
+    if(prev!=="external")setView(prev);};
+  window.addEventListener("afterprint",restore,{once:true});
+  window.print();
+  setTimeout(restore,2000);   // Safari does not always fire afterprint
 }
 function applyJSON(){
   try{const o=JSON.parse(document.getElementById("jsonBox").value);
@@ -1880,5 +2018,7 @@ function renderAll(){renderSchematic();renderParts();runChecks();
 }
 renderAll();
 </script>
+<div id="printSheets"></div>
+
 </body>
 </html>

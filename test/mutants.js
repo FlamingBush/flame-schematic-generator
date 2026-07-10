@@ -323,7 +323,7 @@ const MUTANTS = [
     invariantId: "branchesDownstreamOfTheMainShutoff",
     name: "the poofer tee moved back upstream of the main shut-off (the real defect)",
     kind: "json",
-    expectDetail: "V-2 does not cut: branch B",
+    expectDetail: "V-2 does not cut: branch A",
     mutate(o) {
       // Both are FNPT and both are flanked by hex nipples, so the system stays
       // lint-clean: only the SAFETY property breaks. That is exactly why the

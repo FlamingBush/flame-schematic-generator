@@ -557,7 +557,14 @@ const INVARIANTS = [
       if (!L) return no("L3b is gone");
       const symAt = (s) => L.items.findIndex((i) => i.p && PARTS[i.p] && PARTS[i.p].sym === s);
       const iN = symAt("needle"), iS = symAt("sol"), iM = symAt("mixer");
-      const teed = app.TREE.edges.some((e) => e.ref === "J" && e.kind === "drop");
+      // "Tees off before the split" read from SYSTEM, not from a pentagon LETTER
+      // and not from TREE: the letters get relettered and TREE describes the
+      // whole system, while the drawing is now cut into sheets.
+      const L3 = line(SYSTEM, "L3");
+      const jetRef = L.items[0] && L.items[0].ref;
+      const iTee = L3 ? L3.items.findIndex((i) => i.branch && i.branch.ref === jetRef) : -1;
+      const iSplit = L3 ? L3.items.findIndex((i) => i.split) : -1;
+      const teed = iTee >= 0 && iSplit >= 0 && iTee < iSplit;
       const named = `needle=${iN} solenoid=${iS} mixer=${iM} teedOff=${teed}`;
       if (iN < 0 || iS < 0 || iM < 0 || !teed) return no("missing element: " + named);
       return iN < iS && iS < iM ? ok(named) : no("out of order: " + named);

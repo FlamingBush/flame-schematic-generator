@@ -16,21 +16,31 @@ import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-svg = Path(sys.argv[1] if len(sys.argv) > 1 else Path(__file__).parent.parent / "test" / "export.svg")
-if not svg.exists():
-    sys.exit(f"{svg} not found — run `node test/run-tests.js` first to generate it")
+# The packet is one SVG per SHEET (scripts/make_pdf.sh joins them into the PDF),
+# so validate every page, not just one. An explicit path still works.
+here = Path(__file__).parent.parent / "test"
+if len(sys.argv) > 1:
+    pages = [Path(a) for a in sys.argv[1:]]
+else:
+    pages = sorted(here.glob("export-sheet-*.svg"))
+if not pages:
+    sys.exit(f"no exported pages in {here} — run `node test/run-tests.js` first to generate them")
 
-root = ET.parse(svg).getroot()
 ns = {"s": "http://www.w3.org/2000/svg"}
-texts = root.findall(".//s:text", ns)
-shapes = sum(len(root.findall(f".//s:{t}", ns)) for t in ("line", "path", "rect", "circle"))
-print(f"XML well-formed ✓  ({svg.name}: {len(texts)} text elements, {shapes} shapes, "
-      f"canvas {root.get('width')}x{root.get('height')})")
+for svg in pages:
+    if not svg.exists():
+        sys.exit(f"{svg} not found")
+    root = ET.parse(svg).getroot()          # raises on any XML defect
+    texts = root.findall(".//s:text", ns)
+    shapes = sum(len(root.findall(f".//s:{t}", ns)) for t in ("line", "path", "rect", "circle"))
+    print(f"XML well-formed ✓  ({svg.name}: {len(texts)} text elements, {shapes} shapes, "
+          f"canvas {root.get('width')}x{root.get('height')})")
 
 try:
     import cairosvg
-    png = svg.with_suffix(".png")
-    cairosvg.svg2png(url=str(svg), write_to=str(png), output_width=2400)
-    print(f"rasterized ✓  {png}")
+    for svg in pages:
+        png = svg.with_suffix(".png")
+        cairosvg.svg2png(url=str(svg), write_to=str(png), output_width=2400)
+        print(f"rasterized ✓  {png}")
 except ImportError:
-    print("cairosvg not installed — skipping rasterization (pip install cairosvg to enable)")
+    print("cairosvg not installed — skipping rasterization (use scripts/make_pdf.sh, which uses rsvg-convert)")

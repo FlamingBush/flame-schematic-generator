@@ -1,5 +1,8 @@
 test/export.svg
 test/export.png
+test/export-sheet-*.svg
+test/export-sheet-*.png
+packet.pdf
 node_modules/
 
 # derived rasters from `npm run approve` — look at them, don't commit them.

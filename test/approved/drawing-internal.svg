@@ -1,11 +1,13 @@
-<svg width="2950" height="2620" viewBox="0 0 2950 2620" xmlns="http://www.w3.org/2000/svg">
-<path data-conn="D" data-cly="1477" d="M2277.42 658 V1469 Q2277.42 1477 2285.42 1477" fill="none" stroke="#1F2933" stroke-width="2"/>
-<path data-conn="B" data-cly="658" d="M1309.5 128 V650 Q1309.5 658 1317.5 658" fill="none" stroke="#1F2933" stroke-width="2"/>
-<path data-conn="J" data-cly="2224" d="M501.62 1738 V2216 Q501.62 2224 509.62 2224" fill="none" stroke="#1F2933" stroke-width="2"/>
-<g class="band" data-band="L1" data-cl="128" data-w="2239.64" transform="translate(64 16)" data-merged="L2">
-<text x="14" y="8" font-size="10" text-anchor="start" fill="#52606D">L1 — Supply &amp; regulation · tank pressure → 60 psi at PRV-1</text>
-<path d="M9 -4 H1678.7 Q1685.7 -4 1685.7 3 V220 Q1685.7 227 1678.7 227 H364 Q357 227 357 234 V828 Q357 835 350 835 H9 Q2 835 2 828 V3 Q2 -4 9 -4 Z" fill="none" stroke="#52606D" stroke-dasharray="7 4"/>
-<rect x="1689.7" y="-4" width="547.9399999999998" height="231" rx="7" fill="none" stroke="#52606D" stroke-dasharray="7 4"/>
+<svg width="1696" height="3986" viewBox="0 0 1696 3986" xmlns="http://www.w3.org/2000/svg">
+<g class="sheet" data-sheet="S1" transform="translate(0 16)">
+<rect x="6" y="6" width="1184" height="889" rx="6" fill="none" stroke="#52606D" stroke-width="1"/>
+<g class="strip" transform="translate(24 18)">
+<text x="0" y="8" font-size="11" text-anchor="start" fill="#1F2933" font-weight="500">SHEET 1 OF 4 · Supply &amp; regulation</text>
+</g>
+<path data-loop="L1:0" data-y1="158" data-y2="413" d="M1023 158 H1168.1 Q1176.1 158 1176.1 166 V283 Q1176.1 291 1168.1 291 H416 Q408 291 408 299 V405 Q408 413 416 413 H429 M432 409 l6 4 l-6 4" fill="none" stroke="#1F2933" stroke-width="2"/>
+<g class="band" data-band="L1" data-cl="158" data-w="1005" transform="translate(32 46)">
+<text x="14" y="8" font-size="10" text-anchor="start" fill="#52606D">L1 — Supply &amp; regulation · tank pressure → 45 psi at PRV-1</text>
+<path d="M9 -4 H996 Q1003 -4 1003 3 V220 Q1003 227 996 227 H364 Q357 227 357 234 V828 Q357 835 350 835 H9 Q2 835 2 828 V3 Q2 -4 9 -4 Z" fill="none" stroke="#52606D" stroke-dasharray="7 4"/>
 <g class="tcell" data-y="781">
 <line x1="80" y1="735" x2="80" y2="745" stroke="#1F2933" stroke-width="2"/>
 <line x1="138" y1="735" x2="138" y2="745" stroke="#1F2933" stroke-width="2"/>
@@ -249,149 +251,106 @@
 <text x="925" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">8</text>
 <text x="925" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">3/8 flare ▸ 1/4 NPT</text>
 <text x="925" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">F-13</text>
-<line x1="991" y1="112" x2="1144.5" y2="112" stroke="#1F2933" stroke-width="2"/>
+</g>
+<g class="band" data-band="L1" data-cl="413" data-w="744.0999999999999" transform="translate(414 301)" data-row="1">
+<rect x="2" y="-4" width="740.0999999999999" height="231" rx="7" fill="none" stroke="#52606D" stroke-dasharray="7 4"/>
+<line x1="14" y1="112" x2="167.5" y2="112" stroke="#1F2933" stroke-width="2"/>
 <g transform="translate(0 0)">
-<rect x="1053.35" y="102" width="28.799999999999997" height="20" rx="3" fill="#fff" stroke="#C6480A" stroke-width="1.6"/>
-    <circle cx="1067.75" cy="112" r="6" fill="none" stroke="#C6480A"/>
-    <line x1="1067.75" y1="102" x2="1079.75" y2="90" stroke="#C6480A" stroke-width="2.2" stroke-linecap="round"/>
+<rect x="76.35" y="102" width="28.799999999999997" height="20" rx="3" fill="#fff" stroke="#C6480A" stroke-width="1.6"/>
+    <circle cx="90.75" cy="112" r="6" fill="none" stroke="#C6480A"/>
+    <line x1="90.75" y1="102" x2="102.75" y2="90" stroke="#C6480A" stroke-width="2.2" stroke-linecap="round"/>
 </g>
-<line x1="1067.75" y1="42" x2="1067.75" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-  <circle cx="1067.75" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="1067.75" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">3</text>
-<text x="1067.75" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">Ball valve</text>
-<text x="1067.75" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">V-2</text>
-<text x="1067.75" y="189" font-size="9" text-anchor="middle" fill="#C6480A">EMERGENCY FUEL SHUT-OFF ·</text>
-<text x="1067.75" y="202" font-size="9" text-anchor="middle" fill="#52606D">main, marked</text>
-<line x1="1144.5" y1="112" x2="1204.5" y2="112" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(2349,0) scale(-1,1)">
-<path d="M1177.5 106 L1188.5 108.5 V115.5 L1177.5 118 Z" fill="#fff" stroke="#1F2933"/>
-    <path d="M1180.5 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
-    <path d="M1189.5 105 h11 v14 h-11 M1189.5 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
+<line x1="90.75" y1="42" x2="90.75" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+  <circle cx="90.75" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="90.75" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">3</text>
+<text x="90.75" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">Ball valve</text>
+<text x="90.75" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">V-2</text>
+<text x="90.75" y="189" font-size="9" text-anchor="middle" fill="#C6480A">EMERGENCY FUEL SHUT-OFF ·</text>
+<text x="90.75" y="202" font-size="9" text-anchor="middle" fill="#52606D">main, marked</text>
+<line x1="167.5" y1="112" x2="227.5" y2="112" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(395,0) scale(-1,1)">
+<path d="M200.5 106 L211.5 108.5 V115.5 L200.5 118 Z" fill="#fff" stroke="#1F2933"/>
+    <path d="M203.5 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
+    <path d="M212.5 105 h11 v14 h-11 M212.5 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
 </g>
-<path d="M1177.5 106 L1188.5 108.5 V115.5 L1177.5 118 Z" fill="#fff" stroke="#1F2933"/>
-    <path d="M1180.5 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
-    <path d="M1189.5 105 h11 v14 h-11 M1189.5 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
-<rect x="1171.5" y="106" width="6" height="12" fill="#fff" stroke="#1F2933"/>
-<text x="1174.5" y="86" font-size="10" text-anchor="middle" fill="#1F2933">1/4 NPT</text>
-<line x1="1204.5" y1="112" x2="1439.5" y2="112" stroke="#1F2933" stroke-width="2"/>
+<path d="M200.5 106 L211.5 108.5 V115.5 L200.5 118 Z" fill="#fff" stroke="#1F2933"/>
+    <path d="M203.5 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
+    <path d="M212.5 105 h11 v14 h-11 M212.5 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
+<rect x="194.5" y="106" width="6" height="12" fill="#fff" stroke="#1F2933"/>
+<text x="197.5" y="86" font-size="10" text-anchor="middle" fill="#1F2933">1/4 NPT</text>
+<line x1="227.5" y1="112" x2="408.9" y2="112" stroke="#1F2933" stroke-width="2"/>
+<line x1="318.2" y1="92.5" x2="318.2" y2="112" stroke="#1F2933" stroke-width="2"/>
+<path d="M306.2 72.5 h16 l8 10 l-8 10 h-16 Z" fill="#1F2933" stroke="#1F2933" stroke-width="1.4"/>
+<text x="317.2" y="86" font-size="11" text-anchor="middle" fill="#fff" font-weight="500">A</text>
+<path d="M314.2 103 l4 -5 l4 5" fill="none" stroke="#1F2933" stroke-width="1.6"/>
 <g transform="translate(0 0)">
-<path d="M1230.5 105 H1260.5 V119 H1250.5 V128 H1240.5 V119 H1230.5 Z" fill="#fff" stroke="#1F2933" stroke-width="1.4" stroke-linejoin="round"/>
+<path d="M303.2 105 H313.2 V96 H323.2 V105 H333.2 V119 H303.2 Z" fill="#fff" stroke="#1F2933" stroke-width="1.4" stroke-linejoin="round"/>
 </g>
-<line x1="1245.5" y1="42" x2="1245.5" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-  <circle cx="1245.5" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="1245.5" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">5</text>
-<text x="1272.5" y="162" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">Tee, 1/4 NPT</text>
-<text x="1272.5" y="176" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">F-7</text>
-<text x="1272.5" y="189" font-size="9" text-anchor="start" fill="#52606D">poofer feed at tank pressure</text>
-<line x1="1439.5" y1="112" x2="1499.5" y2="112" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(2939,0) scale(-1,1)">
-<path d="M1472.5 106 L1483.5 108.5 V115.5 L1472.5 118 Z" fill="#fff" stroke="#1F2933"/>
-    <path d="M1475.5 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
-    <path d="M1484.5 105 h11 v14 h-11 M1484.5 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
+<line x1="318.2" y1="42" x2="318.2" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+  <circle cx="318.2" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="318.2" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">5</text>
+<text x="318.2" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">Tee, 1/4 NPT</text>
+<text x="318.2" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">F-7</text>
+<text x="318.2" y="189" font-size="9" text-anchor="middle" fill="#52606D">poofer feed at tank pressure ·</text>
+<text x="318.2" y="202" font-size="9" text-anchor="middle" fill="#52606D">ref A → sheet 2</text>
+<line x1="408.9" y1="112" x2="468.9" y2="112" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(877.8,0) scale(-1,1)">
+<path d="M441.9 106 L452.9 108.5 V115.5 L441.9 118 Z" fill="#fff" stroke="#1F2933"/>
+    <path d="M444.9 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
+    <path d="M453.9 105 h11 v14 h-11 M453.9 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
 </g>
-<path d="M1472.5 106 L1483.5 108.5 V115.5 L1472.5 118 Z" fill="#fff" stroke="#1F2933"/>
-    <path d="M1475.5 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
-    <path d="M1484.5 105 h11 v14 h-11 M1484.5 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
-<rect x="1466.5" y="106" width="6" height="12" fill="#fff" stroke="#1F2933"/>
-<text x="1469.5" y="86" font-size="10" text-anchor="middle" fill="#1F2933">1/4 NPT</text>
-<line x1="1499.5" y1="112" x2="1674.7" y2="112" stroke="#1F2933" stroke-width="2"/>
+<path d="M441.9 106 L452.9 108.5 V115.5 L441.9 118 Z" fill="#fff" stroke="#1F2933"/>
+    <path d="M444.9 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
+    <path d="M453.9 105 h11 v14 h-11 M453.9 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
+<rect x="435.9" y="106" width="6" height="12" fill="#fff" stroke="#1F2933"/>
+<text x="438.9" y="86" font-size="10" text-anchor="middle" fill="#1F2933">1/4 NPT</text>
+<line x1="468.9" y1="112" x2="644.0999999999999" y2="112" stroke="#1F2933" stroke-width="2"/>
 <g transform="translate(0 0)">
-<rect x="1566.6999999999998" y="104" width="40.8" height="16" rx="3" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
-    <path d="M1574.1 104 A 13 13 0 0 1 1600.1 104" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
-    <line x1="1587.1" y1="91" x2="1587.1" y2="84" stroke="#1F2933" stroke-width="2"/>
-    <circle cx="1606.1" cy="100" r="2.2" fill="#fff" stroke="#52606D"/>
-    <path d="M1580.1 112 h11 m0 0 l-4 -3 m4 3 l-4 3" stroke="#1F2933" fill="none"/>
+<rect x="536.1" y="104" width="40.8" height="16" rx="3" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
+    <path d="M543.5 104 A 13 13 0 0 1 569.5 104" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
+    <line x1="556.5" y1="91" x2="556.5" y2="84" stroke="#1F2933" stroke-width="2"/>
+    <circle cx="575.5" cy="100" r="2.2" fill="#fff" stroke="#52606D"/>
+    <path d="M549.5 112 h11 m0 0 l-4 -3 m4 3 l-4 3" stroke="#1F2933" fill="none"/>
 </g>
 <g transform="translate(19 -12)">
-<line x1="1587.1" y1="112" x2="1587.1" y2="104" stroke="#1F2933" stroke-width="2"/>
-    <circle cx="1587.1" cy="92" r="12" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
-    <path d="M1579.8999999999999 98 A 8.399999999999999 8.399999999999999 0 1 1 1594.3 98" fill="none" stroke="#52606D" stroke-width="1"/>
-    <line x1="1587.1" y1="92" x2="1581.6999999999998" y2="87.2" stroke="#C6480A" stroke-width="1.5"/>
-    <circle cx="1587.1" cy="112" r="2" fill="#1F2933"/>
+<line x1="556.5" y1="112" x2="556.5" y2="104" stroke="#1F2933" stroke-width="2"/>
+    <circle cx="556.5" cy="92" r="12" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
+    <path d="M549.3 98 A 8.399999999999999 8.399999999999999 0 1 1 563.7 98" fill="none" stroke="#52606D" stroke-width="1"/>
+    <line x1="556.5" y1="92" x2="551.1" y2="87.2" stroke="#C6480A" stroke-width="1.5"/>
+    <circle cx="556.5" cy="112" r="2" fill="#1F2933"/>
 </g>
-<line x1="1571.1" y1="42" x2="1571.1" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-  <circle cx="1571.1" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="1571.1" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">10</text>
-<line x1="1603.1" y1="42" x2="1603.1" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-  <circle cx="1603.1" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="1603.1" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">11</text>
-<text x="1587.1" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">Regulator</text>
-<text x="1587.1" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">+ pressure gauge, 0-60 psi</text>
-<text x="1587.1" y="189" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">PRV-1+PI-2</text>
-<text x="1587.1" y="202" font-size="9" text-anchor="middle" fill="#52606D">set 60 psi</text>
-<line x1="1674.7" y1="112" x2="1700.7" y2="112" stroke="#1F2933" stroke-width="2"/>
-<text x="1708.7" y="8" font-size="10" text-anchor="start" fill="#52606D">L2 — Distribution manifold · 60 psi</text>
-<line x1="1700.7" y1="112" x2="1760.7" y2="112" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(3461.4,0) scale(-1,1)">
-<path d="M1733.7 106 L1744.7 108.5 V115.5 L1733.7 118 Z" fill="#fff" stroke="#1F2933"/>
-    <path d="M1736.7 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
-    <path d="M1745.7 105 h11 v14 h-11 M1745.7 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
+<line x1="540.5" y1="42" x2="540.5" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+  <circle cx="540.5" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="540.5" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">10</text>
+<line x1="572.5" y1="42" x2="572.5" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+  <circle cx="572.5" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="572.5" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">11</text>
+<text x="556.5" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">Regulator</text>
+<text x="556.5" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">+ pressure gauge, 0-60 psi</text>
+<text x="556.5" y="189" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">PRV-1+PI-2</text>
+<text x="556.5" y="202" font-size="9" text-anchor="middle" fill="#52606D">set 45 psi</text>
+<path d="M644.0999999999999 112 h52 m0 0 l-5 -4 m5 4 l-5 4" stroke="#1F2933" fill="none" stroke-width="2"/>
+<path d="M700.0999999999999 102 h16 l8 10 l-8 10 h-16 Z" fill="#1F2933" stroke="#1F2933" stroke-width="1.4"/>
+<text x="711.0999999999999" y="115.5" font-size="11" text-anchor="middle" fill="#fff" font-weight="500">B</text>
+<text x="687.0999999999999" y="138" font-size="9" text-anchor="middle" fill="#52606D">to sheet 3</text>
 </g>
-<path d="M1733.7 106 L1744.7 108.5 V115.5 L1733.7 118 Z" fill="#fff" stroke="#1F2933"/>
-    <path d="M1736.7 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
-    <path d="M1745.7 105 h11 v14 h-11 M1745.7 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
-<rect x="1727.7" y="106" width="6" height="12" fill="#fff" stroke="#1F2933"/>
-<text x="1730.7" y="86" font-size="10" text-anchor="middle" fill="#1F2933">1/4 NPT</text>
-<line x1="1760.7" y1="112" x2="1863.98" y2="112" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(0 0)">
-<path d="M1797.3400000000001 105 H1807.3400000000001 V96 H1817.3400000000001 V105 H1827.3400000000001 V119 H1797.3400000000001 Z" fill="#fff" stroke="#1F2933" stroke-width="1.4" stroke-linejoin="round"/>
 </g>
-<g transform="translate(0 -13)">
-<line x1="1812.3400000000001" y1="112" x2="1812.3400000000001" y2="105" stroke="#1F2933" stroke-width="2"/>
-    <path d="M1805.3400000000001 91 H1819.3400000000001 L1812.3400000000001 105 Z" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
-    <path d="M1807.3400000000001 88 h10 m-10 -4 h10 m-10 -4 h10" stroke="#1F2933" stroke-width="1.2" fill="none"/>
-    <path d="M1818.3400000000001 96 h9 m0 0 l-4 -3 m4 3 l-4 3" stroke="#1F2933" fill="none"/>
+<g class="sheet" data-sheet="S2" transform="translate(0 939)">
+<rect x="6" y="6" width="1684" height="1375" rx="6" fill="none" stroke="#52606D" stroke-width="1"/>
+<g class="strip" transform="translate(24 18)">
+<text x="0" y="8" font-size="11" text-anchor="start" fill="#1F2933" font-weight="500">SHEET 2 OF 4 · Poofer</text>
 </g>
-<line x1="1796.3400000000001" y1="42" x2="1796.3400000000001" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-  <circle cx="1796.3400000000001" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="1796.3400000000001" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">5</text>
-<line x1="1828.3400000000001" y1="42" x2="1828.3400000000001" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-  <circle cx="1828.3400000000001" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="1828.3400000000001" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">12</text>
-<text x="1812.3400000000001" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">Tee, 1/4 NPT</text>
-<text x="1812.3400000000001" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">+ relief valve</text>
-<text x="1812.3400000000001" y="189" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">F-20+RV-2</text>
-<text x="1812.3400000000001" y="202" font-size="9" text-anchor="middle" fill="#52606D">RV-2: set 90 psi</text>
-<line x1="1863.98" y1="112" x2="1923.98" y2="112" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(3787.96,0) scale(-1,1)">
-<path d="M1896.98 106 L1907.98 108.5 V115.5 L1896.98 118 Z" fill="#fff" stroke="#1F2933"/>
-    <path d="M1899.98 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
-    <path d="M1908.98 105 h11 v14 h-11 M1908.98 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
-</g>
-<path d="M1896.98 106 L1907.98 108.5 V115.5 L1896.98 118 Z" fill="#fff" stroke="#1F2933"/>
-    <path d="M1899.98 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
-    <path d="M1908.98 105 h11 v14 h-11 M1908.98 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
-<rect x="1890.98" y="106" width="6" height="12" fill="#fff" stroke="#1F2933"/>
-<text x="1893.98" y="86" font-size="10" text-anchor="middle" fill="#1F2933">1/4 NPT</text>
-<line x1="1923.98" y1="112" x2="2030.98" y2="112" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(0 0)">
-<rect x="1953.48" y="102" width="48" height="20" rx="3" fill="#fff" stroke="#1F2933" stroke-width="1.6"/>
-    <line x1="2000.48" y1="107" x2="2010.48" y2="101" stroke="#1F2933" stroke-width="2"/>
-<line x1="2000.48" y1="117" x2="2010.48" y2="123" stroke="#1F2933" stroke-width="2"/>
-</g>
-<line x1="1977.48" y1="42" x2="1977.48" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-  <circle cx="1977.48" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="1977.48" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">13</text>
-<text x="1977.48" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">Cross, 1/4 NPT,</text>
-<text x="1977.48" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">four ends</text>
-<text x="1977.48" y="189" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">MF-1</text>
-<g data-pout="C">
-<path d="M2030.98 112 h156.66 m0 0 l-5 -4 m5 4 l-5 4" stroke="#1F2933" fill="none" stroke-width="2"/>
-      <path d="M2191.64 102 h16 l8 10 l-8 10 h-16 Z" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
-<text x="2202.64" y="115.5" font-size="11" text-anchor="middle" fill="#1F2933">C</text>
-</g>
-<rect x="2038.98" y="75" width="162.66" height="14" rx="3" fill="#fff" stroke="#1F2933"/>
-<text x="2044.98" y="86" font-size="9" text-anchor="start" fill="#1F2933" font-weight="500">one of 3 identical branches</text>
-<text x="2116.31" y="138" font-size="9" text-anchor="middle" fill="#52606D">to L3</text>
-</g>
-<g class="band" data-band="L4" data-cl="658" data-w="1626.8799999999999" transform="translate(1303.5 546)" data-merged="L4b">
-<text x="14" y="8" font-size="10" text-anchor="start" fill="#52606D">L4 — Poofer supply · tank pressure → 30 psi at PRV-2</text>
-<rect x="2" y="-4" width="720.32" height="231" rx="7" fill="none" stroke="#52606D" stroke-dasharray="7 4"/>
-<rect x="726.32" y="-275" width="898.5599999999998" height="947" rx="7" fill="none" stroke="#52606D" stroke-dasharray="7 4"/>
-<line x1="14" y1="112" x2="60" y2="112" stroke="#1F2933" stroke-width="2"/>
-      <path d="M26 112 h14 m0 0 l-6 -4.5 m6 4.5 l-6 4.5" fill="none" stroke="#1F2933" stroke-width="2"/>
-<line x1="60" y1="112" x2="192" y2="112" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(126 0)">
+<path data-conn="D" data-cly="1252" d="M1053.92 433 V1244 Q1053.92 1252 1061.92 1252" fill="none" stroke="#1F2933" stroke-width="2"/>
+<g class="band" data-band="L4" data-cl="433" data-w="1599.92" transform="translate(40 321)" data-merged="L4b">
+<text x="14" y="8" font-size="10" text-anchor="start" fill="#52606D">L4 — Poofer supply · tank pressure → 20 psi at PRV-2</text>
+<rect x="2" y="-4" width="760.32" height="231" rx="7" fill="none" stroke="#52606D" stroke-dasharray="7 4"/>
+<rect x="766.32" y="-275" width="831.6" height="947" rx="7" fill="none" stroke="#52606D" stroke-dasharray="7 4"/>
+<line x1="48" y1="112" x2="100" y2="112" stroke="#1F2933" stroke-width="2"/>
+<path d="M18 102 h16 l8 10 l-8 10 h-16 Z" fill="#1F2933" stroke="#1F2933" stroke-width="1.4"/>
+<text x="29" y="115.5" font-size="11" text-anchor="middle" fill="#fff" font-weight="500">A</text>
+<text x="57" y="138" font-size="9" text-anchor="middle" fill="#52606D">from sheet 1</text>
+<line x1="100" y1="112" x2="232" y2="112" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(166 0)">
 <g transform="translate(-62.400000000000006,0) scale(-1,1)">
 <path d="M-46.2 106 L-32.2 108.5 V115.5 L-46.2 118 Z" fill="#fff" stroke="#1F2933"/>
     <path d="M-43.2 109 l3 6 m2 -6 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
@@ -404,18 +363,18 @@
     <path d="M23.200000000000003 105 L32.2 112 L23.200000000000003 119 Z" fill="#fff" stroke="#1F2933"/>
     <path d="M32.2 104 h9 l5 8 l-5 8 h-9 Z" fill="#fff" stroke="#1F2933"/>
 </g>
-<line x1="126" y1="42" x2="126" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-  <circle cx="126" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="126" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">8</text>
-<text x="126" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">1/4 NPT ▸ 3/8 flare</text>
-<text x="126" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">F-22</text>
-<line x1="192" y1="112" x2="269.8" y2="112" stroke="#334E68" stroke-width="3"/>
-      <path d="M269.8 112 l5 -8 6 16 5 -8" fill="none" stroke="#334E68" stroke-width="3" stroke-linejoin="round"/>
-      <line x1="285.8" y1="112" x2="375.6" y2="112" stroke="#334E68" stroke-width="3"/>
-<text x="283.8" y="86" font-size="10" text-anchor="middle" fill="#1F2933">3/8 LP-gas hose · WP 350 psi</text>
-<text x="283.8" y="138" font-size="9" text-anchor="middle" fill="#52606D">HS-4</text>
-<line x1="375.6" y1="112" x2="507.6" y2="112" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(441.6 0)">
+<line x1="166" y1="42" x2="166" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+  <circle cx="166" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="166" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">8</text>
+<text x="166" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">1/4 NPT ▸ 3/8 flare</text>
+<text x="166" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">F-22</text>
+<line x1="232" y1="112" x2="309.8" y2="112" stroke="#334E68" stroke-width="3"/>
+      <path d="M309.8 112 l5 -8 6 16 5 -8" fill="none" stroke="#334E68" stroke-width="3" stroke-linejoin="round"/>
+      <line x1="325.8" y1="112" x2="415.6" y2="112" stroke="#334E68" stroke-width="3"/>
+<text x="323.8" y="86" font-size="10" text-anchor="middle" fill="#1F2933">3/8 LP-gas hose · WP 350 psi</text>
+<text x="323.8" y="138" font-size="9" text-anchor="middle" fill="#52606D">HS-4</text>
+<line x1="415.6" y1="112" x2="547.6" y2="112" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(481.6 0)">
 <g transform="translate(-62.400000000000006,0) scale(-1,1)">
 <rect x="-48.2" y="107" width="9" height="10" fill="#fff" stroke="#1F2933"/>
     <path d="M-39.2 105 L-30.200000000000003 112 L-39.2 119 Z" fill="#fff" stroke="#1F2933"/>
@@ -428,94 +387,94 @@
     <path d="M19.200000000000003 109 l3 6 m2 -6 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
     <path d="M31.200000000000003 105 h13 v14 h-13 M31.200000000000003 108.5 h8 m-8 7 h8" fill="none" stroke="#1F2933"/>
 </g>
-<line x1="441.6" y1="42" x2="441.6" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-  <circle cx="441.6" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="441.6" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">8</text>
-<text x="441.6" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">3/8 flare ▸ 1/4 NPT</text>
-<text x="441.6" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">F-14</text>
-<line x1="507.6" y1="112" x2="711.32" y2="112" stroke="#1F2933" stroke-width="2"/>
+<line x1="481.6" y1="42" x2="481.6" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+  <circle cx="481.6" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="481.6" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">8</text>
+<text x="481.6" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">3/8 flare ▸ 1/4 NPT</text>
+<text x="481.6" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">F-14</text>
+<line x1="547.6" y1="112" x2="751.32" y2="112" stroke="#1F2933" stroke-width="2"/>
 <g transform="translate(0 0)">
-<rect x="589.0600000000001" y="104" width="40.8" height="16" rx="3" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
-    <path d="M596.46 104 A 13 13 0 0 1 622.46 104" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
-    <line x1="609.46" y1="91" x2="609.46" y2="84" stroke="#1F2933" stroke-width="2"/>
-    <circle cx="628.46" cy="100" r="2.2" fill="#fff" stroke="#52606D"/>
-    <path d="M602.46 112 h11 m0 0 l-4 -3 m4 3 l-4 3" stroke="#1F2933" fill="none"/>
+<rect x="629.0600000000001" y="104" width="40.8" height="16" rx="3" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
+    <path d="M636.46 104 A 13 13 0 0 1 662.46 104" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
+    <line x1="649.46" y1="91" x2="649.46" y2="84" stroke="#1F2933" stroke-width="2"/>
+    <circle cx="668.46" cy="100" r="2.2" fill="#fff" stroke="#52606D"/>
+    <path d="M642.46 112 h11 m0 0 l-4 -3 m4 3 l-4 3" stroke="#1F2933" fill="none"/>
 </g>
 <g transform="translate(19 -12)">
-<line x1="609.46" y1="112" x2="609.46" y2="104" stroke="#1F2933" stroke-width="2"/>
-    <circle cx="609.46" cy="92" r="12" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
-    <path d="M602.26 98 A 8.399999999999999 8.399999999999999 0 1 1 616.6600000000001 98" fill="none" stroke="#52606D" stroke-width="1"/>
-    <line x1="609.46" y1="92" x2="604.0600000000001" y2="87.2" stroke="#C6480A" stroke-width="1.5"/>
-    <circle cx="609.46" cy="112" r="2" fill="#1F2933"/>
+<line x1="649.46" y1="112" x2="649.46" y2="104" stroke="#1F2933" stroke-width="2"/>
+    <circle cx="649.46" cy="92" r="12" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
+    <path d="M642.26 98 A 8.399999999999999 8.399999999999999 0 1 1 656.6600000000001 98" fill="none" stroke="#52606D" stroke-width="1"/>
+    <line x1="649.46" y1="92" x2="644.0600000000001" y2="87.2" stroke="#C6480A" stroke-width="1.5"/>
+    <circle cx="649.46" cy="112" r="2" fill="#1F2933"/>
 </g>
-<line x1="593.46" y1="42" x2="593.46" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-  <circle cx="593.46" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="593.46" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">28</text>
-<line x1="625.46" y1="42" x2="625.46" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-  <circle cx="625.46" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="625.46" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">29</text>
-<text x="609.46" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">Regulator</text>
-<text x="609.46" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">+ pressure gauge, 0-30 psi</text>
-<text x="609.46" y="189" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">PRV-2+PI-3</text>
-<text x="609.46" y="202" font-size="9" text-anchor="middle" fill="#52606D">set 30 psi ·</text>
-<text x="609.46" y="215" font-size="9" text-anchor="middle" fill="#52606D">tank-pressure feed for fast refill</text>
-<line x1="711.32" y1="112" x2="737.32" y2="112" stroke="#1F2933" stroke-width="2"/>
-<text x="745.32" y="8" font-size="10" text-anchor="start" fill="#52606D">L4b — Poofer accumulator &amp; discharge · 30 psi (accumulator MAOP 250 psi)</text>
-<line x1="737.32" y1="112" x2="797.32" y2="112" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(1534.64,0) scale(-1,1)">
-<path d="M770.32 106 L781.32 108.5 V115.5 L770.32 118 Z" fill="#fff" stroke="#1F2933"/>
-    <path d="M773.32 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
-    <path d="M782.32 105 h11 v14 h-11 M782.32 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
+<line x1="633.46" y1="42" x2="633.46" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+  <circle cx="633.46" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="633.46" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">28</text>
+<line x1="665.46" y1="42" x2="665.46" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+  <circle cx="665.46" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="665.46" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">29</text>
+<text x="649.46" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">Regulator</text>
+<text x="649.46" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">+ pressure gauge, 0-30 psi</text>
+<text x="649.46" y="189" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">PRV-2+PI-3</text>
+<text x="649.46" y="202" font-size="9" text-anchor="middle" fill="#52606D">set 20 psi ·</text>
+<text x="649.46" y="215" font-size="9" text-anchor="middle" fill="#52606D">tank-pressure feed for fast refill</text>
+<line x1="751.32" y1="112" x2="777.32" y2="112" stroke="#1F2933" stroke-width="2"/>
+<text x="785.32" y="8" font-size="10" text-anchor="start" fill="#52606D">L4b — Poofer accumulator &amp; discharge · 20 psi (accumulator MAOP 250 psi)</text>
+<line x1="777.32" y1="112" x2="837.32" y2="112" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(1614.64,0) scale(-1,1)">
+<path d="M810.32 106 L821.32 108.5 V115.5 L810.32 118 Z" fill="#fff" stroke="#1F2933"/>
+    <path d="M813.32 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
+    <path d="M822.32 105 h11 v14 h-11 M822.32 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
 </g>
-<path d="M770.32 106 L781.32 108.5 V115.5 L770.32 118 Z" fill="#fff" stroke="#1F2933"/>
-    <path d="M773.32 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
-    <path d="M782.32 105 h11 v14 h-11 M782.32 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
-<rect x="764.32" y="106" width="6" height="12" fill="#fff" stroke="#1F2933"/>
-<text x="767.32" y="86" font-size="10" text-anchor="middle" fill="#1F2933">1/4 NPT</text>
-<line x1="797.32" y1="112" x2="879.5200000000001" y2="112" stroke="#1F2933" stroke-width="2"/>
+<path d="M810.32 106 L821.32 108.5 V115.5 L810.32 118 Z" fill="#fff" stroke="#1F2933"/>
+    <path d="M813.32 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
+    <path d="M822.32 105 h11 v14 h-11 M822.32 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
+<rect x="804.32" y="106" width="6" height="12" fill="#fff" stroke="#1F2933"/>
+<text x="807.32" y="86" font-size="10" text-anchor="middle" fill="#1F2933">1/4 NPT</text>
+<line x1="837.32" y1="112" x2="919.5200000000001" y2="112" stroke="#1F2933" stroke-width="2"/>
 <g transform="translate(0 0)">
-<rect x="825.22" y="104" width="26.400000000000002" height="16" rx="3" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
-    <path d="M832.4200000000001 107.5 L840.4200000000001 112 L832.4200000000001 116.5 Z" fill="#1F2933"/>
-    <line x1="842.9200000000001" y1="107.5" x2="842.9200000000001" y2="116.5" stroke="#1F2933" stroke-width="2"/>
+<rect x="865.22" y="104" width="26.400000000000002" height="16" rx="3" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
+    <path d="M872.4200000000001 107.5 L880.4200000000001 112 L872.4200000000001 116.5 Z" fill="#1F2933"/>
+    <line x1="882.9200000000001" y1="107.5" x2="882.9200000000001" y2="116.5" stroke="#1F2933" stroke-width="2"/>
 </g>
-<line x1="838.4200000000001" y1="42" x2="838.4200000000001" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-  <circle cx="838.4200000000001" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="838.4200000000001" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">30</text>
-<text x="838.4200000000001" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">Check valve</text>
-<text x="838.4200000000001" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">CV-1</text>
-<line x1="879.5200000000001" y1="112" x2="932.9200000000001" y2="112" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(1812.4400000000003,0) scale(-1,1)">
-<path d="M891.2200000000001 106 L905.2200000000001 108.5 V115.5 L891.2200000000001 118 Z" fill="#fff" stroke="#1F2933"/>
-    <path d="M894.2200000000001 109 l3 6 m2 -6 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
-    <path d="M906.2200000000001 105 h13 v14 h-13 M906.2200000000001 108.5 h8 m-8 7 h8" fill="none" stroke="#1F2933"/>
+<line x1="878.4200000000001" y1="42" x2="878.4200000000001" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+  <circle cx="878.4200000000001" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="878.4200000000001" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">30</text>
+<text x="878.4200000000001" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">Check valve</text>
+<text x="878.4200000000001" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">CV-1</text>
+<line x1="919.5200000000001" y1="112" x2="972.9200000000001" y2="112" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(1892.4400000000003,0) scale(-1,1)">
+<path d="M931.2200000000001 106 L945.2200000000001 108.5 V115.5 L931.2200000000001 118 Z" fill="#fff" stroke="#1F2933"/>
+    <path d="M934.2200000000001 109 l3 6 m2 -6 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
+    <path d="M946.2200000000001 105 h13 v14 h-13 M946.2200000000001 108.5 h8 m-8 7 h8" fill="none" stroke="#1F2933"/>
 </g>
-<text x="906.2200000000001" y="86" font-size="10" text-anchor="middle" fill="#1F2933">1/4 NPT</text>
-<line x1="932.9200000000001" y1="112" x2="1141.92" y2="112" stroke="#1F2933" stroke-width="2"/>
+<text x="946.2200000000001" y="86" font-size="10" text-anchor="middle" fill="#1F2933">1/4 NPT</text>
+<line x1="972.9200000000001" y1="112" x2="1181.92" y2="112" stroke="#1F2933" stroke-width="2"/>
 <g transform="translate(0 0)">
-<path d="M958.9200000000001 105 H988.9200000000001 V119 H978.9200000000001 V128 H968.9200000000001 V119 H958.9200000000001 Z" fill="#fff" stroke="#1F2933" stroke-width="1.4" stroke-linejoin="round"/>
+<path d="M998.9200000000001 105 H1028.92 V119 H1018.9200000000001 V128 H1008.9200000000001 V119 H998.9200000000001 Z" fill="#fff" stroke="#1F2933" stroke-width="1.4" stroke-linejoin="round"/>
 </g>
-<line x1="973.9200000000001" y1="42" x2="973.9200000000001" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-  <circle cx="973.9200000000001" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="973.9200000000001" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">31</text>
-<text x="1000.9200000000001" y="162" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">Street tee, 1/4 NPT x</text>
-<text x="1000.9200000000001" y="176" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">1/4 flare branch</text>
-<text x="1000.9200000000001" y="189" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">F-6</text>
-<text x="1000.9200000000001" y="202" font-size="9" text-anchor="start" fill="#52606D">pilot bleed-down path</text>
-<line x1="1141.92" y1="112" x2="1232.52" y2="112" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(2374.44,0) scale(-1,1)">
-<path d="M1190.22 106 L1201.22 108.5 V115.5 L1190.22 118 Z" fill="#fff" stroke="#1F2933"/>
-    <path d="M1193.22 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
-    <path d="M1202.22 105 h11 v14 h-11 M1202.22 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
+<line x1="1013.9200000000001" y1="42" x2="1013.9200000000001" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+  <circle cx="1013.9200000000001" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="1013.9200000000001" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">31</text>
+<text x="1040.92" y="162" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">Street tee, 1/4 NPT x</text>
+<text x="1040.92" y="176" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">1/4 flare branch</text>
+<text x="1040.92" y="189" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">F-6</text>
+<text x="1040.92" y="202" font-size="9" text-anchor="start" fill="#52606D">pilot bleed-down path</text>
+<line x1="1181.92" y1="112" x2="1272.52" y2="112" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(2454.44,0) scale(-1,1)">
+<path d="M1230.22 106 L1241.22 108.5 V115.5 L1230.22 118 Z" fill="#fff" stroke="#1F2933"/>
+    <path d="M1233.22 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
+    <path d="M1242.22 105 h11 v14 h-11 M1242.22 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
 </g>
-<path d="M1190.22 106 L1201.22 108.5 V115.5 L1190.22 118 Z" fill="#fff" stroke="#1F2933"/>
-    <path d="M1193.22 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
-    <path d="M1202.22 105 h11 v14 h-11 M1202.22 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
-<rect x="1184.22" y="106" width="6" height="12" fill="#fff" stroke="#1F2933"/>
-<text x="1187.22" y="86" font-size="10" text-anchor="middle" fill="#1F2933">1/4 x 1/2 NPT</text>
-<line x1="1232.52" y1="112" x2="1338.52" y2="112" stroke="#1F2933" stroke-width="2"/>
+<path d="M1230.22 106 L1241.22 108.5 V115.5 L1230.22 118 Z" fill="#fff" stroke="#1F2933"/>
+    <path d="M1233.22 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
+    <path d="M1242.22 105 h11 v14 h-11 M1242.22 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
+<rect x="1224.22" y="106" width="6" height="12" fill="#fff" stroke="#1F2933"/>
+<text x="1227.22" y="86" font-size="10" text-anchor="middle" fill="#1F2933">1/4 x 1/2 NPT</text>
+<line x1="1272.52" y1="112" x2="1378.52" y2="112" stroke="#1F2933" stroke-width="2"/>
 <g class="tcell" data-y="77">
-<line x1="1338.52" y1="112" x2="1338.52" y2="42" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(1338.52 77) rotate(-90) translate(0 -112)">
+<line x1="1378.52" y1="112" x2="1378.52" y2="42" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(1378.52 77) rotate(-90) translate(0 -112)">
 <line x1="-35" y1="112" x2="35" y2="112" stroke="#1F2933" stroke-width="2"/>
 <g transform="translate(0,0) scale(-1,1)">
 <path d="M3 106 L14 108.5 V115.5 L3 118 Z" fill="#fff" stroke="#1F2933"/>
@@ -527,26 +486,26 @@
     <path d="M15 105 h11 v14 h-11 M15 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
 <rect x="-3" y="106" width="6" height="12" fill="#fff" stroke="#1F2933"/>
 </g>
-<text x="1378.52" y="74" font-size="10" text-anchor="start" fill="#1F2933">1/2 NPT</text>
+<text x="1418.52" y="74" font-size="10" text-anchor="start" fill="#1F2933">1/2 NPT</text>
 </g>
 <g class="tcell" data-y="11.5">
-<line x1="1338.52" y1="42" x2="1338.52" y2="-19" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(1338.52 11.5) rotate(-90) translate(0 -112)">
+<line x1="1378.52" y1="42" x2="1378.52" y2="-19" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(1378.52 11.5) rotate(-90) translate(0 -112)">
 <rect x="-19.200000000000003" y="104" width="38.400000000000006" height="16" rx="3" fill="#fff" stroke="#1F2933" stroke-width="1.6"/>
     <rect x="-10.752000000000002" y="82" width="21.504000000000005" height="22" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
     <line x1="-10.752000000000002" y1="87" x2="10.752000000000002" y2="87" stroke="#52606D"/>
     <line x1="-10.752000000000002" y1="91" x2="10.752000000000002" y2="91" stroke="#52606D"/>
 </g>
-<line x1="1296.02" y1="11.5" x2="1305.52" y2="11.5" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-<circle cx="1286.02" cy="11.5" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="1286.02" y="15" font-size="10.5" text-anchor="middle" fill="#1F2933">16</text>
-<text x="1378.52" y="3.5" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">Solenoid valve</text>
-<text x="1378.52" y="17.5" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">SV-2</text>
-<text x="1378.52" y="30.5" font-size="9" text-anchor="start" fill="#52606D">poof dump</text>
+<line x1="1336.02" y1="11.5" x2="1345.52" y2="11.5" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+<circle cx="1326.02" cy="11.5" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="1326.02" y="15" font-size="10.5" text-anchor="middle" fill="#1F2933">16</text>
+<text x="1418.52" y="3.5" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">Solenoid valve</text>
+<text x="1418.52" y="17.5" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">SV-2</text>
+<text x="1418.52" y="30.5" font-size="9" text-anchor="start" fill="#52606D">poof dump</text>
 </g>
 <g class="tcell" data-y="-69">
-<line x1="1338.52" y1="-19" x2="1338.52" y2="-119" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(1338.52 -69) rotate(-90) translate(0 -112)">
+<line x1="1378.52" y1="-19" x2="1378.52" y2="-119" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(1378.52 -69) rotate(-90) translate(0 -112)">
 <g transform="translate(-62.400000000000006,0) scale(-1,1)">
 <path d="M-46.2 106 L-32.2 108.5 V115.5 L-46.2 118 Z" fill="#fff" stroke="#1F2933"/>
     <path d="M-43.2 109 l3 6 m2 -6 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
@@ -559,64 +518,64 @@
     <path d="M23.200000000000003 105 L32.2 112 L23.200000000000003 119 Z" fill="#fff" stroke="#1F2933"/>
     <path d="M32.2 104 h9 l5 8 l-5 8 h-9 Z" fill="#fff" stroke="#1F2933"/>
 </g>
-<line x1="1296.02" y1="-69" x2="1305.52" y2="-69" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-<circle cx="1286.02" cy="-69" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="1286.02" y="-65.5" font-size="10.5" text-anchor="middle" fill="#1F2933">39</text>
-<text x="1378.52" y="-77" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">1/2 NPT ▸ 1/2 flare</text>
+<line x1="1336.02" y1="-69" x2="1345.52" y2="-69" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+<circle cx="1326.02" cy="-69" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="1326.02" y="-65.5" font-size="10.5" text-anchor="middle" fill="#1F2933">39</text>
+<text x="1418.52" y="-77" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">1/2 NPT ▸ 1/2 flare</text>
 </g>
 <g class="tcell" data-y="-164">
-<line x1="1338.52" y1="-119" x2="1338.52" y2="-209" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(1338.52 -164) rotate(-90) translate(0 -112)">
+<line x1="1378.52" y1="-119" x2="1378.52" y2="-209" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(1378.52 -164) rotate(-90) translate(0 -112)">
 <line x1="-45" y1="112" x2="-14" y2="112" stroke="#8C5A2B" stroke-width="5.2"/>
       <path d="M-14 112 l5 -8 6 16 5 -8" fill="none" stroke="#8C5A2B" stroke-width="5.2" stroke-linejoin="round"/>
       <line x1="2" y1="112" x2="45" y2="112" stroke="#8C5A2B" stroke-width="5.2"/>
 </g>
-<text x="1378.52" y="-167" font-size="10" text-anchor="start" fill="#1F2933">1/2 Cu</text>
-<text x="1378.52" y="-154" font-size="9" text-anchor="start" fill="#52606D">TB-6 × 10 ft</text>
+<text x="1418.52" y="-167" font-size="10" text-anchor="start" fill="#1F2933">1/2 Cu</text>
+<text x="1418.52" y="-154" font-size="9" text-anchor="start" fill="#52606D">TB-6 × 10 ft</text>
 </g>
 <g class="tcell" data-y="-233">
-<line x1="1338.52" y1="-209" x2="1338.52" y2="-225" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(1338.52 -345)">
+<line x1="1378.52" y1="-209" x2="1378.52" y2="-225" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(1378.52 -345)">
 <rect x="-5" y="98" width="10" height="22" fill="#fff" stroke="none"/>
     <path d="M-5 98 V120 H5 V98" fill="none" stroke="#C6480A" stroke-width="1.6"/>
     <path d="M-4 95 Q-7 87 -1 82 M2 95 Q7 89 4 81" fill="none" stroke="#C6480A" stroke-width="1.3"/>
 </g>
-<circle cx="1286.02" cy="-233" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="1286.02" y="-229.5" font-size="10.5" text-anchor="middle" fill="#1F2933">22</text>
-<text x="1378.52" y="-241" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">Open pipe discharge</text>
-<text x="1378.52" y="-227" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">N-2</text>
+<circle cx="1326.02" cy="-233" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="1326.02" y="-229.5" font-size="10.5" text-anchor="middle" fill="#1F2933">22</text>
+<text x="1418.52" y="-241" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">Open pipe discharge</text>
+<text x="1418.52" y="-227" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">N-2</text>
 </g>
-<g transform="translate(1338.52 112) rotate(90) translate(0 -112)">
+<g transform="translate(1378.52 112) rotate(90) translate(0 -112)">
 <path d="M-15 105 H15 V119 H5 V128 H-5 V119 H-15 Z" fill="#fff" stroke="#1F2933" stroke-width="1.4" stroke-linejoin="round"/>
 </g>
-<line x1="1338.52" y1="112" x2="1338.52" y2="181" stroke="#1F2933" stroke-width="2"/>
+<line x1="1378.52" y1="112" x2="1378.52" y2="181" stroke="#1F2933" stroke-width="2"/>
 <g class="tcell" data-y="201">
-<line x1="1338.52" y1="181" x2="1338.52" y2="221" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(1338.52 201) rotate(-90) translate(0 -112)">
+<line x1="1378.52" y1="181" x2="1378.52" y2="221" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(1378.52 201) rotate(-90) translate(0 -112)">
 <line x1="-20" y1="112" x2="20" y2="112" stroke="#1F2933" stroke-width="2"/>
 <path d="M-15 106 L-1 108.5 V115.5 L-15 118 Z" fill="#fff" stroke="#1F2933"/>
     <path d="M-12 109 l3 6 m2 -6 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
     <path d="M0 105 h13 v14 h-13 M0 108.5 h8 m-8 7 h8" fill="none" stroke="#1F2933"/>
 </g>
-<text x="1378.52" y="198" font-size="10" text-anchor="start" fill="#1F2933">1/2 NPT</text>
+<text x="1418.52" y="198" font-size="10" text-anchor="start" fill="#1F2933">1/2 NPT</text>
 </g>
 <g class="tcell" data-y="251.5">
-<line x1="1338.52" y1="221" x2="1338.52" y2="282" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(1338.52 251.5) rotate(-90) translate(0 -112)">
+<line x1="1378.52" y1="221" x2="1378.52" y2="282" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(1378.52 251.5) rotate(-90) translate(0 -112)">
 <rect x="-15.600000000000001" y="102" width="31.200000000000003" height="20" rx="3" fill="#fff" stroke="#1F2933" stroke-width="1.6"/>
     <circle cx="0" cy="112" r="6" fill="none" stroke="#1F2933"/>
     <line x1="0" y1="102" x2="12" y2="90" stroke="#1F2933" stroke-width="2.2" stroke-linecap="round"/>
 </g>
-<line x1="1296.02" y1="251.5" x2="1305.52" y2="251.5" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-<circle cx="1286.02" cy="251.5" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="1286.02" y="255" font-size="10.5" text-anchor="middle" fill="#1F2933">33</text>
-<text x="1378.52" y="243.5" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">Ball valve</text>
-<text x="1378.52" y="257.5" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">V-3</text>
-<text x="1378.52" y="270.5" font-size="9" text-anchor="start" fill="#52606D">accumulator isolation</text>
+<line x1="1336.02" y1="251.5" x2="1345.52" y2="251.5" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+<circle cx="1326.02" cy="251.5" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="1326.02" y="255" font-size="10.5" text-anchor="middle" fill="#1F2933">33</text>
+<text x="1418.52" y="243.5" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">Ball valve</text>
+<text x="1418.52" y="257.5" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">V-3</text>
+<text x="1418.52" y="270.5" font-size="9" text-anchor="start" fill="#52606D">accumulator isolation</text>
 </g>
 <g class="tcell" data-y="302">
-<line x1="1338.52" y1="282" x2="1338.52" y2="322" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(1338.52 302) rotate(-90) translate(0 -112)">
+<line x1="1378.52" y1="282" x2="1378.52" y2="322" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(1378.52 302) rotate(-90) translate(0 -112)">
 <line x1="-20" y1="112" x2="20" y2="112" stroke="#1F2933" stroke-width="2"/>
 <g transform="translate(0,0) scale(-1,1)">
 <path d="M-15 106 L-1 108.5 V115.5 L-15 118 Z" fill="#fff" stroke="#1F2933"/>
@@ -624,11 +583,11 @@
     <path d="M0 105 h13 v14 h-13 M0 108.5 h8 m-8 7 h8" fill="none" stroke="#1F2933"/>
 </g>
 </g>
-<text x="1378.52" y="299" font-size="10" text-anchor="start" fill="#1F2933">1/2 NPT</text>
+<text x="1418.52" y="299" font-size="10" text-anchor="start" fill="#1F2933">1/2 NPT</text>
 </g>
 <g class="tcell" data-y="368">
-<line x1="1338.52" y1="322" x2="1338.52" y2="414" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(1338.52 368) rotate(-90) translate(0 -112)">
+<line x1="1378.52" y1="322" x2="1378.52" y2="414" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(1378.52 368) rotate(-90) translate(0 -112)">
 <path d="M-15 105 H-5 V96 H5 V105 H15 V119 H-15 Z" fill="#fff" stroke="#1F2933" stroke-width="1.4" stroke-linejoin="round"/>
 <g transform="translate(0 88) rotate(90) translate(0 -112)">
 <rect x="-11" y="102" width="22" height="20" rx="1.5" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
@@ -642,20 +601,20 @@
     <path d="M6 96 h9 m0 0 l-4 -3 m4 3 l-4 3" stroke="#1F2933" fill="none"/>
 </g>
 </g>
-<circle cx="1256.02" cy="357" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="1256.02" y="360.5" font-size="10.5" text-anchor="middle" fill="#1F2933">32</text>
-<circle cx="1256.02" cy="379" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="1256.02" y="382.5" font-size="10.5" text-anchor="middle" fill="#1F2933">12</text>
-<circle cx="1256.02" cy="402" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="1256.02" y="405.5" font-size="10.5" text-anchor="middle" fill="#1F2933">34</text>
-<text x="1378.52" y="360" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">Street tee, 1/2 NPT</text>
-<text x="1378.52" y="374" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">+ relief valve</text>
-<text x="1378.52" y="387" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">F-15+RV-1</text>
-<text x="1378.52" y="400" font-size="9" text-anchor="start" fill="#52606D">RV-1: set 75 psi</text>
+<circle cx="1296.02" cy="357" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="1296.02" y="360.5" font-size="10.5" text-anchor="middle" fill="#1F2933">32</text>
+<circle cx="1296.02" cy="379" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="1296.02" y="382.5" font-size="10.5" text-anchor="middle" fill="#1F2933">12</text>
+<circle cx="1296.02" cy="402" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="1296.02" y="405.5" font-size="10.5" text-anchor="middle" fill="#1F2933">34</text>
+<text x="1418.52" y="360" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">Street tee, 1/2 NPT</text>
+<text x="1418.52" y="374" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">+ relief valve</text>
+<text x="1418.52" y="387" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">F-15+RV-1</text>
+<text x="1418.52" y="400" font-size="9" text-anchor="start" fill="#52606D">RV-1: set 75 psi</text>
 </g>
 <g class="tcell" data-y="464">
-<line x1="1338.52" y1="414" x2="1338.52" y2="514" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(1338.52 464) rotate(-90) translate(0 -112)">
+<line x1="1378.52" y1="414" x2="1378.52" y2="514" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(1378.52 464) rotate(-90) translate(0 -112)">
 <g transform="translate(-60,0) scale(-1,1)">
 <path d="M-45 106 L-31 108.5 V115.5 L-45 118 Z" fill="#fff" stroke="#1F2933"/>
     <path d="M-42 109 l3 6 m2 -6 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
@@ -670,51 +629,51 @@
     <path d="M30 105 h13 v14 h-13 M30 108.5 h8 m-8 7 h8" fill="none" stroke="#1F2933"/>
 </g>
 </g>
-<line x1="1296.02" y1="464" x2="1305.52" y2="464" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-<circle cx="1286.02" cy="464" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="1286.02" y="467.5" font-size="10.5" text-anchor="middle" fill="#1F2933">35</text>
-<text x="1378.52" y="456" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">1/2 NPT ▸ 3/4 NPT</text>
+<line x1="1336.02" y1="464" x2="1345.52" y2="464" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+<circle cx="1326.02" cy="464" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="1326.02" y="467.5" font-size="10.5" text-anchor="middle" fill="#1F2933">35</text>
+<text x="1418.52" y="456" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">1/2 NPT ▸ 3/4 NPT</text>
 </g>
 <g class="tcell" data-y="537">
-<line x1="1338.52" y1="514" x2="1338.52" y2="560" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(1338.52 537) rotate(-90) translate(0 -112)">
+<line x1="1378.52" y1="514" x2="1378.52" y2="560" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(1378.52 537) rotate(-90) translate(0 -112)">
 <rect x="-12" y="102" width="24" height="20" rx="1.5" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
     <line x1="-9" y1="108.7" x2="9" y2="108.7" stroke="#52606D" stroke-width=".8"/>
     <line x1="-9" y1="115.3" x2="9" y2="115.3" stroke="#52606D" stroke-width=".8"/>
 </g>
-<line x1="1296.02" y1="537" x2="1305.52" y2="537" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-<circle cx="1286.02" cy="537" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="1286.02" y="540.5" font-size="10.5" text-anchor="middle" fill="#1F2933">36</text>
-<text x="1378.52" y="529" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">3/4 NPT ▸ 3/4 NGT</text>
+<line x1="1336.02" y1="537" x2="1345.52" y2="537" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+<circle cx="1326.02" cy="537" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="1326.02" y="540.5" font-size="10.5" text-anchor="middle" fill="#1F2933">36</text>
+<text x="1418.52" y="529" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">3/4 NPT ▸ 3/4 NGT</text>
 </g>
 <g class="tcell" data-y="606">
-<line x1="1338.52" y1="560" x2="1338.52" y2="576" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(1338.52 494)">
+<line x1="1378.52" y1="560" x2="1378.52" y2="576" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(1378.52 494)">
 <rect x="-25" y="88" width="50" height="55" rx="9" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
     <path d="M-10.999999999999998 88 Q0 78 11 88" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
     <rect x="-6" y="76" width="12" height="7" fill="#fff" stroke="#1F2933"/>
     <line x1="-20" y1="143" x2="-20" y2="147" stroke="#1F2933"/>
 <line x1="20" y1="143" x2="20" y2="147" stroke="#1F2933"/>
 </g>
-<circle cx="1286.02" cy="606" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="1286.02" y="609.5" font-size="10.5" text-anchor="middle" fill="#1F2933">37</text>
-<text x="1378.52" y="598" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">Accumulator,</text>
-<text x="1378.52" y="612" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">DOT LP cylinder</text>
-<text x="1378.52" y="625" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">AC-1</text>
-<text x="1378.52" y="638" font-size="9" text-anchor="start" fill="#52606D">requal stamp in date ·</text>
-<text x="1378.52" y="651" font-size="9" text-anchor="start" fill="#52606D">unmodified: valve removed · stock adapters</text>
+<circle cx="1326.02" cy="606" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="1326.02" y="609.5" font-size="10.5" text-anchor="middle" fill="#1F2933">37</text>
+<text x="1418.52" y="598" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">Accumulator,</text>
+<text x="1418.52" y="612" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">DOT LP cylinder</text>
+<text x="1418.52" y="625" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">AC-1</text>
+<text x="1418.52" y="638" font-size="9" text-anchor="start" fill="#52606D">requal stamp in date ·</text>
+<text x="1418.52" y="651" font-size="9" text-anchor="start" fill="#52606D">valve removed · stock adapters</text>
 </g>
 <g class="tcell" data-y="146">
-<line x1="1296.02" y1="135" x2="1311.52" y2="135" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-<circle cx="1286.02" cy="135" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="1286.02" y="138.5" font-size="10.5" text-anchor="middle" fill="#1F2933">32</text>
-<text x="1378.52" y="138" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">Street tee, 1/2 NPT</text>
-<text x="1378.52" y="152" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">F-12</text>
-<text x="1378.52" y="165" font-size="9" text-anchor="start" fill="#52606D">supply tee</text>
+<line x1="1336.02" y1="135" x2="1351.52" y2="135" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+<circle cx="1326.02" cy="135" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="1326.02" y="138.5" font-size="10.5" text-anchor="middle" fill="#1F2933">32</text>
+<text x="1418.52" y="138" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">Street tee, 1/2 NPT</text>
+<text x="1418.52" y="152" font-size="10" text-anchor="start" fill="#1F2933" font-weight="500">F-12</text>
+<text x="1418.52" y="165" font-size="9" text-anchor="start" fill="#52606D">supply tee</text>
 </g>
 </g>
-<g class="band" data-band="L4a" data-cl="1477" data-w="627.92" transform="translate(2271.42 1365)">
-<text x="14" y="8" font-size="10" text-anchor="start" fill="#52606D">L4a — Poofer pilot · 30 psi</text>
+<g class="band" data-band="L4a" data-cl="1252" data-w="627.92" transform="translate(1047.92 1140)">
+<text x="14" y="8" font-size="10" text-anchor="start" fill="#52606D">L4a — Poofer pilot · 20 psi</text>
 <rect x="2" y="-4" width="623.92" height="231" rx="7" fill="none" stroke="#52606D" stroke-dasharray="7 4"/>
 <line x1="14" y1="112" x2="60" y2="112" stroke="#1F2933" stroke-width="2"/>
       <path d="M26 112 h14 m0 0 l-6 -4.5 m6 4.5 l-6 4.5" fill="none" stroke="#1F2933" stroke-width="2"/>
@@ -789,15 +748,91 @@
 <text x="579.02" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">Pilot tip</text>
 <text x="579.02" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">PL-2</text>
 </g>
-<g class="band" data-band="L3" data-cl="1738" data-w="2171.4599999999996" transform="translate(64 1626)" data-merged="L3a">
-<text x="14" y="8" font-size="10" text-anchor="start" fill="#52606D">L3 — Main bush branch (one of 3) · 60 psi</text>
-<rect x="2" y="-4" width="1353.6599999999999" height="462" rx="7" fill="none" stroke="#52606D" stroke-dasharray="7 4"/>
-<rect x="1359.6599999999999" y="-4" width="809.7999999999997" height="231" rx="7" fill="none" stroke="#52606D" stroke-dasharray="7 4"/>
+</g>
+<g class="sheet" data-sheet="S3" transform="translate(0 2348)">
+<rect x="6" y="6" width="1540" height="1028" rx="6" fill="none" stroke="#52606D" stroke-width="1"/>
+<g class="strip" transform="translate(24 18)">
+<text x="0" y="8" font-size="11" text-anchor="start" fill="#1F2933" font-weight="500">SHEET 3 OF 4 · Distribution, bush branch &amp; jet</text>
+</g>
+<path data-conn="F" data-cly="905" d="M485.62 419 V897 Q485.62 905 493.62 905" fill="none" stroke="#1F2933" stroke-width="2"/>
+<g class="band" data-band="L2" data-cl="158" data-w="638.9399999999999" transform="translate(48 46)">
+<text x="14" y="8" font-size="10" text-anchor="start" fill="#52606D">L2 — Distribution manifold · 45 psi</text>
+<rect x="2" y="-4" width="634.9399999999999" height="231" rx="7" fill="none" stroke="#52606D" stroke-dasharray="7 4"/>
+<line x1="48" y1="112" x2="100" y2="112" stroke="#1F2933" stroke-width="2"/>
+<path d="M18 102 h16 l8 10 l-8 10 h-16 Z" fill="#1F2933" stroke="#1F2933" stroke-width="1.4"/>
+<text x="29" y="115.5" font-size="11" text-anchor="middle" fill="#fff" font-weight="500">B</text>
+<text x="57" y="138" font-size="9" text-anchor="middle" fill="#52606D">from sheet 1</text>
+<line x1="100" y1="112" x2="160" y2="112" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(260,0) scale(-1,1)">
+<path d="M133 106 L144 108.5 V115.5 L133 118 Z" fill="#fff" stroke="#1F2933"/>
+    <path d="M136 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
+    <path d="M145 105 h11 v14 h-11 M145 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
+</g>
+<path d="M133 106 L144 108.5 V115.5 L133 118 Z" fill="#fff" stroke="#1F2933"/>
+    <path d="M136 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
+    <path d="M145 105 h11 v14 h-11 M145 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
+<rect x="127" y="106" width="6" height="12" fill="#fff" stroke="#1F2933"/>
+<text x="130" y="86" font-size="10" text-anchor="middle" fill="#1F2933">1/4 NPT</text>
+<line x1="160" y1="112" x2="263.28" y2="112" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(0 0)">
+<path d="M196.64 105 H206.64 V96 H216.64 V105 H226.64 V119 H196.64 Z" fill="#fff" stroke="#1F2933" stroke-width="1.4" stroke-linejoin="round"/>
+</g>
+<g transform="translate(0 -13)">
+<line x1="211.64" y1="112" x2="211.64" y2="105" stroke="#1F2933" stroke-width="2"/>
+    <path d="M204.64 91 H218.64 L211.64 105 Z" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
+    <path d="M206.64 88 h10 m-10 -4 h10 m-10 -4 h10" stroke="#1F2933" stroke-width="1.2" fill="none"/>
+    <path d="M217.64 96 h9 m0 0 l-4 -3 m4 3 l-4 3" stroke="#1F2933" fill="none"/>
+</g>
+<line x1="195.64" y1="42" x2="195.64" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+  <circle cx="195.64" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="195.64" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">5</text>
+<line x1="227.64" y1="42" x2="227.64" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+  <circle cx="227.64" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="227.64" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">12</text>
+<text x="211.64" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">Tee, 1/4 NPT</text>
+<text x="211.64" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">+ relief valve</text>
+<text x="211.64" y="189" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">F-20+RV-2</text>
+<text x="211.64" y="202" font-size="9" text-anchor="middle" fill="#52606D">RV-2: set 90 psi</text>
+<line x1="263.28" y1="112" x2="323.28" y2="112" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(586.56,0) scale(-1,1)">
+<path d="M296.28 106 L307.28 108.5 V115.5 L296.28 118 Z" fill="#fff" stroke="#1F2933"/>
+    <path d="M299.28 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
+    <path d="M308.28 105 h11 v14 h-11 M308.28 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
+</g>
+<path d="M296.28 106 L307.28 108.5 V115.5 L296.28 118 Z" fill="#fff" stroke="#1F2933"/>
+    <path d="M299.28 109 l3 6 m2 -6 l3 6" stroke="#52606D" stroke-width=".8"/>
+    <path d="M308.28 105 h11 v14 h-11 M308.28 108.5 h7 m-7 7 h7" fill="none" stroke="#1F2933"/>
+<rect x="290.28" y="106" width="6" height="12" fill="#fff" stroke="#1F2933"/>
+<text x="293.28" y="86" font-size="10" text-anchor="middle" fill="#1F2933">1/4 NPT</text>
+<line x1="323.28" y1="112" x2="430.28" y2="112" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(0 0)">
+<rect x="352.78" y="102" width="48" height="20" rx="3" fill="#fff" stroke="#1F2933" stroke-width="1.6"/>
+    <line x1="399.78" y1="107" x2="409.78" y2="101" stroke="#1F2933" stroke-width="2"/>
+<line x1="399.78" y1="117" x2="409.78" y2="123" stroke="#1F2933" stroke-width="2"/>
+</g>
+<line x1="376.78" y1="42" x2="376.78" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+  <circle cx="376.78" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="376.78" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">13</text>
+<text x="376.78" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">Cross, 1/4 NPT,</text>
+<text x="376.78" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">four ends</text>
+<text x="376.78" y="189" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">MF-1</text>
+<g data-pout="E">
+<path d="M430.28 112 h156.66 m0 0 l-5 -4 m5 4 l-5 4" stroke="#1F2933" fill="none" stroke-width="2"/>
+      <path d="M590.9399999999999 102 h16 l8 10 l-8 10 h-16 Z" fill="#1F2933" stroke="#1F2933" stroke-width="1.4"/>
+<text x="601.9399999999999" y="115.5" font-size="11" text-anchor="middle" fill="#fff" font-weight="500">E</text>
+</g>
+<rect x="438.28" y="75" width="162.66" height="14" rx="3" fill="#fff" stroke="#1F2933"/>
+<text x="444.28" y="86" font-size="9" text-anchor="start" fill="#1F2933" font-weight="500">one of 3 identical branches</text>
+<text x="515.61" y="138" font-size="9" text-anchor="middle" fill="#52606D">to L3</text>
+</g>
+<g class="band" data-band="L3" data-cl="419" data-w="1444.6599999999999" transform="translate(48 307)">
+<text x="14" y="8" font-size="10" text-anchor="start" fill="#52606D">L3 — Main bush branch (one of 3) · 45 psi</text>
+<rect x="2" y="-4" width="1440.6599999999999" height="462" rx="7" fill="none" stroke="#52606D" stroke-dasharray="7 4"/>
 <path d="M653.82 112 V142 H710.02 V335 Q710.02 343 718.02 343" fill="none" stroke="#1F2933" stroke-width="2"/>
       <path d="M1192.86 343 Q1200.86 343 1200.86 335 V142 H1278.76 V112" fill="none" stroke="#1F2933" stroke-width="2"/>
-<g data-pin="C">
-<path d="M18 102 h16 l8 10 l-8 10 h-16 Z" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
-<text x="29" y="115.5" font-size="11" text-anchor="middle" fill="#1F2933">C</text>
+<g data-pin="E">
+<path d="M18 102 h16 l8 10 l-8 10 h-16 Z" fill="#1F2933" stroke="#1F2933" stroke-width="1.4"/>
+<text x="29" y="115.5" font-size="11" text-anchor="middle" fill="#fff" font-weight="500">E</text>
         <line x1="48" y1="112" x2="106.22" y2="112" stroke="#1F2933" stroke-width="2"/>
         <path d="M54 112 h10 m0 0 l-6 -4.5 m6 4.5 l-6 4.5" fill="none" stroke="#1F2933" stroke-width="2"/>
 </g>
@@ -971,77 +1006,13 @@
 <text x="428.08" y="86" font-size="10" text-anchor="middle" fill="#1F2933">3/8 flare</text>
 <line x1="460.98" y1="112" x2="482.8399999999999" y2="112" stroke="#1F2933" stroke-width="2"/>
 </g>
-<line x1="1344.6599999999999" y1="112" x2="1370.6599999999999" y2="112" stroke="#1F2933" stroke-width="2"/>
-<text x="1378.6599999999999" y="8" font-size="10" text-anchor="start" fill="#52606D">L3a — Standby rail (one of 3) · 60 psi</text>
-<line x1="1370.6599999999999" y1="112" x2="1388.6599999999999" y2="112" stroke="#8C5A2B" stroke-width="4"/>
-      <path d="M1388.6599999999999 112 l5 -8 6 16 5 -8" fill="none" stroke="#8C5A2B" stroke-width="4" stroke-linejoin="round"/>
-      <line x1="1404.6599999999999" y1="112" x2="1434.6599999999999" y2="112" stroke="#8C5A2B" stroke-width="4"/>
-<text x="1402.6599999999999" y="86" font-size="10" text-anchor="middle" fill="#1F2933">3/8 Cu</text>
-<text x="1402.6599999999999" y="138" font-size="9" text-anchor="middle" fill="#52606D">TB-2</text>
-<line x1="1434.6599999999999" y1="112" x2="1500.4599999999998" y2="112" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(2935.12,0) scale(-1,1)">
-<rect x="1450.56" y="107" width="9" height="10" fill="#fff" stroke="#1F2933"/>
-    <path d="M1459.56 105 L1468.56 112 L1459.56 119 Z" fill="#fff" stroke="#1F2933"/>
-    <path d="M1468.56 104 h9 l5 8 l-5 8 h-9 Z" fill="#fff" stroke="#1F2933"/>
+<path d="M1344.6599999999999 112 h52 m0 0 l-5 -4 m5 4 l-5 4" stroke="#1F2933" fill="none" stroke-width="2"/>
+<path d="M1400.6599999999999 102 h16 l8 10 l-8 10 h-16 Z" fill="#1F2933" stroke="#1F2933" stroke-width="1.4"/>
+<text x="1411.6599999999999" y="115.5" font-size="11" text-anchor="middle" fill="#fff" font-weight="500">G</text>
+<text x="1387.6599999999999" y="138" font-size="9" text-anchor="middle" fill="#52606D">to sheet 4</text>
 </g>
-<text x="1467.56" y="86" font-size="10" text-anchor="middle" fill="#1F2933">3/8 flare</text>
-<line x1="1500.4599999999998" y1="112" x2="1638.4599999999998" y2="112" stroke="#1F2933" stroke-width="2"/>
-<line x1="1569.4599999999998" y1="92.5" x2="1569.4599999999998" y2="112" stroke="#1F2933" stroke-width="2"/>
-<path d="M1557.4599999999998 72.5 h16 l8 10 l-8 10 h-16 Z" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
-<text x="1568.4599999999998" y="86" font-size="11" text-anchor="middle" fill="#1F2933">T</text>
-<path d="M1565.4599999999998 103 l4 -5 l4 5" fill="none" stroke="#1F2933" stroke-width="1.6"/>
-<g transform="translate(0 0)">
-<path d="M1554.4599999999998 105 H1564.4599999999998 V96 H1574.4599999999998 V105 H1584.4599999999998 V119 H1554.4599999999998 Z" fill="#fff" stroke="#1F2933" stroke-width="1.4" stroke-linejoin="round"/>
-</g>
-<line x1="1569.4599999999998" y1="42" x2="1569.4599999999998" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-  <circle cx="1569.4599999999998" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="1569.4599999999998" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">23</text>
-<text x="1569.4599999999998" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">Flare tee, reducing,</text>
-<text x="1569.4599999999998" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">3/8 x 3/8 x 1/4</text>
-<text x="1569.4599999999998" y="189" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">F-16</text>
-<line x1="1638.4599999999998" y1="112" x2="1704.2599999999998" y2="112" stroke="#1F2933" stroke-width="2"/>
-<rect x="1654.36" y="107" width="9" height="10" fill="#fff" stroke="#1F2933"/>
-    <path d="M1663.36 105 L1672.36 112 L1663.36 119 Z" fill="#fff" stroke="#1F2933"/>
-    <path d="M1672.36 104 h9 l5 8 l-5 8 h-9 Z" fill="#fff" stroke="#1F2933"/>
-<text x="1671.36" y="86" font-size="10" text-anchor="middle" fill="#1F2933">3/8 flare</text>
-<line x1="1704.2599999999998" y1="112" x2="1722.2599999999998" y2="112" stroke="#8C5A2B" stroke-width="4"/>
-      <path d="M1722.2599999999998 112 l5 -8 6 16 5 -8" fill="none" stroke="#8C5A2B" stroke-width="4" stroke-linejoin="round"/>
-      <line x1="1738.2599999999998" y1="112" x2="1768.2599999999998" y2="112" stroke="#8C5A2B" stroke-width="4"/>
-<text x="1736.2599999999998" y="86" font-size="10" text-anchor="middle" fill="#1F2933">3/8 Cu</text>
-<text x="1736.2599999999998" y="138" font-size="9" text-anchor="middle" fill="#52606D">TB-7</text>
-<line x1="1768.2599999999998" y1="112" x2="1834.0599999999997" y2="112" stroke="#1F2933" stroke-width="2"/>
-<g transform="translate(3602.3199999999997,0) scale(-1,1)">
-<rect x="1784.1599999999999" y="107" width="9" height="10" fill="#fff" stroke="#1F2933"/>
-    <path d="M1793.1599999999999 105 L1802.1599999999999 112 L1793.1599999999999 119 Z" fill="#fff" stroke="#1F2933"/>
-    <path d="M1802.1599999999999 104 h9 l5 8 l-5 8 h-9 Z" fill="#fff" stroke="#1F2933"/>
-</g>
-<text x="1801.1599999999999" y="86" font-size="10" text-anchor="middle" fill="#1F2933">3/8 flare</text>
-<line x1="1834.0599999999997" y1="112" x2="1972.0599999999997" y2="112" stroke="#1F2933" stroke-width="2"/>
-<line x1="1903.0599999999997" y1="92.5" x2="1903.0599999999997" y2="112" stroke="#1F2933" stroke-width="2"/>
-<path d="M1891.0599999999997 72.5 h16 l8 10 l-8 10 h-16 Z" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
-<text x="1902.0599999999997" y="86" font-size="11" text-anchor="middle" fill="#1F2933">T</text>
-<path d="M1899.0599999999997 103 l4 -5 l4 5" fill="none" stroke="#1F2933" stroke-width="1.6"/>
-<g transform="translate(0 0)">
-<path d="M1888.0599999999997 105 H1898.0599999999997 V96 H1908.0599999999997 V105 H1918.0599999999997 V119 H1888.0599999999997 Z" fill="#fff" stroke="#1F2933" stroke-width="1.4" stroke-linejoin="round"/>
-</g>
-<line x1="1903.0599999999997" y1="42" x2="1903.0599999999997" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
-  <circle cx="1903.0599999999997" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
-<text x="1903.0599999999997" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">24</text>
-<text x="1903.0599999999997" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">Flare tee, reducing,</text>
-<text x="1903.0599999999997" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">3/8 x 1/4 x 1/4</text>
-<text x="1903.0599999999997" y="189" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">F-17</text>
-<line x1="1972.0599999999997" y1="112" x2="2037.8599999999997" y2="112" stroke="#1F2933" stroke-width="2"/>
-<rect x="1987.9599999999998" y="107" width="9" height="10" fill="#fff" stroke="#1F2933"/>
-    <path d="M1996.9599999999998 105 L2005.9599999999998 112 L1996.9599999999998 119 Z" fill="#fff" stroke="#1F2933"/>
-    <path d="M2005.9599999999998 104 h9 l5 8 l-5 8 h-9 Z" fill="#fff" stroke="#1F2933"/>
-<text x="2004.9599999999998" y="86" font-size="10" text-anchor="middle" fill="#1F2933">1/4 flare</text>
-<path d="M2037.8599999999997 112 h85.6 m0 0 l-5 -4 m5 4 l-5 4" stroke="#1F2933" fill="none" stroke-width="2"/>
-<path d="M2127.4599999999996 102 h16 l8 10 l-8 10 h-16 Z" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
-<text x="2138.4599999999996" y="115.5" font-size="11" text-anchor="middle" fill="#1F2933">T</text>
-<text x="2097.66" y="138" font-size="9" text-anchor="middle" fill="#52606D">3 identical tip runs</text>
-</g>
-<g class="band" data-band="L3b" data-cl="2224" data-w="1052.6" transform="translate(495.62 2112)">
-<text x="14" y="8" font-size="10" text-anchor="start" fill="#52606D">L3b — Jet nozzle · 60 psi</text>
+<g class="band" data-band="L3b" data-cl="905" data-w="1052.6" transform="translate(479.62 793)">
+<text x="14" y="8" font-size="10" text-anchor="start" fill="#52606D">L3b — Jet nozzle · 45 psi</text>
 <rect x="2" y="-4" width="1048.6" height="231" rx="7" fill="none" stroke="#52606D" stroke-dasharray="7 4"/>
 <line x1="14" y1="112" x2="60" y2="112" stroke="#1F2933" stroke-width="2"/>
       <path d="M26 112 h14 m0 0 l-6 -4.5 m6 4.5 l-6 4.5" fill="none" stroke="#1F2933" stroke-width="2"/>
@@ -1167,12 +1138,92 @@
 <text x="972.6999999999999" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">Open pipe discharge</text>
 <text x="972.6999999999999" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">N-1</text>
 </g>
-<g class="band" data-band="L3r" data-cl="2485" data-w="1050.42" transform="translate(64 2373)">
-<text x="14" y="8" font-size="10" text-anchor="start" fill="#52606D">L3r — Standby tip run (one of 3) · 60 psi</text>
+</g>
+<g class="sheet" data-sheet="S4" transform="translate(0 3410)">
+<rect x="6" y="6" width="1090" height="542" rx="6" fill="none" stroke="#52606D" stroke-width="1"/>
+<g class="strip" transform="translate(24 18)">
+<text x="0" y="8" font-size="11" text-anchor="start" fill="#1F2933" font-weight="500">SHEET 4 OF 4 · Standby rail &amp; tips</text>
+</g>
+<g class="band" data-band="L3a" data-cl="158" data-w="900.8" transform="translate(32 46)">
+<text x="14" y="8" font-size="10" text-anchor="start" fill="#52606D">L3a — Standby rail (one of 3) · 45 psi</text>
+<rect x="2" y="-4" width="896.8" height="231" rx="7" fill="none" stroke="#52606D" stroke-dasharray="7 4"/>
+<line x1="48" y1="112" x2="100" y2="112" stroke="#1F2933" stroke-width="2"/>
+<path d="M18 102 h16 l8 10 l-8 10 h-16 Z" fill="#1F2933" stroke="#1F2933" stroke-width="1.4"/>
+<text x="29" y="115.5" font-size="11" text-anchor="middle" fill="#fff" font-weight="500">G</text>
+<text x="57" y="138" font-size="9" text-anchor="middle" fill="#52606D">from sheet 3</text>
+<line x1="100" y1="112" x2="118" y2="112" stroke="#8C5A2B" stroke-width="4"/>
+      <path d="M118 112 l5 -8 6 16 5 -8" fill="none" stroke="#8C5A2B" stroke-width="4" stroke-linejoin="round"/>
+      <line x1="134" y1="112" x2="164" y2="112" stroke="#8C5A2B" stroke-width="4"/>
+<text x="132" y="86" font-size="10" text-anchor="middle" fill="#1F2933">3/8 Cu</text>
+<text x="132" y="138" font-size="9" text-anchor="middle" fill="#52606D">TB-2</text>
+<line x1="164" y1="112" x2="229.8" y2="112" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(393.8,0) scale(-1,1)">
+<rect x="179.9" y="107" width="9" height="10" fill="#fff" stroke="#1F2933"/>
+    <path d="M188.9 105 L197.9 112 L188.9 119 Z" fill="#fff" stroke="#1F2933"/>
+    <path d="M197.9 104 h9 l5 8 l-5 8 h-9 Z" fill="#fff" stroke="#1F2933"/>
+</g>
+<text x="196.9" y="86" font-size="10" text-anchor="middle" fill="#1F2933">3/8 flare</text>
+<line x1="229.8" y1="112" x2="367.8" y2="112" stroke="#1F2933" stroke-width="2"/>
+<line x1="298.8" y1="92.5" x2="298.8" y2="112" stroke="#1F2933" stroke-width="2"/>
+<path d="M286.8 72.5 h16 l8 10 l-8 10 h-16 Z" fill="#1F2933" stroke="#1F2933" stroke-width="1.4"/>
+<text x="297.8" y="86" font-size="11" text-anchor="middle" fill="#fff" font-weight="500">H</text>
+<path d="M294.8 103 l4 -5 l4 5" fill="none" stroke="#1F2933" stroke-width="1.6"/>
+<g transform="translate(0 0)">
+<path d="M283.8 105 H293.8 V96 H303.8 V105 H313.8 V119 H283.8 Z" fill="#fff" stroke="#1F2933" stroke-width="1.4" stroke-linejoin="round"/>
+</g>
+<line x1="298.8" y1="42" x2="298.8" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+  <circle cx="298.8" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="298.8" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">23</text>
+<text x="298.8" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">Flare tee, reducing,</text>
+<text x="298.8" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">3/8 x 3/8 x 1/4</text>
+<text x="298.8" y="189" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">F-16</text>
+<line x1="367.8" y1="112" x2="433.6" y2="112" stroke="#1F2933" stroke-width="2"/>
+<rect x="383.7" y="107" width="9" height="10" fill="#fff" stroke="#1F2933"/>
+    <path d="M392.7 105 L401.7 112 L392.7 119 Z" fill="#fff" stroke="#1F2933"/>
+    <path d="M401.7 104 h9 l5 8 l-5 8 h-9 Z" fill="#fff" stroke="#1F2933"/>
+<text x="400.7" y="86" font-size="10" text-anchor="middle" fill="#1F2933">3/8 flare</text>
+<line x1="433.6" y1="112" x2="451.6" y2="112" stroke="#8C5A2B" stroke-width="4"/>
+      <path d="M451.6 112 l5 -8 6 16 5 -8" fill="none" stroke="#8C5A2B" stroke-width="4" stroke-linejoin="round"/>
+      <line x1="467.6" y1="112" x2="497.6" y2="112" stroke="#8C5A2B" stroke-width="4"/>
+<text x="465.6" y="86" font-size="10" text-anchor="middle" fill="#1F2933">3/8 Cu</text>
+<text x="465.6" y="138" font-size="9" text-anchor="middle" fill="#52606D">TB-7</text>
+<line x1="497.6" y1="112" x2="563.4" y2="112" stroke="#1F2933" stroke-width="2"/>
+<g transform="translate(1061,0) scale(-1,1)">
+<rect x="513.5" y="107" width="9" height="10" fill="#fff" stroke="#1F2933"/>
+    <path d="M522.5 105 L531.5 112 L522.5 119 Z" fill="#fff" stroke="#1F2933"/>
+    <path d="M531.5 104 h9 l5 8 l-5 8 h-9 Z" fill="#fff" stroke="#1F2933"/>
+</g>
+<text x="530.5" y="86" font-size="10" text-anchor="middle" fill="#1F2933">3/8 flare</text>
+<line x1="563.4" y1="112" x2="701.4" y2="112" stroke="#1F2933" stroke-width="2"/>
+<line x1="632.4" y1="92.5" x2="632.4" y2="112" stroke="#1F2933" stroke-width="2"/>
+<path d="M620.4 72.5 h16 l8 10 l-8 10 h-16 Z" fill="#1F2933" stroke="#1F2933" stroke-width="1.4"/>
+<text x="631.4" y="86" font-size="11" text-anchor="middle" fill="#fff" font-weight="500">H</text>
+<path d="M628.4 103 l4 -5 l4 5" fill="none" stroke="#1F2933" stroke-width="1.6"/>
+<g transform="translate(0 0)">
+<path d="M617.4 105 H627.4 V96 H637.4 V105 H647.4 V119 H617.4 Z" fill="#fff" stroke="#1F2933" stroke-width="1.4" stroke-linejoin="round"/>
+</g>
+<line x1="632.4" y1="42" x2="632.4" y2="64" stroke="#52606D" stroke-dasharray="2 3" stroke-width=".8"/>
+  <circle cx="632.4" cy="32" r="9.5" fill="#fff" stroke="#1F2933" stroke-width="1.3"/>
+<text x="632.4" y="35.5" font-size="10.5" text-anchor="middle" fill="#1F2933">24</text>
+<text x="632.4" y="162" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">Flare tee, reducing,</text>
+<text x="632.4" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">3/8 x 1/4 x 1/4</text>
+<text x="632.4" y="189" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">F-17</text>
+<line x1="701.4" y1="112" x2="767.1999999999999" y2="112" stroke="#1F2933" stroke-width="2"/>
+<rect x="717.3" y="107" width="9" height="10" fill="#fff" stroke="#1F2933"/>
+    <path d="M726.3 105 L735.3 112 L726.3 119 Z" fill="#fff" stroke="#1F2933"/>
+    <path d="M735.3 104 h9 l5 8 l-5 8 h-9 Z" fill="#fff" stroke="#1F2933"/>
+<text x="734.3" y="86" font-size="10" text-anchor="middle" fill="#1F2933">1/4 flare</text>
+<path d="M767.1999999999999 112 h85.6 m0 0 l-5 -4 m5 4 l-5 4" stroke="#1F2933" fill="none" stroke-width="2"/>
+<path d="M856.8 102 h16 l8 10 l-8 10 h-16 Z" fill="#1F2933" stroke="#1F2933" stroke-width="1.4"/>
+<text x="867.8" y="115.5" font-size="11" text-anchor="middle" fill="#fff" font-weight="500">H</text>
+<text x="826.9999999999999" y="138" font-size="9" text-anchor="middle" fill="#52606D">3 identical tip runs</text>
+</g>
+<g class="band" data-band="L3r" data-cl="419" data-w="1050.42" transform="translate(32 307)">
+<text x="14" y="8" font-size="10" text-anchor="start" fill="#52606D">L3r — Standby tip run (one of 3) · 45 psi</text>
 <rect x="2" y="-4" width="1046.42" height="231" rx="7" fill="none" stroke="#52606D" stroke-dasharray="7 4"/>
 <line x1="48" y1="112" x2="86" y2="112" stroke="#1F2933" stroke-width="2"/>
-<path d="M18 102 h16 l8 10 l-8 10 h-16 Z" fill="#fff" stroke="#1F2933" stroke-width="1.4"/>
-<text x="29" y="115.5" font-size="11" text-anchor="middle" fill="#1F2933">T</text>
+<path d="M18 102 h16 l8 10 l-8 10 h-16 Z" fill="#1F2933" stroke="#1F2933" stroke-width="1.4"/>
+<text x="29" y="115.5" font-size="11" text-anchor="middle" fill="#fff" font-weight="500">H</text>
 <line x1="86" y1="112" x2="104" y2="112" stroke="#8C5A2B" stroke-width="2.4"/>
       <path d="M104 112 l5 -8 6 16 5 -8" fill="none" stroke="#8C5A2B" stroke-width="2.4" stroke-linejoin="round"/>
       <line x1="120" y1="112" x2="150" y2="112" stroke="#8C5A2B" stroke-width="2.4"/>
@@ -1261,5 +1312,6 @@
 <text x="920.6099999999999" y="176" font-size="10" text-anchor="middle" fill="#1F2933" font-weight="500">SB-3</text>
 <text x="920.6099999999999" y="189" font-size="9" text-anchor="middle" fill="#52606D">every 1/4 branch ends in one of these ·</text>
 <text x="920.6099999999999" y="202" font-size="9" text-anchor="middle" fill="#52606D">one lights the jet nozzle</text>
+</g>
 </g>
 </svg>

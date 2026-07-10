@@ -12,7 +12,11 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
 - `npm run approve` — regenerate `test/approved/drawing-{external,internal}.svg`
   after an INTENTIONAL drawing change. Prints how many chunks you are waving
   through, rasterizes both views, and refuses to run under CI. Look at the PNG.
-- `python3 scripts/validate_svg.py` — strict XML validation of the exported SVG
+- `npm run pdf` — the deliverable: the EXTERNAL view, one page per sheet, as
+  `packet.pdf`. rsvg-convert cannot page-split one SVG and ignores all but the
+  first of several inputs, so each sheet is converted alone and `pdfunite`
+  (poppler) joins the pages. Both tools are already assumed here; cairosvg is not.
+- `python3 scripts/validate_svg.py` — strict XML validation of every exported page
   (stdlib only); rasterizes to PNG if cairosvg is installed. When changing layout
   or symbols, rasterize and actually look at the PNG — several past bugs were
   only visible, not logical. (cairosvg is NOT installed here; use `rsvg-convert`,
@@ -166,32 +170,82 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
    Burning Man Flame Effects Guidelines, evaluated against SYSTEM data. Three
    statuses: DESIGN PASS / REVIEW / FIELD. Keep requirement text paraphrased,
    never quoted verbatim.
-7. `downloadSVG()` — wraps `LAST_RENDER` (the single combined schematic SVG,
-   mutated in place by `renderSchematic()` so external references stay live)
-   into one standalone document, in reading order: title (with the FOR FAST
-   REVIEW stamp), the "not to scale" line, `generalNotes()` — the build rules a
-   reader wants BEFORE the drawing, hence the top-left header — the drawing,
-   then `legendLines()`. The canvas widens if the notes or a legend line outruns
-   the artwork. Both the header notes and the legend are shared with the on-page
-   `#legend` div (which prepends the notes the same way).
-   `legendLines()` is VIEW-DEPENDENT and asymmetric on purpose: **external is
-   the pipe-style key plus the flow-orientation line, and nothing else.** Marcus
-   cut the rest — the glyphs read themselves (a male taper entering a female
-   box, a cone entering a swivel nut), the dashed line boxes and the orange
-   flame/e-stop highlight are self-apparent, and the pentagon cross-reference
-   went with them. The pipe key is the one thing that cannot go: a COLOUR is not
-   self-apparent the way a glyph is. The internal packet keeps the full key
-   because its balloons genuinely need decoding. Do not "restore" the external
-   glyph key.
+7. `sheetDoc(sh)` / `sheetDocs()` — ONE STANDALONE DOCUMENT PER SHEET, in
+   reading order: title (with the FOR FAST REVIEW stamp and `SHEET n OF m`), the
+   "not to scale" line, `generalNotes()` — the build rules a reader wants BEFORE
+   the drawing, hence the top-left header — the sheet, then `legendLines()`. Each
+   page stands alone because a reviewer may be holding page 3 by itself. The
+   canvas widens if the notes or a legend line outruns the artwork.
+   `downloadPDF()` is the ONLY export. A browser cannot write a PDF byte stream
+   without a library and this file has no build step, so the four EXTERNAL sheets
+   are laid into `#printSheets`, one per page, `@page{size:landscape}` is injected
+   for that print alone, and the browser's own "Save as PDF" writes them. That
+   path stays VECTOR — text selectable, pages crisp — which a canvas-rasterised
+   export would not. `scripts/make_pdf.sh` builds the identical packet headlessly.
+   THERE IS NO INTERNAL EXPORT (Marcus: "I only care about the external pdf").
+   Both the header notes and the legend are shared with the on-page `#legend` div
+   (which prepends the notes the same way, unescaped, recolouring the orange line).
    Every interpolated string MUST pass through `esc()`; browsers forgive raw
    `&`/`<` in-page but the exported .svg must be strict XML (regression-tested).
+
+## SHEETS — the drawing is FOUR pages
+
+One sheet was unreadable (Marcus), so `SYSTEM.sheets` deals the lines onto four:
+
+    S1 Supply & regulation              L1
+    S2 Poofer                           L4, L4b, L4a
+    S3 Distribution, bush branch & jet  L2, L3, L3b
+    S4 Standby rail & tips              L3a, L3r
+
+The mechanism cost almost nothing, because the renderer already had it. A ref
+whose producer and consumer land on the SAME sheet still draws a real connector;
+a ref that CROSSES sheets finds no producer inside the sheet, so `deriveTree`
+leaves it unmatched and it degrades to the pentagon it always drew for unmatched
+refs. Off-page connectors were free. All that was added is a caption —
+`XSHEET` maps a crossing ref to `"sheet 3"`, an off pentagon reads
+"to/from sheet n", and a branch tee whose branch leaves the sheet says
+`ref A → sheet 2` on a note row (the bare letter tells a reviewer which
+pentagon, not which page).
+
+- `deriveTree(lines)` takes the sheet's lines; `lintPorts()` calls it with no
+  argument and walks the WHOLE system. The root of a sheet is the line whose
+  lead-in ref has no producer on that sheet — with the old "first line with no
+  off-in" rule every sheet but the first would be rootless.
+- `SHEETS` is what the renderer DREW: per sheet, its root, edges, chain,
+  orphans, own width/height and own `inner` in its OWN coordinate space.
+  **`TREE` is not** — it is mutated in place, and `lintPorts()` re-derives it
+  over the whole system straight after every render, so its edges describe the
+  system, not the picture. Anything asking "which connectors exist?" reads
+  `SHEETS`. The suite's drop-routing checks run per sheet against `sh.inner`,
+  because two sheets both start at y=0 and bands from different pages must never
+  be measured against each other.
+- A CHAIN CANNOT CROSS A SHEET. L1+L2 used to read as one band with a seam; they
+  are now on sheets 1 and 3, so that seam is gone and B is an off-page pentagon.
+  Same for L3+L3a. Only L4+L4b still chain.
+- The on-page preview stacks the sheets inside ONE `<svg>` (translate per sheet),
+  which is why every geometry test still sees a single coordinate space.
+  `downloadPDF()` instead lays ONE STANDALONE DOCUMENT PER SHEET into a print-only
+  container — each with its
+  own title block, "not to scale" line, GENERAL NOTES and legend, because a
+  reviewer holding page 3 alone must be able to read it. `scripts/make_pdf.sh`
+  rasterises those into the 4-page `packet.pdf`.
+- A line named in no sheet is still drawn, on a sheet of its own. Hostile data
+  must not lose a line.
+- The pentagons are relettered CONTIGUOUSLY FROM A in the order they are first
+  met reading sheet 1 → sheet 4 (they used to skip to J, P, T). Nothing may
+  hardcode a letter: `jetPathSeriesOrder` now reads the jet tee's ref out of
+  L3b's own lead-in instead of matching `"J"`.
 
 ## Two views — the sheet is TWO documents (`VIEW`, `INTERNAL()`)
 
 The `#viewSel` toggle in the toolbar switches `VIEW` and re-renders. They are
 not cosmetic variants; each is a different deliverable.
 
-- **internal** — the working PDF packet. Balloons (`balloonCol`/`balloonRow`,
+- **internal** — the working SCREEN document: balloons, the parts schedule and
+  the compliance table. It has NO export — the internal-packet print button is
+  gone (Marcus). Its legend is therefore checked on the page, in `legendLines()`
+  and the `#legend` div, not in a document nothing can produce.
+  Balloons (`balloonCol`/`balloonRow`,
   the ONLY places a balloon is drawn, both gated on `INTERNAL()`) key each cell
   to the parts schedule's REF column, and the equipment designation (`SV-2`,
   `F-15+RV-1`) is the cell's identification line. The compliance table's tag
@@ -523,7 +577,11 @@ correctly prints a rating and no number; that is data, not a bug.
   into the 1/2 run tee. There is no custom machined part and no interior-inspection
   story any more; compliance row FE-8 states the case plainly instead of arguing
   for an out-of-date vessel. The drawing does NOT say "at the NGT boss" (Marcus) —
-  the stack shows a `3/4 NPT ▸ 3/4 NGT` adapter, so the words are redundant.
+  the stack shows a `3/4 NPT ▸ 3/4 NGT` adapter, so the words are redundant. Nor
+  does it say "unmodified" (Marcus: "valve removed" is good enough); the SPEC and
+  compliance row FE-8 still say it in full. `vesselStatesSpec` counts six
+  significant words in that note and it now has exactly six — trim it further and
+  the check goes red, which is the point.
   The whole vertical path is 1/2 (`teeStreet12`, `nipple12`, `ball12`, `sol12`)
   because the vessel breathes through it on every poof; only RV-1's branch necks
   to 1/4, through `bushing1214` in the mount's `via` slot.
@@ -734,6 +792,13 @@ test/
 ```
 
 `run-tests.js` and `mutants.js` are independent entry points; `npm test` runs both.
+
+The goldens are the STACKED PREVIEW (one svg, all four sheets), so the approved
+snapshot stays two files rather than eight. The EXPORT is checked separately:
+`sheetDocs()` IS the artifact — the suite asserts against it directly (there is
+no download to intercept), checking each page is its own `<svg>` root with its
+own title block, notes and legend, and writing them to `test/export-sheet-N.svg`
+for `scripts/validate_svg.py`.
 
 ## Reference material
 
