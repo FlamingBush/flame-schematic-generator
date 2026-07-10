@@ -60,11 +60,19 @@ textarea{width:100%;height:300px;border:none;border-top:1px solid var(--line);fo
 @media print{
   body{background:#fff} .toolbar{display:none} .sheet{border-width:1px;margin:0;max-width:none}
   .strip{overflow:visible} .strip svg{max-width:100%;height:auto}
-  body.pdfonly>*{display:none!important}
+  /* :not(#printSheets) is load-bearing. #printSheets IS a body child, so a blanket
+     `body.pdfonly>*{display:none!important}` hid the very container being printed —
+     !important beats the id selector's specificity — and the packet came out as one
+     blank page. Exclude it here rather than fighting it with a second !important. */
+  body.pdfonly>*:not(#printSheets){display:none!important}
+  body.pdfonly{margin:0}
   body.pdfonly #printSheets{display:block}
-  #printSheets .page{page-break-after:always;break-after:page}
+  /* Each page IS one letter-landscape svg (PAGE), so it fills the sheet edge to
+     edge and its own internal margin does the framing. Any body/page margin here
+     would overflow and emit a blank page after every real one. */
+  #printSheets .page{page-break-after:always;break-after:page;margin:0;padding:0}
   #printSheets .page:last-child{page-break-after:auto;break-after:auto}
-  #printSheets svg{width:100%;height:auto}
+  #printSheets svg{display:block;width:100%;height:100%}
 }
 </style>
 </head>
@@ -125,7 +133,11 @@ const S = 12; // base unit for symbol sizing (drawing proportions only, not dime
    specs quoted from vendor data vaulted in reference/vendor-data (psrc key);
    "decl" = declared from listing text only — no fetchable catalog */
 let PARTS = {
-  tank100:{ name:"Propane cylinder, 100 lb", vendor:"Worthington / Flame King", pn:"—",
+  // `mfg` on a pressure VESSEL is its DOT SPEC, never a maker: a propane bottle is
+  // a COMMODITY, nobody knows who made it and nobody needs to (Marcus). The spec
+  // is what a reviewer identifies it by, and it was declared in `spec` all along
+  // without ever reaching the drawing. Both vessels follow the same convention.
+  tank100:{ name:"100lb LP cylinder", vendor:"commodity — any DOT 4BA240 cylinder in requal date", mfg:"DOT 4BA240", pn:"—",
     spec:"DOT 4BA240 class, vapor service. CGA-510 (POL) valve. Must be within DOT requalification date. Foot ring required. 100 lb meets the fuel team's delivery minimum; installation is inner playa — arrange delivery via fire art registration / fuel questionnaire and keep truck access to the cylinders clear.",
     rating:250, ports:{o:"pol::F"}, psrc:"decl", sym:"tank", w:14.5, h:48 },
   // Same maker and catalog page as the ME353 flare version. A per-cylinder ball
@@ -133,7 +145,7 @@ let PARTS = {
   // straight to 1/4 MNPT and screw the valve on. ME318P is the packaged SKU;
   // ME1629 is the soft-nose variant; ME1690 adds a .9 GPM excess-flow valve
   // (the catalog notes excess-flow POLs are UL Listed) if the liaison wants one.
-  polAdapter:{ name:"Cylinder adapter, POL x 1/4 MNPT", vendor:"Marshall Excelsior (MEC)", mfg:"Marshall Excelsior", pn:"ME318",
+  polAdapter:{ name:"Cylinder adapter, POL x 1/4 MNPT", vendor:"Marshall Excelsior (MEC)", mfg:"MEC", pn:"ME318",
     spec:"Single-piece brass adapter, male hard-nose CGA-510 POL into the cylinder valve, 1/4 MNPT out, 7/8 nut. MEC RV/LPG catalog, section MALE POL X 1/4\" MNPT. Confirm pressure rating on purchase.", rating:250, ports:{i:"pol::M",o:"npt:1/4:M"}, psrc:"mecrv", sym:"hexAdapter", w:2.2, h:1.1 },
   ball14:{ name:"Ball valve, 1/4 NPT", vendor:"Apollo (Aalberts)", mfg:"Apollo", pn:"94A-101-01",
     spec:"2-pc forged brass, quarter-turn lever, 600 psi WOG, rated for fuel gases (CSA).", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"apollo", sym:"ball", w:2.4, h:1.6 },
@@ -151,7 +163,7 @@ let PARTS = {
   // ARE broken at every setup, and a tapered thread wants fresh tape each time.
   hoseLPnpt:{ name:"LP-gas hose assembly, 1/4 MNPT", vendor:"industrial LP distributors (JME, New-Line)", mfg:"Thermoid", pn:"025LPG",
     spec:"Type 75 LP-gas hose assembly, 1/4 ID, factory-crimped MALE pipe thread both ends. WP 350 psi, -40 to 180 F, UL 21 (the LP-gas hose standard) file MH12585 — a published fuel-gas listing, unlike the solenoids. No hose clamps. Any equivalent UL 21 / CSA 8.3-1 assembly with 1/4 MNPT ends rated at or above cylinder pressure substitutes; the retail hardware-store hose in this size (Mr. Heater, 1/4 MPT x 1/4 FPT) has a FEMALE second end and would buy a hex nipple back.", rating:350, ports:{i:"npt:1/4:M",o:"npt:1/4:M"}, psrc:"thermoid", sym:"none", w:0, h:0 },
-  polFlare:{ name:"Cylinder adapter, POL x 3/8 male flare", vendor:"Marshall Excelsior (MEC)", mfg:"Marshall Excelsior", pn:"ME353",
+  polFlare:{ name:"Cylinder adapter, POL x 3/8 male flare", vendor:"Marshall Excelsior (MEC)", mfg:"MEC", pn:"ME353",
     spec:"Single-piece brass adapter, male hard-nose CGA-510 POL into the cylinder valve, 3/8 SAE 45 deg MALE flare cone out — the LP hose's female swivel lands straight on it, so no separate FNPT-to-flare adapter is bought. MEC RV/LPG catalog p.28, section POL X MALE FLARE. Same maker as the MEGR-6120 regulators, stocked by every propane supplier; ME353-SN is the soft-nose variant for valves that need it. BEWARE: several retail listings call this fitting 'male inverted flare' — it is not, and inverted flare will not seal against a 45 deg swivel. Anderson Fittings POL-U2-6 is the same fitting. Confirm pressure rating on purchase.", rating:250, ports:{i:"pol::M",o:"flare:3/8:M"}, psrc:"mecrv", sym:"hexAdapter", w:2.4, h:1.1 },
   teeStreet14:{ name:"Street tee, 1/4 NPT x 1/4 flare branch", vendor:"Anderson Fittings (Anderson Copper & Brass)", mfg:"Anderson Fittings", pn:"T4-4B",
     spec:"Forged brass SAE 45 deg street tee: male NPT screws straight into the check valve's female outlet (no hex nipple), female NPT continues the run, and the branch is a 1/4 flare cone that takes the pilot's copper tube directly. Placed downstream of CV-1 and of the V-3 isolation valve, and upstream of the accumulator: on normal shutdown the accumulator bleeds down through the continuously-burning pilot while CV-1 blocks backflow toward the regulator, and closing V-3 cuts supply gas to the pilot and the accumulator together. Confirm pressure rating on purchase.", rating:500, ports:{i:"npt:1/4:M",o:"npt:1/4:F"}, branch:"flare:1/4:M", psrc:"andersonfittings", sym:"tee", w:2.0, h:1.6 },
@@ -192,15 +204,15 @@ let PARTS = {
     spec:"Forged brass hex nipple, male NPT both ends — joins female-ported valves, regulators, and tees (the schedule's regulators, ball valves, solenoids, and NPT tees are all FNPT). PTFE gas tape both ends. In segments above 125 psi use forged brass rated at or above segment pressure, or schedule 80 steel.", rating:1200, ports:{i:"npt:1/4:M",o:"npt:1/4:M"}, psrc:"anderson", sym:"none", w:0, h:0 },
   nipple1412:{ name:"Reducing hex nipple, 1/4 x 1/2 NPT", vendor:"Anderson Metals", pn:"06123-0804",
     spec:"Forged brass reducing hex nipple stepping the 1/4 accumulator train up to the 1/2 poof dump valve.", rating:1200, ports:{i:"npt:1/4:M",o:"npt:1/2:M"}, psrc:"anderson", sym:"none", w:0, h:0 },
-  reg60:{ name:"Regulator, main — set 45 psi", vendor:"Marshall Excelsior", mfg:"Marshall Excelsior", pn:"MEGR-6120-60",
+  reg60:{ name:"Regulator, main — set 45 psi", vendor:"Marshall Excelsior (MEC)", mfg:"MEC", pnAlone:true, pn:"MEGR-6120-60",
     spec:"High-pressure adjustable LP regulator, outlet range 1-60 psi, 1/4 FNPT in/out + two 1/4 FNPT gauge ports, max inlet 250 psig, die-cast aluminum, UL 144 (per MEC bulletin form 976). NON-RELIEF regulator — external overpressure protection required.", rating:250, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, gauge:"npt:1/4:F", psrc:"mec", sym:"reg", w:3.4, h:3.2 },
-  reg30:{ name:"Regulator, poofer — set 20 psi", vendor:"Marshall Excelsior", mfg:"Marshall Excelsior", pn:"MEGR-6120-30",
+  reg30:{ name:"Regulator, poofer — set 20 psi", vendor:"Marshall Excelsior (MEC)", mfg:"MEC", pnAlone:true, pn:"MEGR-6120-30",
     spec:"High-pressure adjustable LP regulator, outlet range 1-30 psi, 1/4 FNPT in/out + two 1/4 FNPT gauge ports, max inlet 250 psig, die-cast aluminum, UL 144 (per MEC bulletin form 976). NON-RELIEF regulator — external overpressure protection required.", rating:250, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, gauge:"npt:1/4:F", psrc:"mec", sym:"reg", w:3.4, h:3.2 },
-  gaugeHP:{ name:"Pressure gauge, 0-300 psi", vendor:"SENCTRL", mfg:"SENCTRL", pn:"—",
+  gaugeHP:{ name:"Gauge, 0-300 psi", vendor:"SENCTRL", mfg:"SENCTRL", pn:"—",
     spec:"1/4 MNPT bottom connection, brass internals compatible with LP vapor. Confirm exact model on purchase.", rating:300, ports:{i:"npt:1/4:M"}, psrc:"decl", sym:"gauge", w:2.5, h:3.2 },
-  gaugeLP:{ name:"Pressure gauge, 0-60 psi", vendor:"SENCTRL", mfg:"SENCTRL", pn:"—",
+  gaugeLP:{ name:"Gauge, 0-60 psi", vendor:"SENCTRL", mfg:"SENCTRL", pn:"—",
     spec:"1/4 MNPT bottom connection, brass internals compatible with LP vapor. Confirm exact model on purchase.", rating:300, ports:{i:"npt:1/4:M"}, psrc:"decl", sym:"gauge", w:2.5, h:3.2 },
-  gauge30:{ name:"Pressure gauge, 0-30 psi", vendor:"SENCTRL", mfg:"SENCTRL", pn:"—",
+  gauge30:{ name:"Gauge, 0-30 psi", vendor:"SENCTRL", mfg:"SENCTRL", pn:"—",
     spec:"1/4 MNPT bottom connection, brass internals compatible with LP vapor. Confirm exact model on purchase.", rating:300, ports:{i:"npt:1/4:M"}, psrc:"decl", sym:"gauge", w:2.5, h:3.2 },
   manifold:{ name:"Cross, 1/4 NPT, four ends", vendor:"Anderson Metals", pn:"06202-04", 
     spec:"Forged brass pipe cross (fig 102F), four 1/4 female NPT ports: one feed in, three outlets — one per jet branch. Replaces the generic manifold block with a catalog part.", rating:1200, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"anderson", sym:"manifold", w:4.0, h:1.6 },
@@ -235,8 +247,16 @@ let PARTS = {
     spec:"Brass instrument needle valve, 1/4 FNPT x FNPT, fine-metering stem. Listing declares 600 psi; no fuel-gas listing and no seal material published — confirm suitability with FAST liaison. Out-rates RV-2's 90 psi relief, so a regulator failure cannot overpressure it. Stepper actuator is custom.", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"decl", sym:"needle", w:2.2, h:2.6 },
   check14:{ name:"Check valve, 1/4 NPT", vendor:"McMaster brass spring check, Viton seal", pn:"—",
     spec:"Inline spring-loaded poppet, brass body, Viton seat, flow arrow marked on body. Prevents accumulator back-flow.", rating:600, ports:{i:"npt:1/4:F",o:"npt:1/4:F"}, psrc:"decl", sym:"check", w:2.2, h:1.3 },
-  relief:{ name:"Relief valve, ASME, 1/4 NPT", vendor:"Aquatrol series 140 (ex-Kingston 112CSS)", mfg:"Aquatrol", pn:"140A",
-    spec:"Brass ASME 'UV' Section VIII Div. 1 safety valve, National Board certified, stainless disk and spring, factory set per tag: RV-1 75 psig (20 psi accumulator train), RV-2 90 psig (45 psi distribution). Both protect the ~100 psi solenoid listings if a regulator fails at cylinder inlet pressure. Manufacturer media rating is air/inert gas — no published LP-gas listing; confirm with FAST liaison. Aim discharges away from operators and ignition sources.", rating:350, ports:{i:"npt:1/4:M"}, psrc:"aquatrol", sym:"relief", w:2.0, h:2.6 },
+  // A RELIEF VALVE IS ORDERED AT ITS SET PRESSURE. The setting is not an instance
+  // note, it is what you buy — as fundamental as the thread size (Marcus) — so it
+  // lives in the PART, one entry per setting, and `setPsi` carries it for the
+  // invariants. `keepFull` prints the whole name on the cell, which is why the
+  // 350 psi body rating beside it is no longer confusing: the cell reads
+  // "relief valve, set 75 psi" and then what the body is rated to hold.
+  relief75:{ name:"Relief valve, set 75 psi", vendor:"Aquatrol series 140 (ex-Kingston 112CSS)", mfg:"Aquatrol", pn:"140A", setPsi:75,
+    spec:"Brass ASME 'UV' Section VIII Div. 1 safety valve, 1/4 NPT male inlet, National Board certified, stainless disk and spring, FACTORY SET 75 psig for the 20 psi accumulator train. Protects the ~100 psi solenoid listings if a regulator fails at cylinder inlet pressure. Manufacturer media rating is air/inert gas — no published LP-gas listing; confirm with FAST liaison. Aim discharge away from operators and ignition sources.", rating:350, ports:{i:"npt:1/4:M"}, psrc:"aquatrol", sym:"relief", w:2.0, h:2.6 },
+  relief90:{ name:"Relief valve, set 90 psi", vendor:"Aquatrol series 140 (ex-Kingston 112CSS)", mfg:"Aquatrol", pn:"140A", setPsi:90,
+    spec:"Brass ASME 'UV' Section VIII Div. 1 safety valve, 1/4 NPT male inlet, National Board certified, stainless disk and spring, FACTORY SET 90 psig for the 45 psi distribution. Protects the ~100 psi solenoid listings if a regulator fails at cylinder inlet pressure. Manufacturer media rating is air/inert gas — no published LP-gas listing; confirm with FAST liaison. Aim discharge away from operators and ignition sources.", rating:350, ports:{i:"npt:1/4:M"}, psrc:"aquatrol", sym:"relief", w:2.0, h:2.6 },
   // The accumulator's boss chain, bottom up: a stock tank adapter takes the
   // 3/4-14 NGT opening out to a 3/4 male pipe thread, and a reducing adapter
   // takes that to the 1/2 MNPT the run tee wants. No machining, no welds.
@@ -250,7 +270,7 @@ let PARTS = {
     spec:"Forged brass hex bushing (fig 110, male pipe x female pipe), stepping the 1/2 tee branch down to the relief valve's 1/4 male inlet. PTFE gas tape.", rating:1200, ports:{i:"npt:1/2:M",o:"npt:1/4:F"}, psrc:"anderson", sym:"hexAdapter", w:1.8, h:1.1 },
   // A FRESHLY STAMPED cylinder, bought for the job and de-valved. The sheet no
   // longer has to argue that an out-of-date vessel is acceptable.
-  accum:{ name:"Accumulator, DOT LP cylinder", vendor:"DOT 4BA240 cylinder", mfg:"DOT 4BA240", pn:"—",
+  accum:{ name:"Accumulator, 20lb gas cylinder", vendor:"commodity — any DOT 4BA240 cylinder in requal date", mfg:"DOT 4BA240", pn:"—",
     spec:"DOT 4BA240 cylinder, requalification stamp IN DATE. Service valve removed at the existing 3/4-14 NGT boss and the vessel is otherwise UNMODIFIED — no welds, no drilling, no cutting, nothing added to the shell. Plumbed through that boss with stock adapters. Supply regulated to 20 psi, far below the 240 psi design service pressure.", rating:250, ports:{i:"ngt:3/4:F"}, psrc:"decl", sym:"tank", w:9, h:13 },
   cu38:{ name:"Copper tube, 3/8 OD", vendor:"soft copper refrigeration (ACR) coil + brass SAE flare nuts", pn:"—",
     spec:"All joints SAE 45 deg flared. Compression and soldered joints prohibited on fuel lines.", rating:700, ports:{i:"flare:*:F",o:"flare:*:F"}, psrc:"decl", sym:"none", w:0, h:0 },
@@ -271,14 +291,14 @@ let PARTS = {
   nozzle:{ name:"Open pipe discharge", vendor:"open end of the discharge pipe", pn:"—",
     spec:"Vertical discharge from the open pipe end — no fabricated nozzle or orifice.", rating:500, sym:"nozzle", w:1.6, h:2.2 },
   pilot:{ name:"Pilot tip, steel wool pinhole", vendor:"custom fabrication", pn:"—",
-    spec:"1/4 copper feed, pinhole orifice, stainless wool flame holder. CUSTOM COMPONENT — review design with FAST liaison; wind-resistant pilots and pilot supervision are inspection points.", rating:100, sym:"pilot", w:1.6, h:2.0 },
+    spec:"Pinhole crimped 1/4 Cu, stainless steel wool diffuser. CUSTOM COMPONENT — review design with FAST liaison; wind-resistant pilots and pilot supervision are inspection points.", rating:100, sym:"pilot", w:1.6, h:2.0 },
   standby:{ name:"Pinpoint nozzle, crimped copper tip", vendor:"custom fabrication", pn:"—",
-    spec:"A 1 inch stub of 1/4 copper, end crimped around a wire that is then pulled out, leaving a pinhole orifice; stainless steel wool flame holder. Every 1/4 rail branch ends in one of these tips, running as continuous flames; the tip beside the main nozzle doubles as its ignition source. CUSTOM COMPONENT — review design with FAST liaison; wind performance is an inspection point.", rating:100, sym:"pilot", w:1.6, h:2.0 }
+    spec:"A 1 inch stub of 1/4 copper, end crimped around a wire that is then pulled out, leaving a pinhole orifice; stainless steel wool diffuser. Every 1/4 rail branch ends in one of these tips, running as continuous flames; the tip beside the main nozzle doubles as its ignition source. CUSTOM COMPONENT — review design with FAST liaison; wind performance is an inspection point.", rating:100, sym:"pilot", w:1.6, h:2.0 }
 };
 
 /* ---------- SYSTEM DEFINITION ---------- */
 let SYSTEM = {
-  meta:{ project:"AI AM Propane Mk. II", drawnBy:"—", rev:"B", date:new Date().toISOString().slice(0,10), scale:"none — schematic (NTS)" },
+  meta:{ project:"AI AM Propane Mk. II", drawnBy:"—", rev:"C", date:new Date().toISOString().slice(0,10), scale:"none — schematic (NTS)" },
   // SHEETS. One drawing was unreadable, so the lines are dealt onto four of them
   // (Marcus). A ref whose producer and consumer land on the SAME sheet still
   // draws a real connector; a ref that CROSSES sheets degrades to the pentagon
@@ -288,10 +308,21 @@ let SYSTEM = {
   sheets:[
     // fold:true — L1's run is long and its sheet is mostly empty below, so the
     // root band loops back once instead of running off to the right (Marcus).
-    { id:"S1", title:"Supply & regulation", lines:["L1"], fold:true },
-    { id:"S2", title:"Poofer", lines:["L4","L4b","L4a"] },
-    { id:"S3", title:"Distribution, bush branch & jet", lines:["L2","L3","L3b"] },
-    { id:"S4", title:"Standby rail & tips", lines:["L3a","L3r"] }
+    // L1b (the poofer SUPPLY, tank pressure off F-7) lives here rather than with
+    // the poofer: F-7's branch ref then has its producer and consumer on the same
+    // sheet, so the tee draws a real drop connector down to L1b instead of an
+    // off-page pentagon, and the reader sees where the poofer's tank-pressure
+    // feed is taken off — the safety property the V-2 ordering is about. The cost
+    // is that L1b -> L1c (ref C) now crosses a sheet and the chain becomes a
+    // pentagon pair; no chain survives anywhere on the drawing.
+    // The poofer's accumulator & pilot sit LAST (Marcus): the main run reads
+    // supply -> distribution -> bush branch -> tips without a page of poofer
+    // hardware interrupting it, and the poofer's own two sheets stay adjacent
+    // (its feed is the drop at the bottom of sheet 1).
+    { id:"S1", title:"Supply, regulation & poofer feed", lines:["L1","L1b"], fold:true },
+    { id:"S2", title:"Distribution, bush branch & jet", lines:["L2","L3","L3b"] },
+    { id:"S3", title:"Standby rail & tips", lines:["L3a","L3c"] },
+    { id:"S4", title:"Poofer accumulator & pilot", lines:["L1c"], bare:true }
   ],
   lines:[
     { id:"L1", title:"Supply & regulation", psi:"tank pressure → 45 psi at PRV-1", op:235,
@@ -353,19 +384,30 @@ let SYSTEM = {
         {j:"npt", size:"1/4", part:"nipple14"},
         // The poofer tees off downstream of V-2 but UPSTREAM of PRV-1, so it
         // still draws tank pressure for a fast accumulator refill.
-        {p:"nptTee", tag:"F-7", branch:{ref:"A"}, note:"poofer feed at tank pressure"},
+        {p:"nptTee", tag:"F-7", branch:{ref:"A"}, note:"poofer feed"},
         {j:"npt", size:"1/4", part:"nipple14"},
         {p:"reg60", tag:"PRV-1", note:"set 45 psi", mount:{p:"gaugeLP", tag:"PI-2"}},
-        {j:"off", ref:"B", dir:"out", label:"to L2 manifold — 45 psi"}
+        {j:"off", ref:"B", dir:"out", label:"to distribution manifold"}
       ]},
     { id:"L2", title:"Distribution manifold", psi:"45 psi", op:45,
       items:[
-        {j:"off", ref:"B", dir:"in", label:"from L1"},
+        {j:"off", ref:"B", dir:"in", label:"from supply"},
         {j:"npt", size:"1/4", part:"nipple14"},
-        {p:"nptTee", tag:"F-20", mount:{p:"relief", tag:"RV-2", note:"set 90 psi"}},
+        {p:"nptTee", tag:"F-20", mount:{p:"relief90", tag:"RV-2"}},
         {j:"npt", size:"1/4", part:"nipple14"},
         {p:"manifold", tag:"MF-1"},
-        {j:"off", ref:"E", dir:"out", fan:3, label:"to L3"}
+        // FLARES ON THE MANIFOLD SIDE (Marcus). Each of the cross's three outlets
+        // takes a half union out to a 3/8 male flare cone, and the branch hose
+        // lands on it with a swivel nut. Same reasoning as HS-2: this hose IS
+        // broken at every setup, and a tapered thread wants fresh tape each time —
+        // a swivel does not. So HS-3 becomes the same 3/8 flare hose as HS-2 (one
+        // fewer SKU), and the far end takes the matching half union into F-3.
+        // L3 stays NPT land past that point: a bush branch out on the playa gets
+        // torqued, and a tapered thread survives what a flare seal does not.
+        {j:"npt", size:"1/4"},
+        {p:"flare14npt", tag:"F-23", rev:true},
+        {j:"flare", size:"3/8"},
+        {j:"off", ref:"E", dir:"out", fan:3, label:"to bush branch"}
       ]},
     // L3 IS NPT LAND. A flare joint is a metal-to-metal 45 deg cone with nothing
     // but nut tension holding the seal, so anywhere the run can be torqued — and
@@ -384,8 +426,9 @@ let SYSTEM = {
     { id:"L3", title:"Main bush branch (one of 3)", psi:"45 psi", op:45,
       items:[
         {j:"off", ref:"E", dir:"in", label:"from MF-1"},
-        {j:"npt", size:"1/4", lr:"F<M"},
-        {j:"hose", part:"hoseLPnpt", label:"HS-3"},
+        {j:"hose", part:"hoseLP", label:"HS-3"},
+        {j:"flare", size:"3/8", lr:"F<M"},
+        {p:"flare14npt", tag:"F-24"},
         {j:"npt", size:"1/4", lr:"M>F"},
         {p:"nptTee", tag:"F-3", branch:{ref:"F"}},
         {j:"npt", size:"1/4", part:"nipple14"},
@@ -400,7 +443,7 @@ let SYSTEM = {
           // restriction rather than the old 1/4 valve's pinhole orifice.
           a:[
             {j:"npt", size:"1/4 x 1/2", part:"nipple1412"},
-            {p:"sol12", tag:"SV-1", note:"standby rail pulse"},
+            {p:"sol12", tag:"SV-1"},
             {j:"npt", size:"1/2", lr:"F<M"},
             {p:"flare38npt12", rev:true},
             {j:"flare", size:"3/8"},
@@ -413,7 +456,7 @@ let SYSTEM = {
           // rigid off the boss and does not care which way up it is.
           b:[
             {j:"npt", size:"1/4", part:"nipple14"},
-            {p:"needle", tag:"NV-1", note:"+ stepper (custom) · sets continuous flame"},
+            {p:"needle", tag:"NV-1", note:"knob replaced w/\ncoupler+stepper"},
             {j:"npt", size:"1/4", lr:"F<M"},
             {p:"flare14npt", rev:true},
             {j:"flare", size:"3/8"},
@@ -422,16 +465,18 @@ let SYSTEM = {
           ]}},
         {j:"off", ref:"G", dir:"out", label:"to rail"}
       ]},
-    { id:"L3b", title:"Jet nozzle", psi:"45 psi", op:45,
+    // ONE OF THREE: the jet hangs off F-3's branch on the bush branch, and the
+    // bush branch is one of three. Same multiplier as the standby rail.
+    { id:"L3b", title:"Jet nozzle (one of 3)", psi:"45 psi", op:45,
       items:[
         // NV-4 and SV-3 are in SERIES here, not parallel, so the jet's flow is
         // capped by whichever is tighter. Upsizing SV-3 to the 1/2 body lifts the
         // cap to the needle valve; the needle is now the jet's restriction.
         {j:"off", ref:"F", dir:"in"},
         {j:"npt", size:"1/4", part:"nipple14"},
-        {p:"needle", tag:"NV-4", note:"jet metering"},
+        {p:"needle", tag:"NV-4", note:"knob replaced w/\ncoupler+stepper"},
         {j:"npt", size:"1/4 x 1/2", part:"nipple1412"},
-        {p:"sol12", tag:"SV-3", note:"jet bursts"},
+        {p:"sol12", tag:"SV-3"},
         {j:"npt", size:"1/2", lr:"F<M"},
         {p:"flare38npt12", rev:true},
         {j:"flare", size:"3/8"},
@@ -454,9 +499,11 @@ let SYSTEM = {
         {j:"flare", size:"3/8", lr:"F<M"},
         {p:"flareTeeR1414", tag:"F-17", branch:{ref:"H"}},
         {j:"flare", size:"1/4"},
-        {j:"off", ref:"H", dir:"out", label:"3 identical tip runs"}
+        {j:"off", ref:"H", dir:"out", label:"3 typical tip runs"}
       ]},
-    { id:"L3r", title:"Standby tip run (one of 3)", psi:"45 psi", op:45,
+    // NINE, not three: the rail carries three tip-run take-offs (ref H, three
+    // producers, drawn once) and the rail itself is one of three bush branches.
+    { id:"L3c", title:"Standby tip run (one of 9)", psi:"45 psi", op:45,
       items:[
         {j:"off", ref:"H", dir:"in"},
         {j:"tube", part:"cu14", size:"1/4", label:"TB-3"},
@@ -470,7 +517,7 @@ let SYSTEM = {
         {j:"tube", part:"cu14", size:"1/4", label:"TB-9"},
         {p:"standby", tag:"SB-3", flame:true, note:"every 1/4 branch ends in one of these · one lights the jet nozzle"}
       ]},
-    { id:"L4", title:"Poofer supply", psi:"tank pressure → 20 psi at PRV-2", op:235,
+    { id:"L1b", title:"Poofer supply", psi:"tank pressure → 20 psi at PRV-2", op:235,
       items:[
         {j:"off", ref:"A", dir:"in"},
         // F-7 is now an NPT tee, so its branch is a female pipe port. Take it
@@ -482,10 +529,10 @@ let SYSTEM = {
         {j:"flare", size:"3/8", lr:"F<M"},
         {p:"flare14npt", tag:"F-14"},
         {j:"npt", size:"1/4", lr:"M>F"},
-        {p:"reg30", tag:"PRV-2", note:"set 20 psi · tank-pressure feed for fast refill", mount:{p:"gauge30", tag:"PI-3"}},
-        {j:"off", ref:"C", dir:"out", label:"to L4b — 20 psi"}
+        {p:"reg30", tag:"PRV-2", note:"set 20 psi", mount:{p:"gauge30", tag:"PI-3"}},
+        {j:"off", ref:"C", dir:"out", label:"to accumulator"}
       ]},
-    { id:"L4b", title:"Poofer accumulator & discharge", psi:"20 psi (accumulator MAOP 250 psi)", op:20,
+    { id:"L1c", title:"Poofer accumulator & discharge", psi:"20 psi (accumulator MAOP 250 psi)", op:20,
       items:[
         // THE ACCUMULATOR STACK, bottom up: vessel, OPD tee, isolation valve,
         // supply tee, dump solenoid. V-3 sits between the vessel and EVERYTHING
@@ -499,7 +546,26 @@ let SYSTEM = {
         {j:"npt", size:"1/4", part:"nipple14"},
         {p:"check14", tag:"CV-1"},
         {j:"npt", size:"1/4", lr:"F<M"},
-        {p:"teeStreet14", tag:"F-6", branch:{ref:"D"}, note:"pilot bleed-down path"},
+        // THE PILOT RISES from this tee, because that is how it is built (Marcus),
+        // and it is a branch STUB, not a numbered line: no ref, no box, no title.
+        // It also fills the empty column beside the accumulator's riser instead of
+        // hanging a whole band below the vessel. Its parts reach the schedule and
+        // the compliance rows through L1c's own 20 psi, which is what they see.
+        // The old flare needle valve made this stub buy nothing, because the tube
+        // nuts landed straight on its cones; an NPT valve costs one half union
+        // each side. That is the price of a needle valve that can be bought.
+        {p:"teeStreet14", tag:"F-6", note:"to pilot", branchUp:[
+          {j:"tube", part:"cu14", size:"1/4", label:"TB-4"},
+          {j:"flare", size:"1/4", lr:"F<M"},
+          {p:"flare14npt14", rev:true},
+          {j:"npt", size:"1/4", lr:"M>F"},
+          {p:"needle", tag:"NV-2"},
+          {j:"npt", size:"1/4", lr:"F<M"},
+          {p:"flare14npt14"},
+          {j:"flare", size:"1/4"},
+          {j:"tube", part:"cu14", size:"1/4", label:"TB-5"},
+          {p:"pilot", tag:"PL-2", flame:true}
+        ]},
         {j:"npt", size:"1/4 x 1/2", part:"nipple1412"},
         // Both tees are STREET tees, male run end first. F-12 points its male DOWN
         // into V-3's inlet and F-15 points its male UP into V-3's outlet, so the
@@ -513,37 +579,20 @@ let SYSTEM = {
             {j:"npt", size:"1/2", lr:"M>F"},
             {p:"ball12", tag:"V-3", note:"accumulator isolation"},
             {j:"npt", size:"1/2", lr:"F<M"},
-            {p:"teeStreet12", tag:"F-15", mount:{p:"relief", tag:"RV-1", via:"bushing1214", note:"set 75 psi"}},
+            {p:"teeStreet12", tag:"F-15", mount:{p:"relief75", tag:"RV-1", via:"bushing1214"}},
             {j:"npt", size:"1/2", lr:"F<M"},
             {p:"adapt3412"},
             {j:"npt", size:"3/4", lr:"F<M"},
             {p:"ngtAdapter"},
-            {p:"accum", tag:"AC-1", note:"requal stamp in date \u00b7 valve removed \u00b7 stock adapters"}
+            {p:"accum", tag:"AC-1", note:"requal stamp in date \u00b7 valve removed"}
           ]},
         {j:"npt", size:"1/2", part:"nipple12"},
-        {p:"sol12", tag:"SV-2", note:"poof dump"},
+        {p:"sol12", tag:"SV-2"},
         {j:"npt", size:"1/2", lr:"F<M"},
         {p:"flare12npt12"},
         {j:"flare", size:"1/2"},
         {j:"tube", part:"cu12", size:"1/2", label:"TB-6 × 10 ft"},
         {p:"nozzle", tag:"N-2", flame:true}
-      ]},
-    { id:"L4a", title:"Poofer pilot", psi:"20 psi", op:20,
-      items:[
-        // The pilot line used to buy nothing, because the old flare needle valve
-        // took the tube's nuts straight on its cones. An NPT valve costs one half
-        // union each side. That is the price of a needle valve that can be bought.
-        {j:"off", ref:"D", dir:"in"},
-        {j:"tube", part:"cu14", size:"1/4", label:"TB-4"},
-        {j:"flare", size:"1/4", lr:"F<M"},
-        {p:"flare14npt14", rev:true},
-        {j:"npt", size:"1/4", lr:"M>F"},
-        {p:"needle", tag:"NV-2", note:"pilot metering"},
-        {j:"npt", size:"1/4", lr:"F<M"},
-        {p:"flare14npt14"},
-        {j:"flare", size:"1/4"},
-        {j:"tube", part:"cu14", size:"1/4", label:"TB-5"},
-        {p:"pilot", tag:"PL-2", flame:true}
       ]}
   ]
 };
@@ -584,15 +633,20 @@ function measure(s,size){return s?s.length*size*0.62:0;}
    as wide as its widest line. (This used to cut nearest the character midpoint,
    which optimised nothing a reader can see \u2014 it left "Flare tee" alone on one
    row and "1/4 tube + pinpoint nozzle" on the next, and the rail tees inherited
-   that width as their pitch.) " + " keeps the plus with the mount it introduces. */
+   that width as their pitch.) " + " keeps the plus with the mount it introduces.
+   A " \u00b7 " is a PURE SEPARATOR and is dropped at the break: it belongs between two
+   clauses, not dangling off the end of a line ("set 20 psi \u00b7"). A comma belongs to
+   the text before it and stays. */
 function wrap2(s,thr,f){f=f||9;if(!s)return[];if(measure(s,f)<=thr)return[s];
-  const re=/ \u00b7 |, | \+ | x (?=\d)/g;let m,best=-1,bw=1/0;
-  while((m=re.exec(s))){const cut=m.index+(m[0]===" + "?1:m[0].length);
-    if(cut<1||cut>=s.length)continue;
-    const w=Math.max(measure(s.slice(0,cut).trimEnd(),f),measure(s.slice(cut).trimStart(),f));
-    if(w<bw){bw=w;best=cut;}}
-  if(best<1)return[s];
-  return [s.slice(0,best).trimEnd(),s.slice(best).trimStart()].filter(Boolean);}
+  const re=/ \u00b7 |, | \+ | x (?=\d)/g;let m,best=null,bw=1/0;
+  while((m=re.exec(s))){const sep=m[0],dot=sep===" \u00b7 ";
+    const he=dot?m.index:m.index+(sep===" + "?1:sep.length);   // head ends here
+    const ts=dot?m.index+sep.length:he;                        // tail starts here
+    if(he<1||ts>=s.length)continue;
+    const a=s.slice(0,he).trimEnd(),b=s.slice(ts).trimStart();
+    const w=Math.max(measure(a,f),measure(b,f));
+    if(w<bw){bw=w;best=[a,b];}}
+  return best?best.filter(Boolean):[s];}
 
 /* ---------- SYMBOLS ----------
    Drawn centered at cx on the CL run line; white-filled bodies mask the line.
@@ -678,7 +732,7 @@ const SYM={
     <path d="M${cx-5} ${CL-24} h10 m-10 -4 h10 m-10 -4 h10" stroke="${INK}" stroke-width="1.2" fill="none"/>
     <path d="M${cx+6} ${CL-16} h9 m0 0 l-4 -3 m4 3 l-4 3" stroke="${INK}" fill="none"/>`;}
 };
-const AUTONOTE={ball:"",reg:"",gauge:"",manifold:"",sol:"",needle:"",check:"",mixer:"",nozzle:"",pilot:"",tank:"",hexAdapter:"",tee:"",relief:"",none:""}; // boilerplate lives in GENERAL NOTES, not on cells
+const AUTONOTE={ball:"quarter turn",reg:"",gauge:"",manifold:"",sol:"",needle:"",check:"",mixer:"",nozzle:"",pilot:"",tank:"",hexAdapter:"",tee:"",relief:"",none:""}; // craft boilerplate lives nowhere; "quarter turn" is FE-1's requirement and belongs on the valve (Marcus)
 /* How far to lift a mount so it lands ON the tee's branch stub (tip at CL-16).
    Most mount symbols ATTACH AT CL — a gauge and a relief both grow a neck upward
    from the run line — so 13 puts that neck on the stub, and they cannot go higher
@@ -731,12 +785,13 @@ function buildRefs(){refIndex={};refCounter=0;
     if(it.mount)[].concat(it.mount.via||[]).forEach(k=>{if(PARTS[k]&&refIndex[k]===undefined){refCounter++;refIndex[k]=refCounter;}});
     if(it.part&&(it.j==="hose"||it.j==="tube"||it.j==="npt")&&refIndex[it.part]===undefined){refCounter++;refIndex[it.part]=refCounter;}
     if(it.j==="riser"){reg(it.tee);(it.down||[]).forEach(reg);}
+    if(it.branchUp)it.branchUp.forEach(reg);   // a rising branch stub is a purchase like any other
     if(it.split){reg(it.split.tee);reg(it.split.rejoin);(it.split.a||[]).forEach(reg);(it.split.b||[]).forEach(reg);}
   };
   SYSTEM.lines.forEach(L=>L.items.forEach(reg));
 }
 /* A band whose last item is a 1:1-matched off-out CONTINUES as the consumer
-   line (a chain, e.g. L4 -> L4b at the regulator boundary) — the segments
+   line (a chain, e.g. L1b -> L1c at the regulator boundary) — the segments
    render as one connected band with a section title and a fresh dashed box at
    each seam, while the underlying lines keep their own op pressures. */
 function bandEntries(L){
@@ -775,14 +830,20 @@ function INTERNAL(){return VIEW==="internal";}
    number a reviewer does not need. The schedule still records both.
    The air MIXER is in it: it is the one component a reviewer cannot identify
    by shape, and it is LP-only. */
-const PN_SYM=new Set(["sol","needle","check","reg","gauge","tank","mixer"]);
+const PN_SYM=new Set(["sol","needle","check","reg","tank","mixer"]);
 /* A bare catalog number identifies nothing — always name the manufacturer
    beside it (Marcus). Amazon listings carry an ASIN, not a manufacturer part
    number: label it, or "Beduan B08C2NLPR5" reads as a Beduan catalog number
    and the wrong part gets bought. A part with a make but no number (the
    SENCTRL gauges) still shows its make. */
 function pnNum(p){return p.pn&&p.pn!=="\u2014"?(p.asin?"ASIN "+p.pn:p.pn):"";}
-function pnText(p){return PN_SYM.has(p.sym)?[p.mfg||"",pnNum(p)].filter(Boolean).join(" "):"";}
+/* `pnAlone:true` — the catalog number identifies the part without its maker, so
+   the drawing prints the number bare (Marcus: MEGR-6120-60 is recognised; the
+   name was just eating the width of the widest cells on the sheet). It is a
+   DECLARATION, not an absence: `mfg` stays true in the data and the schedule.
+   Never set it beside `asin:true` — "B08C2NLPR5" alone identifies nothing at
+   all, which is the whole reason ASINs are labelled. Guarded. */
+function pnText(p){return PN_SYM.has(p.sym)?(p.pnAlone?pnNum(p):[p.mfg||"",pnNum(p)].filter(Boolean).join(" ")):"";}
 /* Solid-brass fittings — tees, the cross, adapters, nipples — have no seat,
    seal, or diaphragm and are never the weak point on the line. A 500 / 1000 /
    1200 psi number on those cells is noise (Marcus), so the drawing prints a
@@ -801,7 +862,7 @@ function pnText(p){return PN_SYM.has(p.sym)?[p.mfg||"",pnNum(p)].filter(Boolean)
    and it is the range.
    PARTS[].rating still carries every number for compliance row FE-2 to test
    against, and the schedule still records it. */
-const NO_RATING_SYM=new Set(["tee","manifold","hexAdapter","none","nozzle","pilot","ball","gauge"]);
+const NO_RATING_SYM=new Set(["tee","manifold","hexAdapter","none","nozzle","pilot","ball","gauge","reg"]);
 function ratingText(p){return NO_RATING_SYM.has(p.sym)?"":p.rating==null?"no published rating":p.rating+" psi";}
 function specLine(p){return [pnText(p),ratingText(p)].filter(Boolean).join(" \u00b7 ");}
 /* the external sheet keys nothing to an off-sheet schedule, so equipment
@@ -824,36 +885,79 @@ function balloonCol(cx,key){
   <circle cx="${cx}" cy="${ROW.balloon}" r="9.5" fill="#fff" stroke="${INK}" stroke-width="1.3"/>${txt(cx,ROW.balloon+3.5,refIndex[key],10.5)}`;
 }
 /* GENERAL NOTES sit in the sheet's TOP-LEFT header, above the artwork — the
-   build rules a reader wants before they read the drawing, not after. Both
-   consumers place them there: the on-page div and the exported SVG. */
-/* Each hose now marks its own working pressure on the cell, so the notes no
-   longer state one — a generic "WP 350 psi" here would contradict the drawing
-   the moment a different hose is specced. */
-const GEN_NOTES="GENERAL NOTES: flare joints SAE 45°, metal-to-metal, no sealant · NPT joints: PTFE gas tape · hex nipples join female ports · hoses: LP-gas, factory-crimped & marked · Cu tube: soft refrigeration (ACR) coil, flared joints only · solenoids: 12 VDC NC · ball valves: 1/4-turn lever · POL: CGA-510, LEFT-hand thread · pinpoint tips & pilots: stainless steel wool flame holder";
-function generalNotes(){return GEN_NOTES;}
+   build rules a reader wants before they read the drawing, not after.
+     THEY ARE SAFETY-COMPLIANCE FACTS, NOT PLUMBING CRAFT (Marcus: "we only care
+   about safety compliance, not proving we know how to do plumbing"). "flare
+   joints SAE 45 deg, metal-to-metal, no sealant", "NPT joints: PTFE gas tape",
+   "hex nipples join female ports" and "POL: CGA-510, LEFT-hand thread" were all
+   notes-to-self and are gone. What survives is what a FAST reviewer is checking:
+   hose rating and crimping (FE-3/FE-4), no compression or soldered fuel joints
+   (FE-6), the solenoids' fail-closed state, and the custom tip fabrication.
+   "ball valves: 1/4-turn lever" also left — a quarter turn is FE-1's requirement
+   and it belongs BESIDE THE VALVE, not in a header (AUTONOTE.ball).
+     AND THEY ARE PER SHEET: a page states only the rules that govern what it
+   draws. A note about copper tube on a page carrying no copper is one more line
+   a reviewer has to read past. Called with no sheet (the on-page div, the
+   invariants) it returns every clause. */
+const GEN_NOTE_RULES=[
+  {t:"hoses: LP-gas rated, factory-crimped and marked; no clamps", when:c=>c.joint.has("hose")},
+  {t:"copper tube: flared joints only — no compression, no soldered joints", when:c=>c.joint.has("tube")},
+  {t:"solenoid valves: 12 VDC, normally closed", when:c=>c.sym.has("sol")},
+  {t:"pinpoint tips & pilots: pinhole crimped 1/4 cu, stainless steel wool diffuser", when:c=>c.sym.has("pilot")}
+];
+/* What one sheet actually DRAWS: the joint kinds and the part symbols on it.
+   Descends exactly where buildRefs does — risers, rising branch stubs, splits.
+   Called with no sheet it describes the whole system, and every rule fires. */
+function sheetCtx(sh){
+  const joint=new Set(),sym=new Set();
+  const visit=it=>{if(!it)return;
+    if(it.j)joint.add(it.j);
+    if(it.j==="riser"){visit(it.tee);(it.down||[]).forEach(visit);}
+    if(it.branchUp)it.branchUp.forEach(visit);
+    if(it.split){visit(it.split.tee);visit(it.split.rejoin);(it.split.a||[]).forEach(visit);(it.split.b||[]).forEach(visit);}
+    if(it.p&&PARTS[it.p])sym.add(PARTS[it.p].sym);
+    if(it.mount&&PARTS[it.mount.p])sym.add(PARTS[it.mount.p].sym);
+  };
+  ((sh&&sh.lines)||SYSTEM.lines).forEach(L=>(L.items||[]).forEach(visit));
+  return {joint,sym,all:!sh};
+}
+function generalNotes(sh){
+  const c=sheetCtx(sh);
+  const on=GEN_NOTE_RULES.filter(r=>c.all||r.when(c)).map(r=>r.t);
+  return on.length?"GENERAL NOTES: "+on.join(" · "):"";
+}
 /* ONE legend, two consumers: the on-page <div> and the exported SVG.
-   EXTERNAL keeps only what the drawing cannot say about itself — the flow
-   orientation. The glyphs read themselves (a male taper entering a female box,
-   a flare cone entering a swivel nut), the dashed line boxes and the orange
-   flame/e-stop highlight are self-apparent, and nothing may key to the
-   off-sheet schedule — so none of them earn a line on the submitted sheet
-   (Marcus). The internal packet keeps the full key: it is a working document,
-   and its balloons genuinely need decoding. */
+   EXTERNAL keeps only what the drawing cannot say about itself — the pipe COLOUR
+   key. The glyphs read themselves (a male taper entering a female box, a flare
+   cone entering a swivel nut), the dashed line boxes and the orange flame/e-stop
+   highlight are self-apparent, and nothing may key to the off-sheet schedule.
+   THE FLOW KEY IS GONE TOO (Marcus: "no need to describe which way the gas flows,
+   the pentagons make it obvious") — the arrows, the pentagons and the flame heads
+   already say it, four lines of prose said it again.
+   The internal packet keeps the full key: it is a working document and its
+   balloons genuinely need decoding.
+     Per sheet, for the same reason the notes are: a page that draws no copper
+   does not explain what bronze means. */
 const LEG_ORANGE="orange — flame heads & marked emergency shut-offs";
-const LEG_FLOW="supply rises from the cylinders and turns at the corner elbow · main run flows left → right · branch lines drop below their tees · risers flow up";
 /* The glyphs read themselves; a COLOUR does not. This is the one key the
    external sheet cannot do without — and the widths repeat the same fact so a
    black-and-white print of the packet loses nothing. */
-const LEG_PIPE="line style — slate: LP-gas hose · bronze: copper tube, thickening with bore (1/4 → 1/2) · plain ink: brass fittings & NPT";
-function legendLines(){
-  if(!INTERNAL())return [LEG_PIPE, LEG_FLOW];
+const LEG_PIPE_RULES=[
+  {t:"slate: LP-gas hose", when:c=>c.joint.has("hose")},
+  {t:"bronze: copper tube, thickening with bore (1/4 → 1/2)", when:c=>c.joint.has("tube")},
+  {t:"plain ink: brass fittings & NPT", when:c=>c.joint.has("npt")||c.joint.has("flare")}
+];
+function legendLines(sh){
+  const c=sheetCtx(sh),pick=rs=>rs.filter(r=>c.all||r.when(c)).map(r=>r.t);
+  const pipe=pick(LEG_PIPE_RULES);
+  const key=pipe.length?["line style — "+pipe.join(" · ")]:[];
+  if(!INTERNAL())return key;
   return [
     "◯ n — balloon: parts schedule ref · pentagon n — run continues at the matching pentagon",
     "trapezoid ▸ box — NPT, male into female · back-to-back pair — brass hex nipple joining two female ports",
     "cone ▸ nut — SAE 45° flare · 〰 with break — hose/tube run, length as required",
-    LEG_PIPE,
-    LEG_FLOW,
-    "dashed box — one numbered line · 'one of n' — built n times, drawn once",
+    ...key,
+    "dashed box — one line · 'one of n' — built n times, drawn once",
     LEG_ORANGE];
 }
 /* The external sheet is read on its own. It must not mention the parts schedule
@@ -888,13 +992,14 @@ function partText(it,vert){const p=PARTS[it.p];const m=it.mount?PARTS[it.mount.p
   // Most cells drop everything after the first comma — "Ball valve, 1/4 FNPT
   // x FNPT" reads as "Ball valve", and narrow beats wide. Three keep more: tees
   // carry their exact type, the cross its exact threads, and a CYLINDER its
-  // capacity — "100 lb" is the fuel quantity the review is about, not trim.
+  // capacity — "100lb" is the fuel quantity the review is about, not trim, and it
+  // leads the name so the two vessels read alike (Marcus).
   // A GAUGE's range is its identity — "0-30 psi" is what tells a reviewer the
   // instrument can read the segment it is on, and it is the one thing its cell
   // cannot get anywhere else: `pn` is "—" and the spec line prints the body's
   // 300 psi burst rating, which is the same on all three gauges. It lives in the
   // name, so the name survives whole, in a mount position too.
-  const keepFull=s=>s==="manifold"||s==="tank"||s==="gauge";
+  const keepFull=s=>s==="manifold"||s==="tank"||s==="gauge"||s==="relief";
   const nm=(p.sym==="tee"||keepFull(p.sym))?p.name:p.name.split(",")[0];
   const ids=it.tag?it.tag+(m&&it.mount.tag?"+"+it.mount.tag:""):"";
   const mnm=m?(keepFull(m.sym)?m.name:m.name.split(",")[0]):"";
@@ -903,13 +1008,33 @@ function partText(it,vert){const p=PARTS[it.p];const m=it.mount?PARTS[it.mount.p
   const mn=m&&it.mount.note?(INTERNAL()?it.mount.tag+": "+it.mount.note:it.mount.note):"";
   // a branch that leaves the SHEET says where it goes, on a note row: the bare
   // pentagon letter tells a reviewer which pentagon, not which page
-  const xr=it.branch&&it.branch.ref&&XSHEET[it.branch.ref]?`ref ${it.branch.ref} \u2192 ${XSHEET[it.branch.ref]}`:"";
-  const notes=wrap2(frac([it.emergency?"EMERGENCY FUEL SHUT-OFF":"",an,it.note||"",mn,xr].filter(Boolean).join(" \u00b7 ")),130,9);
+  const xr=it.branch&&it.branch.ref&&XSHEET[it.branch.ref]?`ref ${pentLetter(it.branch.ref)} \u2192 ${XSHEET[it.branch.ref]}`:"";
+  // A note may force its own break with "\n" \u2014 wrap2 only splits at a separator,
+  // and there is none inside "coupler+stepper" (the " + " rule wants spaces).
+  // The emergency stamp and the AUTONOTE each take their OWN line (Marcus), so
+  // "quarter turn" never trails a comma clause it has nothing to do with. The
+  // item's own notes share the line below them, and a note may still force a
+  // break of its own with "\n" — wrap2 only splits at a separator, and there is
+  // none inside "coupler+stepper".
+  const notes=frac([[it.emergency?"EMERGENCY FUEL SHUT-OFF":"",an].filter(Boolean).join("\n"),
+                    [it.note||"",mn,xr].filter(Boolean).join(" \u00b7 ")].filter(Boolean).join("\n"))
+    .split("\n").reduce((a,t)=>a.concat(wrap2(t,130,9)),[]);
   const lines=wrap2(nm2,150,10).map(t=>({s:t,f:10,w:1}));
   if(INTERNAL()){if(ids)lines.push({s:ids,f:10,w:1});}
   else if(p.sym!=="hexAdapter"){
-    const sl=specLine(p); if(sl)lines.push({s:sl,f:9,c:INK2});
-    const ml=m?specLine(m):""; if(ml)lines.push({s:ml,f:9,c:INK2}); // a gauge on a reg names itself too
+    // MAKER + PART NUMBER on one line, the psi rating on the NEXT (Marcus). A
+    // cell is exactly as wide as its widest LINE, so "MEC MEGR-6120-60 · 250 psi"
+    // was setting the width of the widest cells on the sheet for no reason.
+    //   The five note rows (ROWL) are a hard budget and drawLines() SILENTLY
+    // truncates past them — a regulator carries two name lines, its own two, its
+    // gauge's maker and its setpoint, which is six. So the split is taken only
+    // when it fits, and the combined one-line form is the fallback. Never drop a
+    // line: "set 45 psi" is the setpoint, not decoration.
+    const own=[pnText(p),ratingText(p)].filter(Boolean);
+    const ml=m?specLine(m):"";                       // a gauge on a reg names itself too
+    const budget=5-lines.length-(ml?1:0)-notes.length;
+    (own.length===2&&budget<2?[own.join(" · ")]:own).forEach(s=>lines.push({s,f:9,c:INK2}));
+    if(ml)lines.push({s:ml,f:9,c:INK2});
   }
   notes.forEach((t,i)=>lines.push({s:t,f:9,c:it.emergency&&i===0?FLAME:INK2}));
   return {p,m,ids,nm2,lines,notes};
@@ -917,19 +1042,32 @@ function partText(it,vert){const p=PARTS[it.p];const m=it.mount?PARTS[it.mount.p
 /* ref -> "sheet 3", for the pentagons whose other end is on another sheet.
    Rebuilt per sheet by renderSchematic; empty when a ref stays home. */
 let XSHEET={};
+/* A sheet may declare `bare:true`: no dashed line boxes and no band titles.
+   A "line marker" groups and names ONE numbered line; on a page that draws a
+   single line it says nothing the sheet's own title block does not (Marcus:
+   "don't put any line markers on the poofer page, it doesn't need them"). */
+let BARE=false;
 function jointText(it){let top="",bot="",wG=64;
   // direction/material boilerplate lives in GENERAL NOTES; glyphs encode it
   if(it.j==="npt"){top=`${frac(it.size)} NPT`;wG=it.part?60:44;}
   else if(it.j==="flare"){top=`${frac(it.size)} flare`;wG=48;}
-  else if(it.j==="pol"){top="CGA-510 POL";wG=64;}
+  else if(it.j==="pol"){top="CGA-510";wG=64;}   // the standard names the connection; "POL" is trade shorthand for the same thing (Marcus)
   // A gas hose is the one flexible, elastomeric thing on the sheet and the part
   // most likely to be the weak point, so it MARKS its working pressure on the
   // cell rather than leaving it to the general notes (Marcus). Read from the
   // part, never a literal, and `rating:null` means the vendor published none.
+  // FORMATTED LIKE EVERY OTHER PART (Marcus): the name on the line above the
+  // run, the rating on the identification line below it — never "hose · 350 psi"
+  // glued into one line. A cell is as wide as its widest LINE, and that one
+  // string made the hose cells the widest on the sheet and, through the supply
+  // stack's own max-width, the widest thing on sheet 1.
+  //   The identification line follows the same rule the part cells use: the
+  // equipment designation internally, the rating externally.
   else if(it.j==="hose"){const hpt=it.part&&PARTS[it.part],hp=hpt&&hpt.ports?P(hpt.ports.i):null;
-    const wp=hpt?(hpt.rating==null?"no published rating":`WP ${hpt.rating} psi`):"";
-    top=(hp&&hp.sz?`${frac(hp.sz)} LP-gas hose`:"hose")+(wp?` · ${wp}`:"");
-    bot=deTag(it.label||"");wG=96;} // designation on its own row
+    const wp=hpt?(hpt.rating==null?"no published rating":`${hpt.rating} psi`):"";
+    top=hp&&hp.sz?`${frac(hp.sz)} LP-gas hose`:"hose";
+    const lab=deTag(it.label||"");
+    bot=INTERNAL()?(lab||wp):wp;wG=96;}
   else if(it.j==="tube"){top=`${frac(it.size)} Cu`;bot=deTag(it.label||"");wG=64;}
   else if(it.j==="off"){const xs=XSHEET[it.ref];
     // an off-page connector says WHERE, not what it used to be wired to
@@ -946,6 +1084,26 @@ function buildCell(it){
   if(it.p){const {p,m,lines}=partText(it);
     const xn=Math.min(Math.max(it.xn|0,1),6); // xn: repeated tips (standby rail) drawn side by side
     const wSym=((p.sym==="tank")?50:Math.max(p.w*S,30))+(xn-1)*22;
+    // a cell hosting a RISING branch stands the consumer's stack on its boss.
+    // Same text-right-of-the-symbol layout as a drop host: the column above the
+    // glyph must stay clear. The cell widens to hold whichever is wider, the
+    // tee's own caption or the stack's labels, and reports the headroom the row
+    // must reserve above the strip.
+    const upIts=it.branchUp&&it.branchUp.length?it.branchUp:null;
+    if(upIts){
+      const textW=Math.max(linesW(lines),40);
+      const gh=Math.max(wSym/2,15);
+      const probe=drawBranchUp(upIts,0);
+      const w=Math.ceil(26+gh+Math.max(gh+12+textW,probe.x1)+10);
+      return {w,cx:26+gh,up:probe.up,top:probe.top,
+        draw(x){const cx=x+26+gh,tx=cx+gh+12,bx=m?cx-16:cx;
+          let s=`<line x1="${x}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
+          s+=drawBranchUp(upIts,cx).inner;               // under the tee body, which masks the stub
+          s+=SYM[p.sym==="none"?"hexAdapter":p.sym](cx,p,{...it,_bossUp:true});
+          s+=balloonCol(bx,it.p);
+          s+=drawLines(lines,tx,"start");
+          return s;}};
+    }
     // a cell hosting a MATCHED drop keeps the column under its glyph clear:
     // tag/notes move to the right of the symbol so the connector can descend
     // straight from the tee — the branch leaves AT the fitting, not past it
@@ -971,7 +1129,7 @@ function buildCell(it){
       let s=`<line x1="${x}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
       if(it.branch&&!(it.branch.ref&&MATCHED.has(it.branch.ref))){const b=it.branch;
         s+=`<line x1="${cx}" y1="${b.ref?CL-19.5:CL-44}" x2="${cx}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
-        if(b.ref)s+=`<path d="M${cx-12} ${CL-39.5} h16 l8 10 l-8 10 h-16 Z" fill="${INK}" stroke="${INK}" stroke-width="1.4"/>${txt(cx-1,ROW.jTop,b.ref,11,"middle","#fff",1)}`;
+        if(b.ref)s+=`<path data-pent="${esc(b.ref)}" d="M${cx-12} ${CL-39.5} h16 l8 10 l-8 10 h-16 Z" fill="${INK}" stroke="${INK}" stroke-width="1.4"/>${txt(cx-1,ROW.jTop,pentLetter(b.ref),11,"middle","#fff",1)}`;
         // chevrons sit ABOVE the upward boss so its white body never hides them
         if(b.arrow==="in")s+=`<path d="M${cx-4} ${CL-33} l4 5 l4 -5" fill="none" stroke="${INK}" stroke-width="1.6"/>`;
         else if(b.arrow==="out"&&!b.ref)s+=`<path d="M${cx-4} ${CL-28} l4 -5 l4 5" fill="none" stroke="${INK}" stroke-width="1.6"/>`;
@@ -999,7 +1157,9 @@ function buildCell(it){
       if(out)s+=`<path d="M${x} ${CL} h${w-34} m0 0 l-5 -4 m5 4 l-5 4" stroke="${INK}" fill="none" stroke-width="2"/>`;
       else s+=`<line x1="${x+34}" y1="${CL}" x2="${x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
       const hx=out?x+w-30:x+4;
-      s+=`<path d="M${hx} ${CL-10} h16 l8 10 l-8 10 h-16 Z" fill="${INK}" stroke="${INK}" stroke-width="1.4"/>${txt(hx+11,CL+3.5,it.ref,11,"middle","#fff",1)}`;
+      // data-pent: this is a DRAWN pentagon. renderSchematic's first pass collects
+      // these in document order to letter them contiguously from A.
+      s+=`<path data-pent="${esc(it.ref)}" d="M${hx} ${CL-10} h16 l8 10 l-8 10 h-16 Z" fill="${INK}" stroke="${INK}" stroke-width="1.4"/>${txt(hx+11,CL+3.5,pentLetter(it.ref),11,"middle","#fff",1)}`;
     } else {
       s+=jointGlyph(it,x,w);
     }
@@ -1074,6 +1234,79 @@ function buildConsol(c){
 /* horizontal item list -> cells, with [joint][hex][joint] consolidation —
    used by the split paths (the band loop consolidates inline) */
 function buildCellsH(items){return consolV(items||[]).map(x=>x.consol?buildConsol(x.consol):buildCell(x));}
+/* ONE vertical cell loop, shared by every vertical construct: the discharge
+   riser (up), the accumulator stack (down), and a tee's branch stack (up).
+   `dir` is the only difference — the far edge of a cell, the side the run
+   arrives from on an upright head, and which way the flow arrow points.
+   Cells hang on the TROW mini-grid at `rx`, symbols rotate(-90), text runs to
+   the right. Returns the widest label so the caller can size its column. */
+function vstack(items,rx,y0,dir){
+  let s="",yB=y0,maxW=0;
+  items.forEach(it=>{
+    const h=riserCellH(it),yA=yB+dir*h/2,yFar=yB+dir*h,tx=rx+RISER.TEXT_DX;
+    const run=(a,b)=>`<line x1="${rx}" y1="${a}" x2="${rx}" y2="${b}" stroke="${INK}" stroke-width="2"/>`;
+    s+=`<g class="tcell" data-y="${yA}">`;
+    if(it.consol){
+      const lines=consolLines(it.consol);
+      s+=run(yB,yFar);
+      s+=`<g transform="translate(${rx} ${yA}) rotate(-90) translate(0 ${-CL})">${consolGlyph(it.consol)}</g>`;
+      s+=balloonRow(rx+RISER.BAL_DX,yA,rx-33,it.consol.ad.p);
+      s+=drawLinesT(lines,tx,yA);
+      maxW=Math.max(maxW,linesW(lines));
+    }else if(it.p&&PARTS[it.p]){
+      const {p,m,lines}=partText(it,dir<0?"up":"down");
+      const key=p.sym==="none"?"hexAdapter":p.sym;
+      // an upright head (flame, vessel) keeps its own run stub so the line
+      // never crosses its body — NOR is the inset on the arriving side
+      const inset=RISER.NOR[key];
+      s+=run(yB,inset?yA-dir*inset:yFar);
+      if(inset)s+=`<g transform="translate(${rx} ${yA-CL})">${SYM[key](0,p,it)}</g>`;
+      else{
+        // a mounted stack cell carries its boss, any `via` adapters, and the
+        // mount itself INSIDE the rotated group — SYM holds no text, which is
+        // the whole reason a tee with a relief on it can be turned on its side
+        const vias=m?[].concat(it.mount.via||[]).map(k=>PARTS[k]).filter(Boolean):[];
+        let g=SYM[key](0,p,m?{...it,_bossUp:true}:it);
+        vias.forEach((v,i)=>{g+=`<g transform="translate(0 ${CL-24-i*22}) rotate(90) translate(0 ${-CL})">${SYM.hexAdapter(0,v,{})}</g>`;});
+        if(m)g+=`<g transform="translate(0 ${-(mountLift(m)+vias.length*22)})">${SYM[m.sym](0,m,it.mount)}</g>`;
+        s+=`<g transform="translate(${rx} ${yA}) rotate(-90) translate(0 ${-CL})">${g}</g>`;
+      }
+      const bx=rx+RISER.BAL_DX-(m?30:0);
+      s+=balloonRow(bx,yA+(m?TROW.balMain-3.5:0),inset||m?null:rx-33,it.p);
+      if(m)s+=balloonRow(bx,yA+TROW.balMount-3.5,null,it.mount.p);
+      if(m)[].concat(it.mount.via||[]).forEach((k,i)=>{s+=balloonRow(bx,yA+TROW.balVia-3.5+i*14,null,k);});
+      s+=drawLinesT(lines,tx,yA);
+      maxW=Math.max(maxW,linesW(lines));
+    }else{
+      const {top,bot}=jointText(it);
+      s+=run(yB,yFar);
+      s+=`<g transform="translate(${rx} ${yA}) rotate(-90) translate(0 ${-CL})">${jointGlyph(it,-h/2,h)}</g>`;
+      s+=txt(tx,yA+TROW.jTop,top,10,"start");
+      s+=txt(tx,yA+TROW.jBot,bot,9,"start",INK2);
+      maxW=Math.max(maxW,measure(top,10),measure(bot,9));
+    }
+    s+="</g>";yB=yFar;
+  });
+return {s,yEnd:yB,maxW};
+}
+
+/* ---------- A TEE'S BRANCH MAY RISE ----------
+   `branchUp:[items]` stands a vertical stack on a run tee's upward boss. The
+   poofer pilot is drawn this way because that is how it is built (Marcus) — and
+   it costs nothing, because the pilot then fills the empty column beside the
+   accumulator's riser instead of hanging a whole band below the vessel.
+     It is NOT a line: it carries no number, no dashed box and no title (Marcus:
+   "the poofer pilot doesn't need its own line"). It is a branch stub, like a
+   mount, only longer — so `buildRefs`, `lintPorts`, `runChecks` and the suite's
+   `eachItem` all descend into it exactly the way they descend into a riser's
+   `down` stack, and its parts reach the schedule and the compliance rows under
+   the HOST line's operating pressure, which is the pressure they actually see. */
+function drawBranchUp(items,cx){
+  const its=consolV(items||[]);
+  const r=vstack(its,cx,CL,-1);
+  const upH=riserUpH(its),top=CL-upH-4;
+  return {inner:r.s,x1:cx+RISER.TEXT_DX+r.maxW+10,up:Math.max(0,-top+4),top};
+}
 function drawRiser(rit,rest,x0){
   rest=consolV(rest);
   const down=consolV(rit.down||[]);
@@ -1083,58 +1316,7 @@ function drawRiser(rit,rest,x0){
   const rx=x0+66+(wideL?40:0);
   let inner=`<line x1="${x0}" y1="${CL}" x2="${rx}" y2="${CL}" stroke="${INK}" stroke-width="2"/>`;
   let maxW=0;
-  /* ONE cell loop, run twice: up for the discharge, down for the accumulator
-     stack. `dir` is the only difference — the far edge of a cell, the side the
-     run arrives from on an upright head, and which way the flow arrow points. */
-  const stack=(items,y0,dir)=>{
-    let s="",yB=y0;
-    items.forEach(it=>{
-      const h=riserCellH(it),yA=yB+dir*h/2,yFar=yB+dir*h,tx=rx+RISER.TEXT_DX;
-      const run=(a,b)=>`<line x1="${rx}" y1="${a}" x2="${rx}" y2="${b}" stroke="${INK}" stroke-width="2"/>`;
-      s+=`<g class="tcell" data-y="${yA}">`;
-      if(it.consol){
-        const lines=consolLines(it.consol);
-        s+=run(yB,yFar);
-        s+=`<g transform="translate(${rx} ${yA}) rotate(-90) translate(0 ${-CL})">${consolGlyph(it.consol)}</g>`;
-        s+=balloonRow(rx+RISER.BAL_DX,yA,rx-33,it.consol.ad.p);
-        s+=drawLinesT(lines,tx,yA);
-        maxW=Math.max(maxW,linesW(lines));
-      }else if(it.p&&PARTS[it.p]){
-        const {p,m,lines}=partText(it,dir<0?"up":"down");
-        const key=p.sym==="none"?"hexAdapter":p.sym;
-        // an upright head (flame, vessel) keeps its own run stub so the line
-        // never crosses its body — NOR is the inset on the arriving side
-        const inset=RISER.NOR[key];
-        s+=run(yB,inset?yA-dir*inset:yFar);
-        if(inset)s+=`<g transform="translate(${rx} ${yA-CL})">${SYM[key](0,p,it)}</g>`;
-        else{
-          // a mounted stack cell carries its boss, any `via` adapters, and the
-          // mount itself INSIDE the rotated group — SYM holds no text, which is
-          // the whole reason a tee with a relief on it can be turned on its side
-          const vias=m?[].concat(it.mount.via||[]).map(k=>PARTS[k]).filter(Boolean):[];
-          let g=SYM[key](0,p,m?{...it,_bossUp:true}:it);
-          vias.forEach((v,i)=>{g+=`<g transform="translate(0 ${CL-24-i*22}) rotate(90) translate(0 ${-CL})">${SYM.hexAdapter(0,v,{})}</g>`;});
-          if(m)g+=`<g transform="translate(0 ${-(mountLift(m)+vias.length*22)})">${SYM[m.sym](0,m,it.mount)}</g>`;
-          s+=`<g transform="translate(${rx} ${yA}) rotate(-90) translate(0 ${-CL})">${g}</g>`;
-        }
-        const bx=rx+RISER.BAL_DX-(m?30:0);
-        s+=balloonRow(bx,yA+(m?TROW.balMain-3.5:0),inset||m?null:rx-33,it.p);
-        if(m)s+=balloonRow(bx,yA+TROW.balMount-3.5,null,it.mount.p);
-        if(m)[].concat(it.mount.via||[]).forEach((k,i)=>{s+=balloonRow(bx,yA+TROW.balVia-3.5+i*14,null,k);});
-        s+=drawLinesT(lines,tx,yA);
-        maxW=Math.max(maxW,linesW(lines));
-      }else{
-        const {top,bot}=jointText(it);
-        s+=run(yB,yFar);
-        s+=`<g transform="translate(${rx} ${yA}) rotate(-90) translate(0 ${-CL})">${jointGlyph(it,-h/2,h)}</g>`;
-        s+=txt(tx,yA+TROW.jTop,top,10,"start");
-        s+=txt(tx,yA+TROW.jBot,bot,9,"start",INK2);
-        maxW=Math.max(maxW,measure(top,10),measure(bot,9));
-      }
-      s+="</g>";yB=yFar;
-    });
-    return {s,yEnd:yB};
-  };
+  const stack=(items,y0,dir)=>{const r=vstack(items,rx,y0,dir);maxW=Math.max(maxW,r.maxW);return r;};
   inner+=stack(rest,CL,-1).s;
   // base: run tee at the turn. Either a single mounted vessel hangs below it, or
   // (the accumulator) a whole DOWN STACK does — vessel at the bottom, then its
@@ -1354,14 +1536,25 @@ function deriveTree(lines){
    placeBand); splits and risers are atomic units that trigger a wrap when
    they don't fit. Segment boxes and seam titles are per-row; a line spanning
    a wrap gets a box on each row. */
-function bandTitleText(L){return `${L.id} — ${L.title} · ${deTag(L.psi)}`;}
-function bandTitle(L){return txt(14,8,bandTitleText(L),10,"start",INK2);}
+/* A LINE IS NAMED, NOT NUMBERED (Marcus). The `L1`/`L3a` ids are DATA KEYS — they
+   live in the JSON, the sheet definitions and the ref matching, and they never
+   reach the drawing. Nothing else may either: the compliance table's line
+   references print the same names, or they would key to a numbering the reader
+   cannot see (the dangling-reference bug the balloons once had). */
+function bandTitleText(L){return L.title;}   // the NAME alone: the psi lives on the cells that hold it (Marcus)
+function bandContText(L){return `${L.title} (cont.)`;}
+const lineById=id=>SYSTEM.lines.find(x=>x.id===id);
+function bandTitle(L){return BARE?"":txt(14,8,bandTitleText(L),10,"start",INK2);}
+/* A wrapped row gets a dashed box of its own, so it must say whose it is — an
+   unlabeled box reads as an unnamed line (Marcus saw one on sheet 1). It repeats
+   the line's NAME, marked as a continuation. */
+function bandContTitle(L){return BARE?"":txt(14,8,bandContText(L),10,"start",INK2);}
 function renderBandRows(L,availW){
   const entries=bandEntries(L);
   const rows=[];let row=null,curId=L.id,done=false,skip=0;
   const seg=()=>row.segs[row.segs.length-1];
   const newRow=first=>{row={x:14,inner:"",under:"",tees:[],up:0,down:0,pocket:0,hasSplit:false,endTee:null,
-    titleEnd:first?14+measure(bandTitleText(L),10):8,
+    titleEnd:BARE?8:first?14+measure(bandTitleText(L),10):14+measure(bandContText(lineById(curId)||L),10),
     segs:[{id:curId,x0:2,top:-4,bot:STRIP_H-4}]};rows.push(row);};
   newRow(true);
   // supply stack: everything before a {j:"turn"} marker renders as a
@@ -1403,7 +1596,7 @@ function renderBandRows(L,availW){
         // the run resumes here from the matching pentagon at the fan's end —
         // a drawn route back across the sheet would read as a second loop
         const w=Math.max(80,measure(lbl,9)+42);
-        row.inner+=`<g data-pin="${esc(it.ref)}"><path d="M${row.x+4} ${CL-10} h16 l8 10 l-8 10 h-16 Z" fill="${INK}" stroke="${INK}" stroke-width="1.4"/>${txt(row.x+15,CL+3.5,it.ref,11,"middle","#fff",1)}
+        row.inner+=`<g data-pin="${esc(it.ref)}"><path data-pent="${esc(it.ref)}" d="M${row.x+4} ${CL-10} h16 l8 10 l-8 10 h-16 Z" fill="${INK}" stroke="${INK}" stroke-width="1.4"/>${txt(row.x+15,CL+3.5,pentLetter(it.ref),11,"middle","#fff",1)}
         <line x1="${row.x+34}" y1="${CL}" x2="${row.x+w}" y2="${CL}" stroke="${INK}" stroke-width="2"/>
         <path d="M${row.x+40} ${CL} h10 m0 0 l-6 -4.5 m6 4.5 l-6 4.5" fill="none" stroke="${INK}" stroke-width="2"/></g>`;
         row.inner+=txt(row.x+34+(w-30)/2,ROW.jBot,lbl,9,"middle",INK2);
@@ -1468,13 +1661,13 @@ function renderBandRows(L,availW){
       // matching pentagon at the consumer band's lead-in — a drawn route back
       // across the sheet would read as a second loop-back
       const e=TREE.edges.find(x=>x.ref===it.ref&&x.kind==="end");
-      const badge=e&&e.fan?"one of "+e.fan+" identical branches":"";
+      const badge=e&&e.fan?"one of "+e.fan+" typical branches":"";   // TYP is the drafting word (Marcus): the branches are built alike, not proven identical
       const lbl=deTag(it.label||"");
       const w=Math.max(96,measure(lbl,9)+16,(badge?measure(badge,9):0)+44);
       if(!fits(w))wrap();
       const x=row.x,hx=x+w-34;
       row.inner+=`<g data-pout="${esc(it.ref)}"><path d="M${x} ${CL} h${w-38} m0 0 l-5 -4 m5 4 l-5 4" stroke="${INK}" fill="none" stroke-width="2"/>
-      <path d="M${hx} ${CL-10} h16 l8 10 l-8 10 h-16 Z" fill="${INK}" stroke="${INK}" stroke-width="1.4"/>${txt(hx+11,CL+3.5,it.ref,11,"middle","#fff",1)}</g>`;
+      <path data-pent="${esc(it.ref)}" d="M${hx} ${CL-10} h16 l8 10 l-8 10 h-16 Z" fill="${INK}" stroke="${INK}" stroke-width="1.4"/>${txt(hx+11,CL+3.5,pentLetter(it.ref),11,"middle","#fff",1)}</g>`;
       if(badge)row.inner+=`<rect x="${x+8}" y="${ROW.jTop-11}" width="${measure(badge,9)+12}" height="14" rx="3" fill="#fff" stroke="${INK}"/>`+txt(x+14,ROW.jTop,badge,9,"start",INK,1);
       row.inner+=txt(x+(w-24)/2,ROW.jBot,lbl,9,"middle",INK2);
       row.endTee={ref:it.ref};
@@ -1496,6 +1689,10 @@ function renderBandRows(L,availW){
     if(!fits(c.w))wrap();
     const xB=row.x;
     row.inner+=c.draw(row.x);row.x+=c.w;
+    // A RISING branch needs headroom above the strip, exactly as a riser does —
+    // but NOT a lower segment top: the stack is a different numbered line and
+    // draws its own dashed box, so the host's box must stop at the strip.
+    if(c.up)row.up=Math.max(row.up,c.up);
     // the connector descends straight from the tee glyph (drop-host cells keep
     // that column free of text)
     if(teeRef)row.tees.push({ref:teeRef,cx:xB+(c.cx!==undefined?c.cx:c.w/2)});
@@ -1508,7 +1705,7 @@ function renderBandRows(L,availW){
     // segment holding a supply stack NOTCHES — full depth around the stack,
     // strip depth beyond it — so the pocket to the right stays outside the
     // box, free for the branch bands that tuck into it (placeBand)
-    const boxes=r.segs.map(s=>{
+    const boxes=BARE?"":r.segs.map(s=>{
       const nb=STRIP_H-4+(r.hasSplit?PAR_DY:0);
       if(s.notchX!==undefined&&s.bot>nb&&s.notchX<s.x1-27)
         return `<path d="M${s.x0+7} ${s.top} H${s.x1-7} Q${s.x1} ${s.top} ${s.x1} ${s.top+7} V${nb-7} Q${s.x1} ${nb} ${s.x1-7} ${nb} H${s.notchX+7} Q${s.notchX} ${nb} ${s.notchX} ${nb+7} V${s.bot-7} Q${s.notchX} ${s.bot} ${s.notchX-7} ${s.bot} H${s.x0+7} Q${s.x0} ${s.bot} ${s.x0} ${s.bot-7} V${s.top+7} Q${s.x0} ${s.top} ${s.x0+7} ${s.top} Z" fill="none" stroke="${INK2}" stroke-dasharray="7 4"/>`;
@@ -1557,7 +1754,12 @@ function placeBand(L,absX,topY,out,edgeByRef,isRoot,fold){
   const rowY=[];let y=topY+rows[0].up,right=absX;
   rows.forEach((row,ri)=>{
     rowY[ri]=y;right=Math.max(right,absX+indent[ri]+row.w);
-    out.over.push(`<g class="band" data-band="${esc(L.id)}" data-cl="${y+CL}" data-w="${row.w}" transform="translate(${absX+indent[ri]} ${y})"${ri?` data-row="${ri}"`:merged}>${ri===0?bandTitle(L):""}${row.content}</g>`);
+    // data-stack-x: the supply stack's right edge, band-local. Emitted so the
+    // suite can prove a drop band never draws THROUGH the stack — it must either
+    // clear it vertically or tuck into the pocket beside it. Row 0 only; only a
+    // supply stack sets row.stackX.
+    const sx=ri===0&&row.stackX?` data-stack-x="${row.stackX}"`:"";
+    out.over.push(`<g class="band" data-band="${esc(L.id)}" data-cl="${y+CL}" data-w="${row.w}"${sx} transform="translate(${absX+indent[ri]} ${y})"${ri?` data-row="${ri}"`:merged}>${ri===0?bandTitle(L):bandContTitle(lineById(row.segs[0].id)||L)}${row.content}</g>`);
     // a pocketed next row rides BESIDE the stack, so advance by the strip only —
     // the stack's own depth still sets `bottom` below
     if(ri<lastIdx)y+=(indent[ri+1]?STRIP_H+(row.hasSplit?PAR_DY:0):row.h)+TRUNK.GAP+6*(jogsPerGap[ri]||0)+rows[ri+1].up;
@@ -1584,10 +1786,23 @@ function placeBand(L,absX,topY,out,edgeByRef,isRoot,fold){
   // ONLY a supply stack leaves a pocket. A riser's accumulator stack also grows
   // row.down, but it hangs at the band's END and the space below it is occupied —
   // tucking drops up into it draws the pilot line straight through the vessel.
-  const pocket=lastIdx===0?(rows[0].pocket||0):0;
-  let subY=bottom-pocket+TRUNK.GAP;
-  [...direct].sort((a,b)=>b.t.cx-a.t.cx).forEach(({t,e})=>{
-    const cx=absX+t.cx;
+  const pocket=rows[0].pocket||0;
+  // The strip content's bottom, with row 0's supply-stack DEPTH discounted: a
+  // last-row drop lands right of the stack (unfolded, every drop tee is past it;
+  // folded, the wrapped rows are themselves indented into the pocket), so it
+  // starts below the STRIP, not below the tall stack. This used to be granted
+  // only when the band did not fold — a folded sheet dropped its bands the full
+  // depth of the stack, stranding a screen of white space above them.
+  // Anything anchored at absX (the routed lanes, the fan band) must still clear
+  // the stack itself, and does: pass 2b floors subY at stackBot.
+  const stripBot=rowY.reduce((b,yy,ri)=>Math.max(b,yy+rows[ri].h-(ri===0?pocket:0)),topY);
+  let subY=stripBot+TRUNK.GAP;
+  // indent[ri], not just absX: a WRAPPED row rides right of the supply stack, in
+  // the pocket. Dropping from `absX+t.cx` put the connector a whole pocket-width
+  // left of its own tee — straight down through the stack's label column. Row 0
+  // has indent 0, so this was invisible until a folded sheet grew a drop (L1b).
+  [...direct].sort((a,b)=>b.t.cx-a.t.cx).forEach(({ri,t,e})=>{
+    const cx=absX+indent[ri]+t.cx;
     const r=placeBand(e.to,cx-6,subY,out,edgeByRef);
     out.under.push(`<path data-conn="${esc(t.ref)}" data-cly="${r.cl0}" d="M${cx} ${rowY[lastIdx]+CL} V${r.cl0-8} Q${cx} ${r.cl0} ${cx+8} ${r.cl0}" fill="none" stroke="${INK}" stroke-width="2"/>`);
     right=Math.max(right,r.right);bottom=Math.max(bottom,r.bottom);subY=r.bottom+TRUNK.GAP;
@@ -1603,7 +1818,7 @@ function placeBand(L,absX,topY,out,edgeByRef,isRoot,fold){
   });
   [...jobs].reverse().forEach(({ri,t,e,lane,jy})=>{
     subY=Math.max(subY,stackBot+TRUNK.GAP);
-    const cx=absX+t.cx,rowCL=rowY[ri]+CL;
+    const cx=absX+indent[ri]+t.cx,rowCL=rowY[ri]+CL;   // see pass 2a on indent[ri]
     const r=placeBand(e.to,absX,subY,out,edgeByRef);
     out.under.push(`<path data-conn="${esc(t.ref)}" data-cly="${r.cl0}" d="M${cx} ${rowCL} V${jy-8} Q${cx} ${jy} ${cx-8} ${jy} H${lane+8} Q${lane} ${jy} ${lane} ${jy+8} V${r.cl0-8} Q${lane} ${r.cl0} ${lane+8} ${r.cl0} H${absX+15}" fill="none" stroke="${INK}" stroke-width="2"/>`);
     right=Math.max(right,r.right);bottom=Math.max(bottom,r.bottom);subY=r.bottom+TRUNK.GAP;
@@ -1624,7 +1839,7 @@ const LAST_RENDER={w:0,h:0,inner:""};
 function sheetsOf(){
   const byId={};SYSTEM.lines.forEach(L=>{byId[L.id]=L;});
   const defs=(SYSTEM.sheets&&SYSTEM.sheets.length)?SYSTEM.sheets:[{id:"S1",title:"Schematic",lines:SYSTEM.lines.map(L=>L.id)}];
-  const out=defs.map(d=>({id:d.id||"S?",title:d.title||"",fold:!!d.fold,lines:(d.lines||[]).map(i=>byId[i]).filter(Boolean)}));
+  const out=defs.map(d=>({id:d.id||"S?",title:d.title||"",fold:!!d.fold,bare:!!d.bare,lines:(d.lines||[]).map(i=>byId[i]).filter(Boolean)}));
   const seen=new Set();out.forEach(sh=>sh.lines.forEach(L=>seen.add(L.id)));
   const rest=SYSTEM.lines.filter(L=>!seen.has(L.id));
   if(rest.length)out.push({id:"S?",title:"Unassigned",lines:rest});
@@ -1649,7 +1864,40 @@ const SHEET_TOP=46;   // room for the sheet's own title strip
    and lintPorts() re-derives it over the whole system straight afterwards, so a
    reader asking "which connectors exist?" must consult this, not TREE. */
 const SHEETS=[];
+/* PENTAGON LETTERS. `ref` is a MATCH KEY in the data, never a label: a ref whose
+   producer and consumer land on the same sheet draws a real connector and no
+   pentagon at all, so the drawn letters would otherwise skip (A, D and F are all
+   connectors today, and the sheet read "B, C, E, G, H"). The letters a reviewer
+   sees must run contiguously from A in the order the pentagons are MET, reading
+   sheet 1 → sheet 4.
+     Which refs draw a pentagon is a layout outcome, not something the data knows,
+   so the sheets are built TWICE: pass 1 renders with the raw refs and marks each
+   pentagon with data-pent, pass 2 renders again with the letters that discovers.
+   Beyond 26 pentagons a ref keeps its own key rather than wrapping to nonsense. */
+let PLETTER={};
+const pentLetter=r=>PLETTER[r]||r;
 function renderSchematic(){
+  PLETTER={};
+  buildSheets();
+  const met=[];
+  SHEETS.forEach(sh=>{for(const m of sh.inner.matchAll(/data-pent="([^"]*)"/g))if(!met.includes(m[1]))met.push(m[1]);});
+  PLETTER={};met.forEach((r,i)=>{if(i<26)PLETTER[r]=String.fromCharCode(65+i);});
+  const {W,H}=buildSheets();
+  LAST_RENDER.w=W;LAST_RENDER.h=H;
+  const host=document.getElementById("strips");host.innerHTML="";
+  const div=document.createElement("div");div.className="strip";
+  div.innerHTML=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${LAST_RENDER.inner}</svg>`;
+  host.appendChild(div);
+  // the notes lead, as they do in the export header; the legend key follows
+  document.getElementById("legend").innerHTML=[generalNotes(),...legendLines()]
+    .map(s=>s===LEG_ORANGE?`<span style="color:${FLAME}">orange</span>${s.slice(6)}`:s)
+    .map(s=>`<span>${s}</span>`).join("");
+  document.getElementById("docSub").textContent=sheetSubtitle();
+  document.getElementById("docMeta").innerHTML=
+    `<span>PROJECT</span><b>${esc(SYSTEM.meta.project)}</b><span>REV / DATE</span><b>${esc(SYSTEM.meta.rev)} · ${esc(SYSTEM.meta.date)}</b>
+     <span>SCALE</span><b>${esc(SYSTEM.meta.scale)}</b><span>SHEETS</span><b>${sheetsOf().length} · ${SYSTEM.lines.length} lines</b>`;
+}
+function buildSheets(){
   buildRefs();
   const sheets=sheetsOf();
   SHEETS.length=0;
@@ -1657,6 +1905,7 @@ function renderSchematic(){
   let right=600,y=16,inner="";
   sheets.forEach((sh,i)=>{
     const n=i+1;
+    BARE=!!sh.bare;
     deriveTree(sh.lines);
     // captions for this sheet's off-page pentagons, both directions
     XSHEET={};
@@ -1687,26 +1936,15 @@ function renderSchematic(){
       +`<g class="strip" transform="translate(24 18)">${txt(0,8,`SHEET ${n} OF ${sheets.length} · ${sh.title}`,11,"start",INK,1)}</g>`
       +out.under.join("")+out.over.join("");
     inner+=`<g class="sheet" data-sheet="${esc(sh.id)}" transform="translate(0 ${y})">${body}</g>`;
-    SHEETS.push({id:sh.id,title:sh.title,n,of:sheets.length,fold:!!sh.fold,w:sw,h:sh2,inner:body,lines:sh.lines.slice(),
+    SHEETS.push({id:sh.id,title:sh.title,n,of:sheets.length,fold:!!sh.fold,bare:!!sh.bare,w:sw,h:sh2,inner:body,lines:sh.lines.slice(),
       root:TREE.root,edges:TREE.edges.slice(),orphans:TREE.orphans.slice(),
       chain:Object.fromEntries(Object.entries(TREE.chain).map(([k,v])=>[k,v.slice()]))});
     right=Math.max(right,sw);y+=sh2+22;
   });
-  XSHEET={};
+  XSHEET={};BARE=false;
   const W=Math.round(right),H=Math.round(y);
-  LAST_RENDER.w=W;LAST_RENDER.h=H;LAST_RENDER.inner=inner;
-  const host=document.getElementById("strips");host.innerHTML="";
-  const div=document.createElement("div");div.className="strip";
-  div.innerHTML=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${LAST_RENDER.inner}</svg>`;
-  host.appendChild(div);
-  // the notes lead, as they do in the export header; the legend key follows
-  document.getElementById("legend").innerHTML=[generalNotes(),...legendLines()]
-    .map(s=>s===LEG_ORANGE?`<span style="color:${FLAME}">orange</span>${s.slice(6)}`:s)
-    .map(s=>`<span>${s}</span>`).join("");
-  document.getElementById("docSub").textContent=sheetSubtitle();
-  document.getElementById("docMeta").innerHTML=
-    `<span>PROJECT</span><b>${esc(SYSTEM.meta.project)}</b><span>REV / DATE</span><b>${esc(SYSTEM.meta.rev)} · ${esc(SYSTEM.meta.date)}</b>
-     <span>SCALE</span><b>${esc(SYSTEM.meta.scale)}</b><span>SHEETS</span><b>${sheetsOf().length} · ${SYSTEM.lines.length} lines</b>`;
+  LAST_RENDER.inner=inner;
+  return {W,H};
 }
 
 function renderParts(){
@@ -1861,6 +2099,9 @@ function lintPorts(){
         if(it.p&&!PARTS[it.p])continue;
         mate(open,pending,it,`${line}: ${lbl(open&&open.it)} → ${lbl(it)}`);
         mounts(it,line);
+        // a rising branch stub leaves through this tee's BRANCH port and dead-ends
+        // on its head — a chain, walked like any other run
+        if(it.branchUp&&it.branchUp.length)walk(it.branchUp,branchState(it),`${line} branch`);
         open=outState(it);pending=null;continue;}
     }
     return {open,pending};
@@ -1898,10 +2139,11 @@ function runChecks(){
     const flat=[];
     const add=it=>{if(!it)return;flat.push(it);
       if(it.j==="riser"){add(it.tee);(it.down||[]).forEach(add);}
+      if(it.branchUp)it.branchUp.forEach(add);   // the stub sees its host line's pressure
       if(it.split){add(it.split.tee);add(it.split.rejoin);(it.split.a||[]).forEach(add);(it.split.b||[]).forEach(add);}
     };
     L.items.forEach(add);
-    return flat.map(it=>({...it,op:L.op,line:L.id}));
+    return flat.map(it=>({...it,op:L.op,line:L.title}));   // NAME: the drawing shows no ids
   });
   // FE-1 quarter-turn emergency shut-offs
   const ems=allItems.filter(it=>it.emergency);
@@ -1928,7 +2170,7 @@ function runChecks(){
   // FE-5 >125 psi metallic segments
   const hp=SYSTEM.lines.filter(L=>L.op>125);
   C.push({id:"FE-5",req:"Metallic piping and fittings operating above 125 psi are schedule 80 or heavier.",
-    status:hp.length?"rev":"ok",note:hp.length?`Line(s) ${hp.map(L=>L.id).join(", ")} see cylinder pressure upstream of their regulators. Forged brass valve/fitting bodies there must carry ratings ≥ segment pressure (scheduled at 250–600 psi); any threaded pipe nipples in these segments must be schedule 80. Confirm each upstream component.`:"No metallic piping segment exceeds 125 psi."});
+    status:hp.length?"rev":"ok",note:hp.length?`Line(s) ${hp.map(L=>L.title).join(", ")} see cylinder pressure upstream of their regulators. Forged brass valve/fitting bodies there must carry ratings ≥ segment pressure (scheduled at 250–600 psi); any threaded pipe nipples in these segments must be schedule 80. Confirm each upstream component.`:"No metallic piping segment exceeds 125 psi."});
   // FE-6 tubing joints
   const tubes=allItems.filter(it=>it.j==="tube");
   C.push({id:"FE-6",req:"All metallic tubing joints are flare fittings; compression fittings and soldered joints prohibited.",
@@ -1956,27 +2198,96 @@ function runChecks(){
 }
 
 /* ---------- EXPORT & EDIT ---------- */
+/* THE PAGE. Every exported page is the SAME PAPER — US letter — and each sheet
+   takes the ORIENTATION that renders its artwork largest. Pages used to be sized
+   to their own content, so the packet came out four pages wide-and-various
+   (25.2in x 7.25..15.6in), which nobody can print, bind, or hand a reviewer.
+   Worse, the width was set by PROSE, not by the drawing: GENERAL NOTES is one
+   372-character sentence, and as a single <text> it alone demanded 2421px. The
+   notes now wrap (wrapText) and the canvas is a fixed page.
+     ORIENTATION IS PER SHEET, and DERIVED, not declared: the poofer sheet is a
+   tall narrow column (956x1228) and loses half its scale on a landscape page,
+   so it prints portrait (Marcus). Deriving it means a sheet that grows a row
+   cannot be left on the wrong paper by a stale flag. Ties go to landscape.
+     w/h are CSS px at 96dpi — the unit a browser and rsvg-convert both assume
+   for an unsuffixed SVG length — and cssW/cssH stamp the PDF page in physical
+   units so `npm run pdf` and the browser's Save-as-PDF agree to the pixel.
+   `css` is what downloadPDF() injects into a NAMED @page rule, one per
+   orientation, because @page cannot be varied per page any other way.
+     FRAME is the drawn border's inset (kept clear of the ~0.17in unprintable
+   edge most printers have); PAD is the gap from that border to any ink. */
+const LANDSCAPE={ id:"landscape", w:1056, h:816, cssW:"11in", cssH:"8.5in", css:"letter landscape" };
+const PORTRAIT ={ id:"portrait",  w:816, h:1056, cssW:"8.5in", cssH:"11in", css:"letter portrait" };
+const PAGES=[LANDSCAPE,PORTRAIT];   // landscape first: it wins a tie
+const FRAME=28, PAD=14;
+/* Monospace advance per px of font-size. The old textW() hard-coded 6.4px at
+   font-size 10.5; 6.4/10.5 is this. One constant, so a size change cannot
+   silently desynchronise the wrap width from the glyphs. */
+const ADV=0.61;
+/* Wrap on the notes' own ' · ' clause separators so a line never breaks mid-
+   clause, with a word-level fallback for a clause longer than the measure. */
+function wrapText(s,maxChars){
+  if(!s)return [];
+  const packer=()=>{const out=[];let cur="";
+    return {add(piece,glue){ if(cur&&(cur+glue+piece).length>maxChars){out.push(cur);cur=piece;}
+              else cur=cur?cur+glue+piece:piece; },
+            done(){ if(cur)out.push(cur); return out; }};};
+  const p=packer();
+  String(s).split(" · ").forEach((clause,i,all)=>{
+    const piece=i<all.length-1?clause+" ·":clause;
+    if(piece.length<=maxChars){p.add(piece," ");return;}
+    piece.split(/\s+/).forEach(w=>p.add(w," "));   // fallback: a clause too long to sit on one line
+  });
+  return p.done();
+}
+/* Lay one sheet onto one candidate page: wrap the chrome to that page's measure,
+   then fit the artwork into whatever rectangle the chrome leaves. `s` is the
+   artwork scale, and it is what chooses the orientation. */
+function pageLayout(sh,PG){
+  const x0=FRAME+PAD, innerW=PG.w-2*x0, LH=13;
+  const cols=Math.max(20,Math.floor(innerW/(10.5*ADV)));
+  // this SHEET's notes and legend, not the whole system's
+  const noteLines=wrapText(generalNotes(sh),cols);
+  const legLines=legendLines(sh).reduce((a,l)=>a.concat(wrapText(l,cols)),[]);
+  const titleY=FRAME+PAD+14, subY=titleY+15, notesY=subY+16;
+  const artTop=notesY+noteLines.length*LH+6;
+  const legH=legLines.length*LH, legTop=PG.h-FRAME-PAD-legH+10, ruleY=legTop-14;
+  const availW=innerW, availH=Math.max(40,ruleY-8-artTop);
+  // uniform scale, never an enlargement — a small sheet stays 1:1 rather than
+  // blowing its 9px captions up to fill the paper
+  const s=Math.min(1,availW/Math.max(1,sh.w),availH/Math.max(1,sh.h));
+  return {PG,x0,LH,noteLines,legLines,titleY,subY,notesY,artTop,legTop,ruleY,availW,availH,s};
+}
+/* The orientation a sheet prints on: whichever renders its artwork LARGEST.
+   Landscape is first in PAGES, so it wins a tie. */
+function pageFor(sh){return PAGES.map(PG=>pageLayout(sh,PG)).reduce((a,b)=>b.s>a.s?b:a);}
 /* ONE STANDALONE DOCUMENT PER SHEET — each is a PAGE of the packet, so each
-   carries its own title block, "not to scale" line, GENERAL NOTES and legend.
-   A reviewer holding page 3 alone must still be able to read it. Every
-   interpolated string goes through esc(): the .svg must be strict XML.
-   scripts/make_pdf.sh rasterises these into the 4-page PDF. */
+   carries its own title block, its own GENERAL NOTES and its own legend, all
+   filtered to what that page draws. A reviewer holding page 3 alone must still
+   be able to read it. Every interpolated string goes through esc(): the .svg
+   must be strict XML.
+     The header carries no "FOR FAST REVIEW" stamp and no "not to scale" line
+   (Marcus). Both were on every page; the scale is stated in the title block's
+   SCALE field on screen, and the packet's cover states what it is. Nothing on
+   the sheet claims a scale, and `noScaleClaims` still enforces that.
+     The chrome (title, notes, legend) is laid out in PAGE coordinates at fixed
+   font sizes so it stays legible; only the ARTWORK is scaled.
+   scripts/make_pdf.sh rasterises these into the PDF. */
 function sheetDoc(sh){
-  const leg=legendLines(),notes=generalNotes(),HEAD=70,GAP=14,LH=14;
-  const legTop=HEAD+GAP+sh.h+22;
-  const textW=s=>Math.ceil(s.length*6.4)+40;
-  const legW=Math.max(0,...leg.map(textW),textW(notes));
-  const w=Math.max(sh.w+40,legW),h=Math.round(legTop+leg.length*LH+8);
-  const head=SYSTEM.meta.project+" — LP-gas flame effect schematic · REV "+SYSTEM.meta.rev
-    +" · "+SYSTEM.meta.date+" · SHEET "+sh.n+" OF "+sh.of+" · "+sh.title+" · FOR FAST REVIEW";
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" font-family="monospace">
-  <rect x="1" y="1" width="${w-2}" height="${h-2}" fill="#fff" stroke="${INK}" stroke-width="2"/>
-  <text x="20" y="30" font-size="16" fill="${INK}">${esc(head)}</text>
-  <text x="20" y="46" font-size="11" fill="${INK2}">${esc(svgSubtitle())}</text>
-  <text x="20" y="62" font-size="10.5" fill="${INK2}">${esc(notes)}</text>
-  <g transform="translate(20 ${HEAD+GAP})">${sh.inner}</g>
-  <line x1="20" y1="${legTop-15}" x2="${w-20}" y2="${legTop-15}" stroke="${INK2}" stroke-width=".8"/>
-  ${leg.map((l,i)=>`<text x="20" y="${legTop+i*LH}" font-size="10.5" fill="${INK2}">${esc(l)}</text>`).join("")}</svg>`;
+  const num=v=>Math.round(v*100)/100;                 // keep floats out of the XML
+  const L=pageFor(sh),PG=L.PG,x0=L.x0,LH=L.LH,s=L.s;
+  const title=SYSTEM.meta.project+" — LP-gas flame effect schematic";
+  const sub="REV "+SYSTEM.meta.rev+" · "+SYSTEM.meta.date+" · SHEET "+sh.n+" OF "+sh.of+" · "+sh.title;
+  const ox=num(x0+(L.availW-sh.w*s)/2), oy=num(L.artTop+(L.availH-sh.h*s)/2);
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${PG.cssW}" height="${PG.cssH}" viewBox="0 0 ${PG.w} ${PG.h}" font-family="monospace">
+  <rect x="0" y="0" width="${PG.w}" height="${PG.h}" fill="#fff"/>
+  <rect x="${FRAME}" y="${FRAME}" width="${PG.w-2*FRAME}" height="${PG.h-2*FRAME}" fill="none" stroke="${INK}" stroke-width="2"/>
+  <text x="${x0}" y="${L.titleY}" font-size="14" fill="${INK}">${esc(title)}</text>
+  <text x="${x0}" y="${L.subY}" font-size="10.5" fill="${INK2}">${esc(sub)}</text>
+  ${L.noteLines.map((l,i)=>`<text x="${x0}" y="${L.notesY+i*LH}" font-size="10.5" fill="${INK2}">${esc(l)}</text>`).join("")}
+  <g transform="translate(${ox} ${oy}) scale(${num(s)})">${sh.inner}</g>
+  <line x1="${x0}" y1="${L.ruleY}" x2="${PG.w-x0}" y2="${L.ruleY}" stroke="${INK2}" stroke-width=".8"/>
+  ${L.legLines.map((l,i)=>`<text x="${x0}" y="${L.legTop+i*LH}" font-size="10.5" fill="${INK2}">${esc(l)}</text>`).join("")}</svg>`;
 }
 function sheetDocs(){return SHEETS.map(sheetDoc);}
 /* THE DELIVERABLE. A browser cannot write a PDF byte stream without a library,
@@ -1989,11 +2300,19 @@ function downloadPDF(){
   const prev=VIEW;
   if(prev!=="external")setView("external");   // the packet is ALWAYS the external view
   const host=document.getElementById("printSheets");
-  host.innerHTML=sheetDocs().map(d=>`<div class="page">${d}</div>`).join("");
-  // @page cannot be scoped by a class, so landscape is injected for THIS print
-  // only — the other button still wants the internal packet in portrait
+  // Each page carries the orientation its sheet chose. A bare `@page` cannot be
+  // varied per page, so one NAMED @page rule is declared per orientation and the
+  // page div selects it with the `page` property.
+  const docs=sheetDocs();
+  host.innerHTML=SHEETS.map((sh,i)=>`<div class="page ${pageFor(sh).PG.id}">${docs[i]}</div>`).join("");
+  // Injected for THIS print only. margin:0 because each sheetDoc IS a full
+  // page-sized svg with its own frame and inner margin — any @page margin would
+  // scale it down and spill it onto a second, blank sheet.
   const st=document.createElement("style");
-  st.id="pdfPage";st.textContent="@page{size:landscape;margin:8mm}";
+  // the bare @page is the FALLBACK: a browser without named-page support still
+  // gets zero margins and letter paper, just one orientation for the whole packet
+  st.id="pdfPage";st.textContent=`@page{size:${LANDSCAPE.css};margin:0}`+PAGES.map(P=>
+    `@page ${P.id}{size:${P.css};margin:0}#printSheets .page.${P.id}{page:${P.id}}`).join("");
   document.head.appendChild(st);
   document.body.classList.add("pdfonly");
   let done=false;

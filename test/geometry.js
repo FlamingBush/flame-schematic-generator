@@ -74,4 +74,14 @@ function textContents(svg) {
   return [...svg.matchAll(/<text[^>]*>([^<]*)<\/text>/g)].map(m => m[1]);
 }
 
-module.exports = { textBoxes, rx, clippedByCanvas, collisions, bandChunks, textContents };
+// The placed position of one band's row-0 <g>, plus the supply stack's right
+// edge (band-local) when that row carries one. Bands on different sheets BOTH
+// start at y=0, so pass ONE sheet's `inner` — never the whole stacked svg.
+function bandBox(svg, id) {
+  const m = svg.match(new RegExp(`data-band="${id}"([^>]*?)transform="translate\\((-?[\\d.]+) (-?[\\d.]+)\\)"`));
+  if (!m) return null;
+  const sx = m[1].match(/data-stack-x="([\d.]+)"/);
+  return { x: +m[2], y: +m[3], stackX: sx ? +sx[1] : null };
+}
+
+module.exports = { textBoxes, rx, clippedByCanvas, collisions, bandChunks, textContents, bandBox };

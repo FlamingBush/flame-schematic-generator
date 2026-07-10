@@ -20,7 +20,7 @@
 // legitimately changes.
 "use strict";
 const { loadApp } = require("./harness");
-const { textBoxes, rx, clippedByCanvas, collisions, bandChunks, textContents } = require("./geometry");
+const { textBoxes, rx, clippedByCanvas, collisions, bandChunks, textContents, bandBox } = require("./geometry");
 const { INVARIANTS, evaluateAll, eachItem } = require("./invariants");
 const { VIEWS, goldenPath, goldenFor, summarize } = require("./golden");
 const fs = require("fs");
@@ -101,12 +101,17 @@ console.log("\nLAYOUT & GEOMETRY (internal view)");
   check("no chain spans two sheets", chained.every((id) =>
     SH.some((sh) => sh.lines.some((L) => L.id === id) && Object.values(sh.chain).flat().some((x) => x.id === id))));
   const orphans = SH.flatMap((sh) => sh.orphans.map((o) => o.id));
-  check("only the shared tip run is unrooted", orphans.length === 1 && orphans[0] === "L3r", orphans.join(","));
+  check("only the shared tip run is unrooted", orphans.length === 1 && orphans[0] === "L3c", orphans.join(","));
 
-  // every chained segment draws a seam and never a band of its own
+  // A chained segment draws a seam and never a band of its own. The DEFAULT
+  // sheeting no longer chains anywhere: L1+L2 and L3+L3a were split by sheets
+  // already, and L1b+L1c went the same way when L1b joined sheet 1. So this holds
+  // vacuously here, and the seam machinery is exercised on a synthetic sheeting
+  // in SEAM MACHINERY below — the way FORCED WRAP keeps the fold alive.
   const seamBad = chained.filter((id) => !svg.includes(`data-merged="${id}"`) || svg.includes(`data-band="${id}"`));
-  check("every chained segment renders as a seam inside its host band", chained.length > 0 && seamBad.length === 0,
-    seamBad.join(", "));
+  check("any chained segment renders as a seam inside its host band", seamBad.length === 0, seamBad.join(", "));
+  check("no chain survives the default sheeting (a chain cannot cross a sheet)",
+    chained.length === 0, chained.join(", "));
 
   // A sheet declaring `fold:true` serpentines its root ONCE; every other sheet
   // fits in one row. Grounded in the sheet definitions, not in a loop count, so
@@ -144,11 +149,50 @@ console.log("\nLAYOUT & GEOMETRY (internal view)");
   check("every supply stack opens vertical (one cell per part, all below the centerline)",
     stacks.length > 0 && badStack.length === 0, badStack.map((L) => L.id).join(", "));
 
-  // the pocket beside the stack is real estate: branch bands tuck up into it
-  const stackYs = [...chunks("L1").matchAll(/class="tcell" data-y="(-?[\d.]+)"/g)].map((m) => +m[1]);
-  const bandY = (id) => { const m = svg.match(new RegExp(`data-band="${id}"[^>]*transform="translate\\((-?[\\d.]+) (-?[\\d.]+)\\)"`)); return m ? +m[2] : null; };
-  check("branch bands tuck into the pocket beside the stack",
-    bandY("L4") !== null && bandY("L4") < bandY("L1") + Math.max(...stackYs));
+  // A drop band must never draw THROUGH the supply stack. It either clears the
+  // stack vertically or tucks into the pocket to its right — which of the two is
+  // a layout outcome (a folded sheet pushes the drop's tee into row 1, below the
+  // stack), so pinning "it tucks" would pin a fold setting. The POCKET block
+  // below proves the tuck on the layout that produces it.
+  // Measured inside ONE sheet's coordinate space. This check used to compare
+  // L1b's band against L1's while they sat on DIFFERENT sheets, both starting at
+  // y=0 — it was reading two pages at once and passing on nonsense.
+  const sheetOf = (id) => SH.find((sh) => sh.lines.some((L) => L.id === id));
+  check("a drop band never draws through the supply stack",
+    (() => {
+      const sh = sheetOf("L1");
+      const b = (id) => bandBox(sh.inner, id);
+      const l1 = b("L1"), l4 = b("L1b");
+      if (!l1 || !l4 || l1.stackX == null) return false;
+      const ys = [...bandChunks(sh.inner, "L1").matchAll(/class="tcell" data-y="(-?[\d.]+)"/g)].map((m) => +m[1]);
+      return l4.y >= l1.y + Math.max(...ys) || l4.x >= l1.x + l1.stackX;
+    })());
+  // ...and NO drop connector's descent crosses the stack either. The connector
+  // used to start at `absX + tee.cx`, dropping the row's pocket indent, so on a
+  // folded sheet it fell a whole pocket-width LEFT of its own tee and ran
+  // straight down through the stack's label column. The collision checks compare
+  // TEXT to TEXT and never see a LINE crossing text, so nothing caught it.
+  const verticals = (d) => {                       // every vertical run in a path, with its x
+    const out = []; let x = 0, y = 0;
+    for (const c of d.match(/[A-Za-z][^A-Za-z]*/g) || []) {
+      const n = (c.slice(1).match(/-?[\d.]+/g) || []).map(Number);
+      if (c[0] === "M" || c[0] === "L") { x = n[0]; y = n[1]; }
+      else if (c[0] === "V") { out.push({ x, y0: Math.min(y, n[0]), y1: Math.max(y, n[0]) }); y = n[0]; }
+      else if (c[0] === "H") x = n[0];
+      else if (c[0] === "Q") { x = n[2]; y = n[3]; }
+    }
+    return out;
+  };
+  const crossings = SH.flatMap((sh) => {
+    const l1 = bandBox(sh.inner, "L1");
+    if (!l1 || l1.stackX == null) return [];
+    const ys = [...bandChunks(sh.inner, "L1").matchAll(/class="tcell" data-y="(-?[\d.]+)"/g)].map((m) => +m[1]);
+    const boxL = l1.x, boxR = l1.x + l1.stackX, boxT = l1.y + app.CL, boxB = l1.y + Math.max(...ys);
+    return [...sh.inner.matchAll(/data-conn="([^"]+)"[^>]*d="([^"]+)"/g)].flatMap(([, ref, d]) =>
+      verticals(d).filter((v) => v.x > boxL && v.x < boxR && v.y1 > boxT && v.y0 < boxB)
+        .map((v) => `${ref}@x${v.x}`));
+  });
+  check("no drop connector descends through the supply stack", crossings.length === 0, crossings.join(", "));
   // ...and the stack segment's dashed box notches into an L so the pocket
   // stays outside it — a <path> box rather than a <rect>, one per stack
   check("the stack segment's box notches (an L-shaped path, not a rectangle)",
@@ -204,7 +248,7 @@ console.log("\nLAYOUT & GEOMETRY (internal view)");
   // a fan edge's badge states the branch count the DATA declares
   app.TREE.edges.filter((e) => e.kind === "end").forEach((e) =>
     check(`fan ${e.ref}: badge states the ${e.fan} branches the data declares`,
-      svg.includes(`one of ${e.fan} identical branches`)));
+      svg.includes(`one of ${e.fan} typical branches`)));
 
   // a ref with MULTIPLE producers is a deliberate idiom, not an error: every
   // port marked with it renders the plain pentagon, the consumer renders once
@@ -215,13 +259,42 @@ console.log("\nLAYOUT & GEOMETRY (internal view)");
     if (it.j === "off" && it.dir === "in") cons[it.ref] = (cons[it.ref] || 0) + 1;
   });
   const multi = Object.keys(prod).filter((r) => prod[r] > 1);
-  const multiBad = multi.filter((r) => (svg.match(new RegExp(`>${rx(esc(r))}<`, "g")) || []).length !== prod[r] + (cons[r] || 0));
+  // Counted on data-pent (the REF), not on the drawn glyph text: the drawn
+  // letters are relettered contiguously from A, so a ref and its letter differ.
+  const pentsOf = (r) => (svg.match(new RegExp(`data-pent="${rx(esc(r))}"`, "g")) || []).length;
+  const multiBad = multi.filter((r) => pentsOf(r) !== prod[r] + (cons[r] || 0));
   check("multi-producer refs render one pentagon per port plus one consumer mark",
     multi.length > 0 && multiBad.length === 0, multiBad.join(", "));
+
+  // The letters a reviewer reads run contiguously from A in the order the
+  // pentagons are met. A ref matched on its own sheet draws a connector and no
+  // pentagon, so the raw refs skip (A, D and F are connectors today).
+  const drawn = [...svg.matchAll(/data-pent="([^"]*)"/g)].map((m) => m[1]);
+  const order = [...new Set(drawn)];
+  const glyphs = [...svg.matchAll(/fill="#fff" font-weight="500">([^<]*)</g)].map((m) => m[1]);
+  const expect = drawn.map((r) => String.fromCharCode(65 + order.indexOf(r)));
+  check("pentagons are lettered contiguously from A in reading order",
+    order.length <= 26 && glyphs.join(",") === expect.join(","),
+    `${glyphs.join(",")} vs ${expect.join(",")}`);
 
   // connectors: every drop edge draws exactly one connector whose y equals the
   // destination band's centerline; a fan (end) edge instead breaks into a
   // labeled pentagon PAIR — a drawn route would read as a second loop-back
+  // A RISING BRANCH STUB (`branchUp`) is drawn inside its host cell as a vertical
+  // stack: no band, no connector, no pentagon — and no line of its own. Its cells
+  // must still be real tcells on the mini-grid, or the labels leave the row grid.
+  const upHosts = [];
+  eachItem(SYSTEM, (it) => { if (it.branchUp && it.branchUp.length) upHosts.push(it); });
+  check("a rising branch stub draws a rotated tcell stack, no band and no connector",
+    upHosts.length > 0 && upHosts.every((it) => {
+      const host = SYSTEM.lines.find((L) => L.items.includes(it));
+      const chunk = bandChunks(svg, host.id);
+      return chunk.includes('class="tcell"') && chunk.includes("rotate(-90)");
+    }) && !/data-conn="D"/.test(svg), `${upHosts.length} stubs`);
+  // every part on the stub reaches the drawing (it is a purchase, not decoration)
+  check("a rising branch stub's parts are drawn and scheduled",
+    upHosts.every((it) => it.branchUp.filter((x) => x.p).every((x) => app.getRefIndex()[x.p] !== undefined)));
+
   SH.flatMap((sh) => sh.edges).forEach((e) => {
     if (e.kind === "end") {
       const pout = (svg.match(new RegExp(`data-pout="${rx(e.ref)}"`, "g")) || []).length;
@@ -370,9 +443,39 @@ console.log("\nSVG EXPORT");
     `${pages.length} docs vs ${app.SHEETS.length} sheets`);
   check("every exported page is its own <svg> root",
     pages.every((d) => /^<svg xmlns/.test(d) && (d.match(/<svg /g) || []).length === 1));
+  // No FOR FAST REVIEW stamp and no "not to scale" line any more (Marcus) — the
+  // header carries the sheet's identity and nothing else.
   check("every exported page carries its own title block, notes and legend",
     pages.every((d, i) => d.includes(`SHEET ${i + 1} OF ${pages.length}`) &&
-      d.includes("GENERAL NOTES") && d.includes("FOR FAST REVIEW")));
+      d.includes("GENERAL NOTES") && d.includes("line style")));
+  check("no FAST stamp or scale line survives in the header",
+    pages.every((d) => !/FOR FAST REVIEW|not to scale/.test(d)));
+
+  // THE PACKET IS A DOCUMENT. Every page must be the same PAPER — the export used
+  // to size each page to its own content, so the four pages came out 25.2in wide
+  // and 7.25in to 15.6in tall. Nobody can print or bind that. Orientation may
+  // differ per sheet: the paper is what has to be one thing.
+  const dims = (d) => (d.match(/^<svg[^>]*width="([^"]+)" height="([^"]+)"/) || []).slice(1);
+  const papers = pages.map((d) => dims(d).slice().sort().join(" x "));
+  check("every exported page is the same paper", new Set(papers).size === 1, [...new Set(papers)].join(" | "));
+  check("exported pages carry a physical page size, not a pixel count",
+    pages.every((d) => /^<svg[^>]*width="[\d.]+(in|mm|pt)"/.test(d)));
+
+  // ORIENTATION IS DERIVED, not declared: each sheet prints on whichever page
+  // renders its artwork largest, so a sheet that grows a row cannot be stranded
+  // on the wrong paper by a stale flag. Checked against the EMITTED document, so
+  // a pageFor() that picked the minimum would go red.
+  app.SHEETS.forEach((sh, i) => {
+    const best = app.PAGES.map((PG) => ({ PG, s: app.pageLayout(sh, PG).s }))
+      .reduce((a, b) => (b.s > a.s ? b : a));
+    check(`sheet ${sh.n} prints on the orientation that renders it largest (${best.PG.id})`,
+      dims(pages[i])[0] === best.PG.cssW && dims(pages[i])[1] === best.PG.cssH,
+      `${dims(pages[i]).join("x")} vs ${best.PG.cssW}x${best.PG.cssH}`);
+  });
+  // scale-to-fit is uniform and never an enlargement: a small sheet stays 1:1
+  // rather than blowing its 9px captions up to fill the paper
+  const scales = pages.map((d) => +(d.match(/<g transform="translate\([^)]*\) scale\(([\d.]+)\)"/) || [0, 0])[1]);
+  check("artwork scaled uniformly, never enlarged", scales.every((s) => s > 0 && s <= 1), scales.join(", "));
 
   check("no undefined/NaN in any exported page", pages.every(noUndefinedNaN));
   // XML well-formedness essentials without a parser dependency (the strict
@@ -396,18 +499,40 @@ console.log("\nEXPORTED SVG IS SELF-CONTAINED");
   // the legend must ship inside the drawing — it is the only thing that decodes
   // the symbols once the sheet leaves this page. Swept over EVERY legend line
   // rather than spot-checking three of them.
-  const missingIn = (svg) => app.legendLines().filter((l) => !svg.includes(esc(l)));
-  // EVERY page, not just one: a reviewer may be holding page 3 on its own.
+  // The legend and the notes are PER SHEET now: a page states only the rules that
+  // govern what it draws. So each page must embed exactly its OWN lines — and,
+  // just as importantly, none of another page's. Both sides come from the app's
+  // own per-sheet contract, swept over every page.
   const extPages = app.sheetDocs();
   const ext = extPages.join("\n");
-  check("every external page embeds every legend line", extPages.every((d) => missingIn(d).length === 0),
-    extPages.map((d) => missingIn(d).join(" | ")).join(" / ").slice(0, 120));
-  check("every external page carries the general notes", extPages.every((d) => d.includes(esc(app.generalNotes()))));
+  const flat = (s) => s.replace(/\s+/g, " ").trim();
+  const pageText = (d) => flat(textContents(d).join(" "));
+  const missingIn = (d, sh) => app.legendLines(sh).filter((l) => !pageText(d).includes(flat(esc(l))));
+  check("every external page embeds every legend line that applies to it",
+    extPages.every((d, i) => missingIn(d, app.SHEETS[i]).length === 0),
+    extPages.map((d, i) => missingIn(d, app.SHEETS[i]).join(" | ")).join(" / ").slice(0, 120));
+  // a page that draws no copper must not explain what bronze means
+  check("no page carries a legend line for something it does not draw",
+    app.SHEETS.every((sh, i) => {
+      const mine = app.legendLines(sh).join(" · ");
+      return !mine.includes("copper tube") || sh.lines.some((L) => JSON.stringify(L).includes('"tube"'));
+    }));
+  // GENERAL NOTES wraps across several <text> lines now (as one 372-char line it
+  // alone forced a 2421px canvas). Assert the NOTES, not the line breaks: join
+  // the page's text nodes and collapse whitespace, so a re-wrap at a different
+  // measure is not a test edit but a dropped clause still is.
+  // esc(): the notes contain "tips & pilots", which reaches the XML as &amp;
+  check("every external page carries the general notes that apply to it",
+    extPages.every((d, i) => pageText(d).includes(flat(esc(app.generalNotes(app.SHEETS[i]))))));
+  // ...and no page repeats a rule about hardware it does not draw
+  check("general notes are scoped to the sheet", app.SHEETS.some((sh) =>
+    app.generalNotes(sh) !== app.generalNotes()) && app.SHEETS.every((sh) =>
+    app.generalNotes(sh).length <= app.generalNotes().length));
   check("every external page is one <svg> and closes",
     extPages.every((d) => d.startsWith("<svg") && d.trim().endsWith("</svg>")));
-  // The drawing is declared not to scale everywhere on purpose: the w/h
-  // proportions in PARTS are visual only.
-  check("every external page still declares itself not to scale", extPages.every((d) => /not to scale/.test(d)));
+  // The "not to scale" LINE is gone from the header (Marcus), but the rule it
+  // protected has not: the w/h proportions in PARTS are visual only, so nothing
+  // on the sheet may claim a scale. That is what noScaleClaims enforces.
   // The submitted sheet is read on its own. It may not name a document the
   // reviewer does not hold — not even to disclaim it. Swept as a vocabulary,
   // so a new subtitle or legend line cannot quietly reintroduce one.
@@ -421,9 +546,10 @@ console.log("\nEXPORTED SVG IS SELF-CONTAINED");
   // read themselves (Marcus), so none of them earn a line.
   const extLegendLines = app.legendLines();
   const extLegend = extLegendLines.join(" | ");
-  check("external legend carries only the pipe key and the flow orientation",
-    /line style/.test(extLegend) && /supply rises/.test(extLegend) &&
-    !/pentagon|trapezoid|cone ▸ nut|dashed box|balloon/i.test(extLegend),
+  // The flow key went too (Marcus): the arrows, pentagons and flame heads say it.
+  check("external legend carries only the pipe colour key",
+    /line style/.test(extLegend) &&
+    !/pentagon|trapezoid|cone ▸ nut|dashed box|balloon|flows left|risers flow|drop below/i.test(extLegend),
     extLegend.slice(0, 90));
 
   // The internal view has NO EXPORT (Marcus: "I only care about the external
@@ -479,11 +605,11 @@ console.log("\nEDITOR ROUND TRIP");
   app.applyJSON();
   check("re-render succeeds", store["jsonMsg"].textContent === "Re-rendered.");
   const svg = store["strips"].children[0].innerHTML;
-  check("unmatched line renders as orphan strip with pentagon", svg.includes('data-band="L9"') && /h16 l8 10 l-8 10 h-16/.test(svg) && svg.includes(">Z<"));
+  check("unmatched line renders as orphan strip with pentagon", svg.includes('data-band="L9"') && /h16 l8 10 l-8 10 h-16/.test(svg) && svg.includes('data-pent="Z"'));
   // the badge states the count the DATA declares, not a literal 3
   const fanEdge = app.TREE.edges.find((e) => e.kind === "end");
   check("fan survives the JSON round trip (one-of-n badge, n from the data)",
-    !!fanEdge && svg.includes(`one of ${fanEdge.fan} identical branches`));
+    !!fanEdge && svg.includes(`one of ${fanEdge.fan} typical branches`));
   check("hostile project name escaped in meta", !store["docMeta"].innerHTML.includes("<script>"));
   const bad = collisions(textBoxes(svg));
   check("still zero text collisions after edit", bad.length === 0, bad.slice(0, 4).join("; "));
@@ -560,7 +686,7 @@ console.log("\nMULTI-BRANCH & HOSTILE DATA");
   check("hostile render still exercises drop routing", dropsChecked > 0, dropsChecked + " drops");
   const clip = clippedByCanvas(svg, textBoxes(svg));
   check("long orphan title not clipped by canvas", clip.length === 0, clip.slice(0, 3).join("; "));
-  check("mid-run off renders as pentagon stub, run continues", svg.includes(">Q<"));
+  check("mid-run off renders as pentagon stub, run continues", svg.includes('data-pent="Q"'));
   check("quoted line id escaped in attributes", svg.includes('data-band="Z&quot;9"'));
   check("no undefined/NaN on hostile data", noUndefinedNaN(svg));
   const hostilePages = app.sheetDocs();
@@ -611,6 +737,77 @@ console.log("\nFORCED WRAP");
   const host = svg.match(/data-band="R1" data-cl="(-?[\d.]+)"/);
   check("take-off from a ball valve starts at the host run centerline",
     !!conn && !!host && conn[3] === host[1], conn && host && `${conn[3]} vs ${host[1]}`);
+}
+
+// Two constructs the DEFAULT sheeting no longer exercises, kept alive here the
+// way FORCED WRAP keeps the fold alive. Neither is dead code: the pocket is what
+// lets a drop tuck beside a supply stack, and the seam is what makes two lines
+// read as one run. Both are one sheet definition away from being live again.
+// The one part of the export the harness cannot evaluate: the print STYLESHEET.
+// downloadPDF() is correct and sheetDocs() is correct, and the packet still came
+// out of the browser as a single blank page, because the CSS hid the container.
+// Nothing in the suite looked at the CSS. Now something does.
+console.log("\nPRINT PATH (the browser's Save-as-PDF)");
+{
+  const html = fs.readFileSync(path.join(__dirname, "..", "fast_schematic_generator.html"), "utf8");
+  // comments first: the rule below is quoted verbatim in a comment explaining it
+  const css = (html.match(/@media print\{([\s\S]*?)\n\}/) || ["", ""])[1].replace(/\/\*[\s\S]*?\*\//g, "");
+  // #printSheets IS a body child, so the blanket "hide the app" rule hides the
+  // print container too — and `display:none!important` beats the id selector
+  // that tries to show it again. It must be excluded at the source.
+  const blanket = css.match(/body\.pdfonly\s*>\s*([^{]*)\{[^}]*display:\s*none/);
+  check("the print container is not hidden by the blanket hide rule",
+    !!blanket && /:not\(#printSheets\)/.test(blanket[1]),
+    blanket ? "hides " + blanket[1].trim() : "no blanket rule found");
+  check("the print container is shown while printing", /body\.pdfonly\s+#printSheets\{[^}]*display:\s*block/.test(css));
+  // Each sheetDoc IS a full page-sized svg; an @page margin would shrink it and
+  // spill a blank sheet after every real one. And a bare `@page` cannot be varied
+  // per page, so the orientations must be NAMED pages selected by the page div.
+  check("@page is named per orientation, sized from PAGES, and adds no margin",
+    /@page \$\{P\.id\}\{size:\$\{P\.css\};margin:0\}/.test(html) &&
+    /#printSheets \.page\.\$\{P\.id\}\{page:\$\{P\.id\}\}/.test(html));
+  check("each printed page div carries its sheet's orientation class",
+    /<div class="page \$\{pageFor\(sh\)\.PG\.id\}"/.test(html));
+}
+
+console.log("\nPOCKET & SEAM MACHINERY");
+{
+  // POCKET. Sheet 1 folds, which pushes L1b's tee into row 1 — below the stack.
+  // Unfold it and the tee returns to the stack's own row, where the pocket to
+  // the right of the stack is the whole point: the band tucks UP into it.
+  const { store, app } = loadApp();
+  const o = JSON.parse(store["jsonBox"].value);
+  o.SYSTEM.sheets.find((s) => s.id === "S1").fold = false;
+  store["jsonBox"].value = JSON.stringify(o);
+  store["strips"].children.length = 0;
+  app.applyJSON();
+  const sh = app.SHEETS.find((s) => s.lines.some((L) => L.id === "L1"));
+  const l1 = bandBox(sh.inner, "L1"), l4 = bandBox(sh.inner, "L1b");
+  const ys = [...bandChunks(sh.inner, "L1").matchAll(/class="tcell" data-y="(-?[\d.]+)"/g)].map((m) => +m[1]);
+  const stackBottom = l1 && l1.y + Math.max(...ys);
+  check("unfolded, a drop band tucks up into the pocket beside the stack",
+    !!l4 && l4.y < stackBottom, l4 && `band y ${l4.y} vs stack bottom ${stackBottom}`);
+  check("...and starts to the right of the stack, never over it",
+    !!l4 && l1.stackX != null && l4.x >= l1.x + l1.stackX, l4 && l1 && `band x ${l4.x} vs stack right ${l1.x + l1.stackX}`);
+}
+{
+  // SEAM. A band whose last item is a 1:1 off-out chains its consumer into the
+  // same band. No default sheet does that any more (a chain cannot cross a sheet,
+  // and the poofer supply sits with L1 while its accumulator is a page away) — so
+  // put producer and consumer back on one sheet. Found by LINE, not by sheet id:
+  // the sheet order is a layout decision and has already changed once.
+  const { store, app } = loadApp();
+  const o = JSON.parse(store["jsonBox"].value);
+  o.SYSTEM.sheets.forEach((s) => (s.lines = s.lines.filter((id) => id !== "L1b")));
+  o.SYSTEM.sheets.find((s) => s.lines.includes("L1c")).lines.unshift("L1b");
+  store["jsonBox"].value = JSON.stringify(o);
+  store["strips"].children.length = 0;
+  app.applyJSON();
+  const svg = store["strips"].children[0].innerHTML;
+  const chained = app.SHEETS.flatMap((sh) => Object.values(sh.chain).flatMap((segs) => segs.slice(1).map((x) => x.id)));
+  check("a 1:1 off-out chains its consumer into the host band", chained.includes("L1c"), chained.join(", "));
+  check("the chained segment renders as a seam, not a band of its own",
+    svg.includes('data-merged="L1c"') && !svg.includes('data-band="L1c"'));
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);

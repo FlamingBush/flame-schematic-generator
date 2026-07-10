@@ -69,7 +69,8 @@ function loadApp(extraJS) {
   // invariants resolve them at evaluation time.
   const trailer = `;__hooks({SYSTEM,PARTS,ROW,CL,STRIP_H,TRUNK,TROW,SYM,MATCHED,TREE,SHEETS,LAST_RENDER,refIndex,` +
     `getSYSTEM:()=>SYSTEM,getPARTS:()=>PARTS,getRefIndex:()=>refIndex,` +
-    `applyJSON,downloadPDF,sheetDoc,sheetDocs,renderAll,lintPorts,jointMarker,setView,legendLines,generalNotes,specLine,PN_SYM,NO_RATING_SYM,INTERNAL});`;
+    `applyJSON,downloadPDF,sheetDoc,sheetDocs,renderAll,lintPorts,jointMarker,setView,legendLines,generalNotes,specLine,PN_SYM,NO_RATING_SYM,INTERNAL,` +
+    `PAGES,pageLayout,pageFor});`;
   let hooks = null;
   global.__hooks = (h) => { hooks = h; };
   eval(m[1] + trailer);

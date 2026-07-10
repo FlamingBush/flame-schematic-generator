@@ -176,15 +176,53 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
    the drawing, hence the top-left header — the sheet, then `legendLines()`. Each
    page stands alone because a reviewer may be holding page 3 by itself. The
    canvas widens if the notes or a legend line outruns the artwork.
-   `downloadPDF()` is the ONLY export. A browser cannot write a PDF byte stream
-   without a library and this file has no build step, so the four EXTERNAL sheets
-   are laid into `#printSheets`, one per page, `@page{size:landscape}` is injected
-   for that print alone, and the browser's own "Save as PDF" writes them. That
-   path stays VECTOR — text selectable, pages crisp — which a canvas-rasterised
-   export would not. `scripts/make_pdf.sh` builds the identical packet headlessly.
+   EVERY PAGE IS THE SAME PAPER — US letter — and each sheet takes the
+   ORIENTATION that renders its artwork largest (`pageFor`). Pages used to be
+   sized to their own content, so the packet came out 25.2in wide and 7.25 to
+   15.6in tall, four different pages. Worse, the WIDTH was set by PROSE:
+   `generalNotes()` was one 372-character sentence and as a single `<text>` it
+   alone demanded 2421px. It now wraps (`wrapText`) and is filtered per sheet.
+   ORIENTATION IS DERIVED, NOT DECLARED: the poofer sheet is a tall narrow column
+   (956x1228) and loses a third of its scale on landscape, so it prints portrait
+   (Marcus). Deriving it means a sheet that grows a row cannot be stranded on the
+   wrong paper by a stale flag; the suite asserts the emitted page is the argmax.
+   Ties go to landscape. `pdfunite` joins mixed orientations without complaint.
+   The chrome — title, notes, legend — is laid out in PAGE coordinates at fixed
+   font sizes so it stays legible; only the ARTWORK is scaled, uniformly, into
+   the rectangle the chrome leaves it, and NEVER above 1:1.
+   THE HEADER CARRIES NO "FOR FAST REVIEW" STAMP AND NO "not to scale" LINE
+   (Marcus). Both printed on every page. Nothing on the sheet claims a scale and
+   `noScaleClaims` still enforces that; the on-screen title block still states
+   SCALE. A bare `@page` cannot vary per page, so downloadPDF() injects one NAMED
+   @page rule per orientation plus a bare one as the fallback for browsers that
+   do not support named pages.
+   THE PRINT STYLESHEET IS PART OF THE EXPORT, and nothing in the harness can see
+   it. `#printSheets` IS a body child, so the blanket `body.pdfonly>*{display:none
+   !important}` hid the very container being printed — `!important` beats the id
+   selector that tries to show it again — and the browser produced ONE BLANK PAGE
+   while `sheetDocs()` and `npm run pdf` were both perfectly correct. The rule now
+   reads `body.pdfonly>*:not(#printSheets)`, `@page` carries `margin:0` (each
+   sheetDoc is already a full page-sized svg with its own frame; any page margin
+   scales it down and spills a blank sheet after every real one), and run-tests.js
+   parses the CSS to keep it that way.
    THERE IS NO INTERNAL EXPORT (Marcus: "I only care about the external pdf").
-   Both the header notes and the legend are shared with the on-page `#legend` div
-   (which prepends the notes the same way, unescaped, recolouring the orange line).
+   GENERAL NOTES ARE SAFETY-COMPLIANCE FACTS AND ARE FILTERED PER SHEET.
+   "we only care about safety compliance not proving we know how to do plumbing"
+   (Marcus). The craft notes are gone: flare joints SAE 45 deg / metal-to-metal /
+   no sealant, NPT joints: PTFE gas tape, hex nipples join female ports, and
+   POL: CGA-510 LEFT-hand thread. What survives is what a reviewer checks — hose
+   rating and crimping (FE-3/FE-4), no compression or soldered fuel joints (FE-6),
+   the solenoids' fail-closed state, and the custom flame holders. "ball valves:
+   1/4-turn lever" moved to the VALVE: a quarter turn is FE-1's requirement and it
+   belongs beside the thing it describes (`AUTONOTE.ball`). The POL cell now reads
+   just `CGA-510` — the standard names the connection.
+   `GEN_NOTE_RULES` and `LEG_PIPE_RULES` each pair a clause with a predicate over
+   `sheetCtx(sh)` — the joint kinds and part symbols that sheet actually draws —
+   so a page carrying no copper does not explain what bronze means. Called with no
+   sheet (the on-page `#legend` div, the invariants) every clause fires.
+   THE FLOW KEY IS GONE (Marcus: "no need to describe which way the gas flows, the
+   pentagons make it obvious"). The external legend is now the pipe COLOUR key and
+   nothing else — a colour is the one thing the drawing cannot say about itself.
    Every interpolated string MUST pass through `esc()`; browsers forgive raw
    `&`/`<` in-page but the exported .svg must be strict XML (regression-tested).
 
@@ -192,10 +230,20 @@ data, layout engine, compliance checks, SVG export — lives in the one file's
 
 One sheet was unreadable (Marcus), so `SYSTEM.sheets` deals the lines onto four:
 
-    S1 Supply & regulation              L1
-    S2 Poofer                           L4, L4b, L4a
-    S3 Distribution, bush branch & jet  L2, L3, L3b
-    S4 Standby rail & tips              L3a, L3r
+    S1 Supply, regulation & poofer feed  L1, L1a
+    S2 Distribution, bush branch & jet   L2, L3, L3b
+    S3 Standby rail & tips               L3a, L3c
+    S4 Poofer accumulator & pilot        L1b  (bare: no line markers)
+
+L1a (the poofer SUPPLY) sits with L1 so F-7's branch ref has its producer and
+consumer on the same sheet: the tee draws a real drop connector instead of an
+off-page pentagon, and the reader sees where the tank-pressure feed is taken off
+— the safety property the V-2 ordering is about. The poofer's own two sheets go
+LAST so the main run reads supply -> distribution -> tips uninterrupted (Marcus).
+Line ids follow the FAMILY convention: a line's branches carry its number and a
+letter. The poofer family therefore hangs off L1 (L1a/L1b), not off a
+top-level L4, and the standby tip run is L3c, not L3r. The pilot is no longer a
+line at all — it is a `branchUp` stub on F-6.
 
 The mechanism cost almost nothing, because the renderer already had it. A ref
 whose producer and consumer land on the SAME sheet still draws a real connector;
@@ -220,8 +268,11 @@ pentagon, not which page).
   because two sheets both start at y=0 and bands from different pages must never
   be measured against each other.
 - A CHAIN CANNOT CROSS A SHEET. L1+L2 used to read as one band with a seam; they
-  are now on sheets 1 and 3, so that seam is gone and B is an off-page pentagon.
-  Same for L3+L3a. Only L4+L4b still chain.
+  are now on different sheets, so that seam is gone and the ref is an off-page
+  pentagon. Same for L3+L3a, and for L1a+L1b once the poofer supply moved to
+  sheet 1. NO CHAIN SURVIVES the default sheeting — the seam machinery is kept
+  alive by a synthetic sheeting in run-tests.js (POCKET & SEAM MACHINERY), the
+  way FORCED WRAP keeps the fold alive.
 - The on-page preview stacks the sheets inside ONE `<svg>` (translate per sheet),
   which is why every geometry test still sees a single coordinate space.
   `downloadPDF()` instead lays ONE STANDALONE DOCUMENT PER SHEET into a print-only
@@ -231,10 +282,18 @@ pentagon, not which page).
   rasterises those into the 4-page `packet.pdf`.
 - A line named in no sheet is still drawn, on a sheet of its own. Hostile data
   must not lose a line.
-- The pentagons are relettered CONTIGUOUSLY FROM A in the order they are first
-  met reading sheet 1 → sheet 4 (they used to skip to J, P, T). Nothing may
-  hardcode a letter: `jetPathSeriesOrder` now reads the jet tee's ref out of
-  L3b's own lead-in instead of matching `"J"`.
+- `ref` is a MATCH KEY, never a label. The DRAWN pentagons are relettered
+  contiguously from A in the order they are met reading sheet 1 → sheet 4.
+  Which refs draw a pentagon is a LAYOUT OUTCOME — a ref matched on its own sheet
+  draws a connector and no pentagon at all — so `renderSchematic` builds the
+  sheets TWICE: pass 1 marks every drawn pentagon with `data-pent`, pass 2
+  reletters from what that found. Hand-numbering the refs in the data went stale
+  the moment L1a moved sheets (A, D and F became connectors and the sheet read
+  "B, C, E, G, H"). Four call sites draw the pentagon glyph — the off cell, an
+  unmatched branch stub, the fan's resume mark, and the terminating off-out —
+  and ALL FOUR must tag `data-pent` and print `pentLetter(ref)`.
+  Nothing may hardcode a letter: `jetPathSeriesOrder` reads the jet tee's ref out
+  of L3b's own lead-in, and the suite counts `data-pent="<ref>"`, never `>A<`.
 
 ## Two views — the sheet is TWO documents (`VIEW`, `INTERNAL()`)
 
@@ -270,9 +329,11 @@ correctly prints a rating and no number; that is data, not a bug.
 
 ## Hard-won constraints
 
-- The drawing is declared "not to scale" everywhere on purpose. The `w`/`h`
-  proportions in PARTS are visual only. Do not add scale claims unless the
-  dimensions are replaced with real vendor spec-sheet numbers first.
+- The `w`/`h` proportions in PARTS are VISUAL ONLY. The "not to scale" line was
+  removed from the exported header (Marcus), but the rule it protected stands:
+  nothing on the sheet may claim a scale, and `noScaleClaims` enforces it. Do not
+  add scale claims unless the dimensions are replaced with real vendor spec-sheet
+  numbers first. `SYSTEM.meta.scale` still states it in the on-screen title block.
 - The schedule renders no verification chips, but the sourcing discipline
   stands: never state a vendor spec without a vaulted source. Confirmed so far
   against vendor data: Marshall Excelsior MEGR-6120-60 / -6120-30 regulators, confirmed
@@ -396,9 +457,12 @@ correctly prints a rating and no number; that is data, not a bug.
 - Cell captions drop everything after the first comma ("Ball valve, 1/4 FNPT
   x FNPT" -> "Ball valve"; narrow beats wide). FOUR exceptions keep more: tees
   carry their exact type, the cross its exact threads, a CYLINDER its
-  capacity — the drawing must read "Propane cylinder, 100 lb", because the fuel
-  quantity is what the review is about and 100 lb is the fuel team's delivery
-  minimum — and a GAUGE its RANGE. `sym:"tank"` keeps its full name for the
+  capacity — "100lb LP cylinder", "Accumulator, 20lb gas cylinder": the quantity
+  LEADS the name and both vessels read alike (Marcus), because the fuel quantity
+  is what the review is about and 100lb is the fuel team's delivery minimum. The
+  20lb vessel is not an LP cylinder — it holds gas for the poofer — and neither
+  says "Propane" — and a GAUGE its RANGE. A RELIEF VALVE keeps its whole name too:
+  its SET PRESSURE is what you order, as fundamental as the thread size (Marcus). `sym:"tank"` keeps its full name for the
   cylinder reason; `sym:"gauge"` keeps its full name, in a mount position too,
   because the range is what identifies the instrument: `pn` is "—" and all three
   gauges share the same 300 psi body rating on the spec line, so without
@@ -466,6 +530,12 @@ correctly prints a rating and no number; that is data, not a bug.
   Flare now survives on L1 at exactly two places, HS-2's swivels (F-21, F-13) —
   that hose IS broken at every setup and a tapered thread wants fresh tape each
   time, so it keeps its swivels. `cu38` is still used on L3/L3a/L3b.
+  THE MANIFOLD'S OUTLETS ARE FLARED for the same reason (Marcus). Each of the
+  cross's three outlets takes a half union out to a 3/8 male flare cone (F-23),
+  the branch hose lands on it with a swivel nut, and the far end takes the
+  matching half union into F-3 (F-24). HS-3 is therefore the same 3/8 flare hose
+  as HS-2 — one fewer SKU — and it, too, is broken at every setup. L3 stays NPT
+  land past that point: a bush branch out on the playa gets torqued.
 - L3 IS NPT LAND TOO. A flare joint is a 45 deg cone held by nut tension alone,
   and a bush branch out on the playa gets torqued; a tapered thread with gas tape
   survives what a flare seal does not (Marcus). L3 keeps flare in exactly three
@@ -498,12 +568,19 @@ correctly prints a rating and no number; that is data, not a bug.
   hex with no caption at all. That is why `flare38npt12` (Anderson 04048-0608,
   3/8 male flare x 1/2 MNPT) exists: a reducing nipple into a separate 1/4 flare
   coupling costs the same two purchases and leaves the hex mute.
-- Gas HOSES mark their working pressure on the cell (`WP 350 psi`, read from
-  `PARTS[].rating`, never a literal). A hose is the one flexible, elastomeric
-  component on the sheet and the likeliest weak point, so the rating belongs
-  beside it and NOT in GENERAL NOTES — a generic note would contradict the
-  drawing the moment a different hose is specced. Guarded by
-  `hosesMarkTheirWorkingPressure`.
+- Gas HOSES mark their working pressure on the cell, read from `PARTS[].rating`,
+  never a literal. A hose is the one flexible, elastomeric component on the sheet
+  and the likeliest weak point, so the rating belongs beside it and NOT in GENERAL
+  NOTES — a generic note would contradict the drawing the moment a different hose
+  is specced. It is FORMATTED LIKE EVERY OTHER PART (Marcus, three times): the
+  name on the line above the run, a bare `350 psi` on the identification line
+  below it. Never `WP 350 psi`, and never glued into one line as
+  `3/8 LP-gas hose · 350 psi` — a cell is exactly as wide as its widest LINE, and
+  that one string made the hose cells the widest on the sheet and, through the
+  supply stack's own max-width, the widest thing on sheet 1 (1478 -> 1257 px).
+  The identification line follows the part-cell rule: designation internally,
+  rating externally. `hosesMarkTheirWorkingPressure` anchors the two text nodes to
+  a shared cell x — a loose `/\d+ psi/` would match every regulator on the sheet.
 - L1's order is a SAFETY property, not a layout choice:
   `cylinders -> V-1 (depot e-stop) -> F-5 (gauge tee) -> F-21 -> HS-2 -> V-2
   (MAIN e-stop) -> F-7 (poofer tee) -> PRV-1 -> L2`.
@@ -578,10 +655,16 @@ correctly prints a rating and no number; that is data, not a bug.
   story any more; compliance row FE-8 states the case plainly instead of arguing
   for an out-of-date vessel. The drawing does NOT say "at the NGT boss" (Marcus) —
   the stack shows a `3/4 NPT ▸ 3/4 NGT` adapter, so the words are redundant. Nor
-  does it say "unmodified" (Marcus: "valve removed" is good enough); the SPEC and
-  compliance row FE-8 still say it in full. `vesselStatesSpec` counts six
-  significant words in that note and it now has exactly six — trim it further and
-  the check goes red, which is the point.
+  does it say "unmodified" (Marcus: "valve removed" is good enough), nor "stock
+  adapters" (the stack draws both of them); the SPEC and compliance row FE-8 still
+  say it in full. The cell reads `Accumulator, 20lb gas cylinder`.
+  `vesselStatesSpec` used to count six significant words in that note — a magic
+  number pinning the exact wording of the day, which went red the moment a
+  redundant clause was trimmed. It now asserts the two things that actually
+  matter: the note states MORE THAN ONE FACT (counted in ` · ` clauses, so it has
+  not decayed back to name + rating), and EVERY word of it reaches the drawing —
+  which is the real bug, because a note one clause too long loses its tail to
+  `drawLines()`'s five-row truncation with no error anywhere.
   The whole vertical path is 1/2 (`teeStreet12`, `nipple12`, `ball12`, `sol12`)
   because the vessel breathes through it on every poof; only RV-1's branch necks
   to 1/4, through `bushing1214` in the mount's `via` slot.
@@ -616,6 +699,63 @@ correctly prints a rating and no number; that is data, not a bug.
   as an unlabeled hex. It now names its own ends from `ports` (`endPair`), so
   `3/4 NPT ▸ 3/4 NGT` appears without a consolidated cell. `RISER.NOR` is now the
   run's inset for upright symbols (tank 30, flame heads 8), not a boolean.
+- A DROP CONNECTOR STARTS UNDER ITS OWN TEE. It used to be drawn at
+  `absX + tee.cx`, dropping the ROW's pocket `indent[ri]`. Row 0's indent is 0, so
+  this was invisible until a folded sheet grew a drop: L1a's connector fell a
+  whole pocket-width left of F-7 and ran straight down THROUGH the supply stack's
+  label column. Nothing caught it — the collision checks compare TEXT to TEXT and
+  never see a LINE crossing text. Guarded now by "no drop connector descends
+  through the supply stack", which needs `data-stack-x` on the band group.
+- THE POCKET IS NOT ONLY FOR UNFOLDED BANDS. `placeBand` granted the supply
+  stack's pocket only when `lastIdx===0`, so a FOLDED sheet dropped its bands the
+  full depth of the stack and left a screen of white space above them. A wrapped
+  row is itself indented into the pocket, so its drops already land right of the
+  stack: they start below the STRIP (`stripBot`), not below the tall stack. Sheet
+  1 went 1128 -> 873 px tall on that one change. Anything anchored at `absX` (the
+  routed lanes, the fan band) must still clear the stack, and does — pass 2b floors
+  `subY` at `stackBot`. The accumulator's riser stack still leaves NO pocket: it
+  hangs at the band's END and the space below it is the vessel.
+- A cell caption may force a line break with `"\n"` in its note. `wrap2` only
+  breaks at a separator, and there is none inside "coupler+stepper" (the " + "
+  rule wants spaces). `wrap2` also DROPS a ` · ` at the break — it separates two
+  clauses and must not dangle off the end of a line ("set 20 psi ·"). A comma
+  belongs to the text before it and stays.
+- `branchUp:[items]` — A TEE'S BRANCH MAY RISE. The poofer pilot stands on F-6's
+  upward boss as a vertical stack, because that is how it is built (Marcus), and
+  it fills the empty column beside the accumulator's riser instead of hanging a
+  band below the vessel (the poofer sheet went 1074x1359 -> 956x1228 px).
+  IT IS NOT A LINE (Marcus: "the poofer pilot doesn't need its own line"): no
+  number, no ref, no dashed box, no title. It is a branch STUB — like a mount,
+  only longer — so `buildRefs`, `runChecks`'s `allItems`, `lintPorts` and the
+  suite's `eachItem` all descend into it exactly where they descend into a
+  riser's `down` stack. Its parts reach the schedule and the compliance rows
+  under the HOST line's operating pressure, which is the pressure they see.
+  The linter walks it out of `branchState(tee)` — the tee's BRANCH port.
+  Nothing may identify the pilot tee by a ref letter: `l1bOrder` and
+  `pilotTeeScrewsInWithoutANipple` find it as "the tee whose branch carries the
+  pilot head", grounded in the structure rather than in `ref === "D"`.
+  `vstack(items,rx,y0,dir)` is now the ONE vertical cell loop — the discharge
+  riser (up), the accumulator (down) and this stub (up) all share it.
+- A sheet may declare `bare:true`: no dashed line boxes, no band titles (Marcus:
+  "don't put any line markers on the poofer page"). A line marker groups and
+  names ONE numbered line; on a page that draws a single line it says nothing the
+  sheet's own title block does not.
+- A LINE IS NAMED, NOT NUMBERED (Marcus). `L1` / `L3a` are DATA KEYS: they live in
+  the JSON, the sheet definitions and the ref matching, and they never reach the
+  drawing. Band titles print the NAME alone — no id, no psi (the pressures live on
+  the cells that hold them). Nothing else may leak one either: the off-connector
+  labels say "to distribution manifold", not "to L3", and the compliance table's
+  line references print the same names, or they would key to a numbering the
+  reader cannot see — the dangling-reference bug the balloons once had. Guarded by
+  `noLineIdsOnTheDrawing`, swept over the ids the DATA declares, in BOTH views.
+- A WRAPPED ROW GETS ITS OWN DASHED BOX, so it must say whose it is. Only row 0
+  carried the band title, and the fold's second box on sheet 1 read as an unnamed
+  line. It now repeats the line's name marked as a continuation:
+  "Supply & regulation (cont.)". That box is a ROW, not a line: `SYSTEM.lines`
+  still holds one entry with one operating pressure and one schedule row.
+- "TYP", not "identical": the fan badge reads "one of 3 typical branches" and the
+  rail's off-out "3 typical tip runs" (Marcus). The branches are built alike, not
+  proven identical.
 - The check valve CV-1 STAYS. Marcus asked to remove it ("the regulator does
   that"), then reversed.
 - "Continuous flame", never "standing flame".
@@ -638,16 +778,45 @@ correctly prints a rating and no number; that is data, not a bug.
   `specLine(p) !== ""` as a proxy for "prints no rating" — a proxy that held only
   because every other `NO_RATING_SYM` member also prints no maker. It now tests
   the psi figure directly. `gaugeCellsHideTheBodyRating` guards the removal.
+- A cell prints MAKER + PART NUMBER on one line and the psi rating on the NEXT
+  (Marcus). Gluing them into `MEC MEGR-6120-60 · 250 psi` set the width of the
+  widest cells for nothing. The five note rows (`ROWL`) are a HARD BUDGET and
+  `drawLines()` SILENTLY TRUNCATES past them — a regulator carries two name lines,
+  its own two, and its setpoint — so `partText` takes the split only when it fits
+  and falls back to the combined one-line form otherwise. Never drop a line:
+  "set 45 psi" is the setpoint, not decoration.
+- `pnAlone:true` — the catalog number identifies the part with no maker beside it
+  (the MEGR-6120 regulators; Marcus: everyone recognises that number). It is a
+  DECLARATION, not an absence: `mfg` stays true in the data and in the schedule.
+  It may never sit beside `asin:true`, because "B08C2NLPR5" alone identifies
+  nothing at all — which is the entire reason ASINs are labelled. Both halves are
+  guarded by `pnAlwaysNamesItsMaker`, each with its own mutant.
+- GAUGES ARE NOT IN `PN_SYM` any more (Marcus): the cell reads `+ gauge, 0-60 psi`
+  and names no maker. "SENCTRL" is gone from the drawing and survives in the
+  schedule. A gauge is therefore no longer the one part in `PN_SYM` and
+  `NO_RATING_SYM` at once — it is simply in neither. Its RANGE is still its
+  identity and still guarded by `gaugesPrintTheirRange`.
 - `PN_SYM` decides which cells print `mfg` + part number. BALL VALVES ARE NOT IN
   IT (Marcus) — they show a rating only; the schedule still records the Apollo
   number. RELIEF VALVES ARE NOT IN IT EITHER: they have not been bought, the
   Aquatrol 140A is a candidate whose LP suitability is still a liaison flag, so
   the drawing states the rating the valve must meet and names no part. Same
-  treatment, same reason — the schedule keeps the number. Pressure VESSELS are
-  in it: the accumulator prints "DOT 4BA240 · 250 psi" plus a note naming the
-  NGT boss, the no-welds constraint, and the expired requal stamp. It is the
-  most unusual component on the sheet and the external drawing said almost
-  nothing about it until Marcus caught that. The vessel note stops at "interior
+  treatment, same reason — the schedule keeps the number.
+  REGULATORS PRINT NO RATING (Marcus: "those are standard parts"). `reg` is in
+  `NO_RATING_SYM`: the catalog number identifies it and the 250 psi max inlet told
+  a reviewer nothing. FE-2 still judges it against `PARTS[].rating` and the
+  schedule still records it. Regulators and gauges are the two PN_SYM symbols
+  `partsThatCanFailPrintTheirRating` exempts, BY NAME so the hole cannot widen.
+  A RELIEF VALVE, by contrast, KEEPS its 350 psi body rating — because its SET
+  pressure now sits in the part name beside it ("+ relief valve, set 75 psi"), so
+  the two numbers no longer read as one confusing pair. `relief75` / `relief90`
+  are separate parts carrying `setPsi`; a relief is ORDERED at its setting, so it
+  is not an instance note. `needleValvesOutRateHighestRelief` reads `setPsi`, never
+  a note and never the name. Pressure VESSELS are in `PN_SYM`: they print
+  "DOT 4BA240 · 250 psi". On a vessel `mfg` is the DOT SPEC, NEVER a maker — a
+  propane bottle is a COMMODITY, nobody knows who made it and nobody needs to
+  (Marcus). Both cylinders declare `vendor:"commodity — any DOT 4BA240 cylinder
+  in requal date"`. The vessel note stops at "interior
   inspected" — the photographs are an on-site artifact and the packet is for
   PRELIMINARY review, so neither the drawing nor the schedule cites them.
 - `deTag()` strips equipment designations from the EXTERNAL sheet — not just from
@@ -661,8 +830,10 @@ correctly prints a rating and no number; that is data, not a bug.
   catalog (the flare tables list tube OD only, "supplied less nuts"), and it was
   the only thread callout in any part name.
 - The toolbar (view toggle, export buttons, JSON editor) sits ABOVE the sheet.
-- Compliance output is a self-review aid, not approval — the footer disclaimer
-  and the FOR FAST REVIEW / NOT A BURN LICENSE stamp stay.
+- Compliance output is a self-review aid, not approval — the page footer
+  disclaimer and the NOT A BURN LICENSE stamp stay ON THE PAGE. The exported
+  sheets no longer carry a FOR FAST REVIEW stamp (Marcus): it printed on all four
+  pages and told the reviewer nothing they did not already know.
 - No localStorage/sessionStorage; state lives in the editable JSON box.
 
 ## Testing philosophy
@@ -754,7 +925,12 @@ strings in the title block, the harness DOM stub not dropping `children` on
 `innerHTML=""` (which let repeated renders stack strips), and a `{j:"flare",
 part:"x"}` purchase silently never reaching the parts schedule (`buildRefs`
 registers `it.part` only for `hose|tube|npt` — now guarded by
-`everyPartReachesTheSchedule`). Add a check when you fix a bug.
+`everyPartReachesTheSchedule`), a drop connector drawn a pocket-width left of its
+own tee and straight through the supply stack (the collision checks compare TEXT
+to TEXT and cannot see a LINE crossing text), and the PRINT STYLESHEET hiding the
+very container it was asked to print. That last one is why run-tests.js now reads
+the CSS: `downloadPDF()` and `sheetDocs()` were both correct and the packet still
+came out of the browser as a single blank page. Add a check when you fix a bug.
 
 The REVERSE gate earns its keep too: the first mutation written for
 `noInchesOnTheSheet` put inches in `ball14.name` and the invariant stayed green,

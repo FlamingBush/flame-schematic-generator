@@ -146,7 +146,7 @@ const MUTANTS = [
     // schedule entry disappears entirely rather than surviving on another line.
     // (nipple1412 held that role until the 1/2 solenoids needed four more of them.)
     mutate(o) {
-      const L = line(o, "L4b");
+      const L = line(o, "L1c");
       const i = idxOf(L, (it) => it.part === "cu12");
       L.items[i] = { j: "flare", size: L.items[i].size, part: "cu12" };
     },
@@ -157,7 +157,7 @@ const MUTANTS = [
     kind: "json",
     expectDetail: "adaptIn",
     mutate(o) {
-      const L = line(o, "L4b");
+      const L = line(o, "L1c");
       L.items[idxOf(L, (it) => it.tag === "CV-1")].adaptIn = "npt:1/4:M>npt:1/4:F";
     },
   },
@@ -178,8 +178,9 @@ const MUTANTS = [
     kind: "json",
     expectDetail: "SV-9",
     mutate(o) {
-      const L = line(o, "L4a");
-      L.items[idxOf(L, (it) => it.tag === "NV-2")].note = "trips with SV-9";
+      // NV-2 lives on the pilot tee's rising branch stub, not on a line of its own
+      const stub = line(o, "L1c").items.find((it) => it.branchUp).branchUp;
+      stub.find((it) => it.tag === "NV-2").note = "trips with SV-9";
     },
   },
   {
@@ -188,6 +189,15 @@ const MUTANTS = [
     kind: "app",
     expectDetail: "maker or part number on the drawing: ball14",
     mutate(app) { app.PN_SYM.add("ball"); },
+  },
+  {
+    // The band title always renders, in both views and on every sheet — an off
+    // label may be swallowed by "to sheet n" before it ever reaches the drawing.
+    invariantId: "noLineIdsOnTheDrawing",
+    name: "a line's title names its own id — the drawing keys to the JSON's numbering",
+    kind: "json",
+    expectDetail: "drawn on the sheet",
+    mutate(o) { const L = line(o, "L3"); L.title = `${L.id} main bush branch`; },
   },
   {
     invariantId: "hosesMarkTheirWorkingPressure",
@@ -218,6 +228,15 @@ const MUTANTS = [
     mutate(app) { delete app.getPARTS().sol12.mfg; },
   },
   {
+    // pnAlone is an escape hatch from the rule above, so it needs its own gate:
+    // an Amazon listing id can never stand on its own, whatever the data claims.
+    invariantId: "pnAlwaysNamesItsMaker",
+    name: "an ASIN declared pnAlone — a listing id printed with no seller identifies nothing",
+    kind: "app",
+    expectDetail: "an ASIN cannot stand alone",
+    mutate(app) { app.getPARTS().sol12.pnAlone = true; },
+  },
+  {
     invariantId: "marketplacePartsFlaggedAsin",
     name: "the asin flag is dropped — an Amazon listing id reads as a Beduan catalog number",
     kind: "app",
@@ -230,7 +249,7 @@ const MUTANTS = [
     kind: "json",
     expectDetail: "regressed to name + rating",
     mutate(o) {
-      const st = line(o, "L4b").items.find((it) => it.j === "riser").down;
+      const st = line(o, "L1c").items.find((it) => it.j === "riser").down;
       delete st.find((it) => it.p === "accum").note;
     },
   },
@@ -240,7 +259,7 @@ const MUTANTS = [
     kind: "json",
     expectDetail: "sol12",
     mutate(o) {
-      const L = line(o, "L4b");
+      const L = line(o, "L1c");
       L.items[idxOf(L, (it) => it.tag === "SV-2")].note = "poof dump · B07N6246YB";
     },
   },
@@ -253,8 +272,11 @@ const MUTANTS = [
     invariantId: "ratingsReportedCorrectly",
     name: "an unrated part must read as unpublished, never as under-rated (null < op is true in JS)",
     kind: "app",
+    // Seeded on a SOLENOID, not a regulator: this mutation asserts all four
+    // surfaces, and the drawing is one of them. Regulators are standard parts and
+    // print no rating at all now, so a null there never reaches the sheet.
     expectDetail: "compliance=unpublished; fe2=REVIEW; schedule=not published; drawing=no published rating",
-    mutate(app) { app.getPARTS().reg60.rating = null; },
+    mutate(app) { app.getPARTS().sol12.rating = null; },
   },
   {
     invariantId: "ratingsReportedCorrectly",
@@ -334,14 +356,14 @@ const MUTANTS = [
     },
   },
 
-  /* --- L4b's order is the design --- */
+  /* --- L1c's order is the design --- */
   {
-    invariantId: "l4bOrder",
+    invariantId: "l1cOrder",
     name: "the pilot tee moved below the accumulator (the vessel can no longer bleed down through it)",
     kind: "json",
     expectDetail: "out of order",
     mutate(o) {
-      const L = line(o, "L4b");
+      const L = line(o, "L1c");
       const iR = idxOf(L, (it) => it.j === "riser"), iT = idxOf(L, (it) => it.tag === "F-6");
       [L.items[iR], L.items[iT]] = [L.items[iT], L.items[iR]];
     },
@@ -352,8 +374,8 @@ const MUTANTS = [
     kind: "json",
     expectDetail: "can be isolated from the vessel",
     mutate(o) {
-      const st = line(o, "L4b").items.find((it) => it.j === "riser").down;
-      const iB = st.findIndex((i) => i.tag === "V-3"), iR = st.findIndex((i) => i.mount && i.mount.p === "relief");
+      const st = line(o, "L1c").items.find((it) => it.j === "riser").down;
+      const iB = st.findIndex((i) => i.tag === "V-3"), iR = st.findIndex((i) => i.mount && /^relief/.test(i.mount.p || ""));
       [st[iB], st[iR]] = [st[iR], st[iB]];
     },
   },
@@ -363,7 +385,7 @@ const MUTANTS = [
     kind: "json",
     expectDetail: "a nipple sits between",
     mutate(o) {
-      const L = line(o, "L4b");
+      const L = line(o, "L1c");
       L.items[idxOf(L, (it) => it.tag === "F-6") - 1].part = "nipple14";
     },
   },

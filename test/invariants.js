@@ -28,6 +28,7 @@ function eachItem(SYSTEM, fn) {
     if (!it) return;
     fn(it);
     if (it.j === "riser") { visit(it.tee); (it.down || []).forEach(visit); }
+    (it.branchUp || []).forEach(visit);   // a tee's rising branch stub (the poofer pilot)
     if (it.split) {
       visit(it.split.tee); visit(it.split.rejoin);
       (it.split.a || []).forEach(visit); (it.split.b || []).forEach(visit);
@@ -169,6 +170,22 @@ const INVARIANTS = [
     },
   },
   {
+    id: "noLineIdsOnTheDrawing",
+    describe: "no line id (L1, L3a, …) is drawn anywhere — a line is NAMED; the id is a data key",
+    view: "any",
+    run({ svg, SYSTEM }) {
+      // Same class as an equipment designation, and the same reason: the id keys to
+      // a numbering that lives only in the JSON. Swept over the ids the DATA
+      // declares, so a new line cannot quietly leak one through a title or an
+      // off-connector label. Attributes (data-band) are not drawn — text is.
+      const ids = (SYSTEM.lines || []).map((L) => L.id).filter(Boolean);
+      if (!ids.length) return no("no lines — the rule is untested");
+      const texts = textsOf(svg).join(" | ");
+      const stray = ids.filter((id) => new RegExp(`\\b${id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`).test(texts));
+      return stray.length ? no("drawn on the sheet: " + stray.join(", ")) : ok(`${ids.length} ids, none drawn`);
+    },
+  },
+  {
     id: "hosesMarkTheirWorkingPressure",
     describe: "every gas hose marks its working pressure on the cell — it is the flexible part most likely to fail",
     view: "external",
@@ -176,12 +193,20 @@ const INVARIANTS = [
       const hoses = [];
       eachItem(SYSTEM, (it) => { if (it.j === "hose" && it.part) hoses.push(PARTS[it.part]); });
       if (!hoses.length) return no("no hose joints — the rule is untested");
-      const unmarked = hoses.filter((h) => !h || typeof h.rating !== "number" || !svg.includes(`WP ${h.rating} psi`));
+      // The hose cell is shaped like every other cell: NAME on the line above the
+      // run, rating on the identification line below it. The two text nodes share
+      // the cell's x, so the pair is checked together — a loose /\d+ psi/ would
+      // match every regulator, cylinder and "set 45 psi" note on the sheet.
+      const byX = {};
+      for (const m of svg.matchAll(/<text x="([-\d.]+)"[^>]*>([^<]*)<\/text>/g)) (byX[m[1]] ||= []).push(m[2]);
+      const cells = Object.values(byX);
+      const marks = (h) => cells.some((c) => c.some((t) => /LP-gas hose$/.test(t)) && c.includes(`${h.rating} psi`));
+      const unmarked = hoses.filter((h) => !h || typeof h.rating !== "number" || !marks(h));
       if (unmarked.length) return no(`${unmarked.length} of ${hoses.length} hoses state no working pressure`);
-      const marked = (svg.match(/WP \d+ psi/g) || []).length;
-      return marked === hoses.length
-        ? ok(`${hoses.length} hoses, each marked`)
-        : no(`${hoses.length} hose joints but ${marked} marked on the drawing`);
+      const named = (svg.match(/>[^<]*LP-gas hose</g) || []).length;
+      return named === hoses.length
+        ? ok(`${hoses.length} hoses, each named and rated on its own line`)
+        : no(`${hoses.length} hose joints but ${named} named on the drawing`);
     },
   },
   {
@@ -238,17 +263,22 @@ const INVARIANTS = [
   },
   {
     id: "partsThatCanFailPrintTheirRating",
-    describe: "every valve, regulator and vessel on the drawing states the pressure rating FE-2 judges it against",
+    describe: "every valve and vessel on the drawing states the pressure rating FE-2 judges it against",
     view: "external",
     run({ app, PARTS, refIndex }) {
       // Grounded in PN_SYM, not NO_RATING_SYM: everything with a seat, seal or
       // diaphragm is exactly the set a reviewer must identify by number, so
       // dropping one into NO_RATING_SYM must go red rather than read as vacuous.
-      // GAUGES are the one PN_SYM symbol exempted, and by name rather than by
-      // membership so the exemption cannot silently widen: a gauge states its
-      // RANGE instead (gaugesPrintTheirRange / gaugeCellsHideTheBodyRating).
+      // TWO PN_SYM symbols are exempted, BY NAME rather than by membership so the
+      // exemption cannot silently widen:
+      //   gauge — states its RANGE instead; all three share one 300 psi body
+      //           (gaugesPrintTheirRange / gaugeCellsHideTheBodyRating)
+      //   reg   — a standard part (Marcus); its catalog number identifies it and
+      //           the 250 psi max inlet told a reviewer nothing
+      // FE-2 still judges both against PARTS[].rating, and the schedule records it.
+      const EXEMPT = new Set(["gauge", "reg"]);
       const mute = drawnParts(PARTS, refIndex).filter(
-        (k) => app.PN_SYM.has(PARTS[k].sym) && PARTS[k].sym !== "gauge"
+        (k) => app.PN_SYM.has(PARTS[k].sym) && !EXEMPT.has(PARTS[k].sym)
           && !/psi|no published rating/.test(app.specLine(PARTS[k]))
       );
       return mute.length ? no("states no rating: " + mute.join(", ")) : ok("all pressure-bearing parts rated");
@@ -275,12 +305,17 @@ const INVARIANTS = [
     view: "external",
     run({ svg, PARTS, refIndex }) {
       // A bare catalog number identifies nothing, and "Beduan B08C2NLPR5" reads
-      // as a Beduan catalog number when it is an Amazon listing id.
+      // as a Beduan catalog number when it is an Amazon listing id — UNLESS the
+      // part declares `pnAlone`, which says the number stands on its own (the
+      // MEGR-6120 regulators). An ASIN never can: it names a listing, not a part,
+      // so pnAlone beside asin is a contradiction and fails here.
       const shown = drawnParts(PARTS, refIndex).filter((k) => realPn(PARTS[k]) && svg.includes(PARTS[k].pn));
-      if (shown.length < 4) return no(`only ${shown.length} part numbers reach the drawing — expected the valves/regs/gauges`);
+      if (shown.length < 4) return no(`only ${shown.length} part numbers reach the drawing — expected the valves and regs`);
+      const contradiction = shown.filter((k) => PARTS[k].pnAlone && PARTS[k].asin);
+      if (contradiction.length) return no("an ASIN cannot stand alone: " + contradiction.join(", "));
       const bad = shown.filter((k) => {
         const p = PARTS[k], num = p.asin ? "ASIN " + p.pn : p.pn;
-        return occ(svg, p.pn) !== occ(svg, `${p.mfg} ${num}`);
+        return p.pnAlone ? false : occ(svg, p.pn) !== occ(svg, `${p.mfg} ${num}`);
       });
       return bad.length ? no("number without its maker: " + bad.join(", ")) : ok(`${shown.length} numbers, each named`);
     },
@@ -304,14 +339,24 @@ const INVARIANTS = [
     view: "external",
     run({ svg, SYSTEM, PARTS }) {
       // The vessel sits at the bottom of the accumulator stack, not on a mount.
-      const stack = accStack(SYSTEM, "L4b") || [];
+      const stack = accStack(SYSTEM, "L1c") || [];
       const vessel = stack.find((it) => it.p && PARTS[it.p] && PARTS[it.p].sym === "tank");
       if (!vessel) return no("no pressure vessel in the accumulator stack");
-      const words = String(vessel.note || "").split(/\W+/).filter((w) => w.length >= 5);
-      if (words.length < 6) return no(`vessel note is ${words.length} significant words — it regressed to name + rating`);
+      // Two independent things. (1) The note states FACTS about the vessel, more
+      // than one — it has not decayed back to name + rating. Counted in clauses,
+      // not in words: a word threshold was a magic number pinning the exact
+      // wording of the day, and it went red the moment a redundant clause was
+      // trimmed ("stock adapters" — the stack already draws both adapters).
+      // (2) EVERY word of it reaches the drawing. A cell has five note rows and
+      // drawLines() silently truncates past them, so a note that grows one clause
+      // too long loses the tail with no error anywhere. That is the real bug.
+      const note = String(vessel.note || "");
+      const clauses = note.split("·").map((c) => c.trim()).filter(Boolean);
+      if (clauses.length < 2) return no(`vessel note is ${clauses.length} clause(s) — it regressed to name + rating`);
+      const words = note.split(/\W+/).filter((w) => w.length >= 5);
       const shown = words.filter((w) => svg.includes(w));
-      return shown.length / words.length >= 0.9
-        ? ok(`${words.length} significant words, ${shown.length} on the drawing`)
+      return shown.length === words.length
+        ? ok(`${clauses.length} clauses, all ${words.length} significant words on the drawing`)
         : no(`only ${shown.length}/${words.length} note words reach the drawing`);
     },
   },
@@ -365,10 +410,14 @@ const INVARIANTS = [
     describe: "every needle valve out-rates the highest relief setting that can cap its zone",
     view: "any",
     run({ SYSTEM, PARTS }) {
+      // The setting is a property of the PART now (a relief is ordered at its set
+      // pressure), so it is read from `setPsi` — never scraped out of a note, and
+      // never out of the part NAME, which is prose the next edit may reword.
       const sets = [];
+      const isRelief = (k) => PARTS[k] && PARTS[k].sym === "relief";
       eachItem(SYSTEM, (it) => {
         const m = it.mount || (it.tee && it.tee.mount);
-        if (m && m.p === "relief") sets.push(+(/set (\d+) psi/.exec(m.note || "") || [0, 0])[1]);
+        if (m && isRelief(m.p) && typeof PARTS[m.p].setPsi === "number") sets.push(PARTS[m.p].setPsi);
       });
       if (sets.length < 2) return no(`only ${sets.length} relief settings found`);
       const max = Math.max(...sets);
@@ -470,10 +519,10 @@ const INVARIANTS = [
     },
   },
 
-  /* --- L4b's order is the design; move one and you break two properties --- */
+  /* --- L1c's order is the design; move one and you break two properties --- */
   {
-    id: "l4bOrder",
-    describe: "L4b order: check valve -> pilot tee -> accumulator stack",
+    id: "l1cOrder",
+    describe: "L1c order: check valve -> pilot tee -> accumulator stack",
     view: "any",
     run({ SYSTEM, PARTS }) {
       // CV-1 blocks backflow toward the regulator. The pilot tees off DOWNSTREAM
@@ -481,11 +530,13 @@ const INVARIANTS = [
       // vessel bleeds down through the continuously-burning pilot instead of
       // sitting charged. The isolation valve moved INTO the stack and has its own
       // invariant (accumulatorKeepsItsRelief) — this one is about the supply run.
-      const L = line(SYSTEM, "L4b");
-      if (!L) return no("L4b is gone");
+      const L = line(SYSTEM, "L1c");
+      if (!L) return no("L1c is gone");
       const at = (f) => L.items.findIndex(f);
       const iCheck = at((i) => i.p && PARTS[i.p] && PARTS[i.p].sym === "check");
-      const iPilot = at((i) => i.branch && i.branch.ref === "D");
+      // The pilot tee is the one whose BRANCH carries the pilot head — grounded in
+      // the structure, not in the letter "D", which is a match key and may move.
+      const iPilot = at((i) => (i.branchUp || []).some((x) => x.p && PARTS[x.p] && PARTS[x.p].sym === "pilot"));
       const iAccum = at((i) => i.j === "riser");
       const seq = [iCheck, iPilot, iAccum];
       const named = `check=${iCheck} pilotTee=${iPilot} accumulatorStack=${iAccum}`;
@@ -503,13 +554,13 @@ const INVARIANTS = [
     describe: "the accumulator isolation valve cannot shut the vessel off from its own relief",
     view: "any",
     run({ SYSTEM, PARTS }) {
-      const stack = accStack(SYSTEM, "L4b");
-      if (!stack) return no("L4b has no accumulator stack");
+      const stack = accStack(SYSTEM, "L1c");
+      if (!stack) return no("L1c has no accumulator stack");
       const at = (f) => stack.findIndex(f);
       // reading DOWN from the supply tee: isolation valve, then the OPD tee,
       // then the vessel. Anything between the valve and the vessel is protected.
       const iBall = at((i) => i.p && PARTS[i.p] && PARTS[i.p].sym === "ball");
-      const iRelief = at((i) => i.mount && i.mount.p === "relief");
+      const iRelief = at((i) => i.mount && PARTS[i.mount.p] && PARTS[i.mount.p].sym === "relief");
       const iTank = at((i) => i.p && PARTS[i.p] && PARTS[i.p].sym === "tank");
       const named = `isolation=${iBall} relief=${iRelief} vessel=${iTank}`;
       if ([iBall, iRelief, iTank].some((i) => i < 0)) return no("missing element: " + named);
@@ -526,10 +577,10 @@ const INVARIANTS = [
       // Why F-6 is a STREET tee (male one end): it lands directly on the female
       // outlet ahead of it. Compared against whatever part actually sits
       // upstream (the isolation valve, not the check valve — V-3 is between
-      // them by design), so this stays true if L4b is legitimately re-ordered.
-      const L = line(SYSTEM, "L4b");
-      if (!L) return no("L4b is gone");
-      const iPilot = L.items.findIndex((i) => i.branch && i.branch.ref === "D");
+      // them by design), so this stays true if L1c is legitimately re-ordered.
+      const L = line(SYSTEM, "L1c");
+      if (!L) return no("L1c is gone");
+      const iPilot = L.items.findIndex((i) => (i.branchUp || []).some((x) => x.p && PARTS[x.p] && PARTS[x.p].sym === "pilot"));
       if (iPilot < 0) return no("the pilot tee is gone");
       let iUp = -1;
       for (let i = iPilot - 1; i >= 0; i--) if (L.items[i].p) { iUp = i; break; }
